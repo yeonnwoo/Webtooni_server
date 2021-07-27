@@ -25,6 +25,10 @@ public class UserService {
         this.authenticationManager = authenticationManager;
     }
 
+    private String getEncodedPassword(String password) {
+        return ("{noop}" + password);
+    }
+
     @Transactional
     public void registerUser(SignupRequestDto requestDto) {
         String username = requestDto.getUserName();
@@ -43,8 +47,8 @@ public class UserService {
         } else if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID가 존재합니다.");
         }
-        password = passwordEncoder.encode(requestDto.getPassword());
-        User user = new User(username, password, userImg, userEmail);
+        password = getEncodedPassword(requestDto.getPassword());
+        User user = new User(username, userEmail , password, userImg);
         userRepository.save(user);
     }
 }

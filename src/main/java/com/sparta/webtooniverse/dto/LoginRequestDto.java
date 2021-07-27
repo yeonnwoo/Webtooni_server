@@ -15,5 +15,5 @@ public class LoginRequestDto {
     @NotBlank(message = "PW는 필수 입력 값입니다.")
     private String password;
 
-    public LoginRequestDto (String userName, String password){};
+    public LoginRequestDto (String userName, String password){}
 }
