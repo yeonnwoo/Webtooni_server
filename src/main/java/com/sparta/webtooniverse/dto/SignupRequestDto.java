@@ -1,19 +1,29 @@
 package com.sparta.webtooniverse.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
 @NoArgsConstructor
 @Data
-@Getter
-public class LoginRequestDto {
+public class SignupRequestDto {
+
     @NotBlank(message = "ID는 필수 입력 값입니다.")
     private String userName;
+
+    @NotBlank
+    private String userEmail;
+
     @NotBlank(message = "PW는 필수 입력 값입니다.")
     private String password;
+    private String passwordChecker;
 
-    public LoginRequestDto (String userName, String password){};
+
+    @NotBlank
+    private String userImg;
+
+    public SignupRequestDto(String username,  String userEmail, String password, String passwordChecker, String userImg){}
 }
+
