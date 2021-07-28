@@ -22,12 +22,12 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    @PostMapping("/api/user/register")
+    @PostMapping("/api/v1/user/register")
     public void registerUser(@Valid @RequestBody SignupRequestDto requestDto) {
         userService.registerUser(requestDto);
     }
 
-    @PostMapping("/api/user/login")
+    @PostMapping("/api/v1/user/login")
     public String login(@RequestBody LoginRequestDto requestDto) {
         User user = userRepository.findByUserName(requestDto.getUserName())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 유저입니다."));
