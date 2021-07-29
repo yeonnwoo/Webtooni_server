@@ -20,7 +20,7 @@ public class User {
     private String userName;
 
     @Column(nullable = false)
-    private String userEmail;
+    private String userId;
 
     @Column(nullable = false)
     private String password;
@@ -32,9 +32,9 @@ public class User {
     private String userGrade;
 
 
-    public User(String userName, String userEmail, String password, String userImg){
+    public User(String userName, String userId, String password, String userImg){
         this.userName = userName;
-        this.userEmail = userEmail;
+        this.userId = userId;
         this.password = password;
         this.userImg = userImg;
         this.userGrade = "base";

@@ -31,14 +31,14 @@ public class UserService {
 
     @Transactional
     public void registerUser(SignupRequestDto requestDto) {
-        String username = requestDto.getUserName();
+        String userId = requestDto.getUserId();
         String password = requestDto.getPassword();
         String passwordChecker = requestDto.getPasswordChecker();
         String userImg = requestDto.getUserImg();
-        String userEmail = requestDto.getUserEmail();
+        String userName = requestDto.getUserName();
 
-        Optional<User> found = userRepository.findByUserName(username);
-        if (username.equals("") || password.equals("") || passwordChecker.equals("")) {
+        Optional<User> found = userRepository.findByUserId(userId);
+        if (userId.equals("") || password.equals("") || passwordChecker.equals("")) {
             throw new IllegalArgumentException("username || password || passwordChecker가 비어있습니다.");
 //        } else if (password.length() < 4) {
 //            throw new IllegalArgumentException("password는 최소 4글자입니다.");
@@ -48,7 +48,7 @@ public class UserService {
             throw new IllegalArgumentException("중복된 사용자 ID가 존재합니다.");
         }
         password = getEncodedPassword(requestDto.getPassword());
-        User user = new User(username, userEmail , password, userImg);
+        User user = new User(userName, userId , password, userImg);
         userRepository.save(user);
     }
 }

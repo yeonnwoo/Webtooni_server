@@ -10,10 +10,10 @@ import javax.validation.constraints.NotBlank;
 public class SignupRequestDto {
 
     @NotBlank(message = "ID는 필수 입력 값입니다.")
-    private String userName;
+    private String userId;
 
     @NotBlank
-    private String userEmail;
+    private String userName;
 
     @NotBlank(message = "PW는 필수 입력 값입니다.")
     private String password;
@@ -23,6 +23,6 @@ public class SignupRequestDto {
     @NotBlank
     private String userImg;
 
-    public SignupRequestDto(String username,  String userEmail, String password, String passwordChecker, String userImg){}
+    public SignupRequestDto(String username,  String userId, String password, String passwordChecker, String userImg){}
 }
 
