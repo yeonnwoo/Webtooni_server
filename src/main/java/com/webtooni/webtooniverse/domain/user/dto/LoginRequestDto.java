@@ -11,9 +11,9 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class LoginRequestDto {
     @NotBlank(message = "ID는 필수 입력 값입니다.")
-    private String userId;
+    private String userEmail;
     @NotBlank(message = "PW는 필수 입력 값입니다.")
     private String password;
 
-    public LoginRequestDto (String userId, String password){}
+    public LoginRequestDto (String userEmail, String password){}
 }

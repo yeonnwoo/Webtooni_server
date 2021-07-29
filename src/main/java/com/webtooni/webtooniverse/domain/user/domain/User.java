@@ -14,13 +14,14 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "userId")
     private Long id;
 
     @Column(nullable = false)
     private String userName;
 
     @Column(nullable = false)
-    private String userId;
+    private String userEmail;
 
     @Column(nullable = false)
     private String password;
@@ -32,9 +33,9 @@ public class User {
     private String userGrade;
 
 
-    public User(String userName, String userId, String password, String userImg){
+    public User(String userName, String userEmail, String password, String userImg){
         this.userName = userName;
-        this.userId = userId;
+        this.userEmail = userEmail;
         this.password = password;
         this.userImg = userImg;
         this.userGrade = "base";
