@@ -2,34 +2,36 @@ package com.webtooni.webtooniverse.domain.talktalk.domain;
 
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
 @NoArgsConstructor
 @Entity
 public class TalkReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "talk_review_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "talk_post_id")
-    private TalkPost talkPost;
+    @Column(nullable = false)
+    private Long postTalkId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(nullable = false)
     private User user;
 
     @Column(nullable = false)
     private String commentContent;
 
+    public TalkReview(Long postTalkId, User user, String commentContent){
+        this.postTalkId = postTalkId;
+        this.user = user;
+        this.commentContent = commentContent;
+    }
+
     public TalkReview(TalkReviewRequestDto requestDto, User user){
-        this.talkPost = requestDto.getTalkPost();
+        this.postTalkId = requestDto.getTalkPostId();
         this.commentContent = requestDto.getCommentContent();
         this.user = user;
     }
