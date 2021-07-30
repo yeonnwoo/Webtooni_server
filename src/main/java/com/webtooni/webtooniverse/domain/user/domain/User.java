@@ -22,6 +22,6 @@ public class User {
 
     private int userImg;
 
-    //private Enum<userGrade>
-
+    @Enumerated(EnumType.STRING)
+    private UserGrade userGrade;
 }

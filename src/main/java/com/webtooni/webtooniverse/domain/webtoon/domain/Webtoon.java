@@ -16,7 +16,7 @@ public class Webtoon {
     @Column(name = "toonId")
     private Long Id;
 
-    private String toontitle;
+    private String toonTitle;
 
     private String toonAuthor;
 
