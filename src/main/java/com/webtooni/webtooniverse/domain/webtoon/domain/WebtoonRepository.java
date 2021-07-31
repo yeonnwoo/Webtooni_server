@@ -19,6 +19,12 @@ public interface WebtoonRepository extends JpaRepository<Webtoon,Long> {
     @Query("SELECT wg.genre from WebtoonGenre wg inner join wg.webtoon on wg.webtoon=:webtoon")
     List<Genre> findWebToonGenre(@Param("webtoon") Webtoon webtoon);
 
-    
+    /**
+     * 웹툰에 달린 리뷰 찾기
+     * @param - 해당 리뷰의 id
+     * @return - 리뷰 리스트
+     */
+    @Query("select r from Review r inner join r.webtoon on r.webtoon.id=:toonId")
+    List<Review> findReviewByWebToonId(@Param("toonId") Long toonId);
 
 }
