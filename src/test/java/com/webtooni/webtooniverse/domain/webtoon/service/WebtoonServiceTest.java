@@ -1,12 +1,16 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.Genre.domain.GenreRepository;
+import com.webtooni.webtooniverse.domain.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,7 @@ class WebtoonServiceTest {
 
     @Autowired
     private ReviewService reviewService;
+
 
     @PersistenceContext
     EntityManager em;
@@ -71,6 +76,7 @@ class WebtoonServiceTest {
         em.persist(review1);
         em.persist(review2);
 
+        //then
         ReviewDto reviewDto = new ReviewDto("바뀐 리뷰 내용1");
         ReviewDto reviewDto2 = new ReviewDto("바뀐 리뷰 내용2");
 
@@ -93,5 +99,4 @@ class WebtoonServiceTest {
                 .genreType(type)
                 .build();
     }
-
 }
