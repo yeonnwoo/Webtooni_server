@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "webtoon_genre")
+@Table(name = "WEBTOON_GENRE")
 public class WebtoonGenre {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

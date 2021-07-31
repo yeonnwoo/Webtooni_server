@@ -72,4 +72,19 @@ public class Review extends BaseTimeEntity {
     public void changeContent(ReviewDto reviewDto) {
         this.reviewContent=reviewDto.getReviewContent();
     }
+
+    /**
+     * 좋아요를 처음 누르는 사용자인 경우
+     */
+    public void plusLikeCount() {
+        this.likeCount+=1;
+    }
+
+    /**
+     * 전체 좋아요수를 1개 줄인다.
+     */
+    public void minusLikeCount()
+    {
+        this.likeCount-=1;
+    }
 }

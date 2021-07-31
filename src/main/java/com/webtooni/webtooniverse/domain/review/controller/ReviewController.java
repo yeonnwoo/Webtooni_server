@@ -14,9 +14,9 @@ public class ReviewController {
 
     //리뷰 수정
     @PutMapping("/api/v1/reviews/{id}")
-    public Long updateReview(@PathVariable Long id, @RequestBody ReviewDto reviewDto)
+    public void updateReview(@PathVariable Long id, @RequestBody ReviewDto reviewDto)
     {
-        return reviewService.updateReview(id,reviewDto);
+        reviewService.updateReview(id,reviewDto);
     }
 
     //리뷰 삭제
