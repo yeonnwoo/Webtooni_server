@@ -1,10 +1,8 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.Genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import org.junit.jupiter.api.DisplayName;
@@ -16,11 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @Rollback(value = false)
@@ -28,20 +24,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class WebtoonRepositoryTest {
 
     @Autowired
-    private GenreRepository genreRepository;
-
-    @Autowired
     private WebtoonRepository webtoonRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     @PersistenceContext
     EntityManager em;
 
     @Test
     @DisplayName("웹툰의 장르가 잘 찾아와지는지 테스트")
-    public void test() throws Exception {
+    public void 웹툰의_장르_리스트() throws Exception {
         //given
 
         //장르 저장
@@ -49,33 +39,30 @@ class WebtoonRepositoryTest {
         Genre g2 = createGenre("개그");
         Genre g3 = createGenre("판타지");
 
-        genreRepository.save(g1);
-        genreRepository.save(g2);
-        genreRepository.save(g3);
+        em.persist(g1);
+        em.persist(g2);
+        em.persist(g3);
 
 
         //웹툰 저장
         Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
         Webtoon w2 = createWebtoon("제목2", "작가2", "내용2");
-        webtoonRepository.save(w1);
-        webtoonRepository.save(w2);
+
+        em.persist(w1);
+        em.persist(w2);
 
 
         //when
-        //연관관계 설정
-        WebtoonGenre webtoonGenre1 = new WebtoonGenre();
-        WebtoonGenre wg1 = webtoonGenre1.createWebToonGenre(g1, w1);
-        WebtoonGenre wg2 = webtoonGenre1.createWebToonGenre(g2, w1);
-
-        WebtoonGenre webtoonGenre2 = new WebtoonGenre();
-        WebtoonGenre wg3 = webtoonGenre2.createWebToonGenre(g2, w2);
-        WebtoonGenre wg4 = webtoonGenre2.createWebToonGenre(g3, w2);
+        //웹툰_장르 설정
+        WebtoonGenre wg1 = createWebToonGenre(w1, g1);
+        WebtoonGenre wg2 = createWebToonGenre(w1, g2);
+        WebtoonGenre wg3 = createWebToonGenre(w2, g2);
+        WebtoonGenre wg4 = createWebToonGenre(w2, g3);
 
         em.persist(wg1);
         em.persist(wg2);
         em.persist(wg3);
         em.persist(wg4);
-
 
         //then
         List<Genre> webToonGenre = webtoonRepository.findWebToonGenre(w1);
@@ -90,9 +77,9 @@ class WebtoonRepositoryTest {
 
     @Test
     @DisplayName("웹툰의 Review 가져오기")
-    public void test2() throws Exception{
-        //given
+    public void 웹툰_리뷰_리스트_가져오기() throws Exception {
 
+        //given
         //리뷰
         Review review1 = Review.builder()
                 .reviewContent("리뷰 내용1")
@@ -109,8 +96,8 @@ class WebtoonRepositoryTest {
         //웹툰
         Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
         Webtoon w2 = createWebtoon("제목2", "작가2", "내용2");
-        webtoonRepository.save(w1);
-        webtoonRepository.save(w2);
+        em.persist(w1);
+        em.persist(w2);
 
 
         //유저
@@ -123,12 +110,12 @@ class WebtoonRepositoryTest {
 
         em.persist(user);
 
-        review1.insertWebToonAndUser(w1,user);
-        review2.insertWebToonAndUser(w1,user);
+        review1.insertWebToonAndUser(w1, user);
+        review2.insertWebToonAndUser(w1, user);
 
         //when
-        reviewRepository.save(review1);
-        reviewRepository.save(review2);
+        em.persist(review1);
+        em.persist(review2);
 
         //then
         List<Review> reviewList = webtoonRepository.findReviewByWebToonId(w1.getId());
@@ -141,6 +128,8 @@ class WebtoonRepositoryTest {
     /**
      * webtoon,Genre 데이터를 임의로 생성한다.
      */
+
+    //웹툰 생성
     private Webtoon createWebtoon(String title, String author, String content) {
         return Webtoon.builder()
                 .toonTitle(title)
@@ -149,9 +138,18 @@ class WebtoonRepositoryTest {
                 .build();
     }
 
+    //장르 생성
     private Genre createGenre(String type) {
         return Genre.builder()
                 .genreType(type)
+                .build();
+    }
+
+    //웹툰 장르 연관관계 설정
+    private WebtoonGenre createWebToonGenre(Webtoon webtoon, Genre genre) {
+        return WebtoonGenre.builder()
+                .webtoon(webtoon)
+                .genre(genre)
                 .build();
     }
 

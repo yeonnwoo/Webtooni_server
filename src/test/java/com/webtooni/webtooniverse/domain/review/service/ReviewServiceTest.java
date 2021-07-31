@@ -36,27 +36,14 @@ class ReviewServiceTest {
     @PersistenceContext
     EntityManager em;
 
-    @BeforeEach
-    void setUp()
-    {
-
-    }
-
     @DisplayName("리뷰 수정 테스트")
     @Test
-    public void 리뷰수정() throws Exception{
-        //리뷰
-        Review review1 = Review.builder()
-                .reviewContent("리뷰 내용1")
-                .userPointNumber(4.5F)
-                .likeCount(13)
-                .build();
+    public void 리뷰수정() throws Exception {
 
-        Review review2 = Review.builder()
-                .reviewContent("리뷰 내용2")
-                .userPointNumber(4.5F)
-                .likeCount(13)
-                .build();
+        //리뷰 생성
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13);
+        Review review2 = createReview("리뷰 내용2", 4.3F, 15);
+
 
         //웹툰
         Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
@@ -74,8 +61,8 @@ class ReviewServiceTest {
         em.persist(user);
         em.flush();
 
-        review1.insertWebToonAndUser(w1,user);
-        review2.insertWebToonAndUser(w1,user);
+        review1.insertWebToonAndUser(w1, user);
+        review2.insertWebToonAndUser(w1, user);
 
         em.persist(review1);
         em.persist(review2);
@@ -84,13 +71,21 @@ class ReviewServiceTest {
         ReviewDto reviewDto = new ReviewDto("바뀐 리뷰 내용1");
         ReviewDto reviewDto2 = new ReviewDto("바뀐 리뷰 내용2");
 
-        reviewService.updateReview(review1.getId(),reviewDto);
-        reviewService.updateReview(review2.getId(),reviewDto2);
+        reviewService.updateReview(review1.getId(), reviewDto);
+        reviewService.updateReview(review2.getId(), reviewDto2);
 
         //when
         assertThat(review1.getReviewContent()).isEqualTo(reviewDto.getReviewContent());
         assertThat(review2.getReviewContent()).isEqualTo(reviewDto2.getReviewContent());
 
+    }
+
+    private Review createReview(String reviewContent, float userPointNumber, int likeCount) {
+        return Review.builder()
+                .reviewContent(reviewContent)
+                .userPointNumber(userPointNumber)
+                .likeCount(likeCount)
+                .build();
     }
 
     private Webtoon createWebtoon(String title, String author, String content) {
@@ -103,7 +98,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰를 삭제한다.")
     @Test
-    public void 리뷰삭제() throws Exception{
+    public void 리뷰삭제() throws Exception {
         //given
         //리뷰
         Review review1 = Review.builder()

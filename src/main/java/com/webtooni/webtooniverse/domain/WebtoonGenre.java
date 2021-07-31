@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain;
 import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "WEBTOON_GENRE")
+@Table(name = "webtoon_genre")
 public class WebtoonGenre {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +27,10 @@ public class WebtoonGenre {
     @JoinColumn(name = "toonId")
     private Webtoon webtoon;
 
-    public WebtoonGenre createWebToonGenre(Genre genre,Webtoon webtoon)
-    {
-        WebtoonGenre webtoonGenre = new WebtoonGenre();
-        webtoonGenre.genre=genre;
-        webtoonGenre.webtoon=webtoon;
-
-        return webtoonGenre;
+    @Builder
+    public WebtoonGenre(Genre genre, Webtoon webtoon) {
+        this.genre = genre;
+        this.webtoon = webtoon;
     }
+
 }
