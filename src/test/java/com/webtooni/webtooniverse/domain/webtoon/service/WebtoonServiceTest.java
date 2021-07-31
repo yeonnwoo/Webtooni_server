@@ -33,8 +33,7 @@ class WebtoonServiceTest {
     @PersistenceContext
     EntityManager em;
 
-
-    @DisplayName("웹툰 상세 정보와 리뷰 리스트 반환")
+    @DisplayName("리뷰 수정 테스트")
     @Test
     public void test() throws Exception{
         //리뷰
@@ -55,8 +54,7 @@ class WebtoonServiceTest {
         em.persist(w1);
         em.flush();
 
-
-        //유저
+        //임시 유저
         User user = User.builder()
                 .userName("홍길동")
                 .userEmail("abc@naver.com")
