@@ -3,7 +3,10 @@ package com.webtooni.webtooniverse.domain.webtoon.domain;
 import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.Genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.WebtoonGenre;
+import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +87,56 @@ class WebtoonRepositoryTest {
         assertThat(webToonGenre2.get(1).getGenreType()).isEqualTo("판타지");
 
     }
+
+    @Test
+    @DisplayName("웹툰의 Review 가져오기")
+    public void test2() throws Exception{
+        //given
+
+        //리뷰
+        Review review1 = Review.builder()
+                .reviewContent("리뷰 내용1")
+                .userPointNumber(4.5F)
+                .likeCount(13)
+                .build();
+
+        Review review2 = Review.builder()
+                .reviewContent("리뷰 내용2")
+                .userPointNumber(4.5F)
+                .likeCount(13)
+                .build();
+
+        //웹툰
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
+        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2");
+        webtoonRepository.save(w1);
+        webtoonRepository.save(w2);
+
+
+        //유저
+        User user = User.builder()
+                .userName("홍길동")
+                .userEmail("abc@naver.com")
+                .userImg(1)
+                .userGrade(UserGrade.FIRST)
+                .build();
+
+        em.persist(user);
+
+        review1.insertWebToonAndUser(w1,user);
+        review2.insertWebToonAndUser(w1,user);
+
+        //when
+        reviewRepository.save(review1);
+        reviewRepository.save(review2);
+
+        //then
+        List<Review> reviewList = webtoonRepository.findReviewByWebToonId(w1.getId());
+
+        assertThat(reviewList.get(0).getReviewContent()).isEqualTo(review1.getReviewContent());
+        assertThat(reviewList.get(1).getReviewContent()).isEqualTo(review2.getReviewContent());
+    }
+
 
     /**
      * webtoon,Genre 데이터를 임의로 생성한다.
