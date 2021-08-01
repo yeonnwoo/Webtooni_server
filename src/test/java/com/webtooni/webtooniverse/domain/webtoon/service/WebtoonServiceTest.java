@@ -1,17 +1,12 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.Genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewDto;
-import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +18,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Rollback(value = false)
 @Transactional

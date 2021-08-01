@@ -1,5 +1,5 @@
 package com.webtooni.webtooniverse.domain.reviewLike.domain;
 
-public enum ReviewStatus {
+public enum ReviewLikeStatus {
     CANCLE,LIKE
 }

@@ -3,10 +3,10 @@ package com.webtooni.webtooniverse.domain.review.service;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.ReviewStarDto;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewDto;
+import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.reviewLike.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
-import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewStatus;
+import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
@@ -14,8 +14,6 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.validation.constraints.Null;
 
 @RequiredArgsConstructor
 @Transactional
@@ -35,14 +33,14 @@ public class ReviewService {
      * 리뷰를 수정한다. (= 등록한다.)
      */
 
-    public void updateReview(Long id, ReviewDto reviewDto) {
+    public void updateReview(Long id, ReviewContentRequestDto reviewDto) {
         //해당 리뷰 찾기
         Review findReview = reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id를 찾을 수 없습니다.")
         );
 
-        //리뷰 변경
-        findReview.changeContent(reviewDto);
+        //리뷰 내용 변경
+        findReview.changeReviewContent(reviewDto);
     }
 
     /**
@@ -59,22 +57,13 @@ public class ReviewService {
      * 1.현재 좋아요를 누른 상태면 리뷰의 likeCount -=1
      * 2.현재 좋아요를 누르지 않은 상태면 리뷰의 likeCount +=1
      * 2-1. ReviewLike에 해당 user가 존재하지 않거나 ReviewStatus가 0인 경우
+     * 3. 좋아요를 취소하는 경우
      */
-    public void clickReviewLike(Long id) {
+    public void clickReviewLike(Long id,User user) {
         //해당 게시물 조회
         Review findReview = reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id가 존재하지 않습니다.")
         );
-
-        /**
-         * 임시 유저 : (현재, 로그인 정보 없음)
-         */
-        User user = User.builder()
-                .userEmail("이메일")
-                .userName("닉네임")
-                .userGrade(UserGrade.FIRST)
-                .userImg(1)
-                .build();
 
         /**
          * 현재 로그인된 사용자(user)가 좋아요 누른 상태인지 확인
@@ -95,7 +84,7 @@ public class ReviewService {
             ReviewLike newReviewLike = ReviewLike.builder()
                     .review(findReview)
                     .user(user)
-                    .reviewStatus(ReviewStatus.LIKE)
+                    .reviewStatus(ReviewLikeStatus.LIKE)
                     .build();
 
             reviewLikeRepository.save(newReviewLike);
@@ -107,7 +96,7 @@ public class ReviewService {
          * 2-1. reviewStatus를 Like로 변경한다.
           */
 
-        else if(reviewLike.getReviewStatus() == ReviewStatus.CANCLE)
+        else if(reviewLike.getReviewStatus() == ReviewLikeStatus.CANCLE)
         {
             //전체 카운트 +1
             findReview.plusLikeCount();
@@ -120,7 +109,7 @@ public class ReviewService {
          * 3.좋아요 -> 취소인 경우
          * 3-1. reviewStatus를 CANCLE로 변경한다.
          */
-        else if(reviewLike.getReviewStatus() == ReviewStatus.LIKE)
+        else if(reviewLike.getReviewStatus() == ReviewLikeStatus.LIKE)
         {
             //전체 카운트 -1
             findReview.minusLikeCount();

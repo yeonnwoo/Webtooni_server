@@ -1,8 +1,9 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.dto.ReviewStarDto;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewDto;
+import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
+import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ public class ReviewController {
 
     //리뷰 수정
     @PutMapping("/api/v1/reviews/{id}")
-    public void updateReview(@PathVariable Long id, @RequestBody ReviewDto reviewDto)
+    public void updateReview(@PathVariable Long id, @RequestBody ReviewContentRequestDto reviewDto)
     {
         reviewService.updateReview(id,reviewDto);
     }
@@ -30,7 +31,14 @@ public class ReviewController {
     @PostMapping("/api/v1/reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id)
     {
-        reviewService.clickReviewLike(id);
+        /**
+         * 로그인된 유저 정보로 변경 되어야함
+         */
+        User user=User.builder()
+                .userImg(1)
+                .build();
+
+        reviewService.clickReviewLike(id,user);
     }
 
 

@@ -1,7 +1,7 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 
 import com.webtooni.webtooniverse.domain.BaseTimeEntity;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewDto;
+import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.AccessLevel;
@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -69,7 +68,7 @@ public class Review extends BaseTimeEntity {
     /**
      * 리뷰를 작성(수정)한다.
      */
-    public void changeContent(ReviewDto reviewDto) {
+    public void changeReviewContent(ReviewContentRequestDto reviewDto) {
         this.reviewContent=reviewDto.getReviewContent();
     }
 

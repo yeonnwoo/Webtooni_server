@@ -26,10 +26,10 @@ public class ReviewLike {
     private Review review;
 
     @Enumerated(EnumType.STRING)
-    private ReviewStatus reviewStatus;
+    private ReviewLikeStatus reviewStatus;
 
     @Builder
-    public ReviewLike(User user, Review review, ReviewStatus reviewStatus) {
+    public ReviewLike(User user, Review review, ReviewLikeStatus reviewStatus) {
         this.user = user;
         this.review = review;
         this.reviewStatus = reviewStatus;
@@ -37,10 +37,10 @@ public class ReviewLike {
 
     //좋아요 상태로 변경
     public void changeStatusLike() {
-        this.reviewStatus=ReviewStatus.LIKE;
+        this.reviewStatus= ReviewLikeStatus.LIKE;
     }
 
     public void changeStatusCancel() {
-        this.reviewStatus=ReviewStatus.CANCLE;
+        this.reviewStatus= ReviewLikeStatus.CANCLE;
     }
 }

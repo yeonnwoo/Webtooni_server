@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ReviewDto {
+public class ReviewContentRequestDto {
 
     private String reviewContent;
 
-    public ReviewDto(String reviewContent) {
+    public ReviewContentRequestDto(String reviewContent) {
         this.reviewContent = reviewContent;
     }
 }
