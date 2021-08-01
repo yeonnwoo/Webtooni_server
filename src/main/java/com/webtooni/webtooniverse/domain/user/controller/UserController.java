@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping("/user/kakao/callback")
     public String kakaoLogin(String code) {
-        // authorizedCode: 	10806a154c5d286f629e2f3ae0b3f8a6
+        // authorizedCode:
         userService.kakaoLogin(code);
 
         return "redirect:/";
