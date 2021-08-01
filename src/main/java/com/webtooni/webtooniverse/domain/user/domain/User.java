@@ -1,12 +1,12 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Setter
 @Entity
 @Getter
 @NoArgsConstructor
@@ -14,34 +14,40 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "user_name")
+    @Column(nullable = false)
     private String userName;
 
-    @Column(name = "user_password")
+    @Column(nullable = false)
+    private String userEmail;
+
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "user_img")
+    @Column(nullable = false)
     private String userImg;
 
-    @Column(name = "user_grade")
+    @Column(nullable = false)
     private String userGrade;
 
-    @Column(name = "kakao_id")
+    @Column(nullable = true)
     private Long kakaoId;
+
+    public User(String userName, String userEmail, String password, String userImg){
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.password = password;
+        this.userImg = userImg;
+        this.userGrade = "base";
+        this.kakaoId = null;
+    }
 
     public User(String password, Long kakaoId){
         this.password = password;
         this.userGrade = "base";
         this.kakaoId = kakaoId;
     }
-    public void update(UserInfoRequestDto requestDto){
-        this.userImg = requestDto.getUserImg();
-        this.userName = requestDto.getUserName();
-    }
-
 
 
 
