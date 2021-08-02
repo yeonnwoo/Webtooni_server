@@ -13,30 +13,32 @@ public class Webtoon {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "toonId")
+    @Column(name = "toon_id")
     private Long Id;
 
-    private String toonTitle;
+    private String toon_author;
 
-    private String toonAuthor;
+    private String toon_title;
 
-    private String toonContent;
+    private String toon_content;
 
-    private String toonImg;
+    private String toon_img;
 
-    private String toonWeekday;
+    private String toon_weekday;
 
-    private String realUrl;
+    private float toon_avg_point;
 
-    private String toonAge;
+    private String real_url;
 
-    private String toonFlatform;
+    private String toon_age;
 
-    private float toonPointTotalNumber;
+    private String toon_flatform;
 
-    private int reviewCount;
+    private int total_point_count;
 
-    private boolean finished;
+    private int review_count;
+
+    private int finished;
 
 
 

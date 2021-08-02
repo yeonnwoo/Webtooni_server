@@ -13,15 +13,15 @@ public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private Long id;
 
-    private String userName;
+    private String user_name;
 
-    private String userEmail;
+    private String user_email;
 
-    private int userImg;
+    private int user_img;
 
     @Enumerated(EnumType.STRING)
-    private UserGrade userGrade;
+    private User_Grade user_grade;
 }
