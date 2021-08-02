@@ -2,13 +2,12 @@ package com.webtooni.webtooniverse.domain.review.service;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
-import com.webtooni.webtooniverse.domain.review.dto.ReviewStarDto;
+import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.reviewLike.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
@@ -123,36 +122,32 @@ public class ReviewService {
             reviewLike.changeStatusCancel();
 
         }
-
     }
-
 
     /**
      * 웹툰에 별점을 준다. = 수정하는 것과 동일
      */
-    public void updateUserPointNumber(ReviewStarDto reviewStarDto) {
-
-        /**
-         * 임시 유저 : (현재, 로그인 정보 없음)
-         */
-        User user = User.builder()
-                .userEmail("이메일")
-                .userName("닉네임")
-                .userGrade(UserGrade.FIRST)
-                .userImg(1)
-                .build();
+    public void updateUserPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
 
         //해당 웹툰 찾기
         Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getWebtoonId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 id가 존재하지 않습니다")
+                () -> new IllegalArgumentException("해당 웹툰이 존재하지 않습니다")
         );
 
         /**
-         * 유저가 해당 웹툰에 별점을 준적이 있는지 체크한다.
-         * 해당 유저의 FK와 해당 웹툰 FK를 가진 리뷰가 존재하는지 확인한다.
-         * 별점을 주는 즉시 리뷰 테이블이 생성되기 때문에 존재 유무만 확인해도된다.
-         */
-        Review findReview = reviewRepository.checkUserPointIsFirst(findWebtoon, user);
+         * 1. 유저가 해당 웹툰에 별점을 준적이 있는지 체크한다.
+         *  - 해당 유저의 FK와 해당 웹툰 FK를 가진 리뷰의 존재 유무를 확인한다.
+         *
+         * 2. 존재하지 않는다면 (별점을 누른적이 없다면)
+         *  2-1. review 생성
+         *  2-2. webtoon의 별점 개수 +1
+         *  2-3. webtoon의 평균 별점 변경
+         *
+         * 3. 이미 존재한다면 (별점을 누른적이 있다면)
+         *  3-1. webtoon의 평균 별점 변경
+         *  3-2. review의 유저 별점 점수 변경
+         *  */
+        Review findReview = reviewRepository.checkUserPointIsExist(findWebtoon, user);
 
         //존재하지 않음
         if(findReview==null)
@@ -163,17 +158,30 @@ public class ReviewService {
 
             //총 별점 개수 늘려주기
             findWebtoon.changeToonPointTotalNumber();
+
+            //별점 평균 점수 변경
+            findWebtoon.changeToonAvgPoint(reviewStarDto.getUserPointNumber());
+
+            //웹툰,유저 정보 넣기
             review.insertWebToonAndUser(findWebtoon,user);
+
+            reviewRepository.save(review);
 
         }
 
         //이미 존재함
         else
         {
+            //유저의 변경전 별점 점수
+            float originalUserPoint =findReview.getUserPointNumber();
+
+            //웹툰 평균 별점 점수 변경(원래 점수, 변경될 점수)
+            findWebtoon.updateToonAvgPoint(originalUserPoint, reviewStarDto.getUserPointNumber());
+
+            //유저의 별점 점수 변경
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
+
         }
-
-
     }
 
 }

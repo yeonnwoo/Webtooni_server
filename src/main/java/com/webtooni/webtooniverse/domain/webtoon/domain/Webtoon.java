@@ -38,7 +38,9 @@ public class Webtoon {
 
     private String toonFlatform;
 
-    private float toonPointTotalNumber;
+    private float toonAvgPoint;
+
+    private int totalPointCount;
 
     private int reviewCount;
 
@@ -46,7 +48,7 @@ public class Webtoon {
 
     @Builder
     public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
-                   String realUrl, String toonAge, String toonFlatform, float toonPointTotalNumber,
+                   String realUrl, String toonAge, String toonFlatform, float toonAvgPoint, int totalPointCount,
                    int reviewCount, boolean finished) {
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
@@ -56,7 +58,8 @@ public class Webtoon {
         this.realUrl = realUrl;
         this.toonAge = toonAge;
         this.toonFlatform = toonFlatform;
-        this.toonPointTotalNumber = toonPointTotalNumber;
+        this.toonAvgPoint = toonAvgPoint;
+        this.totalPointCount = totalPointCount;
         this.reviewCount = reviewCount;
         this.finished = finished;
     }
@@ -69,9 +72,34 @@ public class Webtoon {
     }
 
     /**
+     * case : 별점을 처음 다는 유저
      * 별점을 달았을 때 총 별점 개수를 늘려준다.
      */
     public void changeToonPointTotalNumber() {
-        this.toonPointTotalNumber+=1;
+        this.totalPointCount += 1;
     }
+
+    /**
+     * case : 별점을 처음 다는 유저
+     * 평균 별점 점수 계산
+     */
+    public void changeToonAvgPoint(float userPoint) {
+        float totalPoint = this.toonAvgPoint * (this.totalPointCount - 1) + userPoint;
+
+        this.toonAvgPoint= (float) (Math.ceil(totalPoint/this.totalPointCount)/100.0);
+
+    }
+
+    /**
+     * case : 별점 수정하려는 유저
+     * - 별점 개수 변화 X
+     * - 평균 별점 점수 변경
+     */
+    public void updateToonAvgPoint(float originalUserPoint,float userPoint)
+    {
+        float totalPoint = this.toonAvgPoint *(this.totalPointCount) -originalUserPoint +userPoint;
+        this.toonAvgPoint =(float) (Math.ceil(totalPoint/this.totalPointCount)/100.0);
+    }
+
+
 }

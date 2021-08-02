@@ -40,8 +40,9 @@ public class Review extends BaseTimeEntity {
         this.likeCount = likeCount;
     }
     /**
-     * 처음 웹툰에 별점을 등록하는 경우엔 별점을 등록하고 Webtoon의 별점 개수를 +1해준다.
+     * 처음 웹툰에 별점을 등록하는 경우엔 별점을 등록
      */
+    @Builder
     public Review(float userPointNumber, Webtoon webtoon, User user) {
         this.userPointNumber = userPointNumber;
         this.webtoon = webtoon;
@@ -56,10 +57,10 @@ public class Review extends BaseTimeEntity {
         this.userPointNumber=userPointNumber;
     }
 
+
     /**
      *  Review에 User,Webtoon 정보 넣어준다.
      */
-
     public void insertWebToonAndUser(Webtoon webtoon, User user) {
         this.webtoon = webtoon;
         this.user = user;

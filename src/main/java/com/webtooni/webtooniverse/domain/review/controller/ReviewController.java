@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
-import com.webtooni.webtooniverse.domain.review.dto.ReviewStarDto;
+import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -42,17 +42,21 @@ public class ReviewController {
     }
 
 
-    //웹툰에 별점 주기
-    //별점 누름 -> 별점 정보 & 유저 정보 제외 모두 null값
-
     /**
-     *
+     * 웹툰에 별점주기
      * @param - reviewStarDto : 웹툰 id,userPointNumber
      */
     @PutMapping("/api/v1/reviews/star")
-    public void updateStar(@RequestBody ReviewStarDto reviewStarDto)
+    public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto)
     {
-        reviewService.updateUserPointNumber(reviewStarDto);
+        /**
+         * 로그인된 유저 정보로 변경 되어야함
+         */
+        User user=User.builder()
+                .userImg(1)
+                .build();
+
+        reviewService.updateUserPointNumber(reviewStarDto,user);
 
     }
 }
