@@ -47,4 +47,5 @@ Git Flow를 사용하여 브랜치를 관리합니다. 모든 브랜치는 Pull 
 ## 사용 기술 및 환경
 
 ## DB ERD
-![Webtooniverse_20210729_52_18](https://user-images.githubusercontent.com/50096655/127495548-3281f654-6907-40ba-9d10-5ca0d95e9190.png)
+![Webtooniverse_20210801_37_52](https://user-images.githubusercontent.com/50096655/127763262-431c65c1-0da1-4cde-a7ed-e2b3556061c9.png)
+
