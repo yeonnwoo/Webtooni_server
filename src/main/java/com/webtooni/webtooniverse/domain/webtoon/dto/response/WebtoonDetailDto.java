@@ -25,7 +25,9 @@ public class WebtoonDetailDto {
 
     private String realUrl;
 
-    private float toonPointTotalNumber;
+    private int totalPointCount;
+
+    private float toonAvgPoint;
 
     private String toonContent;
 
@@ -51,7 +53,8 @@ public class WebtoonDetailDto {
 
         this.toonAge=webtoon.getToonAge();
         this.realUrl=webtoon.getRealUrl();
-        this.toonPointTotalNumber=webtoon.getToonPointTotalNumber();
+        this.totalPointCount=webtoon.getTotalPointCount();
+        this.toonAvgPoint= webtoon.getToonAvgPoint();
         this.toonContent=webtoon.getToonContent();
         this.toonWeekday=webtoon.getToonWeekday();
         this.toonFlatform=webtoon.getToonFlatform();

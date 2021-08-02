@@ -56,7 +56,7 @@ public class ReviewController {
                 .userImg(1)
                 .build();
 
-        reviewService.updateUserPointNumber(reviewStarDto,user);
+        reviewService.clickWebtoonPointNumber(reviewStarDto,user);
 
     }
 }

@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.review.service;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.reviewLike.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
@@ -49,7 +50,7 @@ class ReviewServiceTest {
         Review review2 = createReview("리뷰 내용2", 4.3F, 15);
 
         //웹툰
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",3.5F,20);
         em.persist(w1);
         em.flush();
 
@@ -83,21 +84,6 @@ class ReviewServiceTest {
 
     }
 
-    private Review createReview(String reviewContent, float userPointNumber, int likeCount) {
-        return Review.builder()
-                .reviewContent(reviewContent)
-                .userPointNumber(userPointNumber)
-                .likeCount(likeCount)
-                .build();
-    }
-
-    private Webtoon createWebtoon(String title, String author, String content) {
-        return Webtoon.builder()
-                .toonTitle(title)
-                .toonAuthor(author)
-                .toonContent(content)
-                .build();
-    }
 
     @DisplayName("리뷰를 삭제한다.")
     @Test
@@ -234,6 +220,69 @@ class ReviewServiceTest {
 
         assertThat(reviewLike.getReviewStatus()).isEqualTo(ReviewLikeStatus.LIKE);
 
+    }
+
+    /**
+     * 웹툰에 좋아요 누르기 테스트
+     */
+    @DisplayName("좋아요 처음 누르는 사용자의 경우")
+    @Test
+    public void clickWebtoonStar1() throws Exception{
+        //given
+        //임시 유저
+        User user = User.builder()
+                .userName("홍길동")
+                .userEmail("abc@naver.com")
+                .userImg(1)
+                .userGrade(UserGrade.FIRST)
+                .build();
+
+        em.persist(user);
+        em.flush();
+
+        //웹툰 생성
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",3.5F,25);
+        em.persist(w1);
+        em.flush();
+
+        //별점 정보
+        WebtoonPointRequestDto webtoonPointRequestDto= new WebtoonPointRequestDto(w1.getId(),3.0F);
+
+        //when
+        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto,user);
+
+        //then
+        assertThat(w1.getToonAvgPoint()).isEqualTo(3.48F);
+        assertThat(w1.getTotalPointCount()).isEqualTo(26);
+
+        //when2 - 별점 수정하려는 사용자
+        //별점 정보2
+        WebtoonPointRequestDto webtoonPointRequestDto2= new WebtoonPointRequestDto(w1.getId(),2.0F);
+
+        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto2,user);
+
+        assertThat(w1.getToonAvgPoint()).isEqualTo(3.44F);
+        assertThat(w1.getTotalPointCount()).isEqualTo(26);
+
+    }
+
+
+    private Review createReview(String reviewContent, float userPointNumber, int likeCount) {
+        return Review.builder()
+                .reviewContent(reviewContent)
+                .userPointNumber(userPointNumber)
+                .likeCount(likeCount)
+                .build();
+    }
+
+    private Webtoon createWebtoon(String title, String author, String content,float toonAvgPoint,int totalPointCount) {
+        return Webtoon.builder()
+                .toonTitle(title)
+                .toonAuthor(author)
+                .toonContent(content)
+                .toonAvgPoint(toonAvgPoint)
+                .totalPointCount(totalPointCount)
+                .build();
     }
 
 }

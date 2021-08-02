@@ -86,7 +86,7 @@ public class Webtoon {
     public void changeToonAvgPoint(float userPoint) {
         float totalPoint = this.toonAvgPoint * (this.totalPointCount - 1) + userPoint;
 
-        this.toonAvgPoint= (float) (Math.ceil(totalPoint/this.totalPointCount)/100.0);
+        this.toonAvgPoint= (float) (Math.round(totalPoint/this.totalPointCount*100)/100.0);
 
     }
 
@@ -97,8 +97,8 @@ public class Webtoon {
      */
     public void updateToonAvgPoint(float originalUserPoint,float userPoint)
     {
-        float totalPoint = this.toonAvgPoint *(this.totalPointCount) -originalUserPoint +userPoint;
-        this.toonAvgPoint =(float) (Math.ceil(totalPoint/this.totalPointCount)/100.0);
+        float totalPoint = this.toonAvgPoint *(this.totalPointCount) - originalUserPoint +userPoint;
+        this.toonAvgPoint =(float) (Math.round(totalPoint/this.totalPointCount*100)/100.0);
     }
 
 

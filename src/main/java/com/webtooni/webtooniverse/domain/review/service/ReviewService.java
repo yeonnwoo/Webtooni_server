@@ -127,7 +127,7 @@ public class ReviewService {
     /**
      * 웹툰에 별점을 준다. = 수정하는 것과 동일
      */
-    public void updateUserPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
+    public void clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
 
         //해당 웹툰 찾기
         Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getWebtoonId()).orElseThrow(
