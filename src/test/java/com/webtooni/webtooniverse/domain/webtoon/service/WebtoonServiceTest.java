@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -105,6 +108,7 @@ class WebtoonServiceTest {
         assertThat(webtoonDetailDto.getReviews().get(1).getUserPointNumber()).isEqualTo(review2.getUserPointNumber());
         assertThat(webtoonDetailDto.getReviews().get(1).getLikeCount()).isEqualTo(review2.getLikeCount());
 
+
     }
 
     /**
@@ -142,6 +146,68 @@ class WebtoonServiceTest {
                 .webtoon(webtoon)
                 .genre(genre)
                 .build();
+    }
+
+    @DisplayName("비슷한 장르의 웹툰을 랜덤으로 추천 테스트")
+    @Test
+    public void test() throws Exception{
+        //given
+        //웹툰
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
+        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2");
+        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3");
+        Webtoon w4 = createWebtoon("제목4", "작가4", "내용4");
+        Webtoon w5 = createWebtoon("제목5", "작가5", "내용5");
+        em.persist(w1);
+        em.persist(w2);
+        em.persist(w3);
+        em.persist(w4);
+        em.persist(w5);
+
+        //장르 저장
+        Genre g1 = createGenre("일상");
+        Genre g2 = createGenre("개그");
+        Genre g3 = createGenre("판타지");
+
+        em.persist(g1);
+        em.persist(g2);
+        em.persist(g3);
+
+        //웹툰_장르 설정
+        WebtoonGenre wg1 = createWebToonGenre(w1, g1);
+        WebtoonGenre wg2 = createWebToonGenre(w1, g2);
+        WebtoonGenre wg3 = createWebToonGenre(w2, g1);
+        WebtoonGenre wg4 = createWebToonGenre(w2, g2);
+        WebtoonGenre wg5 = createWebToonGenre(w3, g3);
+        WebtoonGenre wg6 = createWebToonGenre(w3, g2);
+        WebtoonGenre wg7 = createWebToonGenre(w4, g1);
+        WebtoonGenre wg8 = createWebToonGenre(w4, g3);
+        WebtoonGenre wg9 = createWebToonGenre(w5, g1);
+        WebtoonGenre wg10 = createWebToonGenre(w5, g2);
+
+        em.persist(wg1);
+        em.persist(wg2);
+        em.persist(wg3);
+        em.persist(wg4);
+        em.persist(wg5);
+        em.persist(wg6);
+        em.persist(wg7);
+        em.persist(wg8);
+        em.persist(wg9);
+        em.persist(wg10);
+
+
+        //when
+        List<SimilarGenreToonDto> toonDtos = webtoonService.getSimilarGenre(w1.getId());
+
+        //then
+        assertThat(toonDtos.size()).isEqualTo(2);
+        assertThat(toonDtos.get(0).getToonTitle()).isNotEqualTo(w1.getToonTitle());
+
+        for (SimilarGenreToonDto toonDto : toonDtos) {
+            System.out.println("toonDto.getToonTitle() = " + toonDto.getToonTitle());
+        }
+
     }
 
 }

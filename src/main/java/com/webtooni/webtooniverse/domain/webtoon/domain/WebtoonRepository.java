@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface WebtoonRepository extends JpaRepository<Webtoon,Long> {
+public interface WebtoonRepository extends JpaRepository<Webtoon,Long>,WebtoonRepositoryCustom {
 
     /**
      * 웹툰의 장르 찾기
