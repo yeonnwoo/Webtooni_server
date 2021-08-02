@@ -88,7 +88,7 @@ class WebtoonRepositoryTest {
                 .build();
 
         Review review2 = Review.builder()
-                .reviewContent("리뷰 내용2")
+                .reviewContent(null)
                 .userPointNumber(4.5F)
                 .likeCount(13)
                 .build();
@@ -120,10 +120,11 @@ class WebtoonRepositoryTest {
         //then
         List<Review> reviewList = webtoonRepository.findReviewByWebToonId(w1.getId());
 
+        //내용이 null인 리뷰는 나오면 안됨
+        assertThat(reviewList.size()).isEqualTo(1);
         assertThat(reviewList.get(0).getReviewContent()).isEqualTo(review1.getReviewContent());
-        assertThat(reviewList.get(1).getReviewContent()).isEqualTo(review2.getReviewContent());
-    }
 
+    }
 
     /**
      * webtoon,Genre 데이터를 임의로 생성한다.

@@ -44,10 +44,15 @@ public class ReviewService {
     }
 
     /**
+     * @param - 리뷰 id
      * 리뷰를 삭제한다.
      */
     public void deleteReview(Long id) {
-        reviewRepository.deleteById(id);
+        //해당 리뷰 찾기
+        Review findReview = reviewRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 id를 찾을 수 없습니다.")
+        );
+        findReview.deleteReview();
     }
 
     /**

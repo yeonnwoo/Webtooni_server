@@ -23,6 +23,7 @@ import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Rollback(value = false)
 @Transactional
 @SpringBootTest
 class ReviewServiceTest {
@@ -113,7 +114,8 @@ class ReviewServiceTest {
         reviewService.deleteReview(review1.getId());
 
         //then
-        assertThat(reviewRepository.findAll().size()).isEqualTo(1);
+        assertThat(reviewRepository.findAll().size()).isEqualTo(2);
+        assertThat(reviewRepository.findById(review1.getId()).get().getReviewContent()).isNull();
 
     }
 

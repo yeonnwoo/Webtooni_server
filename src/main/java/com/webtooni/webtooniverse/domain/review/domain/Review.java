@@ -73,6 +73,14 @@ public class Review extends BaseTimeEntity {
     }
 
     /**
+     * 리뷰를 삭제한다.
+     */
+    public void deleteReview()
+    {
+        this.reviewContent=null;
+    }
+
+    /**
      * 좋아요를 처음 누르는 사용자인 경우
      */
     public void plusLikeCount() {
