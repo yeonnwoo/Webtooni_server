@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
-    List<Webtoon> findWebtoonByToonPointTotalNumber(Webtoon webtoon);
+
 }
