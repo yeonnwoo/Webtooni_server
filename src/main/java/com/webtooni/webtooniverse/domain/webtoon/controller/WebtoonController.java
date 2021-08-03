@@ -14,6 +14,11 @@ public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
+    @GetMapping("api/v1/rank/total")
+    public List<MonthRankResponseDto> getMonthTotalRanks(){
+        return webtoonService.getMonthTotalRank();
+    }
+
 
 
 }
