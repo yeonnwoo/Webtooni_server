@@ -1,27 +1,37 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.scheduling.support.SimpleTriggerContext;
 
 import javax.persistence.*;
 
-@Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Entity
 public class User {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId")
     private Long id;
 
-    private String user_name;
+    private String userName;
 
-    private String user_email;
+    private String userEmail;
 
-    private int user_img;
+    private int userImg;
 
     @Enumerated(EnumType.STRING)
-    private User_Grade user_grade;
+    private UserGrade userGrade;
+
+    @Builder
+    public User(String userName, String userEmail, int userImg, UserGrade userGrade) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userImg = userImg;
+        this.userGrade = userGrade;
+    }
 }
