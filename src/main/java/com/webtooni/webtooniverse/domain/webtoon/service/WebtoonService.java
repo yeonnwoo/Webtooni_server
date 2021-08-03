@@ -4,6 +4,7 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,14 @@ public class WebtoonService {
                 .collect(Collectors.toList());
     }
 
+    //웹투니버스 네이버 웹툰 Top10
+    public List<PlatformRankResponseDto> getMonthNaverRank(){
+        List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
+        return monthNaverRank
+                .stream()
+                .map(PlatformRankResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
 
 }

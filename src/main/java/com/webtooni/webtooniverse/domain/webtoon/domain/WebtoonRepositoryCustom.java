@@ -5,4 +5,5 @@ import java.util.List;
 public interface WebtoonRepositoryCustom {
 
     List<Webtoon> getTotalRank();
+    List<Webtoon> getNaverRank();
 }

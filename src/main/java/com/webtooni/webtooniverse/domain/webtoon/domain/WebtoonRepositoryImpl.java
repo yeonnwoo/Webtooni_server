@@ -20,4 +20,13 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom{
                 .fetch();
 
     }
+
+    //네이버 웹툰 Top10
+    public List<Webtoon> getNaverRank(){
+        return jpaQueryFactory.selectFrom(webtoon)
+                .where(webtoon.toonPlatform.eq("네이버"))
+                .orderBy(webtoon.toonAvgPoint.desc())
+                .limit(10)
+                .fetch();
+    }
 }

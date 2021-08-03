@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -31,7 +30,7 @@ public class Webtoon {
 
     private String toonAge;
 
-    private String toonFlatform;
+    private String toonPlatform;
 
     private float toonAvgPoint;
 
@@ -43,7 +42,7 @@ public class Webtoon {
 
     @Builder
     public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
-                   String realUrl, String toonAge, String toonFlatform, float toonAvgPoint, int totalPointCount,
+                   String realUrl, String toonAge, String toonPlatform, float toonAvgPoint, int totalPointCount,
                    int reviewCount, boolean finished) {
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
@@ -52,7 +51,7 @@ public class Webtoon {
         this.toonWeekday = toonWeekday;
         this.realUrl = realUrl;
         this.toonAge = toonAge;
-        this.toonFlatform = toonFlatform;
+        this.toonPlatform = toonPlatform;
         this.toonAvgPoint = toonAvgPoint;
         this.totalPointCount = totalPointCount;
         this.reviewCount = reviewCount;
