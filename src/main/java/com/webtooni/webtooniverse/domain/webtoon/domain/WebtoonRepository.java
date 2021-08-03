@@ -5,7 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
+
+    List<Webtoon> findTop10ByOrderByToon_avg_pointDesc();
+
 
 }
