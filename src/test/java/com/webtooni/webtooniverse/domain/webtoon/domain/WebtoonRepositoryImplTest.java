@@ -105,6 +105,7 @@ class WebtoonRepositoryImplTest {
         }
         assertThat(bestReviewerWebtoon.size()).isEqualTo(2);
     }
+
     @Test
     void 완결_웹툰_추천() {
         //given
@@ -120,6 +121,7 @@ class WebtoonRepositoryImplTest {
         assertThat(finishedWebtoon.get(1).getToonTitle()).isEqualTo("웹툰5");
         assertThat(finishedWebtoon.get(2).getToonTitle()).isEqualTo("웹툰4");
     }
+
     @Test
     void 유저_취향_랜덤_추천() {
         //given
@@ -133,6 +135,7 @@ class WebtoonRepositoryImplTest {
         assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰1");
         assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰4");
     }
+
     @Test
     void 비슷한_취향_사용자_웹툰_추천(){
         //given
@@ -152,5 +155,24 @@ class WebtoonRepositoryImplTest {
             assertThat(webtoon.getToonTitle()).isEqualTo("웹툰5");
         }
 
+    }
+
+    @Test
+    void 금주_월요일_날짜_구하기(){
+        System.out.println("start date = " + this.startDate());
+    }
+
+
+    public LocalDateTime startDate(){
+        LocalDateTime date = LocalDateTime.now().minusDays(1);
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        LocalDateTime startDate = LocalDateTime.now();
+        List<DayOfWeek> week = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+        for (int i = 0; i <= 6; i++) {
+            if (dayOfWeek == week.get(i)) {
+                startDate = LocalDateTime.now().minusDays(i + 1);
+            }
+        }
+        return startDate.withHour(0).withMinute(0).withSecond(0);
     }
 }
