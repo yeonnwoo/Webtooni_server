@@ -105,4 +105,19 @@ class WebtoonRepositoryImplTest {
         }
         assertThat(bestReviewerWebtoon.size()).isEqualTo(2);
     }
+    @Test
+    void 완결_웹툰_추천() {
+        //given
+        //when
+        List<Webtoon> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
+        //then
+        for (Webtoon webtoon : finishedWebtoon) {
+            System.out.println("webtoon.getToonTitle() = " + webtoon.getToonTitle() +" "+webtoon.getToonAvgPoint());
+            assertThat(webtoon.isFinished()).isEqualTo(true);
+        }
+        assertThat(finishedWebtoon.size()).isEqualTo(3);
+        assertThat(finishedWebtoon.get(0).getToonTitle()).isEqualTo("웹툰6");
+        assertThat(finishedWebtoon.get(1).getToonTitle()).isEqualTo("웹툰5");
+        assertThat(finishedWebtoon.get(2).getToonTitle()).isEqualTo("웹툰4");
+    }
 }
