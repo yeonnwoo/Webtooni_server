@@ -7,9 +7,9 @@ import java.util.List;
 
 
 @Repository
-public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
+public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, WebtoonRepositoryCustom{
 
-    List<Webtoon> findTop10ByOrderByToon_avg_pointDesc();
+
 
 
 }

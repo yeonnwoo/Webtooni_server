@@ -14,10 +14,6 @@ public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
-    //이번달 웹투니버스 순위
-    @GetMapping("/api/v1/rank/total")
-    public List<MonthRankResponseDto> getMonthRank(){
-        return webtoonService.getMonthRank();
-    }
+
 
 }

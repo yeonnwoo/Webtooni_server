@@ -15,14 +15,6 @@ public class WebtoonService {
 
     private final WebtoonRepository webtoonRepository;
 
-    //이번달 웹투니버스 순위
-    public List<MonthRankResponseDto> getMonthRank(){
 
-        List<Webtoon> monthRank = webtoonRepository.findTop10ByOrderByToon_avg_pointDesc();
-
-        return monthRank.stream()
-                .map(MonthRankResponseDto::new)
-                .collect(Collectors.toList());
-    }
 
 }
