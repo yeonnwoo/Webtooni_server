@@ -81,6 +81,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return findUserGenreWebtoon(user);
     }
 
-  
+    //완결 웹툰 추천
+    @Override
+    public List<Webtoon> findFinishedWebtoon() {
+        return jpaQueryFactory.selectFrom(webtoon)
+                .where(webtoon.finished.eq(true))
+                .orderBy(webtoon.toonAvgPoint.desc())
+                .limit(5)
+                .fetch();
+    }
 
 }
