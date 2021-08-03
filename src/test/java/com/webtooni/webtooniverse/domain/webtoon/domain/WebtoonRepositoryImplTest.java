@@ -120,4 +120,17 @@ class WebtoonRepositoryImplTest {
         assertThat(finishedWebtoon.get(1).getToonTitle()).isEqualTo("웹툰5");
         assertThat(finishedWebtoon.get(2).getToonTitle()).isEqualTo("웹툰4");
     }
+    @Test
+    void 유저_취향_랜덤_추천() {
+        //given
+        User user = userRepository.getById(1L);
+        //when
+        List<Webtoon> webtoons = webtoonRepository.findUserGenreWebtoon(user);
+        //then
+        for (Webtoon webtoon : webtoons) {
+            System.out.println("webtoon - " + webtoon.getId() + " wetoontitle - " + webtoon.getToonTitle());
+        }
+        assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰1");
+        assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰4");
+    }
 }
