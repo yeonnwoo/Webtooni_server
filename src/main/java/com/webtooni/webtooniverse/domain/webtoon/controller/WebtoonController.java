@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("api/v1/")
@@ -16,19 +18,19 @@ public class WebtoonController {
 
 
     @GetMapping("offer/best-reviewer")
-    public WebtoonResponseDto getBestReviewerWebtoons(){
+    public List<WebtoonResponseDto> getBestReviewerWebtoons(){
         return webtoonService.getBestReviewerWebtoon();
     }
 
-    @GetMapping("offer/for-user")
-    public WebtoonResponseDto getForUserWebtoons(){
-        return webtoonService.getForUserWebtoon();
-    }
-
-    @GetMapping("offer/similar-user")
-    public WebtoonResponseDto getSimilarUserWebtoons(){
-        return webtoonService.getSimilarUserWebtoon();
-    }
+//    @GetMapping("offer/for-user")
+//    public List<WebtoonResponseDto> getForUserWebtoons(){
+//        return webtoonService.getForUserWebtoon(user);
+//    }
+//
+//    @GetMapping("offer/similar-user")
+//    public List<WebtoonResponseDto> getSimilarUserWebtoons(){
+//        return webtoonService.getSimilarUserWebtoon(user);
+//    }
 
     @GetMapping("offer/md")
     public WebtoonResponseDto getMdWebtoons(){
@@ -36,7 +38,7 @@ public class WebtoonController {
     }
 
     @GetMapping("offer/end")
-    public WebtoonResponseDto getFinishedWebtoons(){
+    public List<WebtoonResponseDto> getFinishedWebtoons(){
         return webtoonService.getFinishedWebtoon();
     }
 

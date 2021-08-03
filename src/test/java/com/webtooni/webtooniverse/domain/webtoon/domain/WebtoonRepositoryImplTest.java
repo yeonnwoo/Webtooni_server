@@ -39,9 +39,9 @@ class WebtoonRepositoryImplTest {
 
     @BeforeEach
     void getDummyData(){
-        User user1 = new User();
-        User user2 = new User();
-        User user3 = new User();
+        User user1 = new User("유저1");
+        User user2 = new User("유저2");
+        User user3 = new User("유저3");
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
