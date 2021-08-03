@@ -1,18 +1,25 @@
 package com.webtooni.webtooniverse.domain.join;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
-public enum Genre {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    @Column(name = "genre_id")
+    private Long id;
 
+    @Column
+    private String genreType;
+
+    public Genre(String genreType) {
+        this.genreType = genreType;
+    }
 }

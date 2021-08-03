@@ -4,17 +4,21 @@ import com.webtooni.webtooniverse.domain.join.Genre;
 import com.webtooni.webtooniverse.domain.join.MyList;
 import com.webtooni.webtooniverse.domain.join.UserGenre;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import com.webtooni.webtooniverse.global.utils.TimeStamped;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
-    @Column(name = "USER_ID")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
@@ -30,9 +34,7 @@ public class User {
     @Column
     String UserGrade;
 
-    @OneToMany(mappedBy = "user")
-    List<MyList> myLists;
-
-    @OneToMany(mappedBy = "user")
-    List<UserGenre> userGenres;
+    public User(String userName) {
+        this.userName = userName;
+    }
 }

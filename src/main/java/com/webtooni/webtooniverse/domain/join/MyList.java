@@ -14,11 +14,11 @@ public class MyList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     User user;
 
-    @ManyToOne
-    @JoinColumn(name = "WEBTOON_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "toon_id")
     Webtoon webtoon;
 }

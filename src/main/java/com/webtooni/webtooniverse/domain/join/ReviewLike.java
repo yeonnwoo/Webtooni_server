@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.join;
 
-import com.webtooni.webtooniverse.domain.review.domain.Reviews;
+import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.Getter;
 
@@ -8,18 +8,18 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class Like {
+public class ReviewLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     User user;
 
-    @ManyToOne
-    @JoinColumn(name = "REVIEW_ID")
-    Reviews review;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    Review review;
 
 }
