@@ -55,6 +55,32 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
     }
 
-    
+    //나와 비슷한 취향을 가진 사용자가 많이 본 웹툰
+    @Override
+    public List<Webtoon> findSimilarUserWebtoon(User user){
+        List<String> webtoonTitles = jpaQueryFactory.select(review.webtoon.toonTitle)
+                .from(review)
+                .where(review.user.eq(user), review.userPointNumber.goe(4.0))
+                .fetch();
+
+        User similarUser = jpaQueryFactory.select(review.user)
+                .from(review)
+                .where(review.webtoon.toonTitle.in(webtoonTitles), review.user.ne(user))
+                .groupBy(review.user)
+                .orderBy(review.user.count().desc())
+                .fetchFirst();
+
+        if (similarUser!=null){
+            return jpaQueryFactory.select(review.webtoon)
+                    .from(review)
+                    .where(review.user.id.eq(similarUser.getId()))
+                    .orderBy(review.webtoon.toonAvgPoint.desc())
+                    .limit(5)
+                    .fetch();
+        }
+        return findUserGenreWebtoon(user);
+    }
+
+  
 
 }
