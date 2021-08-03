@@ -1,18 +1,19 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
-import com.webtooni.webtooniverse.domain.join.Genre;
-import com.webtooni.webtooniverse.domain.join.WebtoonGenre;
-import com.webtooni.webtooniverse.domain.review.domain.Reviews;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Webtoon {
 
     @Id
+    @Column(name = "toon_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
@@ -35,13 +36,13 @@ public class Webtoon {
     String realUrl;
 
     @Column
-    Integer toonAge;
+    String toonAge;
 
     @Column
     String toonFlatform;
 
     @Column
-    float toonPointTotalNumber;
+    float toonAvgPoint;
 
     @Column
     int reviewCount;
@@ -49,9 +50,27 @@ public class Webtoon {
     @Column
     boolean finished;
 
-    @OneToMany(mappedBy = "webtoon")
-    List<WebtoonGenre> webtoonGenres;
+    @Column
+    int totalPointCount;
 
-    @OneToMany(mappedBy = "webtoon")
-    List<Reviews> reviews;
+    public Webtoon(String toonTitle) {
+        this.toonTitle = toonTitle;
+    }
+
+    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg,
+                   String toonWeekday, String realUrl, String toonAge, String toonFlatform, float toonAvgPoint,
+                   int reviewCount, boolean finished, int totalPointCount) {
+        this.toonTitle = toonTitle;
+        this.toonAuthor = toonAuthor;
+        this.toonContent = toonContent;
+        this.toonImg = toonImg;
+        this.toonWeekday = toonWeekday;
+        this.realUrl = realUrl;
+        this.toonAge = toonAge;
+        this.toonFlatform = toonFlatform;
+        this.toonAvgPoint = toonAvgPoint;
+        this.reviewCount = reviewCount;
+        this.finished = finished;
+        this.totalPointCount = totalPointCount;
+    }
 }
