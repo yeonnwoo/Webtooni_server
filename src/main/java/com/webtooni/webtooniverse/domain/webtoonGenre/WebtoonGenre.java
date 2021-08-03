@@ -1,8 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoonGenre;
 
-import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

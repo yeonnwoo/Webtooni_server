@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.myList;
+package com.webtooni.webtooniverse.domain.myList;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
@@ -6,9 +6,6 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @RequiredArgsConstructor
 @Transactional

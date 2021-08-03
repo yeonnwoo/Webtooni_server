@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.Genre.domain;
+package com.webtooni.webtooniverse.domain.genre.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

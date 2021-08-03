@@ -4,7 +4,7 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
-import com.webtooni.webtooniverse.domain.reviewLike.ReviewLikeRepository;
+import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -32,7 +32,7 @@ public class ReviewService {
      * 리뷰를 수정한다. (= 등록한다.)
      */
 
-    public void updateReview(Long id, ReviewContentRequestDto reviewDto) {
+    public Long updateReview(Long id, ReviewContentRequestDto reviewDto) {
         //해당 리뷰 찾기
         Review findReview = reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id를 찾을 수 없습니다.")
@@ -40,6 +40,8 @@ public class ReviewService {
 
         //리뷰 내용 변경
         findReview.changeReviewContent(reviewDto);
+
+        return findReview.getId();
     }
 
     /**

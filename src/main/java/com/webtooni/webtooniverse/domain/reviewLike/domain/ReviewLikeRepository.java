@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.reviewLike;
+package com.webtooni.webtooniverse.domain.reviewLike.domain;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;

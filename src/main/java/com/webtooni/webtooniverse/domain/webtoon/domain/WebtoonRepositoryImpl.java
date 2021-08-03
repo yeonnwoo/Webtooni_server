@@ -2,7 +2,6 @@ package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.webtooni.webtooniverse.domain.Genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
 import lombok.RequiredArgsConstructor;
 
