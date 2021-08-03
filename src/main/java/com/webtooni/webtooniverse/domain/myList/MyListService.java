@@ -28,10 +28,7 @@ public class MyListService {
                 () -> new IllegalArgumentException("해당 웹툰은 존재하지 않습니다.")
         );
 
-        MyList myList = new MyList();
-        myList.createMyList(user,webtoon);
-
+        MyList myList = MyList.of(user,webtoon);
         myListRepository.save(myList);
-
     }
 }

@@ -49,6 +49,11 @@ public class Review extends BaseTimeEntity {
         this.user = user;
     }
 
+    public static Review of(float userPointNumber,Webtoon webtoon,User user)
+    {
+        return new Review(userPointNumber,webtoon,user);
+    }
+
     /**
      * 기존에 별점이 존재하는 경우엔 별점을 수정한다.
      */

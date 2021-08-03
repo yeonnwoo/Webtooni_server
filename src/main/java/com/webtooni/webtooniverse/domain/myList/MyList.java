@@ -23,10 +23,15 @@ public class MyList {
     @JoinColumn(name = "toon_id")
     private Webtoon webtoon;
 
-    public void createMyList(User user,Webtoon webtoon)
-    {
-        this.user=user;
-        this.webtoon=webtoon;
+    public MyList(User user, Webtoon webtoon) {
+        this.user = user;
+        this.webtoon = webtoon;
     }
+
+    public static MyList of(User user, Webtoon webtoon)
+    {
+        return new MyList(user,webtoon);
+    }
+
     
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -56,24 +57,11 @@ public class WebtoonService {
 
         List<Genre> genre = webtoonRepository.findWebToonGenre(webtoon);
 
-        List<SimilarGenreToonDto> similarGenreToonDtoList = new ArrayList<>();
-
         //비슷한 장르의 웹툰 찾기
         List<Webtoon> webtoonList = webtoonRepository.findSimilarWebtoonByGenre(genre.get(1).getGenreType(), webtoon);
-        for (Webtoon w : webtoonList) {
-            SimilarGenreToonDto similarGenreToonDto = SimilarGenreToonDto.builder()
-                    .toonAuthor(w.getToonAuthor())
-                    .toonTitle(w.getToonTitle())
-                    .toonImg(w.getToonImg())
-                    .toonAvgPoint(w.getToonAvgPoint())
-                    .toonFlatform(w.getToonFlatform())
-                    .toonWeekday(w.getToonWeekday())
-                    .totalPointCount(w.getTotalPointCount())
-                    .build();
 
-            similarGenreToonDtoList.add(similarGenreToonDto);
-        }
-
-        return similarGenreToonDtoList;
+        return webtoonList.stream()
+                .map(SimilarGenreToonDto::new)
+                .collect(Collectors.toList());
     }
 }

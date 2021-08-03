@@ -20,11 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-
     private final ReviewLikeRepository reviewLikeRepository;
-
     private final WebtoonRepository webtoonRepository;
-
 
     /**
      * 리뷰를 작성하는 기능을 제공하는 구현체입니다.
@@ -42,7 +39,6 @@ public class ReviewService {
 
         //리뷰 내용 변경
         findReview.changeReviewContent(reviewDto);
-
         return findReview.getId();
     }
 
@@ -58,7 +54,6 @@ public class ReviewService {
         );
         findReview.deleteReview();
     }
-
 
     /**
      * 리뷰에 좋아요를 누르는 기능을 제공하는 구현체입니다.
@@ -76,6 +71,7 @@ public class ReviewService {
      * @param id   리뷰 id
      * @param user 사용자 정보
      */
+
     public void clickReviewLike(Long id, User user) {
         //해당 게시물 조회
         Review findReview = reviewRepository.findById(id).orElseThrow(
@@ -90,13 +86,9 @@ public class ReviewService {
             findReview.plusLikeCount();
 
             //ReviewLike에 해당 유저와 리뷰 추가
-            ReviewLike newReviewLike = ReviewLike.builder()
-                    .review(findReview)
-                    .user(user)
-                    .reviewStatus(ReviewLikeStatus.LIKE)
-                    .build();
-
+            ReviewLike newReviewLike = ReviewLike.of(user, findReview);
             reviewLikeRepository.save(newReviewLike);
+
         } else if (reviewLike.getReviewStatus() == ReviewLikeStatus.CANCLE) {
             //전체 카운트 +1
             findReview.plusLikeCount();
@@ -138,9 +130,8 @@ public class ReviewService {
 
         //존재하지 않음
         if (findReview == null) {
-            Review review = Review.builder()
-                    .userPointNumber(reviewStarDto.getUserPointNumber())
-                    .build();
+
+            Review review = Review.of(reviewStarDto.getUserPointNumber(),findWebtoon,user);
 
             //총 별점 개수 늘려주기
             findWebtoon.changeToonPointTotalNumber();

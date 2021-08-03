@@ -35,7 +35,11 @@ public class ReviewLike {
         this.reviewStatus = reviewStatus;
     }
 
-    //좋아요 상태로 변경
+    public static ReviewLike of(User user, Review review)
+    {
+        return new ReviewLike(user,review,ReviewLikeStatus.LIKE);
+    }
+
     public void changeStatusLike() {
         this.reviewStatus= ReviewLikeStatus.LIKE;
     }

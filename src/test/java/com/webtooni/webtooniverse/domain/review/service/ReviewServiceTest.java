@@ -22,7 +22,6 @@ import javax.persistence.PersistenceContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Rollback(value = false)
 @Transactional
 @SpringBootTest
 class ReviewServiceTest {
@@ -41,7 +40,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰 수정 테스트")
     @Test
-    public void updateReview() throws Exception {
+    public void updateReview() {
 
         //리뷰 생성
         Review review1 = createReview("리뷰 내용1", 4.5F, 13);
@@ -85,7 +84,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰를 삭제한다.")
     @Test
-    public void deleteReview() throws Exception {
+    public void deleteReview(){
         //given
         //리뷰 생성
         Review review1 = createReview("리뷰 내용1", 4.5F, 13);
@@ -109,7 +108,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰에 좋아요를 누르기 테스트_처음 누르는 사용자")
     @Test
-    public void clickReviewLike() throws Exception{
+    public void clickReviewLike(){
 
         //given
 
@@ -149,7 +148,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰에 좋아요를 누르기 테스트(좋아요->취소)")
     @Test
-    public void clickReviewLike2() throws Exception{
+    public void clickReviewLike2() {
 
         //given
 
@@ -186,7 +185,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰에 좋아요를 누르기 테스트(취소->좋아요)")
     @Test
-    public void clickReviewLike3() throws Exception{
+    public void clickReviewLike3(){
 
         //given
 
@@ -225,7 +224,7 @@ class ReviewServiceTest {
      */
     @DisplayName("좋아요 처음 누르는 사용자의 경우")
     @Test
-    public void clickWebtoonStar1() throws Exception{
+    public void clickWebtoonStar1(){
         //given
         //임시 유저
         User user = User.builder()
