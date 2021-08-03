@@ -15,9 +15,7 @@ public class MyListController {
     @PostMapping("/api/v1/user/subscribe")
     public void createMyList(@RequestBody Long webtoonId)
     {
-        /**
-         * 로그인된 유저 정보로 변경 되어야함
-         */
+        //로그인된 유저 정보로 변경되어야함
         User user=User.builder()
                 .userImg(1)
                 .build();

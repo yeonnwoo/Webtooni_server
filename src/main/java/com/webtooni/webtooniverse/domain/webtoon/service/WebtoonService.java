@@ -21,12 +21,12 @@ public class WebtoonService {
     private final WebtoonRepository webtoonRepository;
 
     /**
-     * 웹툰 상세 페이지 - 웹툰 기본정보, 리뷰 List
-     * @param - 해당 웹툰 id
-     * @return - WebtoonDetailDto
+     * 웹툰의 기본정보들과 리뷰 리스트를 재공하는 구현체입니다.
+     *
+     * @param id 웹툰 id
+     * @return WebtoonDetailDto
      */
-    public WebtoonDetailDto getDetailAndReviewList(Long id)
-    {
+    public WebtoonDetailDto getDetailAndReviewList(Long id) {
         //해당 웹툰 정보 찾기
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id는 존재하지 않습니다.")
@@ -38,11 +38,14 @@ public class WebtoonService {
         //해당 웹툰의 리뷰 찾기
         List<Review> reviewList = webtoonRepository.findReviewByWebToonId(id);
 
-        return new WebtoonDetailDto(webtoon,WebToonGenre,reviewList);
-
+        return new WebtoonDetailDto(webtoon, WebToonGenre, reviewList);
     }
+
     /**
-     * 비슷한 웹툰 장르 추천
+     * 비슷한 장르의 웹툰을 추천하는 기능을 제공하는 구현체입니다.
+     *
+     * @param id 웹툰 id
+     * @return List<SimilarGenreToonDto> 웹툰 리스트
      */
     public List<SimilarGenreToonDto> getSimilarGenre(Long id) {
 
@@ -56,7 +59,7 @@ public class WebtoonService {
         List<SimilarGenreToonDto> similarGenreToonDtoList = new ArrayList<>();
 
         //비슷한 장르의 웹툰 찾기
-        List<Webtoon> webtoonList = webtoonRepository.findSimilarWebtoonByGenre(genre.get(1).getGenreType(),webtoon);
+        List<Webtoon> webtoonList = webtoonRepository.findSimilarWebtoonByGenre(genre.get(1).getGenreType(), webtoon);
         for (Webtoon w : webtoonList) {
             SimilarGenreToonDto similarGenreToonDto = SimilarGenreToonDto.builder()
                     .toonAuthor(w.getToonAuthor())
@@ -72,7 +75,5 @@ public class WebtoonService {
         }
 
         return similarGenreToonDtoList;
-
     }
-
 }

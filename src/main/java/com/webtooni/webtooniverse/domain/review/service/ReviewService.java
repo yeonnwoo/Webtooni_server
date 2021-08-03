@@ -25,11 +25,13 @@ public class ReviewService {
 
     private final WebtoonRepository webtoonRepository;
 
+
     /**
-     * @param - 리뷰 id
-     * @param - 리뷰 내용
-     * @return - 리뷰 id
-     * 리뷰를 수정한다. (= 등록한다.)
+     * 리뷰를 작성하는 기능을 제공하는 구현체입니다.
+     *
+     * @param id        리뷰 id
+     * @param reviewDto 리뷰의 내용이 담긴 Dto
+     * @return 리뷰 id
      */
 
     public Long updateReview(Long id, ReviewContentRequestDto reviewDto) {
@@ -45,8 +47,9 @@ public class ReviewService {
     }
 
     /**
-     * @param - 리뷰 id
-     * 리뷰를 삭제한다.
+     * 리뷰를 삭제하는 기능을 제공하는 구현체입니다.
+     *
+     * @param id 리뷰의 id
      */
     public void deleteReview(Long id) {
         //해당 리뷰 찾기
@@ -56,33 +59,33 @@ public class ReviewService {
         findReview.deleteReview();
     }
 
+
     /**
-     * 리뷰에 좋아요를 누른다.
-     * @param - 리뷰 id
+     * 리뷰에 좋아요를 누르는 기능을 제공하는 구현체입니다.
+     * <p>
+     * 1.한번도 좋아요를 누르지 않은 유저의 경우
+     * 1-1.전체 좋아요 +1
+     * 1-2. ReviewLike에 사용자와 리뷰 정보를 추가한다.
+     * <p>
+     * 2.현재 유저가 좋아요를 누른 상태 ( 좋아요 -> 취소 )
+     * 2-1. reviewStatus를 Like로 변경한다.
+     * <p>
+     * 3.현재 좋아요를 누르지 않은 상태 ( 취소 -> 좋아요 )
+     * 3-1. reviewStatus를 CANCLE로 변경한다.
      *
-     * 1.현재 좋아요를 누른 상태면 리뷰의 likeCount -=1
-     * 2.현재 좋아요를 누르지 않은 상태면 리뷰의 likeCount +=1
-     * 2-1. ReviewLike에 해당 user가 존재하지 않거나 ReviewStatus가 0인 경우
-     * 3. 좋아요를 취소하는 경우
+     * @param id   리뷰 id
+     * @param user 사용자 정보
      */
-    public void clickReviewLike(Long id,User user) {
+    public void clickReviewLike(Long id, User user) {
         //해당 게시물 조회
         Review findReview = reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id가 존재하지 않습니다.")
         );
 
-        /**
-         * 현재 로그인된 사용자(user)가 좋아요 누른 상태인지 확인
-         */
         ReviewLike reviewLike = reviewLikeRepository.findReviewLikeByReviewAndUser(findReview, user);
 
-        /**
-         * 1.해당 웹툰에 대해 유저가 좋아요를 누른적이 없는 경우
-         * 1-1.전체 좋아요를 하나 늘린다.
-         * 1-2. ReviewLike에 사용자와 리뷰 정보를 추가한다.
-         */
-        if(reviewLike.getReviewStatus()== null)
-        {
+
+        if (reviewLike.getReviewStatus() == null) {
             //전체 카운트 +1
             findReview.plusLikeCount();
 
@@ -94,40 +97,35 @@ public class ReviewService {
                     .build();
 
             reviewLikeRepository.save(newReviewLike);
-        }
-
-
-        /**
-         * 2.취소->좋아요인 경우
-         * 2-1. reviewStatus를 Like로 변경한다.
-          */
-
-        else if(reviewLike.getReviewStatus() == ReviewLikeStatus.CANCLE)
-        {
+        } else if (reviewLike.getReviewStatus() == ReviewLikeStatus.CANCLE) {
             //전체 카운트 +1
             findReview.plusLikeCount();
 
             //좋아요 상태로 변경
             reviewLike.changeStatusLike();
-        }
-
-        /**
-         * 3.좋아요 -> 취소인 경우
-         * 3-1. reviewStatus를 CANCLE로 변경한다.
-         */
-        else if(reviewLike.getReviewStatus() == ReviewLikeStatus.LIKE)
-        {
+        } else if (reviewLike.getReviewStatus() == ReviewLikeStatus.LIKE) {
             //전체 카운트 -1
             findReview.minusLikeCount();
 
             //취소 상태로 변경
             reviewLike.changeStatusCancel();
-
         }
     }
 
     /**
-     * 웹툰에 별점을 준다. = 수정하는 것과 동일
+     * 특정 웹툰에 별점을 주는 기능을 제공하는 구현체입니다.
+     * <p>
+     * 1. 유저가 해당 웹툰에 별점을 준적이 없는 경우
+     * 1-1. review 생성
+     * 1-2. webtoon의 별점 개수 +1
+     * 1-3. webtoon의 평균 별점 변경
+     * <p>
+     * 2. 유저가 해당 웹툰에 별점을 준 적이 있는 경우
+     * 2-1. webtoon의 평균 별점 변경
+     * 2-2. review의 유저 별점 점수 변경
+     *
+     * @param reviewStarDto 웹툰 id, 별점 점수가 담긴 Dto
+     * @param user          유저 정보
      */
     public void clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
 
@@ -136,24 +134,10 @@ public class ReviewService {
                 () -> new IllegalArgumentException("해당 웹툰이 존재하지 않습니다")
         );
 
-        /**
-         * 1. 유저가 해당 웹툰에 별점을 준적이 있는지 체크한다.
-         *  - 해당 유저의 FK와 해당 웹툰 FK를 가진 리뷰의 존재 유무를 확인한다.
-         *
-         * 2. 존재하지 않는다면 (별점을 누른적이 없다면)
-         *  2-1. review 생성
-         *  2-2. webtoon의 별점 개수 +1
-         *  2-3. webtoon의 평균 별점 변경
-         *
-         * 3. 이미 존재한다면 (별점을 누른적이 있다면)
-         *  3-1. webtoon의 평균 별점 변경
-         *  3-2. review의 유저 별점 점수 변경
-         *  */
         Review findReview = reviewRepository.checkUserPointIsExist(findWebtoon, user);
 
         //존재하지 않음
-        if(findReview==null)
-        {
+        if (findReview == null) {
             Review review = Review.builder()
                     .userPointNumber(reviewStarDto.getUserPointNumber())
                     .build();
@@ -165,17 +149,15 @@ public class ReviewService {
             findWebtoon.changeToonAvgPoint(reviewStarDto.getUserPointNumber());
 
             //웹툰,유저 정보 넣기
-            review.insertWebToonAndUser(findWebtoon,user);
+            review.insertWebToonAndUser(findWebtoon, user);
 
             reviewRepository.save(review);
-
         }
 
         //이미 존재함
-        else
-        {
+        else {
             //유저의 변경전 별점 점수
-            float originalUserPoint =findReview.getUserPointNumber();
+            float originalUserPoint = findReview.getUserPointNumber();
 
             //웹툰 평균 별점 점수 변경(원래 점수, 변경될 점수)
             findWebtoon.updateToonAvgPoint(originalUserPoint, reviewStarDto.getUserPointNumber());

@@ -16,6 +16,12 @@ public class MyListService {
 
     private final WebtoonRepository webtoonRepository;
 
+    /**
+     * 유저의 리스트에 추가하는 기능을 제공하는 구현체입니다.
+     *
+     * @param user 유저
+     * @param webtoonId 웹툰의 id
+     */
     public void createMyList(User user, Long webtoonId)
     {
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(
