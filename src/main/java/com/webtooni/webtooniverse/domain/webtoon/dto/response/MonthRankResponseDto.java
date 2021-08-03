@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
-import lombok.Setter;
+
 
 @Getter
 public class MonthRankResponseDto {
@@ -15,9 +15,9 @@ public class MonthRankResponseDto {
 
     public MonthRankResponseDto(Webtoon webtoon) {
         this.id = webtoon.getId();
-        this.toonImg = webtoon.getToon_img();
-        this.toonTitle = webtoon.getToon_title();
-        this.toonAuthor = webtoon.getToon_author();
-        this.toonAvgPoint = webtoon.getToon_avg_point();
+        this.toonImg = webtoon.getToonImg();
+        this.toonTitle = webtoon.getToonTitle();
+        this.toonAuthor = webtoon.getToonAuthor();
+        this.toonAvgPoint = webtoon.getToonAvgPoint();
     }
 }

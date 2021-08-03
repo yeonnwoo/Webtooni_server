@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,35 +12,52 @@ import java.util.List;
 @Getter
 public class Webtoon {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "toon_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "toonId")
     private Long id;
 
-    private String toon_author;
+    private String toonTitle;
 
-    private String toon_title;
+    private String toonAuthor;
 
-    private String toon_content;
+    private String toonContent;
 
-    private String toon_img;
+    private String toonImg;
 
-    private String toon_weekday;
+    private String toonWeekday;
 
-    private float toon_avg_point;
+    private String realUrl;
 
-    private String real_url;
+    private String toonAge;
 
-    private String toon_age;
+    private String toonFlatform;
 
-    private String toon_flatform;
+    private float toonAvgPoint;
 
-    private int total_point_count;
+    private int totalPointCount;
 
-    private int review_count;
+    private int reviewCount;
 
-    private int finished;
+    private boolean finished;
 
+    @Builder
+    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
+                   String realUrl, String toonAge, String toonFlatform, float toonAvgPoint, int totalPointCount,
+                   int reviewCount, boolean finished) {
+        this.toonTitle = toonTitle;
+        this.toonAuthor = toonAuthor;
+        this.toonContent = toonContent;
+        this.toonImg = toonImg;
+        this.toonWeekday = toonWeekday;
+        this.realUrl = realUrl;
+        this.toonAge = toonAge;
+        this.toonFlatform = toonFlatform;
+        this.toonAvgPoint = toonAvgPoint;
+        this.totalPointCount = totalPointCount;
+        this.reviewCount = reviewCount;
+        this.finished = finished;
+    }
 
 
 

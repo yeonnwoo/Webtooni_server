@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.review.domain;
+package com.webtooni.webtooniverse.global.utils;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,7 +17,5 @@ public abstract class TimeStamped {
     @CreatedDate
     private LocalDateTime createDate;
 
-    @LastModifiedDate
-    private LocalDateTime modifiyDate;
 
 }
