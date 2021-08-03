@@ -81,7 +81,7 @@ public class ReviewService {
         ReviewLike reviewLike = reviewLikeRepository.findReviewLikeByReviewAndUser(findReview, user);
 
 
-        if (reviewLike.getReviewStatus() == null) {
+        if (reviewLike == null) {
             //전체 카운트 +1
             findReview.plusLikeCount();
 
@@ -134,7 +134,7 @@ public class ReviewService {
             Review review = Review.of(reviewStarDto.getUserPointNumber(),findWebtoon,user);
 
             //총 별점 개수 늘려주기
-            findWebtoon.changeToonPointTotalNumber();
+            findWebtoon.changeToonPointTotalCount();
 
             //별점 평균 점수 변경
             findWebtoon.changeToonAvgPoint(reviewStarDto.getUserPointNumber());

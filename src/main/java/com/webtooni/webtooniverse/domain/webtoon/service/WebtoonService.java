@@ -35,11 +35,14 @@ public class WebtoonService {
 
         //해당 웹툰의 장르 찾기
         List<Genre> WebToonGenre = webtoonRepository.findWebToonGenre(webtoon);
+        List<String> genreList = new ArrayList<>();
+        genreList.add(WebToonGenre.get(0).getGenreType());
+        genreList.add(WebToonGenre.get(1).getGenreType());
 
         //해당 웹툰의 리뷰 찾기
         List<Review> reviewList = webtoonRepository.findReviewByWebToonId(id);
 
-        return new WebtoonDetailDto(webtoon, WebToonGenre, reviewList);
+        return new WebtoonDetailDto(webtoon, genreList, reviewList);
     }
 
     /**

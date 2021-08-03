@@ -68,33 +68,37 @@ public class Webtoon {
 
     /**
      * case : 별점을 처음 다는 유저
+     *
      * 별점을 달았을 때 총 별점 개수를 늘려준다.
      */
-    public void changeToonPointTotalNumber() {
+    public void changeToonPointTotalCount() {
         this.totalPointCount += 1;
     }
 
     /**
      * case : 별점을 처음 다는 유저
+     *
      * 평균 별점 점수 계산
      */
     public void changeToonAvgPoint(float userPoint) {
         float totalPoint = this.toonAvgPoint * (this.totalPointCount - 1) + userPoint;
 
-        this.toonAvgPoint= (float) (Math.round(totalPoint/this.totalPointCount*100)/100.0);
+//        this.toonAvgPoint= (float) (Math.round(totalPoint/this.totalPointCount*100)/100.0);
+        this.toonAvgPoint= Float.parseFloat(String.format("%.1f",totalPoint/this.totalPointCount)) ;
 
     }
 
     /**
      * case : 별점 수정하려는 유저
+     *
      * - 별점 개수 변화 X
      * - 평균 별점 점수 변경
      */
     public void updateToonAvgPoint(float originalUserPoint,float userPoint)
     {
         float totalPoint = this.toonAvgPoint *(this.totalPointCount) - originalUserPoint +userPoint;
-        this.toonAvgPoint =(float) (Math.round(totalPoint/this.totalPointCount*100)/100.0);
-    }
+        this.toonAvgPoint= Float.parseFloat(String.format("%.1f",totalPoint/this.totalPointCount)) ;
 
+    }
 
 }

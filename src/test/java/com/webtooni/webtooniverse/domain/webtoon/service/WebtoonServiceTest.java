@@ -35,7 +35,7 @@ class WebtoonServiceTest {
 
     @DisplayName("웹툰 1개 정보,리뷰 리스트 불러오기 테스트")
     @Test
-    public void 웹툰정보와_리뷰리스트를_보내준다() throws Exception{
+    public void webtoonDetailAndReviewList(){
 
         //given
 
@@ -95,8 +95,8 @@ class WebtoonServiceTest {
 
         //웹툰 장르정보
         assertThat(webtoonDetailDto.getToonGenre().size()).isEqualTo(2);
-        assertThat(webtoonDetailDto.getToonGenre().get(0).getGenreType()).isEqualTo("일상");
-        assertThat(webtoonDetailDto.getToonGenre().get(1).getGenreType()).isEqualTo("개그");
+        assertThat(webtoonDetailDto.getToonGenre().get(0)).isEqualTo("일상");
+        assertThat(webtoonDetailDto.getToonGenre().get(1)).isEqualTo("개그");
 
         //리뷰리스트 정보
         assertThat(webtoonDetailDto.getReviews().size()).isEqualTo(2);
@@ -111,46 +111,9 @@ class WebtoonServiceTest {
 
     }
 
-    /**
-     * 데이터를 임의로 생성한다.
-     */
-
-    //리뷰 생성
-    private Review createReview(String reviewContent, float userPointNumber, int likeCount) {
-        return Review.builder()
-                .reviewContent(reviewContent)
-                .userPointNumber(userPointNumber)
-                .likeCount(likeCount)
-                .build();
-    }
-
-    //웹툰 생성
-    private Webtoon createWebtoon(String title, String author, String content) {
-        return Webtoon.builder()
-                .toonTitle(title)
-                .toonAuthor(author)
-                .toonContent(content)
-                .build();
-    }
-
-    //장르 생성
-    private Genre createGenre(String type) {
-        return Genre.builder()
-                .genreType(type)
-                .build();
-    }
-
-    //웹툰 장르 연관관계 설정
-    private WebtoonGenre createWebToonGenre(Webtoon webtoon, Genre genre) {
-        return WebtoonGenre.builder()
-                .webtoon(webtoon)
-                .genre(genre)
-                .build();
-    }
-
     @DisplayName("비슷한 장르의 웹툰을 랜덤으로 추천 테스트")
     @Test
-    public void test() throws Exception{
+    public void test(){
         //given
         //웹툰
         Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
@@ -208,6 +171,43 @@ class WebtoonServiceTest {
             System.out.println("toonDto.getToonTitle() = " + toonDto.getToonTitle());
         }
 
+    }
+
+    /**
+     * 데이터를 임의로 생성한다.
+     */
+
+    //리뷰 생성
+    private Review createReview(String reviewContent, float userPointNumber, int likeCount) {
+        return Review.builder()
+                .reviewContent(reviewContent)
+                .userPointNumber(userPointNumber)
+                .likeCount(likeCount)
+                .build();
+    }
+
+    //웹툰 생성
+    private Webtoon createWebtoon(String title, String author, String content) {
+        return Webtoon.builder()
+                .toonTitle(title)
+                .toonAuthor(author)
+                .toonContent(content)
+                .build();
+    }
+
+    //장르 생성
+    private Genre createGenre(String type) {
+        return Genre.builder()
+                .genreType(type)
+                .build();
+    }
+
+    //웹툰 장르 연관관계 설정
+    private WebtoonGenre createWebToonGenre(Webtoon webtoon, Genre genre) {
+        return WebtoonGenre.builder()
+                .webtoon(webtoon)
+                .genre(genre)
+                .build();
     }
 
 }

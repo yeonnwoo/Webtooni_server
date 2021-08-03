@@ -17,7 +17,7 @@ public class WebtoonDetailDto {
     private String toonTitle;
     private String toonAuthor;
 
-    private List<Genre> toonGenre= new ArrayList<>();
+    private List<String> toonGenre= new ArrayList<>();
 
     private String toonAge;
 
@@ -40,7 +40,7 @@ public class WebtoonDetailDto {
     //전체 리뷰
     private List<Review> reviews = new ArrayList<>();
 
-    public WebtoonDetailDto(Webtoon webtoon,List<Genre> genreList,List<Review> reviewList)
+    public WebtoonDetailDto(Webtoon webtoon,List<String> genreList,List<Review> reviewList)
     {
 
         this.toonImg=webtoon.getToonImg();

@@ -4,8 +4,8 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
-import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
+import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -47,7 +46,7 @@ class ReviewServiceTest {
         Review review2 = createReview("리뷰 내용2", 4.3F, 15);
 
         //웹툰
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",3.5F,20);
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1", 3.5F, 20);
         em.persist(w1);
         em.flush();
 
@@ -84,7 +83,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰를 삭제한다.")
     @Test
-    public void deleteReview(){
+    public void deleteReview() {
         //given
         //리뷰 생성
         Review review1 = createReview("리뷰 내용1", 4.5F, 13);
@@ -108,7 +107,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰에 좋아요를 누르기 테스트_처음 누르는 사용자")
     @Test
-    public void clickReviewLike(){
+    public void clickReviewLike() {
 
         //given
 
@@ -138,11 +137,11 @@ class ReviewServiceTest {
         em.flush();
 
         //when
-        reviewService.clickReviewLike(review1.getId(),user);
+        reviewService.clickReviewLike(review1.getId(), user);
 
         //then
         assertThat(review1.getLikeCount()).isEqualTo(1);
-        assertThat(reviewLikeRepository.findReviewLikeByReviewAndUser(review1,user).getReviewStatus()).isEqualTo(ReviewLikeStatus.LIKE);
+        assertThat(reviewLikeRepository.findReviewLikeByReviewAndUser(review1, user).getReviewStatus()).isEqualTo(ReviewLikeStatus.LIKE);
 
     }
 
@@ -177,7 +176,7 @@ class ReviewServiceTest {
 
         em.flush();
 
-        reviewService.clickReviewLike(review1.getId(),user);
+        reviewService.clickReviewLike(review1.getId(), user);
 
         assertThat(reviewLike.getReviewStatus()).isEqualTo(ReviewLikeStatus.CANCLE);
 
@@ -185,7 +184,7 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰에 좋아요를 누르기 테스트(취소->좋아요)")
     @Test
-    public void clickReviewLike3(){
+    public void clickReviewLike3() {
 
         //given
 
@@ -213,18 +212,18 @@ class ReviewServiceTest {
         em.persist(reviewLike);
         em.flush();
 
-        reviewService.clickReviewLike(review1.getId(),user);
+        reviewService.clickReviewLike(review1.getId(), user);
 
         assertThat(reviewLike.getReviewStatus()).isEqualTo(ReviewLikeStatus.LIKE);
 
     }
 
     /**
-     * 웹툰에 좋아요 누르기 테스트
+     * 웹툰에 별점 주기 테스트
      */
-    @DisplayName("좋아요 처음 누르는 사용자의 경우")
+    @DisplayName("웹툰에 별점 주기 테스트")
     @Test
-    public void clickWebtoonStar1(){
+    public void clickWebtoonStar1() {
         //given
         //임시 유저
         User user = User.builder()
@@ -238,27 +237,28 @@ class ReviewServiceTest {
         em.flush();
 
         //웹툰 생성
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",3.5F,25);
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1", 3.5F, 25);
         em.persist(w1);
         em.flush();
 
         //별점 정보
-        WebtoonPointRequestDto webtoonPointRequestDto= new WebtoonPointRequestDto(w1.getId(),3.0F);
+        WebtoonPointRequestDto webtoonPointRequestDto = new WebtoonPointRequestDto(w1.getId(), 1.0F);
 
         //when
-        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto,user);
+        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto, user);
+
 
         //then
-        assertThat(w1.getToonAvgPoint()).isEqualTo(3.48F);
+        assertThat(w1.getToonAvgPoint()).isEqualTo(3.4F);
         assertThat(w1.getTotalPointCount()).isEqualTo(26);
 
         //when2 - 별점 수정하려는 사용자
         //별점 정보2
-        WebtoonPointRequestDto webtoonPointRequestDto2= new WebtoonPointRequestDto(w1.getId(),2.0F);
+        WebtoonPointRequestDto webtoonPointRequestDto2 = new WebtoonPointRequestDto(w1.getId(), 2.0F);
 
-        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto2,user);
+        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto2, user);
 
-        assertThat(w1.getToonAvgPoint()).isEqualTo(3.44F);
+        assertThat(w1.getToonAvgPoint()).isEqualTo(3.5F);
         assertThat(w1.getTotalPointCount()).isEqualTo(26);
 
     }
@@ -272,7 +272,7 @@ class ReviewServiceTest {
                 .build();
     }
 
-    private Webtoon createWebtoon(String title, String author, String content,float toonAvgPoint,int totalPointCount) {
+    private Webtoon createWebtoon(String title, String author, String content, float toonAvgPoint, int totalPointCount) {
         return Webtoon.builder()
                 .toonTitle(title)
                 .toonAuthor(author)
