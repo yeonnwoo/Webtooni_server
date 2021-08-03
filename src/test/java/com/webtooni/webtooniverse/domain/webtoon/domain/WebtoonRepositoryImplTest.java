@@ -93,4 +93,16 @@ class WebtoonRepositoryImplTest {
         webtoonGenreRepository.save(webtoonGenre6);
     }
 
+
+    @Test
+    void 금주의_웹툰평론가_추천() {
+        //given
+        //when
+        List<Webtoon> bestReviewerWebtoon = webtoonRepository.findBestReviewerWebtoon(this.startDate(),LocalDateTime.now());
+        //then
+        for (Webtoon webtoon : bestReviewerWebtoon) {
+            System.out.println("webtoon.getToonTitle() = " + webtoon.getToonTitle());
+        }
+        assertThat(bestReviewerWebtoon.size()).isEqualTo(2);
+    }
 }
