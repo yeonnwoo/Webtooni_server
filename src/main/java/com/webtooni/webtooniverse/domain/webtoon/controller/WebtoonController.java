@@ -27,6 +27,12 @@ public class WebtoonController {
         return webtoonService.getMonthNaverRank();
     }
 
+    //카카오 웹툰 Top10
+    @GetMapping("api/v1/rank/kakao")
+    public List<PlatformRankResponseDto> getMonthKakaoRanks(){
+        return webtoonService.getMonthKakaoRank();
+    }
+
 
 
 

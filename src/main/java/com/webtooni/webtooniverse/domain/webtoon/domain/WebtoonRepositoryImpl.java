@@ -1,7 +1,9 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -25,6 +27,15 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom{
     public List<Webtoon> getNaverRank(){
         return jpaQueryFactory.selectFrom(webtoon)
                 .where(webtoon.toonPlatform.eq("네이버"))
+                .orderBy(webtoon.toonAvgPoint.desc())
+                .limit(10)
+                .fetch();
+    }
+
+    //카카오 웹툰 Top10
+    public List<Webtoon> getKakaoRank(){
+        return jpaQueryFactory.selectFrom(webtoon)
+                .where(webtoon.toonPlatform.eq("카카오"))
                 .orderBy(webtoon.toonAvgPoint.desc())
                 .limit(10)
                 .fetch();

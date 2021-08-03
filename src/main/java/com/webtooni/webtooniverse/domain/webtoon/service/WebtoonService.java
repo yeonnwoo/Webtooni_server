@@ -36,5 +36,14 @@ public class WebtoonService {
                 .collect(Collectors.toList());
     }
 
+    //웹투니버스 카카오 웹툰 Top10
+    public List<PlatformRankResponseDto> getMonthKakaoRank(){
+        List<Webtoon> monthKakaoRank = webtoonRepository.getKakaoRank();
+        return monthKakaoRank
+                .stream()
+                .map(PlatformRankResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 
 }

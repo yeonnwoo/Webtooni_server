@@ -6,4 +6,5 @@ public interface WebtoonRepositoryCustom {
 
     List<Webtoon> getTotalRank();
     List<Webtoon> getNaverRank();
+    List<Webtoon> getKakaoRank();
 }
