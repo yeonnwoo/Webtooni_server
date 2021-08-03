@@ -39,5 +39,22 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
     }
 
-  
+    //유저 취향 웹툰 추천
+    @Override
+    public List<Webtoon> findUserGenreWebtoon(User user){
+        List<Genre> genres = jpaQueryFactory.select(userGenre.genre)
+                .from(userGenre)
+                .where(userGenre.user.eq(user))
+                .fetch();
+
+        return jpaQueryFactory.select(webtoonGenre.webtoon)
+                .from(webtoonGenre)
+                .where(webtoonGenre.genre.in(genres))
+//                .orderBy(NumberExpression.random().asc())
+                .limit(30)
+                .fetch();
+    }
+
+    
+
 }
