@@ -19,7 +19,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
-@Rollback(value = false)
 @SpringBootTest
 class WebtoonRepositoryTest {
 
