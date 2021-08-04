@@ -1,7 +1,11 @@
 package com.webtooni.webtooniverse.domain.user.service;
 
+import com.webtooni.webtooniverse.domain.genre.Genre;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
+import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
@@ -14,7 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -24,6 +29,7 @@ public class UserService {
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
     private final KakaoOAuth2 kakaoOAuth2;
+    private final UserGenreRepository userGenreRepository;
 
 //    @Autowired
 //    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
@@ -33,11 +39,12 @@ public class UserService {
 //    }
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager, UserGenreRepository userGenreRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.kakaoOAuth2 = kakaoOAuth2;
         this.authenticationManager = authenticationManager;
+        this.userGenreRepository = userGenreRepository;
     }
 
     public void kakaoLogin(String authorizedCode) {
@@ -71,6 +78,18 @@ public class UserService {
                 ()-> new NullPointerException("해당 회원이 존재하지 않습니다.")
         );
         user.update(requestDto);
+    }
+
+    @Transactional
+    public List<UserGenre> pickGenre(User user, UserGenreRequestDto requestDto){
+        List<UserGenre> userGenres = new ArrayList<>();
+        List<Genre> genres = requestDto.getGenres();
+        for (Genre genre : genres){
+        UserGenre userGenre = new UserGenre(user, genre);
+        userGenreRepository.save(userGenre);
+        userGenres.add(userGenre);
+        }
+        return userGenres;
     }
 }
 //    private String getEncodedPassword(String password) {
