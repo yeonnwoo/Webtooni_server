@@ -13,18 +13,21 @@ public class TalkLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "talk_board_like_id")
     private Long id;
 
-    @Column(nullable = false)
-    private Long talkPostId;
+    @ManyToOne
+    @JoinColumn(name = "talk_post_id")
+    private TalkPost talkPost;
 
-    @Column(nullable = false)
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
 
 
-    public TalkLike(Long talkPostId, Long userId){
-        this.talkPostId = talkPostId;
-        this.userId = userId;
+    public TalkLike(TalkPost talkPost, User user){
+        this.talkPost = talkPost;
+        this.user = user;
     }
 
 }

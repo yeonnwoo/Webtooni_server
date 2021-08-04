@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
-    List<Webtoon> findByReviewCountLessThanEqual(int number);
+    List<Webtoon> findAllByOrderByReviewCountAsc();
 //    List<Webtoon> findByReviewCountBetween(3, 1);
 }

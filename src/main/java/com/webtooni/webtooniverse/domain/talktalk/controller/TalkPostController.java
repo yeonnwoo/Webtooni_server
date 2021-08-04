@@ -43,6 +43,7 @@ public class TalkPostController {
         talkPostService.updatePost(id, requestDto);
         return id;
     }
+
     @DeleteMapping("/api/v1/talk/{id}")
     public void delete(@PathVariable Long id){
         talkPostRepository.deleteById(id);
