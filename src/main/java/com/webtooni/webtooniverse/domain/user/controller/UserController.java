@@ -17,6 +17,6 @@ public class UserController {
     //베스트 리뷰어(등급높은순)
     @GetMapping("/api/v1/rank/reviewers")
     public List<BestReviewerResponseDto> getBestReviewers(){
-        return userService.getBestReviewer();
+        return userService.getBestReviewerRank();
     }
 }
