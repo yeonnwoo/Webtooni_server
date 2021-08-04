@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.user.service;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
-import com.webtooni.webtooniverse.domain.user.dto.SignupRequestDto;
+import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +64,13 @@ public class UserService {
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+    @Transactional
+    public void updateInfo(Long id, UserInfoRequestDto requestDto){
+        User user = userRepository.findById(id).orElseThrow(
+                ()-> new NullPointerException("해당 회원이 존재하지 않습니다.")
+        );
+        user.update(requestDto);
     }
 }
 //    private String getEncodedPassword(String password) {

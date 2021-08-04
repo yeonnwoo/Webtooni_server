@@ -1,17 +1,11 @@
 package com.webtooni.webtooniverse.domain.user.controller;
 
-import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
-import com.webtooni.webtooniverse.domain.user.dto.LoginRequestDto;
-import com.webtooni.webtooniverse.domain.user.dto.SignupRequestDto;
-import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
+
+import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -38,11 +32,16 @@ public class UserController {
 //        return jwtTokenProvider.createToken(user.getUserName(), user.getUserImg(), user.getUserGrade());
 //    }
 
-    @GetMapping("/user/kakao/callback")
+    @GetMapping("/api/v1/user/kakao/callback")
     public String kakaoLogin(String code) {
-        // authorizedCode: 	10806a154c5d286f629e2f3ae0b3f8a6
+        // authorizedCode:
         userService.kakaoLogin(code);
 
         return "redirect:/";
+    }
+
+    @PutMapping("/api/v1/user/info/{id}")
+    public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto){
+        userService.updateInfo(id, requestDto);
     }
 }
