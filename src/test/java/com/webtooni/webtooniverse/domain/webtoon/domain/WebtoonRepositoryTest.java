@@ -31,7 +31,7 @@ class WebtoonRepositoryTest {
 
     @Test
     @DisplayName("웹툰의 장르가 잘 찾아와지는지 테스트")
-    public void 웹툰의_장르_리스트() throws Exception {
+    public void getWebtoonGenreList() {
         //given
 
         //장르 저장
@@ -77,7 +77,7 @@ class WebtoonRepositoryTest {
 
     @Test
     @DisplayName("웹툰의 Review 가져오기")
-    public void 웹툰_리뷰_리스트_가져오기() throws Exception {
+    public void getWebtoonReviewList() {
 
         //given
         //리뷰

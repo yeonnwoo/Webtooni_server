@@ -10,11 +10,10 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "GENRE")
 public class Genre {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "genreId")
+    @Column(name = "genre_id")
     private Long id;
 
     private String genreType;

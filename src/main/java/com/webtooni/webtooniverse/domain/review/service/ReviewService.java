@@ -66,7 +66,7 @@ public class ReviewService {
      * 2-1. reviewStatus를 Like로 변경한다.
      * <p>
      * 3.현재 좋아요를 누르지 않은 상태 ( 취소 -> 좋아요 )
-     * 3-1. reviewStatus를 CANCLE로 변경한다.
+     * 3-1. reviewStatus를 CANCEL로 변경한다.
      *
      * @param id   리뷰 id
      * @param user 사용자 정보
@@ -89,7 +89,7 @@ public class ReviewService {
             ReviewLike newReviewLike = ReviewLike.of(user, findReview);
             reviewLikeRepository.save(newReviewLike);
 
-        } else if (reviewLike.getReviewStatus() == ReviewLikeStatus.CANCLE) {
+        } else if (reviewLike.getReviewStatus() == ReviewLikeStatus.CANCEL) {
             //전체 카운트 +1
             findReview.plusLikeCount();
 

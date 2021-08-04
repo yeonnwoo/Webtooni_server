@@ -17,6 +17,7 @@ import javax.persistence.*;
 public class Review extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Long id;
 
     private String reviewContent;
@@ -26,11 +27,11 @@ public class Review extends BaseTimeEntity {
     private int likeCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "toonId")
+    @JoinColumn(name = "toon_id")
     private Webtoon webtoon;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Builder

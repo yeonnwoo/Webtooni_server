@@ -28,9 +28,8 @@ public class ReviewController {
     //리뷰에 좋아요
     @PostMapping("/api/v1/reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id) {
-        /**
-         * 로그인된 유저 정보로 변경 되어야함
-         */
+
+        //로그인된 유저 정보로 변경 되어야함
         User user = User.builder()
                 .userImg(1)
                 .build();
@@ -42,13 +41,13 @@ public class ReviewController {
     /**
      * 웹툰에 별점주기
      *
-     * @param - reviewStarDto : 웹툰 id,userPointNumber
+     * @param reviewStarDto 웹툰 id,userPointNumber 담은 dto
      */
     @PutMapping("/api/v1/reviews/star")
     public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto) {
-        /**
-         * 로그인된 유저 정보로 변경 되어야함
-         */
+
+
+        //로그인된 유저 정보로 변경 되어야함
         User user = User.builder()
                 .userImg(1)
                 .build();

@@ -15,14 +15,15 @@ import javax.persistence.*;
 public class ReviewLike {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_like_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewId")
+    @JoinColumn(name = "review_id")
     private Review review;
 
     @Enumerated(EnumType.STRING)
@@ -45,6 +46,6 @@ public class ReviewLike {
     }
 
     public void changeStatusCancel() {
-        this.reviewStatus= ReviewLikeStatus.CANCLE;
+        this.reviewStatus= ReviewLikeStatus.CANCEL;
     }
 }

@@ -2,13 +2,10 @@ package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
-import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,16 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +35,7 @@ public class UnitWebtoonServiceTest {
      */
     @DisplayName("웹툰 정보,리뷰 리스트 불러오기 테스트")
     @Test
-    public void test1() throws Exception{
+    public void test1(){
         //given
         //장르
         Genre g1 = createGenre("일상");
@@ -81,13 +74,11 @@ public class UnitWebtoonServiceTest {
      */
     @DisplayName("비슷한 장르의 웹툰 추천 테스트")
     @Test
-    public void test2() throws Exception{
+    public void test2(){
         //given
         //장르
         Genre g1 = createGenre("큰 장르1");
-        Genre g2 = createGenre("큰 장르2");
         Genre g3 = createGenre("작은 장르1");
-        Genre g4 = createGenre("작은 장르2");
 
         List<Genre> genreList = new ArrayList<>(Arrays.asList(g1,g3));
 

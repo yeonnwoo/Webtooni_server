@@ -12,10 +12,8 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
 
-
     @Override
     public List<Webtoon> findSimilarWebtoonByGenre(String genre,Webtoon webtoon) {
-        QWebtoon w = new QWebtoon("w");
         QWebtoonGenre wg = new QWebtoonGenre("wg");
 
         return queryFactory

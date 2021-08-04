@@ -11,19 +11,18 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "WEBTOON_GENRE")
 public class WebtoonGenre {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "toonGenreId")
+    @Column(name = "toon_genre_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="genreId")
+    @JoinColumn(name="genre_id")
     private Genre genre;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "toonId")
+    @JoinColumn(name = "toon_id")
     private Webtoon webtoon;
 
     @Builder
@@ -31,5 +30,4 @@ public class WebtoonGenre {
         this.genre = genre;
         this.webtoon = webtoon;
     }
-
 }

@@ -176,7 +176,6 @@ class WebtoonServiceTest {
     /**
      * 데이터를 임의로 생성한다.
      */
-
     //리뷰 생성
     private Review createReview(String reviewContent, float userPointNumber, int likeCount) {
         return Review.builder()

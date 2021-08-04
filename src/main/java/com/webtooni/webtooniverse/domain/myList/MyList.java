@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class MyList {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "my_list_id")
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)

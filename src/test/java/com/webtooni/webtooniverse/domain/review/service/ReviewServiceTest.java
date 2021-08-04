@@ -46,7 +46,7 @@ class ReviewServiceTest {
         Review review2 = createReview("리뷰 내용2", 4.3F, 15);
 
         //웹툰
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1", 3.5F, 20);
+        Webtoon w1 = createWebtoon(20);
         em.persist(w1);
         em.flush();
 
@@ -130,7 +130,7 @@ class ReviewServiceTest {
         ReviewLike reviewLike = ReviewLike.builder()
                 .user(user)
                 .review(review1)
-                .reviewStatus(ReviewLikeStatus.CANCLE)
+                .reviewStatus(ReviewLikeStatus.CANCEL)
                 .build();
 
         em.persist(reviewLike);
@@ -178,7 +178,7 @@ class ReviewServiceTest {
 
         reviewService.clickReviewLike(review1.getId(), user);
 
-        assertThat(reviewLike.getReviewStatus()).isEqualTo(ReviewLikeStatus.CANCLE);
+        assertThat(reviewLike.getReviewStatus()).isEqualTo(ReviewLikeStatus.CANCEL);
 
     }
 
@@ -206,7 +206,7 @@ class ReviewServiceTest {
         ReviewLike reviewLike = ReviewLike.builder()
                 .user(user)
                 .review(review1)
-                .reviewStatus(ReviewLikeStatus.CANCLE)
+                .reviewStatus(ReviewLikeStatus.CANCEL)
                 .build();
 
         em.persist(reviewLike);
@@ -237,7 +237,7 @@ class ReviewServiceTest {
         em.flush();
 
         //웹툰 생성
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1", 3.5F, 25);
+        Webtoon w1 = createWebtoon(25);
         em.persist(w1);
         em.flush();
 
@@ -272,12 +272,12 @@ class ReviewServiceTest {
                 .build();
     }
 
-    private Webtoon createWebtoon(String title, String author, String content, float toonAvgPoint, int totalPointCount) {
+    private Webtoon createWebtoon(int totalPointCount) {
         return Webtoon.builder()
-                .toonTitle(title)
-                .toonAuthor(author)
-                .toonContent(content)
-                .toonAvgPoint(toonAvgPoint)
+                .toonTitle("제목1")
+                .toonAuthor("작가1")
+                .toonContent("내용1")
+                .toonAvgPoint((float) 3.5)
                 .totalPointCount(totalPointCount)
                 .build();
     }

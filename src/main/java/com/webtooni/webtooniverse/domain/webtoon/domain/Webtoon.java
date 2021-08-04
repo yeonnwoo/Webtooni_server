@@ -14,7 +14,7 @@ public class Webtoon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "toonId")
+    @Column(name = "toon_id")
     private Long id;
 
     private String toonTitle;
@@ -31,7 +31,7 @@ public class Webtoon {
 
     private String toonAge;
 
-    private String toonFlatform;
+    private String toonPlatform;
 
     private float toonAvgPoint;
 
@@ -42,17 +42,11 @@ public class Webtoon {
     private boolean finished;
 
     @Builder
-    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
-                   String realUrl, String toonAge, String toonFlatform, float toonAvgPoint, int totalPointCount,
+    public Webtoon(String toonTitle, String toonAuthor, String toonContent, float toonAvgPoint, int totalPointCount,
                    int reviewCount, boolean finished) {
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
         this.toonContent = toonContent;
-        this.toonImg = toonImg;
-        this.toonWeekday = toonWeekday;
-        this.realUrl = realUrl;
-        this.toonAge = toonAge;
-        this.toonFlatform = toonFlatform;
         this.toonAvgPoint = toonAvgPoint;
         this.totalPointCount = totalPointCount;
         this.reviewCount = reviewCount;

@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
-import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
@@ -55,7 +54,7 @@ public class WebtoonDetailDto {
         this.toonAvgPoint= webtoon.getToonAvgPoint();
         this.toonContent=webtoon.getToonContent();
         this.toonWeekday=webtoon.getToonWeekday();
-        this.toonFlatform=webtoon.getToonFlatform();
+        this.toonFlatform=webtoon.getToonPlatform();
         this.reviewCount=reviewList.size();
         this.finished=webtoon.isFinished();
 
