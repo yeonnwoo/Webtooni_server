@@ -1,10 +1,9 @@
 package com.webtooni.webtooniverse.domain.user.dto;
 
-import com.webtooni.webtooniverse.domain.genre.Genre;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import javax.validation.constraints.NotBlank;
 
 @NoArgsConstructor
 @Data
