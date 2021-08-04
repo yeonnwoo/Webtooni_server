@@ -32,7 +32,7 @@ public class ReviewController {
 
     @GetMapping("api/v1/reviews/suggestion")
     public List<Webtoon> gerUnreviewdlist() {
-        List<Webtoon> webtoonList = webtoonRepository.findAllByOrderByReviewCountAsc();
+        List<Webtoon> webtoonList = webtoonRepository.findByReviewCountLessThanEqual(5);
         return webtoonList;
     }
 }
