@@ -22,7 +22,7 @@ Business Rule, 기술적인 문제에 대한 해결 방법은 WIKI에서 확인�
 
 Git Flow를 사용하여 브랜치를 관리합니다. 모든 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 진행합니다.
 
-<img src="https://user-images.githubusercontent.com/50096655/126958427-df332279-3365-4d60-84c5-16f44bcacdec.png" width="400px" height=auto>
+<img src="https://user-images.githubusercontent.com/50096655/128192955-0106ea3d-363f-4804-b043-f191344364b6.png" width="400px" height=auto>
 
 - Master : 배포시 사용합니다. 아직 배포단계에 이르지 않아 Master 브랜치에 내용이 없습니다.
 - Develop : 완전히 개발이 끝난 부분에 대해서만 Merge를 진행합니다.
