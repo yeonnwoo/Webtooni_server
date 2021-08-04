@@ -12,26 +12,22 @@ public class TalkReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "talk_review_id")
     private Long id;
 
-    @Column(nullable = false)
-    private Long postTalkId;
+    @ManyToOne
+    @JoinColumn(name = "talk_post_id")
+    private TalkPost talkPost;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(nullable = false)
     private String commentContent;
 
-    public TalkReview(Long postTalkId, User user, String commentContent){
-        this.postTalkId = postTalkId;
-        this.user = user;
-        this.commentContent = commentContent;
-    }
-
     public TalkReview(TalkReviewRequestDto requestDto, User user){
-        this.postTalkId = requestDto.getTalkPostId();
+        this.talkPost = requestDto.getTalkPost();
         this.commentContent = requestDto.getCommentContent();
         this.user = user;
     }

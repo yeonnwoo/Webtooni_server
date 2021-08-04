@@ -1,4 +1,11 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
-public interface WebtoonRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface WebtoonRepository extends JpaRepository<Webtoon, Long> {
+    List<Webtoon> findAllByOrderByReviewCountAsc();
+//    List<Webtoon> findByReviewCountBetween(3, 1);
 }

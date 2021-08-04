@@ -1,8 +1,9 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-
+@NoArgsConstructor
 @Getter
 public class TalkPostRequestDto {
 

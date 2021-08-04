@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TalkLikeController {
 
-    private final TalkLikeRepository talkLikeRepository;
     private final TalkLikeService talkLikeService;
 
     @PostMapping("/api/v1/talk/{id}/like")
-    public TalkLikeResponseDto like(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        Long userId = userDetails.getUser().getId();
-        TalkLikeResponseDto responseDto = talkLikeService.postLike(id, userId);
+    public TalkLikeResponseDto like(@PathVariable Long id){
+        TalkLikeResponseDto responseDto = talkLikeService.postLike(id);
         return responseDto;
     }
 }

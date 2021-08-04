@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
+import com.webtooni.webtooniverse.domain.global.domain.Timestamped;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.Getter;
@@ -10,30 +11,26 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Getter
-public class TalkPost {
+public class TalkPost extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "talk_post_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "talk_post_title")
     private String postTitle;
 
-    @Column(nullable = false)
+    @Column(name = "talk_post_content")
     private String postContent;
 
     @ManyToOne
-    @JoinColumn (nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
+
 
     @Column(nullable = false)
     private Long likeNum;
-
-    public TalkPost (String postTitle, String postContent, User user){
-        this.postTitle = postTitle;
-        this.postContent = postContent;
-        this.user = user;
-    }
 
     public TalkPost(TalkPostRequestDto requestDto, User user) {
         this.postTitle = requestDto.getPostTitle();;
