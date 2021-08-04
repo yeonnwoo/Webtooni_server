@@ -13,23 +13,21 @@ import javax.persistence.*;
 @Getter
 public class Review extends TimeStamped {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "reviewId")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "toonID", nullable = false)
-    private Webtoon webtoon;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
     private String reviewContent;
 
-    private Integer starScore;
+    private float userPointNumber;
 
     private int likeCount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "toon_id")
+    private Webtoon webtoon;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
