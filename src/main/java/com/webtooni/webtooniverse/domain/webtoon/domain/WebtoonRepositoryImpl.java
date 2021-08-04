@@ -1,9 +1,8 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.List;
 
