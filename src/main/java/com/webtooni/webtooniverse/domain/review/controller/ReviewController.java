@@ -16,7 +16,7 @@ public class ReviewController {
 
     //메인페이지에 리뷰(최신순/ 베스트순) 불러오기
     @GetMapping("/api/v1/rank/reviews")
-    public List<ReviewMainResponseDto> getTotalReviews(){
-        return reviewService.getTotalReview();
+    public ReviewMainResponseDto getTotalReviews(){
+        return reviewService.getMainReview();
     }
 }

@@ -4,12 +4,14 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 @Getter
+@Setter
 public class ReviewNewResponseDto {
 
     private Long id;
@@ -20,14 +22,20 @@ public class ReviewNewResponseDto {
     private String toonTitle;
     private LocalDateTime createDate;
 
-    public ReviewNewResponseDto(User user, Review review, Webtoon webtoon) {
-        this.id = user.getId();
-        this.userImg = user.getUserImg();
-        this.userName = user.getUserName();
-        this.userPointNumber = review.getUserPointNumber();
+
+    public ReviewNewResponseDto(Review review) {
         this.reviewContent = review.getReviewContent();
-        this.toonTitle = webtoon.getToonTitle();
         this.createDate = review.getCreateDate();
     }
 
+    public ReviewNewResponseDto(Review review, Long id, int userImg, String userName, float userPointNumber,
+                                String toonTitle) {
+        this.id = id;
+        this.userImg = userImg;
+        this.userName = userName;
+        this.userPointNumber = userPointNumber;
+        this.reviewContent = review.getReviewContent();
+        this.toonTitle = toonTitle;
+        this.createDate = review.getCreateDate();
+    }
 }

@@ -4,8 +4,10 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class ReviewBestResponseDto {
 
     private Long id;
@@ -24,4 +26,7 @@ public class ReviewBestResponseDto {
         this.toonTitle = webtoon.getToonTitle();
     }
 
+    public ReviewBestResponseDto(Review review) {
+        this.reviewContent = review.getReviewContent();
+    }
 }
