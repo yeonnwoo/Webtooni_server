@@ -93,17 +93,32 @@ class WebtoonRepositoryImplTest {
         webtoonGenreRepository.save(webtoonGenre6);
     }
 
+    @Nested
+    @DisplayName("금주의 웹툰 평론가 추천")
+    class 금주의웹툰평론가추천{
 
-    @Test
-    void 금주의_웹툰평론가_추천() {
-        //given
-        //when
-        List<Webtoon> bestReviewerWebtoon = webtoonRepository.findBestReviewerWebtoon(this.startDate(),LocalDateTime.now());
-        //then
-        for (Webtoon webtoon : bestReviewerWebtoon) {
-            System.out.println("webtoon.getToonTitle() = " + webtoon.getToonTitle());
+        @Test
+        @DisplayName("금주의 웹툰 평론가 일치 여부")
+        void 금주의_웹툰평론가_추천_평론가() {
+            //given
+            //when
+            List<Webtoon> bestReviewerWebtoon = webtoonRepository.findBestReviewerWebtoon(startDate());
+            //then
+            assertThat(bestReviewerWebtoon.size()).isEqualTo(3);
         }
-        assertThat(bestReviewerWebtoon.size()).isEqualTo(2);
+
+        @Test
+        @DisplayName("웹툰 평가순으로 나열")
+        void 금주의_웹툰평론가_추천_평가순() {
+            //given
+            //when
+            List<Webtoon> bestReviewerWebtoon = webtoonRepository.findBestReviewerWebtoon(startDate());
+            //then
+            assertThat(bestReviewerWebtoon.get(0).getToonTitle()).isEqualTo("웹툰5");
+            assertThat(bestReviewerWebtoon.get(1).getToonTitle()).isEqualTo("웹툰6");
+            assertThat(bestReviewerWebtoon.get(2).getToonTitle()).isEqualTo("웹툰1");
+        }
+
     }
 
     @Test
