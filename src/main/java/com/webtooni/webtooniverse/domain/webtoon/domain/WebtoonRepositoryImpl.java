@@ -22,10 +22,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
     //금주의 웹툰 평론가 추천
     @Override
-    public List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate, LocalDateTime now){
+    public List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate){
         User bestReviewer = jpaQueryFactory.select(review.user)
                 .from(review)
-                .where(review.createDate.between(startDate, now))
+                .where(review.createDate.between(startDate, LocalDateTime.now()))
                 .groupBy(review.user)
                 .orderBy(review.user.count().desc())
                 .limit(1)
@@ -47,10 +47,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .where(userGenre.user.eq(user))
                 .fetch();
 
+
         return jpaQueryFactory.select(webtoonGenre.webtoon)
                 .from(webtoonGenre)
                 .where(webtoonGenre.genre.in(genres))
-//                .orderBy(NumberExpression.random().asc())
                 .limit(30)
                 .fetch();
     }

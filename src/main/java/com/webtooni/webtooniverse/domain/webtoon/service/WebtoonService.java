@@ -23,7 +23,7 @@ public class WebtoonService {
 
     //금주의 웹툰 평론가 추천
     public List<WebtoonResponseDto> getBestReviewerWebtoon() {
-        List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(startDate(), LocalDateTime.now());
+        List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(startDate());
         return bestReviewerWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
     }
 

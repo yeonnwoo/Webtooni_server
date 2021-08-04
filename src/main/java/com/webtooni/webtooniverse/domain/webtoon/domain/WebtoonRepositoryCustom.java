@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface WebtoonRepositoryCustom {
-    List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate, LocalDateTime now);
+    List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate);
 
     List<Webtoon> findUserGenreWebtoon(User user);
 
