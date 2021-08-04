@@ -7,6 +7,7 @@ import java.util.List;
 
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 
+
 @RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
 
@@ -15,7 +16,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     //리뷰 베스트순
     public List<Review> getBestReview(){
         return jpaQueryFactory.selectFrom(review)
-                .orderBy(review.starScore.desc())
+                .orderBy(review.userPointNumber.desc())
                 .limit(5)
                 .fetch();
     }
@@ -24,7 +25,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     public List<Review> getNewReview(){
         return jpaQueryFactory.selectFrom(review)
                 .orderBy(review.createDate.desc())
-                .limit(10)
+                .limit(5)
                 .fetch();
     }
 }
