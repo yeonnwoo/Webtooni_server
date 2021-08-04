@@ -121,21 +121,21 @@ class WebtoonRepositoryImplTest {
 
     }
 
-    @Test
-    void 완결_웹툰_추천() {
-        //given
-        //when
-        List<Webtoon> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
-        //then
-        for (Webtoon webtoon : finishedWebtoon) {
-            System.out.println("webtoon.getToonTitle() = " + webtoon.getToonTitle() +" "+webtoon.getToonAvgPoint());
-            assertThat(webtoon.isFinished()).isEqualTo(true);
+    @Nested
+    @DisplayName("완결 웹툰 추천")
+    class 완결웹툰추천{
+
+        @Test
+        @DisplayName("완결작 여부")
+        void 완결웹툰추천_완결확인() {
+            //given
+            //when
+            List<Webtoon> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
+            //then
+            for (Webtoon webtoon : finishedWebtoon) {
+                assertThat(webtoon.isFinished()).isEqualTo(true);
+            }
         }
-        assertThat(finishedWebtoon.size()).isEqualTo(3);
-        assertThat(finishedWebtoon.get(0).getToonTitle()).isEqualTo("웹툰6");
-        assertThat(finishedWebtoon.get(1).getToonTitle()).isEqualTo("웹툰5");
-        assertThat(finishedWebtoon.get(2).getToonTitle()).isEqualTo("웹툰4");
-    }
 
     @Test
     void 유저_취향_랜덤_추천() {
