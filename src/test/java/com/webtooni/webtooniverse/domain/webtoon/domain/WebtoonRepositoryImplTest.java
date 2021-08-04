@@ -6,6 +6,8 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +25,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class WebtoonRepositoryImplTest {
 
-
     @Autowired
     WebtoonRepository webtoonRepository;
     @Autowired
@@ -39,9 +40,9 @@ class WebtoonRepositoryImplTest {
 
     @BeforeEach
     void getDummyData(){
-        User user1 = new User("유저1");
-        User user2 = new User("유저2");
-        User user3 = new User("유저3");
+        User user1 = new User("user1");
+        User user2 = new User("user2");
+        User user3 = new User("user3");
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
@@ -49,8 +50,8 @@ class WebtoonRepositoryImplTest {
         Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, false, 4);
         Webtoon webtoon3 = new Webtoon("웹툰3", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, false, 4);
         Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 3.0f, 0, true, 4);
-        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, true, 4);
-        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 5.0f, 0, true, 4);
+        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 5.0f, 0, true, 4);
+        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.5f, 0, true, 4);
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);
@@ -59,14 +60,16 @@ class WebtoonRepositoryImplTest {
         webtoonRepository.save(webtoon6);
         Review review1 = new Review(user1,5.0f,webtoon1);
         Review review2 = new Review(user2,5.0f,webtoon2);
-        Review review3 = new Review(user2,5.0f,webtoon3);
-        Review review4 = new Review(user3,5.0f,webtoon1);
+        Review review3 = new Review(user2,4.0f,webtoon3);
+        Review review4 = new Review(user3,3.0f,webtoon1);
         Review review5 = new Review(user3,5.0f,webtoon5);
+        Review review6 = new Review(user3,4.0f,webtoon6);
         reviewRepository.save(review1);
         reviewRepository.save(review2);
         reviewRepository.save(review3);
         reviewRepository.save(review4);
         reviewRepository.save(review5);
+        reviewRepository.save(review6);
         Genre genre1 = new Genre("코믹");
         Genre genre2 = new Genre("멜로");
         Genre genre3 = new Genre("액션");
@@ -150,32 +153,52 @@ class WebtoonRepositoryImplTest {
         }
     }
 
-    @Test
-    void 비슷한_취향_사용자_웹툰_추천(){
-        //given
-        User user1 = userRepository.findById(1L).get();
-//        User user2 = userRepository.findById(2L).get();
-//        Webtoon webtoon1 = webtoonRepository.findById(1L).get();
-//        Webtoon webtoon2 = webtoonRepository.findById(2L).get();
-//        Webtoon webtoon3 = webtoonRepository.findById(3L).get();
-//        Review review1 = reviewRepository.findById(1L).get();
-//        Review review2 = reviewRepository.findById(2L).get();
-//        Review review3 = reviewRepository.findById(3L).get();
-        //when
-        List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user1);
-        //then
-        for (Webtoon webtoon : webtoons) {
-            System.out.println("webtoon.getToonTitle() = " + webtoon.getToonTitle());
-            assertThat(webtoon.getToonTitle()).isEqualTo("웹툰5");
+
+    @Nested
+    @DisplayName("유저 취향 랜덤 추천")
+    class 유저취향랜덤추천{
+
+        @Test
+        @DisplayName("유저 취향 장르")
+        void 유저취향랜덤추천_유저취향() {
+            //given
+            User user = userRepository.findByUserName("user1").get();
+            //when
+            List<Webtoon> webtoons = webtoonRepository.findUserGenreWebtoon(user);
+            //then
+            for (Webtoon webtoon : webtoons) {
+                System.out.println("webtoon - " + webtoon.getId() + " wetoontitle - " + webtoon.getToonTitle());
+                WebtoonGenre webtoonGenre = webtoonGenreRepository.findByWebtoon(webtoon).get();
+                String genreType = webtoonGenre.getGenre().getGenreType();
+                assertThat(genreType).isEqualTo("코믹");
+            }
         }
 
+        @Test
+        @DisplayName("웹툰이 유저 취향 장르와 일치")
+        void 유저취향랜덤추천_웹툰취향() {
+            //given
+            User user = userRepository.findByUserName("user1").get();
+            //when
+            List<Webtoon> webtoons = webtoonRepository.findUserGenreWebtoon(user);
+            //then
+            assertThat(webtoons.get(0).getToonTitle() ).isEqualTo("웹툰1");
+            assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰4");
+        }
     }
+
 
     @Test
-    void 금주_월요일_날짜_구하기(){
-        System.out.println("start date = " + this.startDate());
+    @DisplayName("비슷한 취향의 사용자 추천 웹툰")
+    void 비슷한취향사용자추천웹툰(){
+        //given
+        User user = userRepository.findByUserName("user1").get();
+        //when
+        List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
+        //then
+        assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰5");
+        assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰6");
     }
-
 
     public LocalDateTime startDate(){
         LocalDateTime date = LocalDateTime.now().minusDays(1);
