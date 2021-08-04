@@ -29,7 +29,7 @@ public class WebtoonResponseDto {
         this.toonWeekday = webtoon.getToonWeekday();
         this.realUrl = webtoon.getRealUrl();
         this.toonAge = webtoon.getToonAge();
-        this.toonFlatform = webtoon.getToonFlatform();
+        this.toonFlatform = webtoon.getToonPlatform();
         this.toonAvgPoint = webtoon.getToonAvgPoint();
         this.reviewCount = webtoon.getReviewCount();
         this.finished = webtoon.isFinished();

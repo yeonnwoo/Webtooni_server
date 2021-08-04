@@ -132,7 +132,7 @@ class WebtoonRepositoryImplTest {
         for (Webtoon webtoon : webtoons) {
             System.out.println("webtoon - " + webtoon.getId() + " wetoontitle - " + webtoon.getToonTitle());
         }
-        assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰1");
+        assertThat(webtoons.get(0).getToonTitle() ).isEqualTo("웹툰1");
         assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰4");
     }
 
@@ -140,13 +140,13 @@ class WebtoonRepositoryImplTest {
     void 비슷한_취향_사용자_웹툰_추천(){
         //given
         User user1 = userRepository.findById(1L).get();
-        User user2 = userRepository.findById(2L).get();
-        Webtoon webtoon1 = webtoonRepository.findById(1L).get();
-        Webtoon webtoon2 = webtoonRepository.findById(2L).get();
-        Webtoon webtoon3 = webtoonRepository.findById(3L).get();
-        Review review1 = reviewRepository.findById(1L).get();
-        Review review2 = reviewRepository.findById(2L).get();
-        Review review3 = reviewRepository.findById(3L).get();
+//        User user2 = userRepository.findById(2L).get();
+//        Webtoon webtoon1 = webtoonRepository.findById(1L).get();
+//        Webtoon webtoon2 = webtoonRepository.findById(2L).get();
+//        Webtoon webtoon3 = webtoonRepository.findById(3L).get();
+//        Review review1 = reviewRepository.findById(1L).get();
+//        Review review2 = reviewRepository.findById(2L).get();
+//        Review review3 = reviewRepository.findById(3L).get();
         //when
         List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user1);
         //then

@@ -39,7 +39,7 @@ public class Webtoon {
     String toonAge;
 
     @Column
-    String toonFlatform;
+    String toonPlatform;
 
     @Column
     float toonAvgPoint;
@@ -58,7 +58,7 @@ public class Webtoon {
     }
 
     public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg,
-                   String toonWeekday, String realUrl, String toonAge, String toonFlatform, float toonAvgPoint,
+                   String toonWeekday, String realUrl, String toonAge, String toonPlatform, float toonAvgPoint,
                    int reviewCount, boolean finished, int totalPointCount) {
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
@@ -67,7 +67,7 @@ public class Webtoon {
         this.toonWeekday = toonWeekday;
         this.realUrl = realUrl;
         this.toonAge = toonAge;
-        this.toonFlatform = toonFlatform;
+        this.toonPlatform = toonPlatform;
         this.toonAvgPoint = toonAvgPoint;
         this.reviewCount = reviewCount;
         this.finished = finished;

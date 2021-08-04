@@ -58,27 +58,28 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     //나와 비슷한 취향을 가진 사용자가 많이 본 웹툰
     @Override
     public List<Webtoon> findSimilarUserWebtoon(User user){
-        List<String> webtoonTitles = jpaQueryFactory.select(review.webtoon.toonTitle)
+        List<Webtoon> webtoons = jpaQueryFactory.select(review.webtoon)
                 .from(review)
                 .where(review.user.eq(user), review.userPointNumber.goe(4.0))
                 .fetch();
 
         User similarUser = jpaQueryFactory.select(review.user)
                 .from(review)
-                .where(review.webtoon.toonTitle.in(webtoonTitles), review.user.ne(user))
+                .where(review.webtoon.in(webtoons), review.user.ne(user))
                 .groupBy(review.user)
                 .orderBy(review.user.count().desc())
                 .fetchFirst();
 
-        if (similarUser!=null){
-            return jpaQueryFactory.select(review.webtoon)
-                    .from(review)
-                    .where(review.user.id.eq(similarUser.getId()))
-                    .orderBy(review.webtoon.toonAvgPoint.desc())
-                    .limit(5)
-                    .fetch();
+        if (similarUser == null){
+            return findUserGenreWebtoon(user);
         }
-        return findUserGenreWebtoon(user);
+
+        return jpaQueryFactory.select(review.webtoon)
+                .from(review)
+                .where(review.user.eq(similarUser),review.userPointNumber.goe(4.0), review.webtoon.notIn(webtoons))
+                .orderBy(review.webtoon.toonAvgPoint.desc())
+                .limit(5)
+                .fetch();
     }
 
     //완결 웹툰 추천
