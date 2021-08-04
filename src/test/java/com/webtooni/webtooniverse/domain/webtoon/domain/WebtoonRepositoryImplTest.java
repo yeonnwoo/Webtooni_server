@@ -137,18 +137,17 @@ class WebtoonRepositoryImplTest {
             }
         }
 
-    @Test
-    void 유저_취향_랜덤_추천() {
-        //given
-        User user = userRepository.getById(1L);
-        //when
-        List<Webtoon> webtoons = webtoonRepository.findUserGenreWebtoon(user);
-        //then
-        for (Webtoon webtoon : webtoons) {
-            System.out.println("webtoon - " + webtoon.getId() + " wetoontitle - " + webtoon.getToonTitle());
+        @Test
+        @DisplayName("웹툰 평가순으로 나열")
+        void 완결웹툰추천_점수순확인() {
+            //given
+            //when
+            List<Webtoon> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
+            //then
+            assertThat(finishedWebtoon.get(0).getToonTitle()).isEqualTo("웹툰5");
+            assertThat(finishedWebtoon.get(1).getToonTitle()).isEqualTo("웹툰6");
+            assertThat(finishedWebtoon.get(2).getToonTitle()).isEqualTo("웹툰4");
         }
-        assertThat(webtoons.get(0).getToonTitle() ).isEqualTo("웹툰1");
-        assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰4");
     }
 
     @Test
