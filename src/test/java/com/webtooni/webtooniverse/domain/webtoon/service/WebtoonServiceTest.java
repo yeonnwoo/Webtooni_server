@@ -98,6 +98,23 @@ class WebtoonServiceTest {
                     "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +
                      "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
         }
+        assertThat(platformRankToon.size()).isEqualTo(10);
+    }
+
+    @DisplayName("웹투니버스 카카오 랭킹")
+    @Test
+    public void test3(){
+        //given
+
+        //when
+        List<PlatformRankResponseDto> platformRankToon = webtoonService.getMonthKakaoRank();
+        //then
+        for(PlatformRankResponseDto platformRankResponseDto : platformRankToon){
+            System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +
+                    "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +
+                    "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
+        }
+        assertThat(platformRankToon.size()).isEqualTo(10);
     }
 
 
