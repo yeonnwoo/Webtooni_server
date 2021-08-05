@@ -34,9 +34,6 @@ public class User {
     @Column(name = "kakao_id")
     private Long kakaoId;
 
-    @OneToMany(mappedBy = "user")
-    List<TalkPost> talkPosts = new ArrayList<TalkPost>();
-
     public User(String password, Long kakaoId){
         this.password = password;
         this.userGrade = UserGrade.valueOf("BASIC");
