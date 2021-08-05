@@ -20,6 +20,8 @@ public class User {
 
     private String userEmail;
 
+    private String password;
+
     private int userImg;
 
     @Enumerated(EnumType.STRING)
@@ -32,4 +34,12 @@ public class User {
         this.userImg = userImg;
         this.userGrade = userGrade;
     }
+
+    public User(String userName, String userEmail, String password, int userImg) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.password = password;
+        this.userImg = userImg;
+    }
+
 }
