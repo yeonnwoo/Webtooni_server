@@ -18,6 +18,7 @@ import java.util.Optional;
 public class TalkReviewService {
 
     private final TalkReviewRepository talkReviewRepository;
+    private final TalkPost talkPost;
 
     @Transactional
     public TalkReview reviewPost(TalkReviewRequestDto requestDto, User user) {
