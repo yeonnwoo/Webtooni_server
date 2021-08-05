@@ -23,7 +23,7 @@ public class TalkReviewController {
     private final TalkReviewRepository talkReviewRepository;
     private final TalkPost talkPost;
 
-    @PostMapping("/{id}/comment")
+    @PostMapping("/comment")
     public TalkReview postComment(@RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         TalkReview talkReview = talkReviewService.reviewPost(requestDto, user);
