@@ -2,10 +2,12 @@ package com.webtooni.webtooniverse.domain.talktalk.domain;
 
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @NoArgsConstructor
 @Entity
 public class TalkReview {
