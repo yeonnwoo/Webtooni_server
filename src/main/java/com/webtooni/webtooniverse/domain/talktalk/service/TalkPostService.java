@@ -33,11 +33,13 @@ public class TalkPostService {
         return id;
     }
 
-//    public List<TalkPostGetRequestDto> getPost() {
-//        List<TalkPostGetRequestDto> sendingList = new ArrayList<>();
-//        List<TalkPost> talkPostList = talkPostRepository.findAll();
-//        for (talkPost : talkPostList) {
-//
-//        }
-//    }
+    public List<TalkPostGetRequestDto> getPost() {
+        List<TalkPostGetRequestDto> sendingList = new ArrayList<>();
+        List<TalkPost> talkPosts = talkPostRepository.findAll();
+        for (TalkPost talkPost : talkPosts) {
+            TalkPostGetRequestDto talkPostGetRequestDto = new TalkPostGetRequestDto(talkPost);
+            sendingList.add(talkPostGetRequestDto);
+        }
+        return sendingList;
+    }
 }
