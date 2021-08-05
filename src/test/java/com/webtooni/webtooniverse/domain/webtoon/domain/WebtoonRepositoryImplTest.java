@@ -62,7 +62,7 @@ class WebtoonRepositoryImplTest {
         Review review1 = new Review(user1,5.0f,webtoon1);
         Review review2 = new Review(user2,5.0f,webtoon2);
         Review review3 = new Review(user2,4.0f,webtoon3);
-        Review review4 = new Review(user3,3.0f,webtoon1);
+        Review review4 = new Review(user3,3.5f,webtoon1);
         Review review5 = new Review(user3,5.0f,webtoon5);
         Review review6 = new Review(user3,4.0f,webtoon6);
         reviewRepository.save(review1);
@@ -189,17 +189,37 @@ class WebtoonRepositoryImplTest {
     }
 
 
-    @Test
-    @DisplayName("비슷한 취향의 사용자 추천 웹툰")
-    void 비슷한취향사용자추천웹툰(){
-        //given
-        User user = userRepository.findByUserName("user1").get();
-        //when
-        List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
-        //then
-        assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰5");
-        assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰6");
+    @Nested
+    @DisplayName("비슷한 취향 사용자 추천 웹툰")
+    class 비슷한취향사용자추천웹툰{
+
+        @Test
+        @DisplayName("비슷한 취향의 사용자 있을 때")
+        void 비슷한취향사용자추천웹툰_비슷한취향사용자있을때(){
+            //given
+            User user = userRepository.findByUserName("user1").get();
+            //when
+            List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
+            //then
+            assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰5");
+            assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰6");
+        }
+
+        @Test
+        @DisplayName("비슷한 취향의 사용자 없을 때")
+        void 비슷한취향사용자추천웹툰_비슷한취향사용자없을때(){
+            //given
+            User user = userRepository.findByUserName("user2").get();
+            //when
+            List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
+            //then
+            assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰2");
+            assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰5");
+        }
+
     }
+
+
 
 
    public LocalDateTime startDate(){
