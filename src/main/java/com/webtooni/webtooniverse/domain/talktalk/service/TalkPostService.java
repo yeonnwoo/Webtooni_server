@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkReview;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostGetRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
@@ -16,6 +17,7 @@ import java.util.List;
 public class TalkPostService {
 
     private final TalkPostRepository talkPostRepository;
+
 
     @Transactional
     public TalkPost post(TalkPostRequestDto requestDto, User user){

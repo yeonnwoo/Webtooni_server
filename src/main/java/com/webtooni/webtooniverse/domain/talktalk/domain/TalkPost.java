@@ -28,14 +28,17 @@ public class TalkPost extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     @Column(nullable = false)
     private Long likeNum;
+
+    @Column(nullable = false)
+    private Long talkReviewCount;
 
     public TalkPost(TalkPostRequestDto requestDto, User user) {
         this.postTitle = requestDto.getPostTitle();;
         this.postContent = requestDto.getPostContent();
         this.user = user;
+        this.talkReviewCount = 0L;
     }
 
     public void update(TalkPostRequestDto talkPostRequestDto){
