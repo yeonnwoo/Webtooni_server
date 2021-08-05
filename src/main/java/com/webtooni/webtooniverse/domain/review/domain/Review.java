@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.review.domain;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,4 +31,13 @@ public class Review extends TimeStamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public Review(String reviewContent, float userPointNumber, int likeCount, Webtoon webtoon, User user) {
+        this.reviewContent = reviewContent;
+        this.userPointNumber = userPointNumber;
+        this.likeCount = likeCount;
+        this.webtoon = webtoon;
+        this.user = user;
+    }
 }
