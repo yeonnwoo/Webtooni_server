@@ -14,15 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class UserServiceTest {
 
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserService userService;
-
-    @BeforeEach
-    void getTestData(){
-        User user1 = new User("user1", )
-    }
+//    @Autowired
+//    UserRepository userRepository;
+//    @Autowired
+//    UserService userService;
+//
+//    @BeforeEach
+//    void getTestData(){
+//        User user1 = new User("user1", )
+//    }
 
 
 }
