@@ -31,13 +31,6 @@ public class UserService {
     private final KakaoOAuth2 kakaoOAuth2;
     private final UserGenreRepository userGenreRepository;
 
-//    @Autowired
-//    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
-//        this.userRepository = userRepository;
-//        this.passwordEncoder = passwordEncoder;
-//        this.authenticationManager = authenticationManager;
-//    }
-
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager, UserGenreRepository userGenreRepository) {
         this.userRepository = userRepository;
@@ -92,31 +85,4 @@ public class UserService {
         return userGenres;
     }
 }
-//    private String getEncodedPassword(String password) {
-//        return ("{noop}" + password);
-//    }
-//
-//    @Transactional
-//    public void registerUser(SignupRequestDto requestDto) {
-//        String username = requestDto.getUserName();
-//        String password = requestDto.getPassword();
-//        String passwordChecker = requestDto.getPasswordChecker();
-//        String userImg = requestDto.getUserImg();
-//        String userEmail = requestDto.getUserEmail();
-//
-//        Optional<User> found = userRepository.findByUserName(username);
-//        if (username.equals("") || password.equals("") || passwordChecker.equals("")) {
-//            throw new IllegalArgumentException("username || password || passwordChecker가 비어있습니다.");
-////        } else if (password.length() < 4) {
-////            throw new IllegalArgumentException("password는 최소 4글자입니다.");
-//        } else if (!password.equals(passwordChecker)) {
-//            throw new IllegalArgumentException("password와 passwordChecker가 다릅니다.");
-//        } else if (found.isPresent()) {
-//            throw new IllegalArgumentException("중복된 사용자 ID가 존재합니다.");
-//        }
-//        password = getEncodedPassword(requestDto.getPassword());
-//        User user = new User(username, userEmail , password, userImg);
-//        userRepository.save(user);
-//    }
-//}
 
