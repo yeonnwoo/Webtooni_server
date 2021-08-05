@@ -1,9 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
-import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepositoryImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -66,7 +64,7 @@ public class WebtoonService {
         for (int i = 0; i < howManyWebtoons; i++) {
             countedFinishedWebtoons.add(finishedWebtoons.get(i));
         }
-        return finishedWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+        return countedFinishedWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
     }
 
 

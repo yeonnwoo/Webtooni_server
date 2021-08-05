@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.join;
 
-import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -4,8 +4,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webtooni.webtooniverse.domain.join.Genre;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
