@@ -60,12 +60,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     public List<Webtoon> findSimilarUserWebtoon(User user){
         List<Webtoon> webtoons = jpaQueryFactory.select(review.webtoon)
                 .from(review)
-                .where(review.user.eq(user), review.userPointNumber.goe(4.0))
+                .where(review.user.eq(user), review.userPointNumber.goe(3.5))
                 .fetch();
 
         User similarUser = jpaQueryFactory.select(review.user)
                 .from(review)
-                .where(review.webtoon.in(webtoons), review.user.ne(user))
+                .where(review.webtoon.in(webtoons), review.user.ne(user), review.userPointNumber.goe(3.5))
                 .groupBy(review.user)
                 .orderBy(review.user.count().desc())
                 .fetchFirst();
