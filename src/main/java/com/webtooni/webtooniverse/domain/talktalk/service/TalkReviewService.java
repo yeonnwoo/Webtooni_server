@@ -24,6 +24,7 @@ public class TalkReviewService {
     public TalkReview reviewPost(TalkReviewRequestDto requestDto, User user) {
         TalkReview talkReview = new TalkReview(requestDto, user);
         talkReviewRepository.save(talkReview);
+        talkPost.updateTalkCommentNum(1);
         return talkReview;
     }
 
