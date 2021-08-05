@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
+import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepositoryImpl;
@@ -58,9 +59,16 @@ public class WebtoonService {
 
     //완결 웹툰 추천
     public List<WebtoonResponseDto> getFinishedWebtoon() {
+        int howManyWebtoons = 5;
         List<Webtoon> finishedWebtoons = webtoonRepository.findFinishedWebtoon();
+        Collections.shuffle(finishedWebtoons);
+        List<Webtoon> countedFinishedWebtoons = new ArrayList<>();
+        for (int i = 0; i < howManyWebtoons; i++) {
+            countedFinishedWebtoons.add(finishedWebtoons.get(i));
+        }
         return finishedWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
     }
+
 
     public LocalDateTime startDate(){
         LocalDateTime date = LocalDateTime.now().minusDays(1);
