@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -200,7 +201,8 @@ class WebtoonRepositoryImplTest {
         assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰6");
     }
 
-    public LocalDateTime startDate(){
+
+   public LocalDateTime startDate(){
         LocalDateTime date = LocalDateTime.now().minusDays(1);
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         LocalDateTime startDate = LocalDateTime.now();

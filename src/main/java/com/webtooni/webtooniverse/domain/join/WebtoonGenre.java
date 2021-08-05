@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class WebtoonGenre {
 
     @Id
+    @Column(name = "toon_genre_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 

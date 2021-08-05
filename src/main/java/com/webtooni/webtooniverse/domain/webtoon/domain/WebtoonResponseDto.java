@@ -14,7 +14,7 @@ public class WebtoonResponseDto {
     String toonWeekday;
     String realUrl;
     String toonAge;
-    String toonFlatform;
+    String toonPlatform;
     int totalPointCount;
     float toonAvgPoint;
     int reviewCount;
@@ -29,7 +29,7 @@ public class WebtoonResponseDto {
         this.toonWeekday = webtoon.getToonWeekday();
         this.realUrl = webtoon.getRealUrl();
         this.toonAge = webtoon.getToonAge();
-        this.toonFlatform = webtoon.getToonPlatform();
+        this.toonPlatform = webtoon.getToonPlatform();
         this.toonAvgPoint = webtoon.getToonAvgPoint();
         this.reviewCount = webtoon.getReviewCount();
         this.finished = webtoon.isFinished();

@@ -34,7 +34,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return jpaQueryFactory.select(review.webtoon)
                 .from(review)
                 .where(review.user.eq(bestReviewer))
-                .orderBy(review.webtoon.toonAvgPoint.desc())
+                .orderBy(review.userPointNumber.desc())
                 .limit(5)
                 .fetch();
     }
@@ -51,7 +51,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return jpaQueryFactory.select(webtoonGenre.webtoon)
                 .from(webtoonGenre)
                 .where(webtoonGenre.genre.in(genres))
-                .limit(30)
+                .limit(20)
                 .fetch();
     }
 
@@ -88,8 +88,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return jpaQueryFactory.selectFrom(webtoon)
                 .where(webtoon.finished.eq(true))
                 .orderBy(webtoon.toonAvgPoint.desc())
-                .limit(5)
+                .limit(20)
                 .fetch();
     }
+
+
 
 }

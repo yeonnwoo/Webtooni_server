@@ -16,6 +16,7 @@ import java.util.List;
 public class Review extends TimeStamped {
 
     @Id
+    @Column(name = "review_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
