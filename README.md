@@ -22,7 +22,7 @@ Business Rule, 기술적인 문제에 대한 해결 방법은 WIKI에서 확인�
 
 Git Flow를 사용하여 브랜치를 관리합니다. 모든 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 진행합니다.
 
-<img src="https://user-images.githubusercontent.com/50096655/128192955-0106ea3d-363f-4804-b043-f191344364b6.png" width="400px" height=auto>
+<img src="https://user-images.githubusercontent.com/50096655/126958427-df332279-3365-4d60-84c5-16f44bcacdec.png" width="400px" height=auto>
 
 - Master : 배포시 사용합니다. 아직 배포단계에 이르지 않아 Master 브랜치에 내용이 없습니다.
 - Develop : 완전히 개발이 끝난 부분에 대해서만 Merge를 진행합니다.
@@ -39,8 +39,6 @@ Git Flow를 사용하여 브랜치를 관리합니다. 모든 브랜치는 Pull 
 - [협업을 위한 Gitflow](https://overcome-the-limits.tistory.com/entry/%ED%98%91%EC%97%85-%ED%98%91%EC%97%85%EC%9D%84-%EC%9C%84%ED%95%9C-Git-Flow-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)
 
 ### 테스트
-- Spring boot 통합 테스트로 쿼리 로직 테스트
-- Mockito Framework를 활용하여 고립된 테스트 코드를 작성
 
 ### 성능 테스트
 
@@ -49,5 +47,4 @@ Git Flow를 사용하여 브랜치를 관리합니다. 모든 브랜치는 Pull 
 ## 사용 기술 및 환경
 
 ## DB ERD
-![Webtooniverse_20210801_37_52](https://user-images.githubusercontent.com/50096655/127763262-431c65c1-0da1-4cde-a7ed-e2b3556061c9.png)
-
+![RDS_20210727_16_03](https://user-images.githubusercontent.com/50096655/127137918-f0f0a853-2cb3-4c3c-a8d9-0b9863eb17e8.png)
