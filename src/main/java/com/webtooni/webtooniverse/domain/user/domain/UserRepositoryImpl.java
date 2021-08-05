@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
-import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom{
