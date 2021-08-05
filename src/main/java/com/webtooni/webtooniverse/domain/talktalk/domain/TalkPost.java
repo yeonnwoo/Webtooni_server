@@ -32,13 +32,13 @@ public class TalkPost extends Timestamped {
     private Long likeNum;
 
     @Column(nullable = false)
-    private Long talkReviewCount;
+    private int talkCommentCount;
 
     public TalkPost(TalkPostRequestDto requestDto, User user) {
         this.postTitle = requestDto.getPostTitle();;
         this.postContent = requestDto.getPostContent();
         this.user = user;
-        this.talkReviewCount = 0L;
+        this.talkCommentCount = 0;
     }
 
     public void update(TalkPostRequestDto talkPostRequestDto){
@@ -50,4 +50,7 @@ public class TalkPost extends Timestamped {
         this.likeNum += count;
     }
 
+    public void updateTalkCommentNum(int count){
+        this.likeNum += count;
+    }
 }
