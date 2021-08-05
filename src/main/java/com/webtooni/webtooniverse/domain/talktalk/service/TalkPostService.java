@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostGetRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class TalkPostService {
@@ -28,5 +31,13 @@ public class TalkPostService {
         );
         talkPost.update(talkPostRequestDto);
         return id;
+    }
+
+    public List<TalkPostGetRequestDto> getPost() {
+        List<TalkPostGetRequestDto> talkPostGetRequestDtoList = new ArrayList<>();
+        List<TalkPost> talkPostList = talkPostRepository.findAll();
+        for (talkPost : talkPostList) {
+
+        }
     }
 }
