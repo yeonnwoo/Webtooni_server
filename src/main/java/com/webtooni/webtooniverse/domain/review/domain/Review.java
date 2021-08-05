@@ -33,6 +33,13 @@ public class Review extends TimeStamped {
     private User user;
 
     @Builder
+    public Review(String reviewContent, float userPointNumber, int likeCount) {
+        this.reviewContent = reviewContent;
+        this.userPointNumber = userPointNumber;
+        this.likeCount = likeCount;
+    }
+
+    @Builder
     public Review(String reviewContent, float userPointNumber, int likeCount, Webtoon webtoon, User user) {
         this.reviewContent = reviewContent;
         this.userPointNumber = userPointNumber;
