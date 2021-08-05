@@ -2,13 +2,18 @@ package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -17,6 +22,8 @@ class WebtoonServiceTest {
 
     @Autowired
     WebtoonRepository webtoonRepository;
+    @Autowired
+    WebtoonService webtoonService;
 
     @BeforeEach
     void getTestData(){
@@ -42,8 +49,19 @@ class WebtoonServiceTest {
         webtoonRepository.save(webtoon10);
     }
 
+    @DisplayName("웹투니버스 종합 랭킹")
     @Test
-    void 이번달_종합_웹툰_순위(){
+    public void test(){
         //given
+
+        //when
+        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
+        //then
+        for(MonthRankResponseDto rankResponseDto : totalRankToon){
+            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+
+                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
+        }
+        assertThat(totalRankToon.size()).isEqualTo(10);
     }
+    
 }
