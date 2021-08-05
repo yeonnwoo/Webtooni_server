@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkReview;
+import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewGetRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkReviewRepository;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkReviewService;
@@ -27,9 +28,9 @@ public class TalkReviewController {
     }
 
     @GetMapping("/{id}/comment")
-    public List<TalkReview> getComment(@PathVariable Long id) {
-        List<TalkReview> talkReviewList = talkReviewRepository.findAllById(id);
-        return talkReviewList;
+    public List<TalkReviewGetRequestDto> getComment(@PathVariable Long id) {
+        List<TalkReviewGetRequestDto> commentList = talkReviewService.getComment(id);
+        return commentList;
     }
 
     @PutMapping("/{id}/comment")
