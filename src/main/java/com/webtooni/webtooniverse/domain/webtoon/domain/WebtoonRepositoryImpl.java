@@ -1,16 +1,16 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.webtooni.webtooniverse.domain.join.Genre;
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.webtooni.webtooniverse.domain.join.QUserGenre.userGenre;
-import static com.webtooni.webtooniverse.domain.join.QWebtoonGenre.webtoonGenre;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
+import static com.webtooni.webtooniverse.domain.userGenre.QUserGenre.userGenre;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.*;
+import static com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre.webtoonGenre;
 
 
 @RequiredArgsConstructor

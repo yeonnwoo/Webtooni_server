@@ -1,10 +1,15 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
-import com.webtooni.webtooniverse.domain.join.*;
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+import com.webtooni.webtooniverse.domain.userGenre.UserGenre;
+import com.webtooni.webtooniverse.domain.userGenre.UserGenreRepository;
+import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
+import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

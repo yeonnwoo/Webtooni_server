@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.join;
+package com.webtooni.webtooniverse.domain.genre.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;
