@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -33,9 +31,6 @@ public class User {
 
     @Column(name = "kakao_id")
     private Long kakaoId;
-
-    @OneToMany(mappedBy = "user")
-    List<TalkPost> talkPosts = new ArrayList<TalkPost>();
 
     public User(String password, Long kakaoId){
         this.password = password;
