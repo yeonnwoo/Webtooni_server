@@ -1,7 +1,6 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +29,5 @@ public class UserGenre {
         this.user = user;
         this.genre = genre;
     }
+
 }

@@ -17,4 +17,5 @@ public abstract class TimeStamped {
 
     @CreatedDate // 최초 생성 시점
     private LocalDateTime createDate;
+
 }
