@@ -43,7 +43,7 @@ public class Webtoon {
     private boolean finished;
 
 
-    @Builder
+
     public Webtoon(String toonTitle, String toonAuthor, String toonContent) {
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;

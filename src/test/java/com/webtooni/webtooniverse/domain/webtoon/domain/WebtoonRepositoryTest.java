@@ -102,7 +102,6 @@ class WebtoonRepositoryTest {
         //유저
         User user = User.builder()
                 .userName("홍길동")
-                .userEmail("abc@naver.com")
                 .userImg(1)
                 .userGrade(UserGrade.FIRST)
                 .build();

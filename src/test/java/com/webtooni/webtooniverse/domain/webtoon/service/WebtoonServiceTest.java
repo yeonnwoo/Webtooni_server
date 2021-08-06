@@ -84,7 +84,6 @@ class WebtoonServiceTest {
         //임시 유저
         User user = User.builder()
                 .userName("홍길동")
-                .userEmail("abc@naver.com")
                 .userImg(1)
                 .userGrade(UserGrade.FIRST)
                 .build();
@@ -277,7 +276,7 @@ class WebtoonServiceTest {
         List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
         //then
         for(MonthRankResponseDto rankResponseDto : totalRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+
+            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
                     "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
         }
         assertThat(totalRankToon.size()).isEqualTo(10);
@@ -292,8 +291,8 @@ class WebtoonServiceTest {
         List<PlatformRankResponseDto> platformRankToon = webtoonService.getMonthNaverRank();
         //then
         for(PlatformRankResponseDto platformRankResponseDto : platformRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +
-                    "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +
+            System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +", "+
+                    "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +", "+
                     "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
         }
         assertThat(platformRankToon.size()).isEqualTo(10);
@@ -308,8 +307,8 @@ class WebtoonServiceTest {
         List<PlatformRankResponseDto> platformRankToon = webtoonService.getMonthKakaoRank();
         //then
         for(PlatformRankResponseDto platformRankResponseDto : platformRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +
-                    "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +
+            System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +", "+
+                    "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +", "+
                     "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
         }
         assertThat(platformRankToon.size()).isEqualTo(10);

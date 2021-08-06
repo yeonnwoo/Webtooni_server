@@ -52,10 +52,10 @@ class UserServiceTest {
         webtoonRepository.save(webtoon8);
         webtoonRepository.save(webtoon9);
         webtoonRepository.save(webtoon10);
-        User user1 = new User("user1", "test1@email.com", 1, UserGrade.USER1);
-        User user2 = new User("user2", "test2@email.com", 2, UserGrade.USER2);
-        User user3 = new User("user3", "test3@email.com", 3, UserGrade.USER3);
-        User user4 = new User("user4", "test4@email.com", 4, UserGrade.USER1);
+        User user1 = new User("user1", 1, UserGrade.FIRST);
+        User user2 = new User("user2", 2, UserGrade.SECOND);
+        User user3 = new User("user3", 3, UserGrade.THIRD);
+        User user4 = new User("user4", 4, UserGrade.FIRST);
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
