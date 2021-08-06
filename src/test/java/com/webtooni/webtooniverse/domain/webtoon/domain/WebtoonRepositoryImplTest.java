@@ -63,12 +63,12 @@ class WebtoonRepositoryImplTest {
         webtoonRepository.save(webtoon4);
         webtoonRepository.save(webtoon5);
         webtoonRepository.save(webtoon6);
-        Review review1 = new Review(user1,5.0f,webtoon1);
-        Review review2 = new Review(user2,5.0f,webtoon2);
-        Review review3 = new Review(user2,4.0f,webtoon3);
-        Review review4 = new Review(user3,3.5f,webtoon1);
-        Review review5 = new Review(user3,5.0f,webtoon5);
-        Review review6 = new Review(user3,4.0f,webtoon6);
+        Review review1 = new Review(user1,5.0f,webtoon1,1);
+        Review review2 = new Review(user2,5.0f,webtoon2,2);
+        Review review3 = new Review(user2,4.0f,webtoon3,3);
+        Review review4 = new Review(user3,3.5f,webtoon1,4);
+        Review review5 = new Review(user3,5.0f,webtoon5,5);
+        Review review6 = new Review(user3,4.0f,webtoon6,6);
         reviewRepository.save(review1);
         reviewRepository.save(review2);
         reviewRepository.save(review3);
@@ -100,6 +100,18 @@ class WebtoonRepositoryImplTest {
         webtoonGenreRepository.save(webtoonGenre5);
         webtoonGenreRepository.save(webtoonGenre6);
     }
+
+
+    @Test
+    @DisplayName("베스트 리뷰어 / 리뷰 수 / 좋아요 수 검색")
+    void findBestReviewer(){
+        List<BestReviewerResponseDto> best = webtoonRepository.findBestReviewerForMain();
+        for (BestReviewerResponseDto bestReviewerResponseDto : best) {
+            System.out.println("bestReviewerResponseDto = " + bestReviewerResponseDto.getUser().getUserName() + " "
+                    + bestReviewerResponseDto.reviewCount + " " + bestReviewerResponseDto.getLikeCount());
+        }
+    }
+
 
     @Nested
     @DisplayName("금주의 웹툰 평론가 추천")
