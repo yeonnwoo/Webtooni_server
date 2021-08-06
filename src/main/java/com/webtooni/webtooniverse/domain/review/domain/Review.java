@@ -1,23 +1,17 @@
 package com.webtooni.webtooniverse.domain.review.domain;
-
-
-
+import com.webtooni.webtooniverse.domain.global.domain.Timestamped;
+import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
-
-
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.AccessLevel;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-
-
-
+import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -121,5 +115,4 @@ public class Review extends TimeStamped {
     {
         this.likeCount-=1;
     }
-
 }

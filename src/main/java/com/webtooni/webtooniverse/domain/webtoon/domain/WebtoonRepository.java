@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface WebtoonRepository extends JpaRepository<Webtoon,Long>,WebtoonRepositoryCustom {
 
+    List<Webtoon> findByReviewCountLessThanEqual(int number);
     /**
      * 웹툰의 장르 찾기
      * @param webtoon 찾고자하는 싶은 해당 웹툰
@@ -28,4 +29,3 @@ public interface WebtoonRepository extends JpaRepository<Webtoon,Long>,WebtoonRe
     List<Review> findReviewByWebToonId(@Param("toonId") Long toonId);
 
 }
-
