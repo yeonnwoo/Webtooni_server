@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class UserInfoRequestDto {
 
-    private String userImg;
+    private int userImg;
     private String userName;
 
 }

@@ -24,17 +24,17 @@ public class User {
     private String password;
 
     @Column(name = "user_img")
-    private String userImg;
+    private int userImg;
 
-    @Column(name = "user_grade")
-    private String userGrade;
+    @Enumerated(EnumType.STRING)
+    private UserGrade userGrade;
 
     @Column(name = "kakao_id")
     private Long kakaoId;
 
     public User(String password, Long kakaoId){
         this.password = password;
-        this.userGrade = "base";
+        this.userGrade = UserGrade.valueOf("BASIC");
         this.kakaoId = kakaoId;
     }
     public void update(UserInfoRequestDto requestDto){
