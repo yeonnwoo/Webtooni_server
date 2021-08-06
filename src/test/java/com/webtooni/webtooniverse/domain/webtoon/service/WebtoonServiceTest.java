@@ -37,7 +37,7 @@ class WebtoonServiceTest {
         Webtoon webtoon7 = new Webtoon("웹툰7", "작가1", "내용7", "이미지7", "화", "url", "15", "네이버", 4.9f, 0, 1, false);
         Webtoon webtoon8 = new Webtoon("웹툰8", "작가2", "내용8", "이미지8", "토", "url", "15", "네이버", 4.8f, 0, 5, false);
         Webtoon webtoon9 = new Webtoon("웹툰9", "작가3", "내용9", "이미지9", "일", "url", "15", "네이버", 4.3f, 0, 7, false);
-        Webtoon webtoon10 = new Webtoon("웹툰10", "작가4", "내용10", "이미지10", "월", "url", "15", "카카오", 4.6f, 0, 7, false);
+        Webtoon webtoon10 = new Webtoon("웹툰10", "작가4", "내용10", "이미지10", "월", "url", "15", "네이버", 4.6f, 0, 7, false);
         Webtoon webtoon11 = new Webtoon("웹툰11", "작가1", "내용1", "이미지1", "월", "url", "15", "카카오", 2.6f, 0, 4, false);
         Webtoon webtoon12 = new Webtoon("웹툰12", "작가1", "내용2", "이미지2", "화", "url", "15", "카카오", 3.6f, 0, 3, false);
         Webtoon webtoon13 = new Webtoon("웹툰13", "작가2", "내용3", "이미지3", "수", "url", "15", "카카오", 4.8f, 0, 2, false);
