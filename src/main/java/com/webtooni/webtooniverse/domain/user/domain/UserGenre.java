@@ -1,12 +1,11 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
-import com.webtooni.webtooniverse.domain.genre.Genre;
-import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
+@Entity
 @NoArgsConstructor
 @Table(name = "user_genre")
 public class UserGenre {

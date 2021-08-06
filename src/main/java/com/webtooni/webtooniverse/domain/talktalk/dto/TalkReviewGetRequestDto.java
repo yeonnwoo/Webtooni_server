@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.talktalk.dto;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkReview;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 
 public class TalkReviewGetRequestDto {
     private Long id;
@@ -10,8 +11,8 @@ public class TalkReviewGetRequestDto {
     private String commentContent;
     private User user;
     private String userName;
-    private String userImg;
-    private String userGrade;
+    private int userImg;
+    private UserGrade userGrade;
 
 
     public TalkReviewGetRequestDto(TalkReview talkReview){

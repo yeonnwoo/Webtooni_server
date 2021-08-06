@@ -17,7 +17,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long>, ReviewRepo
     @Query("select r from Review r join r.webtoon on r.webtoon=:webtoon and r.user=:user")
     Review checkUserPointIsExist(@Param("webtoon")Webtoon webtoon, @Param("user")User user);
 
-    List<Review> findAllByOrderByCreatedAt();
+    List<Review> findAllByOrderByCreateDate();
     List<Review> findAllByOrderByLikeCountDesc();
 
 

@@ -1,8 +1,8 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
-import com.webtooni.webtooniverse.domain.global.domain.Timestamped;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.global.utils.TimeStamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Getter
-public class TalkPost extends Timestamped {
+public class TalkPost extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
