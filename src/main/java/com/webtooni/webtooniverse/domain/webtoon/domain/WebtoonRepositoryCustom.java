@@ -13,4 +13,6 @@ public interface WebtoonRepositoryCustom {
     List<Webtoon> findSimilarUserWebtoon(User user);
 
     List<Webtoon> findFinishedWebtoon();
+
+    List<BestReviewerResponseDto> findBestReviewerForMain();
 }

@@ -46,4 +46,12 @@ public class Review extends TimeStamped {
         this.userPointNumber = userPointNumber;
         this.webtoon = webtoon;
     }
+
+    public Review(User user, float userPointNumber, Webtoon webtoon, int likeCount) {
+        this.user = user;
+        this.userPointNumber = userPointNumber;
+        this.webtoon = webtoon;
+        this.likeCount = likeCount;
+    }
+
 }

@@ -1,13 +1,19 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.review.domain.Review;
+import com.webtooni.webtooniverse.domain.user.domain.QUser;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.querydsl.core.types.ExpressionUtils.count;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
+import static com.webtooni.webtooniverse.domain.user.domain.QUser.*;
 import static com.webtooni.webtooniverse.domain.userGenre.QUserGenre.userGenre;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.*;
 import static com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre.webtoonGenre;
@@ -91,5 +97,36 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
 
+    // 베스트 리뷰어, 리뷰 수, 좋아요 수
+    @Override
+    public List<BestReviewerResponseDto> findBestReviewerForMain(){
+        List<BestReviewerResponseDto> dtos = jpaQueryFactory
+                .select(Projections.fields(BestReviewerResponseDto.class,
+                        review.user, review.user.count().as("reviewCount")))
+                .from(review)
+                .groupBy(review.user,review.user)
+                .orderBy(review.user.count().desc())
+                .limit(5)
+                .fetch();
 
+        List<User> users = new ArrayList<>();
+        for (BestReviewerResponseDto dto : dtos) {
+            users.add(dto.getUser());
+        }
+
+        List<Review> reviews = jpaQueryFactory.selectFrom(review)
+                .where(review.user.in(users))
+                .fetch();
+
+        for (int i = 0 ; i < dtos.size() ; i++) {
+            int sum = 0;
+            for (Review review : reviews) {
+                if (review.getUser() == users.get(i)) {
+                    sum += review.getLikeCount();
+                }
+            }
+            dtos.get(i).setLikeCount(sum);
+        }
+        return dtos;
+    }
 }
