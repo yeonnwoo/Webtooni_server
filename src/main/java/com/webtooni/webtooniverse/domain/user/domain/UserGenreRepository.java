@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.userGenre;
+package com.webtooni.webtooniverse.domain.user.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
