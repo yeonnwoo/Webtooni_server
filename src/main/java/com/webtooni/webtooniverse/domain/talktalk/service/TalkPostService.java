@@ -26,6 +26,7 @@ public class TalkPostService {
         return talkPost;
     }
 
+
     @Transactional
     public Long updatePost(Long id, TalkPostRequestDto talkPostRequestDto){
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
