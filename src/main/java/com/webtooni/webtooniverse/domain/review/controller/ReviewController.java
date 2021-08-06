@@ -22,7 +22,6 @@ public class ReviewController {
         return reviewService.updateReview(id, reviewDto);
     }
 
-
     //리뷰 삭제
     @DeleteMapping("reviews/{id}")
     public void deleteReview(@PathVariable Long id) {
