@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain;
+package com.webtooni.webtooniverse.global.utils;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseTimeEntity {
+public abstract class TimeStamped {
 
     @CreatedDate
     private LocalDateTime createDate;
+
 
 }

@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.user.domain;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +13,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -42,9 +43,12 @@ public class User {
         this.userName = requestDto.getUserName();
     }
 
-
-
-
-
-
+    @Builder
+    public User(String userName, String password, int userImg, UserGrade userGrade, Long kakaoId) {
+        this.userName = userName;
+        this.password = password;
+        this.userImg = userImg;
+        this.userGrade = userGrade;
+        this.kakaoId = kakaoId;
+    }
 }

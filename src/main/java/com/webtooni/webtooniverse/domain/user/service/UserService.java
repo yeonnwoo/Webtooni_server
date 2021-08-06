@@ -9,18 +9,21 @@ import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
+import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class UserService {
     private final PasswordEncoder passwordEncoder;
@@ -73,6 +76,15 @@ public class UserService {
         user.update(requestDto);
     }
 
+    //베스트 리뷰어 가져오기
+    public List<BestReviewerResponseDto> getBestReviewerRank(){
+        List<User>  bestReviewer = userRepository.getBestReviewer();
+        return bestReviewer
+                .stream()
+                .map(BestReviewerResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public List<UserGenre> pickGenre(User user, UserGenreRequestDto requestDto){
         List<UserGenre> userGenres = new ArrayList<>();
@@ -85,5 +97,4 @@ public class UserService {
         return userGenres;
     }
 }
-
 
