@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
-
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import org.springframework.data.jpa.repository.JpaRepository;

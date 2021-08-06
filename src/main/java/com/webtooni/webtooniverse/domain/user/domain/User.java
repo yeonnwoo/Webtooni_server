@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,5 +49,9 @@ public class User {
         this.userImg = userImg;
         this.userGrade = userGrade;
         this.kakaoId = kakaoId;
+    }
+
+    public User(String userName){
+        this.userName=userName;
     }
 }

@@ -1,20 +1,17 @@
 package com.webtooni.webtooniverse.domain.webtoon.controller;
 
-
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
@@ -23,6 +20,31 @@ public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
+
+    @GetMapping("offer/best-reviewer")
+    public List<WebtoonResponseDto> getBestReviewerWebtoons(){
+        return webtoonService.getBestReviewerWebtoon();
+    }
+
+//    @GetMapping("offer/for-user")
+//    public List<WebtoonResponseDto> getForUserWebtoons(){
+//        return webtoonService.getForUserWebtoon(user);
+//    }
+//
+//    @GetMapping("offer/similar-user")
+//    public List<WebtoonResponseDto> getSimilarUserWebtoons(){
+//        return webtoonService.getSimilarUserWebtoon(user);
+//    }
+
+    @GetMapping("offer/md")
+    public WebtoonResponseDto getMdWebtoons(){
+        return webtoonService.getMdWebtoon();
+    }
+
+    @GetMapping("offer/end")
+    public List<WebtoonResponseDto> getFinishedWebtoons(){
+        return webtoonService.getFinishedWebtoon();
+    }
 
     //이번달 웹투니버스 순위
     @GetMapping("rank/total")
@@ -54,6 +76,5 @@ public class WebtoonController {
     {
         return webtoonService.getSimilarGenre(id);
     }
-
 
 }

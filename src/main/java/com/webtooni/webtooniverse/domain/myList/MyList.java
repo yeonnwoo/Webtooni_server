@@ -34,5 +34,4 @@ public class MyList {
         return new MyList(user,webtoon);
     }
 
-    
 }

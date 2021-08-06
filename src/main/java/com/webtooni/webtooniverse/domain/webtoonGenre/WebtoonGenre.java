@@ -5,7 +5,6 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
 @NoArgsConstructor

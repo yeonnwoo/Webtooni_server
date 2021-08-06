@@ -1,30 +1,31 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor
-@Table(name = "user_genre")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserGenre {
 
     @Id
-    @GeneratedValue
     @Column(name = "user_genre_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
-    private Genre genre;
+    Genre genre;
 
-
-    public UserGenre(User user, Genre genre){
+    public UserGenre(User user, Genre genre) {
         this.user = user;
         this.genre = genre;
     }
