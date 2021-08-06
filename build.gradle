@@ -41,6 +41,17 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.json:json:20210307'
+    compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.4"
+
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation group: 'org.json', name: 'json', version: '20210307'
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 }
 
 test {
