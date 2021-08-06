@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.user.service;
 
-import com.webtooni.webtooniverse.domain.genre.Genre;
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;

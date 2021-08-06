@@ -22,7 +22,7 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RequiredArgsConstructor
 @RestController
-public class ReviewController {
+public class ReviewController  {
 
     private final ReviewRepository reviewRepository;
     private final WebtoonRepository webtoonRepository;
@@ -30,7 +30,7 @@ public class ReviewController {
 
     @GetMapping("/api/v1/reviews/new")
     public List<Review> getLatestReview() {
-        List<Review> reviewList = reviewRepository.findAllByOrderByCreatedAt();
+        List<Review> reviewList = reviewRepository.findAllByOrderByCreateDate();
         return reviewList;
     }
     //메인페이지에 리뷰(최신순/ 베스트순) 불러오기

@@ -2,15 +2,16 @@ package com.webtooni.webtooniverse.domain.talktalk.dto;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 
 
 public class TalkPostGetRequestDto {
 
     public Long id;
     private User user;
-    private String userImg;
+    private int userImg;
     private String userName;
-    private String userGrade;
+    private UserGrade userGrade;
     private String postTitle;
     private String postContent;
 

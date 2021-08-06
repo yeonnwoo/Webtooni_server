@@ -1,5 +1,4 @@
 package com.webtooni.webtooniverse.domain.review.domain;
-import com.webtooni.webtooniverse.domain.global.domain.Timestamped;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
