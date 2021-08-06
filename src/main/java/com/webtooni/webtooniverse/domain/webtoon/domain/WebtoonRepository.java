@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
+
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,3 +28,4 @@ public interface WebtoonRepository extends JpaRepository<Webtoon,Long>,WebtoonRe
     List<Review> findReviewByWebToonId(@Param("toonId") Long toonId);
 
 }
+

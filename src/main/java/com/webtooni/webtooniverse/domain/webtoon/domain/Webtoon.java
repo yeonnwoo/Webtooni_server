@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,13 +8,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+
 public class Webtoon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "toon_id")
     private Long id;
 
@@ -40,18 +44,25 @@ public class Webtoon {
     private int reviewCount;
 
     private boolean finished;
-
     @Builder
-    public Webtoon(String toonTitle, String toonAuthor, String toonContent, float toonAvgPoint, int totalPointCount,
+    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
+                   String realUrl, String toonAge, String toonPlatform, float toonAvgPoint, int totalPointCount,
                    int reviewCount, boolean finished) {
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
         this.toonContent = toonContent;
+        this.toonImg = toonImg;
+        this.toonWeekday = toonWeekday;
+        this.realUrl = realUrl;
+        this.toonAge = toonAge;
+        this.toonPlatform = toonPlatform;
         this.toonAvgPoint = toonAvgPoint;
         this.totalPointCount = totalPointCount;
         this.reviewCount = reviewCount;
         this.finished = finished;
     }
+
+
 
     @Builder
     public Webtoon(String toonTitle, String toonAuthor, String toonContent) {
@@ -94,5 +105,6 @@ public class Webtoon {
         this.toonAvgPoint= Float.parseFloat(String.format("%.1f",totalPoint/this.totalPointCount)) ;
 
     }
+
 
 }
