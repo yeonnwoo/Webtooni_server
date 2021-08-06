@@ -12,14 +12,18 @@ import javax.persistence.*;
 @Entity
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId")
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     private String userName;
 
     private String userEmail;
+
+
+    private String password;
+
 
     private int userImg;
 
@@ -33,4 +37,14 @@ public class User {
         this.userImg = userImg;
         this.userGrade = userGrade;
     }
+
+
+    public User(String userName, String userEmail, String password, int userImg) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.password = password;
+        this.userImg = userImg;
+    }
+
 }
+
