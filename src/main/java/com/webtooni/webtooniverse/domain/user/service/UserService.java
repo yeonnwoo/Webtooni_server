@@ -10,16 +10,20 @@ import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
+import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 
@@ -33,15 +37,8 @@ public class UserService {
 
     private final KakaoOAuth2 kakaoOAuth2;
     private final UserGenreRepository userGenreRepository;
+    private final WebtoonRepository webtoonRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager, UserGenreRepository userGenreRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.kakaoOAuth2 = kakaoOAuth2;
-        this.authenticationManager = authenticationManager;
-        this.userGenreRepository = userGenreRepository;
-    }
 
     public void kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
@@ -70,9 +67,9 @@ public class UserService {
     }
 
     @Transactional
-    public void updateInfo(Long id, UserInfoRequestDto requestDto){
+    public void updateInfo(Long id, UserInfoRequestDto requestDto) {
         User user = userRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 회원이 존재하지 않습니다.")
+                () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
         );
         user.update(requestDto);
     }
@@ -82,22 +79,18 @@ public class UserService {
      */
 
     //베스트 리뷰어 가져오기
-    public List<BestReviewerResponseDto> getBestReviewerRank(){
-        List<User>  bestReviewer = userRepository.getBestReviewer();
-        return bestReviewer
-                .stream()
-                .map(BestReviewerResponseDto::new)
-                .collect(Collectors.toList());
+    public List<BestReviewerResponseDto> getBestReviewerRank() {
+        return webtoonRepository.findBestReviewerForMain();
     }
 
     @Transactional
-    public List<UserGenre> pickGenre(User user, UserGenreRequestDto requestDto){
+    public List<UserGenre> pickGenre(User user, UserGenreRequestDto requestDto) {
         List<UserGenre> userGenres = new ArrayList<>();
         List<Genre> genres = requestDto.getGenres();
-        for (Genre genre : genres){
-        UserGenre userGenre = new UserGenre(user, genre);
-        userGenreRepository.save(userGenre);
-        userGenres.add(userGenre);
+        for (Genre genre : genres) {
+            UserGenre userGenre = new UserGenre(user, genre);
+            userGenreRepository.save(userGenre);
+            userGenres.add(userGenre);
         }
         return userGenres;
     }

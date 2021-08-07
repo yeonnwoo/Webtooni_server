@@ -1,9 +1,12 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
+
 import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 
@@ -59,6 +62,7 @@ public class Webtoon {
         this.reviewCount = reviewCount;
         this.finished = finished;
     }
+
 
     /**
      * case : 별점을 처음 다는 유저

@@ -4,6 +4,7 @@ import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewGetRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -12,18 +13,26 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
+@RequiredArgsConstructor
 @Transactional
 @Service
-@RequiredArgsConstructor
 public class TalkReviewService {
 
     private final TalkReviewRepository talkReviewRepository;
-    private final TalkPost talkPost;
+    private final TalkPostRepository talkPostRepository;
 
-    public TalkBoardComment reviewPost(TalkReviewRequestDto requestDto, User user) {
+    //댓글 작성
+    public TalkBoardComment reviewPost(Long id,TalkReviewRequestDto requestDto, User user) {
         TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user);
         talkReviewRepository.save(talkBoardComment);
+
+        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 id는 존재하지 않습니다.")
+        );
+
         talkPost.updateTalkCommentNum(1);
+
         return talkBoardComment;
     }
 
