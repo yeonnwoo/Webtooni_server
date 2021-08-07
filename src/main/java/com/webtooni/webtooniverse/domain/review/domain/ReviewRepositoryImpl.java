@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -26,6 +27,13 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
         return jpaQueryFactory.selectFrom(review)
                 .orderBy(review.createDate.desc())
                 .limit(5)
+                .fetch();
+    }
+
+    @Override
+    public List<Review> findMyReviews(User user) {
+        return jpaQueryFactory.selectFrom(review)
+                .where(review.user.eq(user))
                 .fetch();
     }
 }

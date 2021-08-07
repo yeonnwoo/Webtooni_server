@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
@@ -70,5 +71,10 @@ public class ReviewController  {
 
         reviewService.clickWebtoonPointNumber(reviewStarDto, user);
 
+    }
+
+    @GetMapping("user/me/reviews")
+    public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return reviewService.getMyReviews(userDetails.getUser());
     }
 }
