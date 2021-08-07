@@ -8,6 +8,7 @@ import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,9 +53,10 @@ class UserServiceTest {
         webtoonRepository.save(webtoon8);
         webtoonRepository.save(webtoon9);
         webtoonRepository.save(webtoon10);
-        User user1 = new User("user1", 1, UserGrade.FIRST);
-        User user2 = new User("user2", 2, UserGrade.SECOND);
-        User user3 = new User("user3", 3, UserGrade.THIRD);
+
+        User user1 = new User("user1",  1, UserGrade.FIRST);
+        User user2 = new User("user2", 2, UserGrade.FIRST);
+        User user3 = new User("user3",  3, UserGrade.FIRST);
         User user4 = new User("user4", 4, UserGrade.FIRST);
         userRepository.save(user1);
         userRepository.save(user2);
@@ -79,6 +81,13 @@ class UserServiceTest {
 
     }
 
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAll();
+        webtoonRepository.deleteAll();
+        reviewRepository.deleteAll();
+    }
+
     @DisplayName("베스트 리뷰어(리뷰작성개수 순)")
     @Test
     public void test(){
@@ -88,7 +97,7 @@ class UserServiceTest {
         List<BestReviewerResponseDto> BestReviewer = userService.getBestReviewerRank();
         //then
         for (BestReviewerResponseDto bestReviewerResponseDto : BestReviewer) {
-            System.out.println("bestReviewerResponseDto.getUserName()" + bestReviewerResponseDto.getUserName());
+            System.out.println("bestReviewerResponseDto.getUserName()" + bestReviewerResponseDto.getUser());
         }
     }
 }

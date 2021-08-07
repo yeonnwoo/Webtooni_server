@@ -22,10 +22,11 @@ public class TalkReviewController {
     private final TalkReviewRepository talkReviewRepository;
     private final TalkPost talkPost;
 
-    @PostMapping("talk/comment")
-    public TalkBoardComment postComment(@RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    //댓글 작성
+    @PostMapping("talk/{id}/comment")
+    public TalkBoardComment postComment(@PathVariable Long id,@RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
-        return talkReviewService.reviewPost(requestDto, user);
+        return talkReviewService.reviewPost(id,requestDto, user);
     }
 
     @GetMapping("talk/{id}/comment")
@@ -41,7 +42,6 @@ public class TalkReviewController {
     /**
      * TODO service 쪽으로 돌릴 수 있는 거 돌리기
      */
-
     @DeleteMapping("talk/{id}/comment")
     public void delete(@PathVariable Long id){
         TalkBoardComment talkBoardComment = talkReviewRepository.findById(id).orElseThrow(

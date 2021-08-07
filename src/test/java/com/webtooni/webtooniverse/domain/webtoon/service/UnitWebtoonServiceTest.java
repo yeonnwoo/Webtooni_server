@@ -3,6 +3,9 @@ package com.webtooni.webtooniverse.domain.webtoon.service;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
@@ -34,6 +37,9 @@ public class UnitWebtoonServiceTest {
     @Mock
     private ReviewRepository reviewRepository;
 
+    @Mock
+    private UserRepository userRepository;
+
     /**
      * 웹툰 1개 정보, 리뷰 리스트 불러오기 테스트
      */
@@ -47,16 +53,29 @@ public class UnitWebtoonServiceTest {
 
         List<Genre> genres = new ArrayList<>(Arrays.asList(g1,g2));
 
+        //임시 유저
+        User user = User.builder()
+                .userName("홍길동")
+                .userImg(1)
+                .userGrade(UserGrade.FIRST)
+                .build();
+
+        userRepository.save(user);
+
         //웹툰
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
+
+        webtoonRepository.save(w1);
 
 
-        //리뷰 생성
-        Review review1 = createReview("리뷰 내용1", 4.5F, 13);
-        Review review2 = createReview("리뷰 내용2", 4.3F, 15);
+        //리뷰
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13,user,w1);
+        Review review2 = createReview("리뷰 내용2", 4.3F, 15,user,w1);
+
+        reviewRepository.save(review1);
+        reviewRepository.save(review2);
 
         List<Review> reviews = new ArrayList<>(Arrays.asList(review1,review2));
-
 
         //mocking
         given(webtoonRepository.findById(1L)).willReturn(Optional.of(w1));
@@ -87,9 +106,9 @@ public class UnitWebtoonServiceTest {
         List<Genre> genreList = new ArrayList<>(Arrays.asList(g1,g3));
 
         //웹툰
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1");
-        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2");
-        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3");
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
+        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
+        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3",20);
 
         List<Webtoon> webtoonList = new ArrayList<>(Arrays.asList(w2,w3));
 
@@ -105,27 +124,30 @@ public class UnitWebtoonServiceTest {
 
     }
 
-
-
     /**
      * 데이터를 임의로 생성한다.
      */
 
-    //리뷰 생성
-    private Review createReview(String reviewContent, float userPointNumber, int likeCount) {
+    private Review createReview(String reviewContent, float userPointNumber, int likeCount, User user, Webtoon webtoon) {
         return Review.builder()
                 .reviewContent(reviewContent)
                 .userPointNumber(userPointNumber)
                 .likeCount(likeCount)
+                .user(user)
+                .webtoon(webtoon)
                 .build();
     }
 
-    //웹툰 생성
-    private Webtoon createWebtoon(String title, String author, String content) {
+    private Webtoon createWebtoon(String toonTitle,String toonAuthor,String toonContent,int totalPointCount) {
         return Webtoon.builder()
-                .toonTitle(title)
-                .toonAuthor(author)
-                .toonContent(content)
+                .toonTitle(toonTitle)
+                .toonAuthor(toonAuthor)
+                .toonContent(toonContent)
+                .toonImg("이미지.png")
+                .realUrl("http://naver")
+                .toonPlatform("네이버")
+                .toonAvgPoint((float) 3.5)
+                .totalPointCount(totalPointCount)
                 .build();
     }
 
