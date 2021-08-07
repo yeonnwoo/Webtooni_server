@@ -11,10 +11,7 @@ import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenreRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -44,32 +41,36 @@ class WebtoonRepositoryImplTest {
     @Autowired
     WebtoonGenreRepository webtoonGenreRepository;
 
+
     @BeforeEach
-    void getDummyData(){
+    void setUp(){
         User user1 = new User("user1");
         User user2 = new User("user2");
         User user3 = new User("user3");
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
-        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
-        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
-        Webtoon webtoon3 = new Webtoon("웹툰3", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
-        Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
-        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
-        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
+
+        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0,4,false);
+        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
+        Webtoon webtoon3 = new Webtoon("웹툰3", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
+        Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 3.0f, 0, 4,true);
+        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 5.0f, 0, 4,true);
+        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.5f, 0, 4,true);
+
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);
         webtoonRepository.save(webtoon4);
         webtoonRepository.save(webtoon5);
         webtoonRepository.save(webtoon6);
-        Review review1 = new Review(user1,5.0f,webtoon1,1);
-        Review review2 = new Review(user2,5.0f,webtoon2,2);
-        Review review3 = new Review(user2,4.0f,webtoon3,3);
-        Review review4 = new Review(user3,3.5f,webtoon1,4);
-        Review review5 = new Review(user3,5.0f,webtoon5,5);
-        Review review6 = new Review(user3,4.0f,webtoon6,6);
+        Review review1 = createReview("리뷰 내용1", 5.0f, 1,user1,webtoon1);
+        Review review2 = createReview("리뷰 내용2", 5.0f, 2,user2,webtoon2);
+        Review review3 = createReview("리뷰 내용3", 4.0f, 3,user2,webtoon3);
+        Review review4 = createReview("리뷰 내용4", 3.5f, 4,user3,webtoon1);
+        Review review5 = createReview("리뷰 내용5", 5.0f, 5,user3,webtoon5);
+        Review review6 = createReview("리뷰 내용6", 4.0f, 6,user3,webtoon6);
+
         reviewRepository.save(review1);
         reviewRepository.save(review2);
         reviewRepository.save(review3);
@@ -102,6 +103,17 @@ class WebtoonRepositoryImplTest {
         webtoonGenreRepository.save(webtoonGenre6);
     }
 
+    @AfterEach
+    void tearDown()
+    {
+        webtoonRepository.deleteAll();
+        userGenreRepository.deleteAll();
+        reviewRepository.deleteAll();
+        userRepository.deleteAll();
+        genreRepository.deleteAll();
+        webtoonGenreRepository.deleteAll();
+    }
+
 
     @Test
     @DisplayName("베스트 리뷰어 / 리뷰 수 / 좋아요 수 검색")
@@ -112,7 +124,6 @@ class WebtoonRepositoryImplTest {
                     + bestReviewerResponseDto.getReviewCount() + " " + bestReviewerResponseDto.getLikeCount());
         }
     }
-
 
     @Nested
     @DisplayName("금주의 웹툰 평론가 추천")
@@ -236,10 +247,7 @@ class WebtoonRepositoryImplTest {
 
     }
 
-
-
-
-   public LocalDateTime startDate(){
+    public LocalDateTime startDate(){
         LocalDateTime date = LocalDateTime.now().minusDays(1);
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         LocalDateTime startDate = LocalDateTime.now();
@@ -250,5 +258,15 @@ class WebtoonRepositoryImplTest {
             }
         }
         return startDate.withHour(0).withMinute(0).withSecond(0);
+    }
+
+    private Review createReview(String reviewContent, float userPointNumber, int likeCount,User user,Webtoon webtoon) {
+        return Review.builder()
+                .reviewContent(reviewContent)
+                .userPointNumber(userPointNumber)
+                .likeCount(likeCount)
+                .user(user)
+                .webtoon(webtoon)
+                .build();
     }
 }

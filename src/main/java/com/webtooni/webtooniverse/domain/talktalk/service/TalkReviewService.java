@@ -13,9 +13,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
+@RequiredArgsConstructor
 @Transactional
 @Service
-@RequiredArgsConstructor
 public class TalkReviewService {
 
     private final TalkReviewRepository talkReviewRepository;
@@ -28,6 +29,7 @@ public class TalkReviewService {
                 ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
         );
         talkPost.updateTalkCommentNum(1);
+
         return talkBoardComment;
     }
 

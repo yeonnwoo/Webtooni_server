@@ -1,12 +1,19 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -15,27 +22,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-
-
-import com.webtooni.webtooniverse.domain.genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
 
 
 @RequiredArgsConstructor

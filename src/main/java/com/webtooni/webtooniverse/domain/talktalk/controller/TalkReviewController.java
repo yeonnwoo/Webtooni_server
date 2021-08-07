@@ -20,6 +20,7 @@ public class TalkReviewController {
 
     private final TalkReviewService talkReviewService;
 
+
     @PostMapping("talk/{id}comment")
     public TalkBoardComment postComment(@PathVariable Long id, @RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
@@ -39,7 +40,6 @@ public class TalkReviewController {
     /**
      * TODO service 쪽으로 돌릴 수 있는 거 돌리기
      */
-
     @DeleteMapping("talk/{id}/comment")
     public void delete(@PathVariable Long id){
         talkReviewService.commentDelete(id);
