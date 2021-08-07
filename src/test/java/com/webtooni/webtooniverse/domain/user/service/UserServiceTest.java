@@ -82,6 +82,8 @@ class UserServiceTest {
 
     @AfterEach
     void tearDown() {
+        userRepository.deleteAll();
+        webtoonRepository.deleteAll();
         reviewRepository.deleteAll();
     }
 
@@ -94,7 +96,7 @@ class UserServiceTest {
         List<BestReviewerResponseDto> BestReviewer = userService.getBestReviewerRank();
         //then
         for (BestReviewerResponseDto bestReviewerResponseDto : BestReviewer) {
-            System.out.println("bestReviewerResponseDto.getUserName()" + bestReviewerResponseDto.getUserName());
+            System.out.println("bestReviewerResponseDto.getUserName()" + bestReviewerResponseDto.getUser());
         }
     }
 }

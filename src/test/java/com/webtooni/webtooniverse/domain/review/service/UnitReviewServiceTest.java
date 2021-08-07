@@ -44,10 +44,6 @@ public class UnitReviewServiceTest {
     @InjectMocks
     private ReviewService reviewService;
 
-    @AfterEach
-    public void tearDown() {
-        reviewRepository.deleteAll();
-    }
 
     /**
      * 리뷰 수정 테스트

@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkLikeResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkLikeResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkLikeRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -10,12 +10,12 @@ import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class TalkLikeService {
@@ -23,9 +23,6 @@ public class TalkLikeService {
     private final TalkLikeRepository talkLikeRepository;
     private final TalkPostRepository talkPostRepository;
 
-
-
-    @Transactional
     public TalkLikeResponseDto postLike(Long talkPostId) {
 
         TalkPost talkPost = talkPostRepository.findById(talkPostId).orElseThrow(

@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Entity
 public class Review extends TimeStamped {
 
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
@@ -32,14 +31,6 @@ public class Review extends TimeStamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-//    @Builder
-//    public Review(String reviewContent, float userPointNumber, int likeCount) {
-//        this.reviewContent = reviewContent;
-//        this.userPointNumber = userPointNumber;
-//        this.likeCount = likeCount;
-//    }
-
 
     @Builder
     public Review(String reviewContent, float userPointNumber, int likeCount, Webtoon webtoon, User user) {
@@ -111,24 +102,5 @@ public class Review extends TimeStamped {
     {
         this.likeCount-=1;
     }
-
-    public Review(User user, Webtoon webtoon) {
-        this.user = user;
-        this.webtoon = webtoon;
-    }
-
-    public Review(User user, float userPointNumber, Webtoon webtoon) {
-        this.user = user;
-        this.userPointNumber = userPointNumber;
-        this.webtoon = webtoon;
-    }
-
-    public Review(User user, float userPointNumber, Webtoon webtoon, int likeCount) {
-        this.user = user;
-        this.userPointNumber = userPointNumber;
-        this.webtoon = webtoon;
-        this.likeCount = likeCount;
-    }
-
 
 }

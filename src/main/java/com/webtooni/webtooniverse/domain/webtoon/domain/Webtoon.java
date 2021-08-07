@@ -17,7 +17,6 @@ public class Webtoon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "toon_id")
     private Long id;
 

@@ -90,7 +90,6 @@ class ReviewServiceTest {
 
     }
 
-
     @DisplayName("리뷰를 삭제한다.")
     @Test
     public void deleteReview() {
@@ -128,7 +127,6 @@ class ReviewServiceTest {
     /**
      * 리뷰에 좋아요 누르기 테스트
      */
-
     @DisplayName("리뷰에 좋아요를 누르기 테스트_처음 누르는 사용자")
     @Test
     public void clickReviewLike() {
