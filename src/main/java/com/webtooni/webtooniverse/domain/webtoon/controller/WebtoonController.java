@@ -2,17 +2,14 @@ package com.webtooni.webtooniverse.domain.webtoon.controller;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +25,7 @@ public class WebtoonController {
      * @return
      */
     @GetMapping("offer/best-reviewer")
-    public List<WebtoonResponseDto> getBestReviewerWebtoons(){
+    public BestReviewerWebtoonResponseDto getBestReviewerWebtoons(){
         return webtoonService.getBestReviewerWebtoon();
     }
 

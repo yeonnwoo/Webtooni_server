@@ -69,16 +69,20 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
     }
 
+    //베스트 리뷰어 추천 웹툰
     @Override
-    public List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate) {
-        User bestReviewer = queryFactory.select(review.user)
+    public User findBestReviewer(LocalDateTime startDate) {
+        return queryFactory.select(review.user)
                 .from(review)
                 .where(review.createDate.between(startDate, LocalDateTime.now()))
                 .groupBy(review.user)
                 .orderBy(review.user.count().desc())
                 .limit(1)
                 .fetchOne();
+    }
 
+    @Override
+    public List<Webtoon> findBestReviewerWebtoon(User bestReviewer) {
         return queryFactory.select(review.webtoon)
                 .from(review)
                 .where(review.user.eq(bestReviewer))
@@ -86,6 +90,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .limit(5)
                 .fetch();
     }
+
 
     //유저 취향 웹툰 추천
     @Override
