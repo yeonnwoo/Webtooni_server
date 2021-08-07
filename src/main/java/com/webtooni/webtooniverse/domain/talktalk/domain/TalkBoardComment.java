@@ -3,19 +3,20 @@ package com.webtooni.webtooniverse.domain.talktalk.domain;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class TalkReview extends TimeStamped {
+public class TalkBoardComment extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "talk_review_id")
+    @Column(name = "talk_comment_id")
     private Long id;
 
     @ManyToOne
@@ -26,10 +27,10 @@ public class TalkReview extends TimeStamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false)
+    @Column(name = "talk_comment")
     private String commentContent;
 
-    public TalkReview(TalkReviewRequestDto requestDto, User user){
+    public TalkBoardComment(TalkReviewRequestDto requestDto, User user){
         this.talkPost = requestDto.getTalkPost();
         this.commentContent = requestDto.getCommentContent();
         this.user = user;

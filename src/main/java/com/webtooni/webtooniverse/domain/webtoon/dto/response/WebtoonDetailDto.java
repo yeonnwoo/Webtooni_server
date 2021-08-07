@@ -45,9 +45,7 @@ public class WebtoonDetailDto {
         this.toonImg=webtoon.getToonImg();
         this.toonTitle=webtoon.getToonTitle();
         this.toonAuthor=webtoon.getToonAuthor();
-
         this.toonGenre=genreList;
-
         this.toonAge=webtoon.getToonAge();
         this.realUrl=webtoon.getRealUrl();
         this.totalPointCount=webtoon.getTotalPointCount();
@@ -57,7 +55,6 @@ public class WebtoonDetailDto {
         this.toonFlatform=webtoon.getToonPlatform();
         this.reviewCount=reviewList.size();
         this.finished=webtoon.isFinished();
-
         this.reviews=reviewList;
     }
 

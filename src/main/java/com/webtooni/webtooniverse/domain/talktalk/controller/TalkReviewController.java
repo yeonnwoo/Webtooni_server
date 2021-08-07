@@ -1,10 +1,9 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkReview;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewGetRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
-import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkReviewRepository;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/v1/talk/*")
+@RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 public class TalkReviewController {
 
@@ -23,31 +22,32 @@ public class TalkReviewController {
     private final TalkReviewRepository talkReviewRepository;
     private final TalkPost talkPost;
 
-    @PostMapping("/comment")
-    public TalkReview postComment(@RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @PostMapping("talk/comment")
+    public TalkBoardComment postComment(@RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
-        TalkReview talkReview = talkReviewService.reviewPost(requestDto, user);
-        return talkReview;
+        return talkReviewService.reviewPost(requestDto, user);
     }
 
-    @GetMapping("/{id}/comment")
+    @GetMapping("talk/{id}/comment")
     public List<TalkReviewGetRequestDto> getComment(@PathVariable Long id) {
-        List<TalkReviewGetRequestDto> commentList = talkReviewService.getComment(id);
-        return commentList;
+        return talkReviewService.getComment(id);
     }
 
-    @PutMapping("/{id}/comment")
-    public TalkReview updateComment(@RequestBody TalkReviewRequestDto requestDto, @PathVariable Long id){
-        TalkReview talkReview = talkReviewService.update(requestDto, id);
-        return talkReview;
+    @PutMapping("talk/{id}/comment")
+    public TalkBoardComment updateComment(@RequestBody TalkReviewRequestDto requestDto, @PathVariable Long id){
+        return talkReviewService.update(requestDto, id);
     }
 
-    @DeleteMapping("/{id}/comment")
+    /**
+     * TODO service 쪽으로 돌릴 수 있는 거 돌리기
+     */
+
+    @DeleteMapping("talk/{id}/comment")
     public void delete(@PathVariable Long id){
-        TalkReview talkReview = talkReviewRepository.findById(id).orElseThrow(
+        TalkBoardComment talkBoardComment = talkReviewRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당 댓글을 찾을 수 없습니다")
         );
         talkPost.updateTalkCommentNum(-1);
-        talkReviewRepository.delete(talkReview);
+        talkReviewRepository.delete(talkBoardComment);
     }
 }
