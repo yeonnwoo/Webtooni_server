@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.talktalk.dto.requset;
+package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class TalkReviewGetRequestDto {
-    private Long id;
+public class TalkCommentResponseDto {
+    private Long talkBoardCommentId;
     private TalkPost talkPost;
     private String commentContent;
     private User user;
@@ -19,8 +19,8 @@ public class TalkReviewGetRequestDto {
     private UserGrade userGrade;
 
 
-    public TalkReviewGetRequestDto(TalkBoardComment talkBoardComment){
-        this.id = talkBoardComment.getId();
+    public TalkCommentResponseDto(TalkBoardComment talkBoardComment){
+        this.talkBoardCommentId = talkBoardComment.getId();
         this.talkPost = talkBoardComment.getTalkPost();
         this.commentContent = talkBoardComment.getCommentContent();
         this.user = talkBoardComment.getUser();

@@ -5,7 +5,7 @@ import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.Getter;
 
 @Getter
-public class TalkReviewRequestDto {
+public class TalkCommentRequestDto {
 
     /**
      * TODO 사용여부 확인

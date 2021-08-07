@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TalkPostResponseDto {
 
-    private Long id;
+    private Long TalkPostid;
     private User user;
     private int userImg;
     private String userName;
@@ -21,7 +21,7 @@ public class TalkPostResponseDto {
     private int talkCommentCount;
 
     public TalkPostResponseDto(TalkPost talkPost){
-        this.id = talkPost.getId();
+        this.TalkPostid = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();
         this.likeNum = talkPost.getLikeNum();
