@@ -1,10 +1,18 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.review.domain.Review;
+import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -13,27 +21,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-
-
-import com.webtooni.webtooniverse.domain.genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
 
 
 @RequiredArgsConstructor
@@ -50,24 +37,23 @@ public class WebtoonService {
     }
 
     //유저 관심 장르 중 랜덤 추천
-    public List<WebtoonResponseDto> getForUserWebtoon() {
-//        int howManyWebtoons = 5;
-//        List<Webtoon> userGenreWebtoons = webtoonRepository.findUserGenreWebtoon(user);
-//        Collections.shuffle(userGenreWebtoons);
-//        List<Webtoon> countedUserGenreWebtooons = new ArrayList<>();
-//        for (int i = 0; i < howManyWebtoons; i++) {
-//            countedUserGenreWebtooons.add(userGenreWebtoons.get(i));
-//        }
-//        return countedUserGenreWebtooons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
-
-        return getBestReviewerWebtoon();
+    public List<WebtoonResponseDto> getForUserWebtoon(User user) {
+        int howManyWebtoons = 5;
+        List<Webtoon> userGenreWebtoons = webtoonRepository.findUserGenreWebtoon(user);
+        Collections.shuffle(userGenreWebtoons);
+        List<Webtoon> countedUserGenreWebtooons = new ArrayList<>();
+        for (int i = 0; i < howManyWebtoons; i++) {
+            countedUserGenreWebtooons.add(userGenreWebtoons.get(i));
+        }
+        return countedUserGenreWebtooons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+//        return getBestReviewerWebtoon();
     }
 
     //비슷한 취향을 가진 유저가 높게 평가한 작품 추천
-    public List<WebtoonResponseDto> getSimilarUserWebtoon() {
-//        List<Webtoon> similarUserWebtoons = webtoonRepository.findSimilarUserWebtoon(user);
-//        return similarUserWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
-        return getBestReviewerWebtoon();
+    public List<WebtoonResponseDto> getSimilarUserWebtoon(User user) {
+        List<Webtoon> similarUserWebtoons = webtoonRepository.findSimilarUserWebtoon(user);
+        return similarUserWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+//        return getBestReviewerWebtoon();
     }
 
     //MD 추천

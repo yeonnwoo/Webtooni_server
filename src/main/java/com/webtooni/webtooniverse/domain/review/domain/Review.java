@@ -12,7 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Review extends TimeStamped {
+public class
+Review extends TimeStamped {
 
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

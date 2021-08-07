@@ -20,7 +20,7 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "user_password")
+    @Column(name = "password")
     private String password;
 
     @Column(name = "user_img")
@@ -53,5 +53,11 @@ public class User {
 
     public User(String userName){
         this.userName=userName;
+    }
+
+    public User(String userName, int userImg, UserGrade userGrade) {
+        this.userName = userName;
+        this.userImg = userImg;
+        this.userGrade = userGrade;
     }
 }

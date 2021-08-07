@@ -1,5 +1,5 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
-import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,6 @@ public class Webtoon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "toon_id")
     private Long id;
 
@@ -42,13 +41,6 @@ public class Webtoon {
 
     private boolean finished;
 
-
-    @Builder
-    public Webtoon(String toonTitle, String toonAuthor, String toonContent) {
-        this.toonTitle = toonTitle;
-        this.toonAuthor = toonAuthor;
-        this.toonContent = toonContent;
-    }
 
     @Builder
     public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
@@ -104,11 +96,5 @@ public class Webtoon {
 
     public Webtoon(String toonTitle) {
         this.toonTitle = toonTitle;
-    }
-
-    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg,
-                   String toonWeekday, String realUrl, String toonAge, String toonPlatform, float toonAvgPoint,
-                   int reviewCount, boolean finished, int totalPointCount) {
-
     }
 }
