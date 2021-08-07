@@ -14,20 +14,21 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Transactional
 @Service
-@RequiredArgsConstructor
 public class TalkReviewService {
 
     private final TalkReviewRepository talkReviewRepository;
     private final TalkPostRepository talkPostRepository;
 
-    @Transactional
-    public TalkBoardComment reviewPost(Long id, TalkReviewRequestDto requestDto, User user) {
+    //댓글 작성
+    public TalkBoardComment reviewPost(Long id,TalkReviewRequestDto requestDto, User user) {
         TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user);
         talkReviewRepository.save(talkBoardComment);
+
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("게시글이 없습니다.")
+                () -> new IllegalArgumentException("해당 id는 존재하지 않습니다.")
         );
         talkPost.updateTalkCommentNum(1);
         return talkBoardComment;

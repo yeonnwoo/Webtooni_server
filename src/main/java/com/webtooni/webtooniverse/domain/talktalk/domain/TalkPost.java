@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
 @Getter
 @Table(name = "talk_board")
+@Entity
 public class TalkPost extends TimeStamped {
 
     @Id

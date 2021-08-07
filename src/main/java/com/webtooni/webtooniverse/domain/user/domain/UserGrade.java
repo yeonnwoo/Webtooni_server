@@ -5,5 +5,4 @@ public enum UserGrade {
 
     FIRST,SECOND,THIRD
 
-
 }
