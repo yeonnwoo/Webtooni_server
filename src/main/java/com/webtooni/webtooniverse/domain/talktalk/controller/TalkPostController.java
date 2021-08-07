@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -37,11 +37,9 @@ public class TalkPostController {
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id) {
-        TalkPost talkPost =  talkPostRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 포스팅이 존재하지 않습니다.")
-        );
-        return new TalkPostResponseDto(talkPost);
+        return talkPostService.getOnePost(id);
     }
+
 
     @PutMapping("talk/{id}")
     public Long updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto) {

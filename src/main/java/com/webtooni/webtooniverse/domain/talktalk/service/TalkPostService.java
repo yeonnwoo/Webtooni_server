@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +25,20 @@ public class TalkPostService {
         return talkPost;
     }
 
-
-
     public Long updatePost(Long id, TalkPostRequestDto talkPostRequestDto){
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
         );
         talkPost.update(talkPostRequestDto);
         return id;
+    }
+
+    public TalkPostResponseDto getOnePost(Long id){
+        TalkPost talkPost =  talkPostRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("해당 포스팅이 존재하지 않습니다.")
+        );
+        TalkPostResponseDto responseDto = new TalkPostResponseDto(talkPost);
+        return responseDto;
     }
 
     /**

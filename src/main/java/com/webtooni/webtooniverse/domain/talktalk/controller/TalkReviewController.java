@@ -2,8 +2,8 @@ package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewGetRequestDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkReviewGetRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkReviewRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkReviewRepository;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -19,13 +19,11 @@ import java.util.List;
 public class TalkReviewController {
 
     private final TalkReviewService talkReviewService;
-    private final TalkReviewRepository talkReviewRepository;
-    private final TalkPost talkPost;
 
-    @PostMapping("talk/comment")
-    public TalkBoardComment postComment(@RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    @PostMapping("talk/{id}comment")
+    public TalkBoardComment postComment(@PathVariable Long id, @RequestBody TalkReviewRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
-        return talkReviewService.reviewPost(requestDto, user);
+        return talkReviewService.commentPost(requestDto, user, id);
     }
 
     @GetMapping("talk/{id}/comment")
@@ -44,10 +42,6 @@ public class TalkReviewController {
 
     @DeleteMapping("talk/{id}/comment")
     public void delete(@PathVariable Long id){
-        TalkBoardComment talkBoardComment = talkReviewRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 댓글을 찾을 수 없습니다")
-        );
-        talkPost.updateTalkCommentNum(-1);
-        talkReviewRepository.delete(talkBoardComment);
+        talkReviewService.commentDelete(id);
     }
 }

@@ -2,8 +2,9 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewGetRequestDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkReviewGetRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkReviewRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,25 @@ import java.util.List;
 public class TalkReviewService {
 
     private final TalkReviewRepository talkReviewRepository;
-    private final TalkPost talkPost;
+    private final TalkPostRepository talkPostRepository;
 
-    public TalkBoardComment reviewPost(TalkReviewRequestDto requestDto, User user) {
+    public TalkBoardComment commentPost(TalkReviewRequestDto requestDto, User user, Long id) {
         TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user);
         talkReviewRepository.save(talkBoardComment);
+        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
+                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
+        );
         talkPost.updateTalkCommentNum(1);
         return talkBoardComment;
+    }
+
+    public void commentDelete(Long id){
+        TalkBoardComment talkBoardComment = talkReviewRepository.findById(id).orElseThrow(
+                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
+        );
+        TalkPost talkPost = talkBoardComment.getTalkPost();
+        talkPost.updateTalkCommentNum(-1);
+        talkReviewRepository.delete(talkBoardComment);
     }
 
 

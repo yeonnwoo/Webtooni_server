@@ -17,11 +17,15 @@ public class TalkPostResponseDto {
     private UserGrade userGrade;
     private String postTitle;
     private String postContent;
+    private int likeNum;
+    private int talkCommentCount;
 
     public TalkPostResponseDto(TalkPost talkPost){
         this.id = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();
+        this.likeNum = talkPost.getLikeNum();
+        this.talkCommentCount = talkPost.getTalkCommentCount();
         this.user = talkPost.getUser();
         this.userImg = talkPost.getUser().getUserImg();
         this.userName = talkPost.getUser().getUserName();

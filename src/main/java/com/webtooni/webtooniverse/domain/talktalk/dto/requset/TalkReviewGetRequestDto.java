@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.talktalk.dto;
+package com.webtooni.webtooniverse.domain.talktalk.dto.requset;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;

@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkReviewRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
 import lombok.AccessLevel;
