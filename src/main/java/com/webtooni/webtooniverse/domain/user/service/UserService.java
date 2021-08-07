@@ -8,6 +8,7 @@ import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -87,6 +89,14 @@ public class UserService {
             userGenres.add(userGenre);
         }
         return userGenres;
+    }
+
+    public UserInfoResponseDto getUserInfo(User user) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
+        );
+        return new UserInfoResponseDto(findUser);
+
     }
 }
 

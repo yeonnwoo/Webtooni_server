@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.user.controller;
 
 
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -48,5 +49,10 @@ public class UserController {
     @GetMapping("/api/v1/rank/reviewers")
     public List<BestReviewerResponseDto> getBestReviewers() {
         return userService.getBestReviewerRank();
+    }
+
+    @GetMapping("/api/v1/user/info")
+    public UserInfoResponseDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return userService.getUserInfo(userDetails.getUser());
     }
 }
