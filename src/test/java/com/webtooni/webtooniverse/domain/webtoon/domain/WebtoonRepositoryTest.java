@@ -1,10 +1,12 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,16 @@ class WebtoonRepositoryTest {
     @Autowired
     private WebtoonRepository webtoonRepository;
 
+    @Autowired
+    private ReviewRepository reviewRepository;
+
     @PersistenceContext
     EntityManager em;
+
+    @AfterEach
+    public void tearDown() {
+        reviewRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("웹툰의 장르가 잘 찾아와지는지 테스트")
@@ -102,7 +112,6 @@ class WebtoonRepositoryTest {
         //유저
         User user = User.builder()
                 .userName("홍길동")
-                .userEmail("abc@naver.com")
                 .userImg(1)
                 .userGrade(UserGrade.FIRST)
                 .build();
@@ -117,7 +126,7 @@ class WebtoonRepositoryTest {
         em.persist(review2);
 
         //then
-        List<Review> reviewList = webtoonRepository.findReviewByWebToonId(w1.getId());
+        List<Review> reviewList = reviewRepository.findReviewByWebToonId(w1.getId());
 
         //내용이 null인 리뷰는 나오면 안됨
         assertThat(reviewList.size()).isEqualTo(1);

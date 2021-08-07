@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
+import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 public class WebtoonService {
 
     private final WebtoonRepository webtoonRepository;
+    private final ReviewRepository reviewRepository;
 
     //금주의 웹툰 평론가 추천
     public List<WebtoonResponseDto> getBestReviewerWebtoon() {
@@ -153,7 +155,7 @@ public class WebtoonService {
         genreList.add(WebToonGenre.get(1).getGenreType());
 
         //해당 웹툰의 리뷰 찾기
-        List<Review> reviewList = webtoonRepository.findReviewByWebToonId(id);
+        List<Review> reviewList = reviewRepository.findReviewByWebToonId(id);
 
         return new WebtoonDetailDto(webtoon, genreList, reviewList);
     }

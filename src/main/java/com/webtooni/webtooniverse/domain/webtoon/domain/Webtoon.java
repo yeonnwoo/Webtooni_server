@@ -1,9 +1,12 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
+
 import javax.persistence.*;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 
@@ -44,13 +47,6 @@ public class Webtoon {
 
 
     @Builder
-    public Webtoon(String toonTitle, String toonAuthor, String toonContent) {
-        this.toonTitle = toonTitle;
-        this.toonAuthor = toonAuthor;
-        this.toonContent = toonContent;
-    }
-
-    @Builder
     public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
                    String realUrl, String toonAge, String toonPlatform, float toonAvgPoint,
                    int totalPointCount, int reviewCount, boolean finished) {
@@ -67,6 +63,7 @@ public class Webtoon {
         this.reviewCount = reviewCount;
         this.finished = finished;
     }
+
 
     /**
      * case : 별점을 처음 다는 유저
@@ -102,13 +99,4 @@ public class Webtoon {
 
     }
 
-    public Webtoon(String toonTitle) {
-        this.toonTitle = toonTitle;
-    }
-
-    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg,
-                   String toonWeekday, String realUrl, String toonAge, String toonPlatform, float toonAvgPoint,
-                   int reviewCount, boolean finished, int totalPointCount) {
-
-    }
 }

@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
+import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
@@ -30,6 +31,9 @@ public class UnitWebtoonServiceTest {
     @Mock
     private WebtoonRepository webtoonRepository;
 
+    @Mock
+    private ReviewRepository reviewRepository;
+
     /**
      * 웹툰 1개 정보, 리뷰 리스트 불러오기 테스트
      */
@@ -57,7 +61,7 @@ public class UnitWebtoonServiceTest {
         //mocking
         given(webtoonRepository.findById(1L)).willReturn(Optional.of(w1));
         given(webtoonRepository.findWebToonGenre(w1)).willReturn(genres);
-        given(webtoonRepository.findReviewByWebToonId(1L)).willReturn(reviews);
+        given(reviewRepository.findReviewByWebToonId(1L)).willReturn(reviews);
 
         //when
         WebtoonDetailDto detailAndReviewList = webtoonService.getDetailAndReviewList(1L);
@@ -100,8 +104,6 @@ public class UnitWebtoonServiceTest {
         assertThat(genreToonDtoList.size()).isEqualTo(2);
 
     }
-
-
 
     /**
      * 데이터를 임의로 생성한다.

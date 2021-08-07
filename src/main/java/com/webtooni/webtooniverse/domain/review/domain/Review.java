@@ -33,12 +33,12 @@ public class Review extends TimeStamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Builder
-    public Review(String reviewContent, float userPointNumber, int likeCount) {
-        this.reviewContent = reviewContent;
-        this.userPointNumber = userPointNumber;
-        this.likeCount = likeCount;
-    }
+//    @Builder
+//    public Review(String reviewContent, float userPointNumber, int likeCount) {
+//        this.reviewContent = reviewContent;
+//        this.userPointNumber = userPointNumber;
+//        this.likeCount = likeCount;
+//    }
 
 
     @Builder
