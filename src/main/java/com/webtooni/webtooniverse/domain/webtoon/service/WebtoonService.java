@@ -6,7 +6,7 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
@@ -170,4 +170,10 @@ public class WebtoonService {
                 .collect(Collectors.toList());
     }
 
+    public List<WebtoonResponseDto> getMyListWebtoons(User user) {
+        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(user);
+        return myListWebtoon.stream()
+                .map(WebtoonResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

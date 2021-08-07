@@ -4,16 +4,20 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.myList.QMyList;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.LuhnCheck;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.webtooni.webtooniverse.domain.myList.QMyList.*;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
@@ -169,4 +173,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         }
         return dtos;
     }
+
+    @Override
+    public List<Webtoon> findMyListWebtoon(User user) {
+        return queryFactory.select(myList.webtoon)
+                .from(myList)
+                .where(myList.user.eq(user))
+                .fetch();
+    }
+
+
 }

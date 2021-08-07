@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.webtoon.controller;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -79,6 +79,11 @@ public class WebtoonController {
     public List<SimilarGenreToonDto> getSimilarWebtoon(@PathVariable Long id)
     {
         return webtoonService.getSimilarGenre(id);
+    }
+
+    @GetMapping("user/me/subscribe")
+    public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return webtoonService.getMyListWebtoons(userDetails.getUser());
     }
 
 }
