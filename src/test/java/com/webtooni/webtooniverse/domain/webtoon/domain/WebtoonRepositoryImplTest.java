@@ -8,6 +8,7 @@ import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
+import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenreRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,24 +52,25 @@ class WebtoonRepositoryImplTest {
         userRepository.save(user1);
         userRepository.save(user2);
         userRepository.save(user3);
-        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
-        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
-        Webtoon webtoon3 = new Webtoon("웹툰3", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
-        Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 3.0f, 0, 4,true);
-        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 5.0f, 0, 4,true);
-        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.5f, 0, 4,true);
+
+        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
+        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
+        Webtoon webtoon3 = new Webtoon("웹툰3", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
+        Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
+        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
+        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4, false);
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);
         webtoonRepository.save(webtoon4);
         webtoonRepository.save(webtoon5);
         webtoonRepository.save(webtoon6);
-        Review review1 = new Review(user1,5.0f,webtoon1,1);
-        Review review2 = new Review(user2,5.0f,webtoon2,2);
-        Review review3 = new Review(user2,4.0f,webtoon3,3);
-        Review review4 = new Review(user3,3.5f,webtoon1,4);
-        Review review5 = new Review(user3,5.0f,webtoon5,5);
-        Review review6 = new Review(user3,4.0f,webtoon6,6);
+        Review review1 = new Review(5.0f, webtoon1, user1);
+        Review review2 = new Review(5.0f, webtoon2, user2);
+        Review review3 = new Review(4.0f, webtoon3, user3);
+        Review review4 = new Review(3.5f, webtoon1, user3);
+        Review review5 = new Review(5.0f, webtoon5, user3);
+        Review review6 = new Review(4.0f, webtoon6, user3);
         reviewRepository.save(review1);
         reviewRepository.save(review2);
         reviewRepository.save(review3);
@@ -108,7 +110,7 @@ class WebtoonRepositoryImplTest {
         List<BestReviewerResponseDto> best = webtoonRepository.findBestReviewerForMain();
         for (BestReviewerResponseDto bestReviewerResponseDto : best) {
             System.out.println("bestReviewerResponseDto = " + bestReviewerResponseDto.getUser().getUserName() + " "
-                    + bestReviewerResponseDto.reviewCount + " " + bestReviewerResponseDto.getLikeCount());
+                    + bestReviewerResponseDto.getReviewCount() + " " + bestReviewerResponseDto.getLikeCount());
         }
     }
 

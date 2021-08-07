@@ -1,7 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostGetRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
@@ -13,41 +13,43 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 public class TalkPostController {
 
     private final TalkPostService talkPostService;
     private final TalkPostRepository talkPostRepository;
 
-    @PostMapping("/api/v1/talk")
+    @PostMapping("talk")
     public TalkPost post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
-        TalkPost talkPost = talkPostService.post(requestDto, user);
-        return talkPost;
+        return talkPostService.post(requestDto, user);
     }
 
-    @GetMapping("/api/v1/talk")
-    public List<TalkPostGetRequestDto> getPost() {
-        List<TalkPostGetRequestDto> list = talkPostService.getPost();
-        return list;
+    @GetMapping("talk")
+    public List<TalkPostResponseDto> getPost() {
+        return talkPostService.getPost();
     }
 
-    @GetMapping("/api/v1/talk/{id}")
-    public TalkPostGetRequestDto getPost(@PathVariable Long id) {
+    /**
+     * TODO service 쪽으로 돌릴 수 있는 거 돌리기
+     */
+
+    @GetMapping("talk/{id}")
+    public TalkPostResponseDto getPost(@PathVariable Long id) {
         TalkPost talkPost =  talkPostRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 포스팅이 존재하지 않습니다.")
         );
-        TalkPostGetRequestDto onePost = new TalkPostGetRequestDto(talkPost);
-        return onePost;
+        return new TalkPostResponseDto(talkPost);
     }
 
-    @PutMapping("/api/v1/talk/{id}")
+    @PutMapping("talk/{id}")
     public Long updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto) {
         talkPostService.updatePost(id, requestDto);
         return id;
     }
 
-    @DeleteMapping("/api/v1/talk/{id}")
+    @DeleteMapping("talk/{id}")
     public void delete(@PathVariable Long id){
         talkPostRepository.deleteById(id);
     }

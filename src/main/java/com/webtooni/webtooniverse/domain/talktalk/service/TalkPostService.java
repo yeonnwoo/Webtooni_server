@@ -1,25 +1,24 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkReview;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostGetRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
+@Service
 public class TalkPostService {
 
     private final TalkPostRepository talkPostRepository;
 
-
-    @Transactional
     public TalkPost post(TalkPostRequestDto requestDto, User user){
         TalkPost talkPost = new TalkPost(requestDto, user);
         talkPostRepository.save(talkPost);
@@ -27,7 +26,7 @@ public class TalkPostService {
     }
 
 
-    @Transactional
+
     public Long updatePost(Long id, TalkPostRequestDto talkPostRequestDto){
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
@@ -36,12 +35,15 @@ public class TalkPostService {
         return id;
     }
 
-    public List<TalkPostGetRequestDto> getPost() {
-        List<TalkPostGetRequestDto> sendingList = new ArrayList<>();
+    /**
+     * TODO 람다식으로 변경 확인
+     */
+    public List<TalkPostResponseDto> getPost() {
+        List<TalkPostResponseDto> sendingList = new ArrayList<>();
         List<TalkPost> talkPosts = talkPostRepository.findAll();
         for (TalkPost talkPost : talkPosts) {
-            TalkPostGetRequestDto talkPostGetRequestDto = new TalkPostGetRequestDto(talkPost);
-            sendingList.add(talkPostGetRequestDto);
+            TalkPostResponseDto talkPostResponseDto = new TalkPostResponseDto(talkPost);
+            sendingList.add(talkPostResponseDto);
         }
         return sendingList;
     }

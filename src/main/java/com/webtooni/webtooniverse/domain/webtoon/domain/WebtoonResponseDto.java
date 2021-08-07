@@ -6,19 +6,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WebtoonResponseDto {
-    Long id;
-    String toonTitle;
-    String toonAuthor;
-    String toonContent;
-    String toonImg;
-    String toonWeekday;
-    String realUrl;
-    String toonAge;
-    String toonPlatform;
-    int totalPointCount;
-    float toonAvgPoint;
-    int reviewCount;
-    boolean finished;
+    private Long id;
+    private String toonTitle;
+    private String toonAuthor;
+    private String toonContent;
+    private String toonImg;
+    private String toonWeekday;
+    private String realUrl;
+    private String toonAge;
+    private String toonPlatform;
+    private int totalPointCount;
+    private float toonAvgPoint;
+    private int reviewCount;
+    private boolean finished;
 
     public WebtoonResponseDto(Webtoon webtoon) {
         this.id = webtoon.getId();

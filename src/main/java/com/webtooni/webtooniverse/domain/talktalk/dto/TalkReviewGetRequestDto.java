@@ -1,10 +1,14 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkReview;
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class TalkReviewGetRequestDto {
     private Long id;
     private TalkPost talkPost;
@@ -15,13 +19,13 @@ public class TalkReviewGetRequestDto {
     private UserGrade userGrade;
 
 
-    public TalkReviewGetRequestDto(TalkReview talkReview){
-        this.id = talkReview.getId();
-        this.talkPost = talkReview.getTalkPost();
-        this.commentContent = talkReview.getCommentContent();
-        this.user = talkReview.getUser();
-        this.userImg = talkReview.getUser().getUserImg();
-        this.userName = talkReview.getUser().getUserName();
-        this.userGrade = talkReview.getUser().getUserGrade();
+    public TalkReviewGetRequestDto(TalkBoardComment talkBoardComment){
+        this.id = talkBoardComment.getId();
+        this.talkPost = talkBoardComment.getTalkPost();
+        this.commentContent = talkBoardComment.getCommentContent();
+        this.user = talkBoardComment.getUser();
+        this.userImg = talkBoardComment.getUser().getUserImg();
+        this.userName = talkBoardComment.getUser().getUserName();
+        this.userGrade = talkBoardComment.getUser().getUserGrade();
     }
 }

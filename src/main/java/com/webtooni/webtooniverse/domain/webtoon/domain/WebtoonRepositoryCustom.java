@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,13 +1,16 @@
-package com.webtooni.webtooniverse.domain.talktalk.dto;
+package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+public class TalkPostResponseDto {
 
-public class TalkPostGetRequestDto {
-
-    public Long id;
+    private Long id;
     private User user;
     private int userImg;
     private String userName;
@@ -15,7 +18,7 @@ public class TalkPostGetRequestDto {
     private String postTitle;
     private String postContent;
 
-    public TalkPostGetRequestDto(TalkPost talkPost){
+    public TalkPostResponseDto(TalkPost talkPost){
         this.id = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();

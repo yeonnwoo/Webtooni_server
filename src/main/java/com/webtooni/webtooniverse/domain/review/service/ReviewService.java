@@ -16,7 +16,6 @@ import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequest
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -30,9 +29,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-
+    private final ReviewLikeRepository reviewLikeRepository;
+    private final WebtoonRepository webtoonRepository;
 
     //리뷰 최신순 불러오기
+
     public ReviewMainResponseDto getMainReview(){
         List<Review> getRecentNewReviews = reviewRepository.getNewReview();
         List<Review> getRecentBestReviews = reviewRepository.getBestReview();
@@ -49,9 +50,6 @@ public class ReviewService {
         return new ReviewMainResponseDto(collectBestReview, collectNewReview);
 
     }
-
-    private final ReviewLikeRepository reviewLikeRepository;
-    private final WebtoonRepository webtoonRepository;
 
     /**
      * 리뷰를 작성하는 기능을 제공하는 구현체입니다.

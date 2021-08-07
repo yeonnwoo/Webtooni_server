@@ -7,9 +7,9 @@ import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
+import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
-import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -68,6 +68,7 @@ public class UserService {
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
+
     @Transactional
     public void updateInfo(Long id, UserInfoRequestDto requestDto){
         User user = userRepository.findById(id).orElseThrow(
@@ -75,6 +76,10 @@ public class UserService {
         );
         user.update(requestDto);
     }
+
+    /**
+     * TODO 수정 필요(오류)
+     */
 
     //베스트 리뷰어 가져오기
     public List<BestReviewerResponseDto> getBestReviewerRank(){
