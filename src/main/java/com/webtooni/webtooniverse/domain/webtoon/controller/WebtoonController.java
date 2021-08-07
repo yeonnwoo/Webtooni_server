@@ -30,12 +30,14 @@ public class WebtoonController {
 
     @GetMapping("offer/for-user")
     public List<WebtoonResponseDto> getForUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return webtoonService.getForUserWebtoon(userDetails.getUser());
+        User user = userDetails.getUser();
+        return webtoonService.getForUserWebtoon(user);
     }
 
     @GetMapping("offer/similar-user")
     public List<WebtoonResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return webtoonService.getSimilarUserWebtoon(userDetails.getUser());
+        User user = userDetails.getUser();
+        return webtoonService.getSimilarUserWebtoon(user);
     }
 
     @GetMapping("offer/md")

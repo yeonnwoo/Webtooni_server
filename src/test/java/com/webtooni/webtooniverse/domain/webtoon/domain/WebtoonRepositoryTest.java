@@ -1,6 +1,7 @@
 //package com.webtooni.webtooniverse.domain.webtoon.domain;
 //
 //import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+//import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 //import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 //import com.webtooni.webtooniverse.domain.review.domain.Review;
 //import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -24,6 +25,7 @@
 //
 //    @Autowired
 //    private WebtoonRepository webtoonRepository;
+//    private ReviewRepository reviewRepository;
 //
 //    @PersistenceContext
 //    EntityManager em;
@@ -102,7 +104,6 @@
 //        //유저
 //        User user = User.builder()
 //                .userName("홍길동")
-////                .userEmail("abc@naver.com")
 //                .userImg(1)
 //                .userGrade(UserGrade.FIRST)
 //                .build();
@@ -117,7 +118,7 @@
 //        em.persist(review2);
 //
 //        //then
-//        List<Review> reviewList = webtoonRepository.findReviewByWebToonId(w1.getId());
+//        List<Review> reviewList = reviewRepository.findReviewByWebToonId(w1.getId());
 //
 //        //내용이 null인 리뷰는 나오면 안됨
 //        assertThat(reviewList.size()).isEqualTo(1);

@@ -2,8 +2,10 @@ package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class PlatformRankResponseDto {
 
     private Long id;

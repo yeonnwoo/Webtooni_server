@@ -24,14 +24,4 @@ public class ReviewNewResponseDto {
         this.createDate = review.getCreateDate();
     }
 
-    public ReviewNewResponseDto(Review review, Long id, int userImg, String userName, float userPointNumber,
-                                String toonTitle) {
-        this.id = id;
-        this.userImg = userImg;
-        this.userName = userName;
-        this.userPointNumber = userPointNumber;
-        this.reviewContent = review.getReviewContent();
-        this.toonTitle = toonTitle;
-        this.createDate = review.getCreateDate();
-    }
 }

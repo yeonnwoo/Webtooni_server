@@ -16,7 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-
+@RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 @RestController
 public class ReviewController  {
@@ -25,13 +25,28 @@ public class ReviewController  {
     private final WebtoonRepository webtoonRepository;
     private final ReviewService reviewService;
 
-    @GetMapping("/api/v1/reviews/new")
+    // to do(dto로 묶어서 보내주기)
+    @GetMapping("reviews/new")
     public List<Review> getLatestReview() {
-        List<Review> reviewList = reviewRepository.findAllByOrderByCreateDate();
-        return reviewList;
+        return reviewRepository.findAllByOrderByCreateDate();
     }
+
+    @GetMapping("reviews/likes")
+    public List<Review> getLikeReview() {
+        return reviewRepository.findAllByOrderByLikeCountDesc();
+    }
+
+    @GetMapping("reviews/suggestion")
+    public List<Webtoon> gerUnreviewdlist() {
+        return webtoonRepository.findByReviewCountLessThanEqual(5);
+    }
+    /**
+     * TODO (dto로 묶어서 보내주기), service 거쳐서 가져오기 MVC
+     */
+
+
     //메인페이지에 리뷰(최신순/ 베스트순) 불러오기
-    @GetMapping("/api/v1/rank/reviews")
+    @GetMapping("rank/reviews")
     public ReviewMainResponseDto getTotalReviews() {
         return reviewService.getMainReview();
     }
@@ -42,18 +57,6 @@ public class ReviewController  {
         return reviewService.updateReview(id, reviewDto);
     }
 
-    @GetMapping("/api/v1/reviews/likes")
-    public List<Review> getLikeReview() {
-        List<Review> reviewList = reviewRepository.findAllByOrderByLikeCountDesc();
-        return reviewList;
-    }
-
-    @GetMapping("api/v1/reviews/suggestion")
-    public List<Webtoon> gerUnreviewdlist() {
-        List<Webtoon> webtoonList = webtoonRepository.findByReviewCountLessThanEqual(5);
-        return webtoonList;
-    }
-
     /**
      * 웹툰에 별점주기
      *
@@ -61,7 +64,6 @@ public class ReviewController  {
      */
     @PutMapping("reviews/star")
     public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
 
         //로그인된 유저 정보로 변경 되어야함
         User user = userDetails.getUser();

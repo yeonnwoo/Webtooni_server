@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
+import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class WebtoonService {
 
     private final WebtoonRepository webtoonRepository;
+    private final ReviewRepository reviewRepository;
 
     //금주의 웹툰 평론가 추천
     public List<WebtoonResponseDto> getBestReviewerWebtoon() {
@@ -41,19 +43,17 @@ public class WebtoonService {
         int howManyWebtoons = 5;
         List<Webtoon> userGenreWebtoons = webtoonRepository.findUserGenreWebtoon(user);
         Collections.shuffle(userGenreWebtoons);
-        List<Webtoon> countedUserGenreWebtooons = new ArrayList<>();
+        List<Webtoon> countedUserGenreWebtoons = new ArrayList<>();
         for (int i = 0; i < howManyWebtoons; i++) {
-            countedUserGenreWebtooons.add(userGenreWebtoons.get(i));
+            countedUserGenreWebtoons.add(userGenreWebtoons.get(i));
         }
-        return countedUserGenreWebtooons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
-//        return getBestReviewerWebtoon();
+        return countedUserGenreWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
     }
 
     //비슷한 취향을 가진 유저가 높게 평가한 작품 추천
     public List<WebtoonResponseDto> getSimilarUserWebtoon(User user) {
         List<Webtoon> similarUserWebtoons = webtoonRepository.findSimilarUserWebtoon(user);
         return similarUserWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
-//        return getBestReviewerWebtoon();
     }
 
     //MD 추천
@@ -64,6 +64,9 @@ public class WebtoonService {
         return new WebtoonResponseDto(webtoon);
     }
 
+    /**
+     * TODO 완결웹툰 5개를 보여줘야하는데 매번 같은 걸 보여줄 것 같아서 상위 10개에서 5개 랜덤으로 돌리는 방식 채택중 (추후 수정 필요)
+     */
     //완결 웹툰 추천
     public List<WebtoonResponseDto> getFinishedWebtoon() {
         int howManyWebtoons = 5;
@@ -139,7 +142,7 @@ public class WebtoonService {
         genreList.add(WebToonGenre.get(1).getGenreType());
 
         //해당 웹툰의 리뷰 찾기
-        List<Review> reviewList = webtoonRepository.findReviewByWebToonId(id);
+        List<Review> reviewList = reviewRepository.findReviewByWebToonId(id);
 
         return new WebtoonDetailDto(webtoon, genreList, reviewList);
     }

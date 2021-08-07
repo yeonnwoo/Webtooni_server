@@ -93,8 +93,4 @@ public class Webtoon {
         this.toonAvgPoint = Float.parseFloat(String.format("%.1f", totalPoint / this.totalPointCount));
 
     }
-
-    public Webtoon(String toonTitle) {
-        this.toonTitle = toonTitle;
-    }
 }
