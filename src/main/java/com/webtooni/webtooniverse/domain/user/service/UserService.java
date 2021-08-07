@@ -10,6 +10,7 @@ import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
+import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -34,14 +35,7 @@ public class UserService {
     private final KakaoOAuth2 kakaoOAuth2;
     private final UserGenreRepository userGenreRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, KakaoOAuth2 kakaoOAuth2, AuthenticationManager authenticationManager, UserGenreRepository userGenreRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.kakaoOAuth2 = kakaoOAuth2;
-        this.authenticationManager = authenticationManager;
-        this.userGenreRepository = userGenreRepository;
-    }
+    private final WebtoonRepository webtoonRepository;
 
     public void kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
@@ -77,17 +71,9 @@ public class UserService {
         user.update(requestDto);
     }
 
-    /**
-     * TODO 수정 필요(오류)
-     */
-
     //베스트 리뷰어 가져오기
     public List<BestReviewerResponseDto> getBestReviewerRank(){
-        List<User>  bestReviewer = userRepository.getBestReviewer();
-        return bestReviewer
-                .stream()
-                .map(BestReviewerResponseDto::new)
-                .collect(Collectors.toList());
+        return webtoonRepository.findBestReviewerForMain();
     }
 
     @Transactional

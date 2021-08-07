@@ -15,8 +15,8 @@ public class ReviewNewResponseDto {
     private String userName;
     private float userPointNumber;
     private String reviewContent;
-    private String toonTitle;
     private LocalDateTime createDate;
+    private String toonTitle;
 
 
     public ReviewNewResponseDto(Review review) {

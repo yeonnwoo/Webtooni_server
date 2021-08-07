@@ -16,15 +16,7 @@ public class ReviewBestResponseDto {
     private float userPointNumber;
     private String reviewContent;
     private String toonTitle;
-
-    public ReviewBestResponseDto(User user, Review review, Webtoon webtoon) {
-        this.id = user.getId();
-        this.userImg = user.getUserImg();
-        this.userName = user.getUserName();
-        this.userPointNumber = review.getUserPointNumber();
-        this.reviewContent = review.getReviewContent();
-        this.toonTitle = webtoon.getToonTitle();
-    }
+    
 
     public ReviewBestResponseDto(Review review) {
         this.reviewContent = review.getReviewContent();

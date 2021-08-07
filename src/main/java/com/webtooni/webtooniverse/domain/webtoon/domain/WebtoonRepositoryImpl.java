@@ -154,6 +154,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             users.add(dto.getUser());
         }
 
+
         List<Review> reviews = queryFactory.selectFrom(review)
                 .where(review.user.in(users))
                 .fetch();
