@@ -33,8 +33,8 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String userPk, int userImg, UserGrade userGrade) {
-        Claims claims = Jwts.claims().setSubject(userPk);
+    public String createToken(String userName, int userImg, UserGrade userGrade) {
+        Claims claims = Jwts.claims().setSubject(userName);
         // claim : JWT payload 에 저장되는 정보단위
 
         claims.put("userImg", userImg);
