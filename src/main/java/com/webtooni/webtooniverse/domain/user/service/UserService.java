@@ -61,19 +61,16 @@ public class UserService {
 
             kakaoUser = new User(encodedPassword, kakaoId);
             userRepository.save(kakaoUser);
-        }
-
-        // 로그인 처리
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
-        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        if (kakaoUser.getUserName() != null) {
-            return jwtTokenProvider.createToken(kakaoUser.getUserName(), kakaoUser.getUserImg(), kakaoUser.getUserGrade());
-        } else{
+            Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
+            Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             return "처음 가입한 회원입니다. 온보딩이 필요합니다.";
-        }
 
+        } else {
+
+            return jwtTokenProvider.createToken(kakaoUser.getUserName(), kakaoUser.getUserImg(), kakaoUser.getUserGrade(), kakaoUser.getKakaoId(), kakaoUser.getId());
+
+        }
     }
 
 
