@@ -27,8 +27,7 @@ public class UserController {
     @GetMapping("/api/v1/user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) {
         // authorizedCode:
-        userService.kakaoLogin(code);
-        return "redirect:/";
+        return userService.kakaoLogin(code);
     }
 
     @PutMapping("/api/v1/user/info/{id}")

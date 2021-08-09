@@ -48,7 +48,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
 
-    public void kakaoLogin(String authorizedCode) {
+    public String kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
         Long kakaoId = userInfo.getId();
@@ -74,7 +74,7 @@ public class UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
-        jwtTokenProvider.createToken(kakaoUser.getKakao(), kakaoUser.getId(), kakaoUser.getUserName(), kakaoUser.getUserGrade(), kakaoUser.getUserImg());
+        return jwtTokenProvider.createToken(kakaoUser.getKakao(), kakaoUser.getId(), kakaoUser.getUserName(), kakaoUser.getUserGrade(), kakaoUser.getUserImg());
     }
 
 
