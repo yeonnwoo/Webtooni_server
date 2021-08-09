@@ -33,14 +33,13 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String userName, int userImg, UserGrade userGrade, Long kakaoId, Long id) {
-        Claims claims = Jwts.claims().setSubject(userName);
-        // claim : JWT payload 에 저장되는 정보단위
-
-        claims.put("userImg", userImg);
-        claims.put("userGrade", userGrade);
-        claims.put("kakaoId", kakaoId);
+    public String createToken(String kakao, Long id, String userName, UserGrade userGrade, int userImg) {
+        Claims claims = Jwts.claims().setSubject(kakao);
         claims.put("id", id);
+        claims.put("userName", userName);
+        claims.put("userGrade", userGrade);
+        claims.put("userImg", userImg);
+        // claim : JWT payload 에 저장되는 정보단위
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장

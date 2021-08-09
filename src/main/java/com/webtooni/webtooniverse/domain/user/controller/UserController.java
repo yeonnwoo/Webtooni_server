@@ -25,10 +25,9 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/api/v1/user/kakao/callback")
-    public String kakaoLogin(String code) {
+    public String kakaoLogin(@RequestParam String code) {
         // authorizedCode:
         userService.kakaoLogin(code);
-
         return "redirect:/";
     }
 
@@ -40,8 +39,7 @@ public class UserController {
     @PostMapping("/api/v1/user/genre")
     public List<UserGenre> pick(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserGenreRequestDto requestDto) {
         User user = userDetails.getUser();
-        List<UserGenre> userGenres = userService.pickGenre(user, requestDto);
-        return userGenres;
+        return userService.pickGenre(user, requestDto);
     }
 
     //베스트 리뷰어(리뷰개수많은순서)

@@ -19,9 +19,6 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class KakaoOAuth2 {
 
-    private final UserDetailsImpl userDetails;
-    private final UserRepository userRepository;
-
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
         String accessToken = getAccessToken(authorizedCode);
