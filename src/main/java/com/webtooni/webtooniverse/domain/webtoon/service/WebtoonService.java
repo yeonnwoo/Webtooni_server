@@ -8,9 +8,13 @@ import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,11 +105,7 @@ public class WebtoonService {
 
     //이번달 웹투니버스 종합순위
     public List<MonthRankResponseDto> getMonthTotalRank(){
-        List<Webtoon> monthTotalRank = webtoonRepository.getTotalRank();
-        return monthTotalRank
-                .stream()
-                .map(MonthRankResponseDto::new)
-                .collect(Collectors.toList());
+        return webtoonRepository.getTotalRank();
     }
 
     //웹투니버스 네이버 웹툰 Top10

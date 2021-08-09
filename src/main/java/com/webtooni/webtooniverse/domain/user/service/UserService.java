@@ -70,10 +70,6 @@ public class UserService {
         user.update(requestDto);
     }
 
-    /**
-     * TODO 수정 필요(오류)
-     */
-
     //베스트 리뷰어 가져오기
     public List<BestReviewerResponseDto> getBestReviewerRank(){
         return webtoonRepository.findBestReviewerForMain();

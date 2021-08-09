@@ -14,6 +14,8 @@ public class PlatformRankResponseDto {
     private String toonAuthor;
     private float toonAvgPoint;
     private String toonPlatform;
+    private String toonWeekday;
+    private boolean finished;
 
     public PlatformRankResponseDto(Webtoon webtoon) {
         this.id = webtoon.getId();
@@ -22,5 +24,7 @@ public class PlatformRankResponseDto {
         this.toonAuthor = webtoon.getToonAuthor();
         this.toonAvgPoint = webtoon.getToonAvgPoint();
         this.toonPlatform = webtoon.getToonPlatform();
+        this.toonWeekday = webtoon.getToonWeekday();
+        this.finished = webtoon.isFinished();
     }
 }
