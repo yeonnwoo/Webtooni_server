@@ -87,4 +87,9 @@ public class WebtoonController {
         return webtoonService.getMyListWebtoons(userDetails.getUser());
     }
 
+    @GetMapping("test")
+    public String test() {
+        return webtoonService.getFirstId(1L);
+    }
+
 }

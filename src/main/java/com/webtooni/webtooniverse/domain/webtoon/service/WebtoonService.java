@@ -9,6 +9,8 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -177,5 +179,10 @@ public class WebtoonService {
         return myListWebtoon.stream()
                 .map(WebtoonResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Cacheable(key = "#id", value = "getFirstId")
+    public String getFirstId(Long id) {
+        return webtoonRepository.findById(id).get().getToonTitle();
     }
 }
