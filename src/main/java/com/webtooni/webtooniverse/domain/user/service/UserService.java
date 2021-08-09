@@ -39,7 +39,6 @@ public class UserService {
     private final UserGenreRepository userGenreRepository;
     private final WebtoonRepository webtoonRepository;
 
-
     public void kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
@@ -73,10 +72,6 @@ public class UserService {
         );
         user.update(requestDto);
     }
-
-    /**
-     * TODO 수정 필요(오류)
-     */
 
     //베스트 리뷰어 가져오기
     public List<BestReviewerResponseDto> getBestReviewerRank() {

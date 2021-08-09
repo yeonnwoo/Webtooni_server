@@ -51,6 +51,7 @@ public class User {
         this.kakaoId = kakaoId;
     }
 
+
     public User(String userName,int userImg, UserGrade userGrade) {
         this.userName = userName;
         this.userImg = userImg;

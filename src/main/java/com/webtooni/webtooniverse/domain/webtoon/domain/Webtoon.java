@@ -45,10 +45,12 @@ public class Webtoon {
     private boolean finished;
 
 
+
     @Builder
-    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
+    public Webtoon(Long id,String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
                    String realUrl, String toonAge, String toonPlatform, float toonAvgPoint,
                    int totalPointCount, int reviewCount, boolean finished) {
+        this.id = id;
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
         this.toonContent = toonContent;

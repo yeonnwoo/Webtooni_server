@@ -53,6 +53,7 @@ class UserServiceTest {
         webtoonRepository.save(webtoon8);
         webtoonRepository.save(webtoon9);
         webtoonRepository.save(webtoon10);
+
         User user1 = new User("user1",  1, UserGrade.FIRST);
         User user2 = new User("user2", 2, UserGrade.FIRST);
         User user3 = new User("user3",  3, UserGrade.FIRST);
