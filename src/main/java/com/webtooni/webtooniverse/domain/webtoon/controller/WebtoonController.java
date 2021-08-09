@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.webtoon.controller;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
 @RestController
-public class WebtoonController {
+public class    WebtoonController {
 
     private final WebtoonService webtoonService;
 

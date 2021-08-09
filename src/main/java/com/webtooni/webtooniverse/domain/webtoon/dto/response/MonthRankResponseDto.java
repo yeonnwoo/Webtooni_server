@@ -1,9 +1,15 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
+import com.querydsl.core.annotations.QueryProjection;
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -18,18 +24,20 @@ public class MonthRankResponseDto {
     private String toonPlatform;
     private String toonWeekday;
     private boolean finished;
-    private WebtoonGenre webtoonGenre;
+    private Genre genre;
 
 
-    public MonthRankResponseDto(Webtoon webtoon) {
-        this.id = webtoon.getId();
-        this.toonImg = webtoon.getToonImg();
-        this.toonTitle = webtoon.getToonTitle();
-        this.toonAuthor = webtoon.getToonAuthor();
-        this.toonAvgPoint = webtoon.getToonAvgPoint();
-        this.toonPlatform = webtoon.getToonPlatform();
-        this.toonWeekday = webtoon.getToonWeekday();
-        this.finished = webtoon.isFinished();
-        this.webtoonGenre = getWebtoonGenre();
+    @QueryProjection
+    public MonthRankResponseDto(Long id, String toonImg, String toonTitle, String toonAuthor, float toonAvgPoint,
+                                String toonPlatform, String toonWeekday, boolean finished, Genre genre) {
+        this.id = id;
+        this.toonImg = toonImg;
+        this.toonTitle = toonTitle;
+        this.toonAuthor = toonAuthor;
+        this.toonAvgPoint = toonAvgPoint;
+        this.toonPlatform = toonPlatform;
+        this.toonWeekday = toonWeekday;
+        this.finished = finished;
+        this.genre = genre;
     }
 }

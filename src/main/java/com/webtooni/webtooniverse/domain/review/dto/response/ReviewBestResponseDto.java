@@ -16,7 +16,7 @@ public class ReviewBestResponseDto {
     private float userPointNumber;
     private String reviewContent;
     private String toonTitle;
-    
+    private Webtoon webtoon;
 
     public ReviewBestResponseDto(Review review) {
         this.reviewContent = review.getReviewContent();
