@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.webtoon.controller;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
+import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
@@ -84,6 +85,11 @@ public class    WebtoonController {
     public List<SimilarGenreToonDto> getSimilarWebtoon(@PathVariable Long id)
     {
         return webtoonService.getSimilarGenre(id);
+    }
+
+    @GetMapping("reviews/suggestion")
+    public List<WebtoonResponseDto> getUnreviewdlist() {
+        return webtoonService.getUnreviewdList();
     }
 
 }

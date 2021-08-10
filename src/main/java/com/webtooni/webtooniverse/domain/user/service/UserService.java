@@ -52,12 +52,11 @@ public class UserService {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
         Long kakaoId = userInfo.getId();
-        String kakao = String.valueOf(kakaoId);
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
-        User kakaoUser = userRepository.findByKakao(kakao)
+        User kakaoUser = userRepository.findByKakaoId(kakaoId)
                 .orElse(null);
 
         // 카카오 정보로 회원가입
@@ -65,16 +64,17 @@ public class UserService {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
 
-            kakaoUser = new User(encodedPassword, kakao);
+            kakaoUser = new User(encodedPassword, kakaoId);
             userRepository.save(kakaoUser);
         }
 
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakao, password);
+        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        String kakao = String.valueOf(kakaoId);
 
-        return jwtTokenProvider.createToken(kakaoUser.getKakao(), kakaoUser.getId(), kakaoUser.getUserName(), kakaoUser.getUserGrade(), kakaoUser.getUserImg());
+        return jwtTokenProvider.createToken(kakao, kakaoUser.getId(), kakaoUser.getUserName(), kakaoUser.getUserGrade(), kakaoUser.getUserImg());
     }
 
 
@@ -106,5 +106,7 @@ public class UserService {
         }
         return userGenres;
     }
+
+
 }
 
