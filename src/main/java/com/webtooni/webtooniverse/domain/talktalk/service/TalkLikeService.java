@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkLikeResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkLikeRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -23,7 +23,7 @@ public class TalkLikeService {
     private final TalkLikeRepository talkLikeRepository;
     private final TalkPostRepository talkPostRepository;
 
-    public TalkLikeResponseDto postLike(Long talkPostId) {
+    public TalkResponseDto postLike(Long talkPostId) {
 
         TalkPost talkPost = talkPostRepository.findById(talkPostId).orElseThrow(
                 ()-> new NullPointerException("해당 게시글이 존재하지 않습니다.")
@@ -35,13 +35,13 @@ public class TalkLikeService {
         if (isExist) {
             talkLikeRepository.deleteByTalkPostAndUser(talkPost, user);
             talkPost.updateLikeNum(-1);
-            return new TalkLikeResponseDto("좋아요가 취소되었습니다.");
+            return new TalkResponseDto("좋아요가 취소되었습니다.");
         }
         else {
             TalkLike talkLike = new TalkLike(talkPost, user);
             talkLikeRepository.save(talkLike);
             talkPost.updateLikeNum(+1);
-            return new TalkLikeResponseDto("좋아요가 저장되었습니다.");
+            return new TalkResponseDto("좋아요가 저장되었습니다.");
         }
     }
 

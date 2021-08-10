@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TalkReviewRepository extends JpaRepository<TalkBoardComment, Long> {
+public interface TalkCommentRepository extends JpaRepository<TalkBoardComment, Long> {
     List<TalkBoardComment> findAllById(Long id);
 }
