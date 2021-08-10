@@ -57,7 +57,6 @@ class WebtoonRepositoryImplTest {
         Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 3.0f, 0, 4,true);
         Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 5.0f, 0, 4,true);
         Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.5f, 0, 4,true);
-
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);
@@ -70,7 +69,6 @@ class WebtoonRepositoryImplTest {
         Review review4 = createReview("리뷰 내용4", 3.5f, 4,user3,webtoon1);
         Review review5 = createReview("리뷰 내용5", 5.0f, 5,user3,webtoon5);
         Review review6 = createReview("리뷰 내용6", 4.0f, 6,user3,webtoon6);
-
         reviewRepository.save(review1);
         reviewRepository.save(review2);
         reviewRepository.save(review3);
