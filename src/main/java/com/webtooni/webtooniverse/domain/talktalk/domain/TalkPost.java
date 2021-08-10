@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
 import lombok.AccessLevel;
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 @Getter
 @Table(name = "talk_board")
-@Entity
 public class TalkPost extends TimeStamped {
 
     @Id
@@ -26,7 +26,7 @@ public class TalkPost extends TimeStamped {
     @Column(name = "talk_post_content")
     private String postContent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

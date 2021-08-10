@@ -30,12 +30,12 @@ public class User {
     private UserGrade userGrade;
 
     @Column(name = "kakao_id")
-    private Long kakaoId;
+    private String kakao;
 
-    public User(String password, Long kakaoId){
+    public User(String password, String kakao){
         this.password = password;
         this.userGrade = UserGrade.valueOf("BASIC");
-        this.kakaoId = kakaoId;
+        this.kakao = kakao;
     }
     public void update(UserInfoRequestDto requestDto){
         this.userImg = requestDto.getUserImg();
@@ -43,12 +43,12 @@ public class User {
     }
 
     @Builder
-    public User(String userName, String password, int userImg, UserGrade userGrade, Long kakaoId) {
+    public User(String userName, String password, int userImg, UserGrade userGrade, String kakao) {
         this.userName = userName;
         this.password = password;
         this.userImg = userImg;
         this.userGrade = userGrade;
-        this.kakaoId = kakaoId;
+        this.kakao = kakao;
     }
 
 
