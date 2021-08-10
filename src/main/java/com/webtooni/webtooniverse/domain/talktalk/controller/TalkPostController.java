@@ -42,7 +42,6 @@ public class TalkPostController {
         return talkPostService.updatePost(id, requestDto);
     }
 
-
     @DeleteMapping("talk/{id}")
     public TalkResponseDto delete(@PathVariable Long id){
         return talkPostService.deletePost(id);

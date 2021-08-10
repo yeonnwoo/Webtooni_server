@@ -4,6 +4,7 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLatestRepsponse;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
 
@@ -178,6 +179,10 @@ public class ReviewService {
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
 
         }
+    }
+
+    public List<ReviewNewResponseDto> getNewReview(){
+        return reviewRepository.getNewReview();
     }
 
 

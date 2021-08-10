@@ -1,20 +1,19 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
 
-import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
-import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
+import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RequestMapping("/api/v1/")
@@ -22,25 +21,15 @@ import java.util.List;
 @RestController
 public class ReviewController  {
 
-    private final ReviewRepository reviewRepository;
     private final WebtoonRepository webtoonRepository;
     private final ReviewService reviewService;
 
     // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
-    public List<Review> getLatestReview() {
-        return reviewRepository.findAllByOrderByCreateDate();
+    public List<ReviewNewResponseDto> getNewReview() {
+        return reviewService.getNewReview();
     }
 
-    @GetMapping("reviews/likes")
-    public List<Review> getLikeReview() {
-        return reviewRepository.findAllByOrderByLikeCountDesc();
-    }
-
-    @GetMapping("reviews/suggestion")
-    public List<Webtoon> gerUnreviewdlist() {
-        return webtoonRepository.findByReviewCountLessThanEqual(5);
-    }
     /**
      * TODO (dto로 묶어서 보내주기), service 거쳐서 가져오기 MVC
      */
