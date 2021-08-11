@@ -4,6 +4,7 @@ package com.webtooni.webtooniverse.domain.review.controller;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
@@ -19,16 +20,19 @@ import java.util.List;
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 @RestController
-public class ReviewController  {
+public class ReviewController {
 
     private final WebtoonRepository webtoonRepository;
     private final ReviewService reviewService;
+
 
     // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
     public List<ReviewNewResponseDto> getNewReview() {
         return reviewService.getNewReview();
     }
+
+
 
     /**
      * TODO (dto로 묶어서 보내주기), service 거쳐서 가져오기 MVC
@@ -43,7 +47,8 @@ public class ReviewController  {
 
     //리뷰 작성(수정)
     @PutMapping("reviews/{id}")
-    public Long updateReview(@PathVariable Long id, @RequestBody ReviewContentRequestDto reviewDto) {
+    public ReviewCreateResponseDto updateReview(@PathVariable Long id, @RequestBody ReviewContentRequestDto reviewDto) {
+
         return reviewService.updateReview(id, reviewDto);
     }
 

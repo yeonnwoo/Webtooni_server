@@ -4,7 +4,11 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
+
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
+
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLatestRepsponse;
+
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
 
@@ -34,7 +38,9 @@ public class ReviewService {
     private final ReviewLikeRepository reviewLikeRepository;
     private final WebtoonRepository webtoonRepository;
 
+
     //리뷰 최신순,베스트순 불러오기
+
     public ReviewMainResponseDto getMainReview(){
 
         List<ReviewBestResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
@@ -47,20 +53,20 @@ public class ReviewService {
     /**
      * 리뷰를 작성하는 기능을 제공하는 구현체입니다.
      *
-     * @param id        리뷰 id
+     * @param id 리뷰 id
      * @param reviewDto 리뷰의 내용이 담긴 Dto
      * @return 리뷰 id
      */
-
-    public Long updateReview(Long id, ReviewContentRequestDto reviewDto) {
+    public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto) {
         //해당 리뷰 찾기
         Review findReview = reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id를 찾을 수 없습니다.")
         );
 
-        //리뷰 내용 변경
+        //리뷰 내용,날짜 변경
         findReview.changeReviewContent(reviewDto);
-        return findReview.getId();
+
+        return new ReviewCreateResponseDto(findReview);
     }
 
     /**
@@ -78,16 +84,6 @@ public class ReviewService {
 
     /**
      * 리뷰에 좋아요를 누르는 기능을 제공하는 구현체입니다.
-     * <p>
-     * 1.한번도 좋아요를 누르지 않은 유저의 경우
-     * 1-1.전체 좋아요 +1
-     * 1-2. ReviewLike에 사용자와 리뷰 정보를 추가한다.
-     * <p>
-     * 2.현재 유저가 좋아요를 누른 상태 ( 좋아요 -> 취소 )
-     * 2-1. reviewStatus를 Like로 변경한다.
-     * <p>
-     * 3.현재 좋아요를 누르지 않은 상태 ( 취소 -> 좋아요 )
-     * 3-1. reviewStatus를 CANCEL로 변경한다.
      *
      * @param id   리뷰 id
      * @param user 사용자 정보
@@ -127,15 +123,6 @@ public class ReviewService {
 
     /**
      * 특정 웹툰에 별점을 주는 기능을 제공하는 구현체입니다.
-     * <p>
-     * 1. 유저가 해당 웹툰에 별점을 준적이 없는 경우
-     * 1-1. review 생성
-     * 1-2. webtoon의 별점 개수 +1
-     * 1-3. webtoon의 평균 별점 변경
-     * <p>
-     * 2. 유저가 해당 웹툰에 별점을 준 적이 있는 경우
-     * 2-1. webtoon의 평균 별점 변경
-     * 2-2. review의 유저 별점 점수 변경
      *
      * @param reviewStarDto 웹툰 id, 별점 점수가 담긴 Dto
      * @param user          유저 정보

@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
@@ -8,16 +9,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class
-Review extends TimeStamped {
+public class Review {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
+
+    private LocalDateTime createDate;
 
     private String reviewContent;
 
@@ -79,6 +82,7 @@ Review extends TimeStamped {
      */
     public void changeReviewContent(ReviewContentRequestDto reviewDto) {
         this.reviewContent=reviewDto.getReviewContent();
+        this.createDate=LocalDateTime.now();
     }
 
     /**
