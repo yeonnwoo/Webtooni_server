@@ -1,4 +1,5 @@
-package com.webtooni.webtooniverse.domain.user.security.kakao;
+package com.webtooni.webtooniverse.domain.user.security.naver;
+
 
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -13,15 +14,14 @@ import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Component
-public class KakaoOAuth2 {
-
-    public KakaoUserInfo getUserInfo(String authorizedCode) {
+public class NaverOAuth2 {
+    public NaverUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
         String accessToken = getAccessToken(authorizedCode);
         // 2. 액세스 토큰 -> 카카오 사용자 정보
-        KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
+        NaverUserInfo NuserInfo = getUserInfoByToken(accessToken);
 
-        return userInfo;
+        return NuserInfo;
     }
 
     private String getAccessToken(String authorizedCode) {
@@ -32,20 +32,20 @@ public class KakaoOAuth2 {
         // HttpBody 오브젝트 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "{}");
+        params.add("client_id", "{7RBFbToxSfOTA51ofOYj}");
         params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
         RestTemplate rt = new RestTemplate();
-        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
+        HttpEntity<MultiValueMap<String, String>> naverTokenRequest =
                 new HttpEntity<>(params, headers);
 
         // Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
         ResponseEntity<String> response = rt.exchange(
-                "https://kauth.kakao.com/oauth/token",
+                "https://nid.naver.com/oauth2.0/token",
                 HttpMethod.POST,
-                kakaoTokenRequest,
+                naverTokenRequest,
                 String.class
         );
 
@@ -57,7 +57,7 @@ public class KakaoOAuth2 {
         return accessToken;
     }
 
-    private KakaoUserInfo getUserInfoByToken(String accessToken) {
+    private NaverUserInfo getUserInfoByToken(String accessToken) {
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
@@ -65,19 +65,19 @@ public class KakaoOAuth2 {
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
         RestTemplate rt = new RestTemplate();
-        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
+        HttpEntity<MultiValueMap<String, String>> naverProfileRequest = new HttpEntity<>(headers);
 
         // Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
         ResponseEntity<String> response = rt.exchange(
-                "https://kapi.kakao.com/v2/user/me",
+                "https://openapi.naver.com/v1/nid/me",
                 HttpMethod.POST,
-                kakaoProfileRequest,
+                naverProfileRequest,
                 String.class
         );
 
         JSONObject body = new JSONObject(response.getBody());
         Long id = body.getLong("id");
 
-        return new KakaoUserInfo(id);
+        return new NaverUserInfo(id);
     }
 }

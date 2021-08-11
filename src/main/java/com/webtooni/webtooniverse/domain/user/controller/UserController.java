@@ -30,6 +30,12 @@ public class UserController {
         return userService.kakaoLogin(code);
     }
 
+    @GetMapping("/api/v1/user/naver/callback")
+    public String naverLogin(@RequestParam String code) {
+        // authorizedCode:
+        return userService.kakaoLogin(code);
+    }
+
     @PutMapping("/api/v1/user/info/{id}")
     public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto){
         userService.updateInfo(id, requestDto);

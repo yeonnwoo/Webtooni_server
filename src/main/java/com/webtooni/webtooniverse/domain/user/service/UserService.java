@@ -1,8 +1,6 @@
 package com.webtooni.webtooniverse.domain.user.service;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
@@ -10,17 +8,11 @@ import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
-import com.webtooni.webtooniverse.domain.user.dto.response.UserResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
-import com.webtooni.webtooniverse.domain.user.security.dto.TokenDto;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.message.Message;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,9 +60,12 @@ public class UserService {
             userRepository.save(kakaoUser);
         }
 
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
-        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
+        String SocialId = String.valueOf(kakaoUser.getId());
+
+        Authentication SocialUsernamePassword = new UsernamePasswordAuthenticationToken(SocialId, password);
+        Authentication authentication = authenticationManager.authenticate(SocialUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
 
         String kakao = String.valueOf(kakaoId);
 

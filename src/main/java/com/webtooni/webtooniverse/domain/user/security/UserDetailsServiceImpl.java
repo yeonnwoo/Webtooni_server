@@ -20,9 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + userName));
+    public UserDetails loadUserByUsername(String SocialId) throws UsernameNotFoundException {
+        long id = Long.parseLong(SocialId);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + id));
 
         return new UserDetailsImpl(user);
     }

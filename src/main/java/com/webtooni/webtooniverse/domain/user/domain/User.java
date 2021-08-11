@@ -34,7 +34,7 @@ public class User {
 
     public User(String password, Long kakaoId){
         this.password = password;
-        this.userGrade = UserGrade.valueOf("BASIC");
+        this.userGrade = UserGrade.valueOf("FIRST");
         this.kakaoId = kakaoId;
     }
     public void update(UserInfoRequestDto requestDto){
