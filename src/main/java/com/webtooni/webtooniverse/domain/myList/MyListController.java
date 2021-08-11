@@ -21,7 +21,6 @@ public class MyListController {
     {
         //로그인된 유저 정보로 변경되어야함
         User user=userDetails.getUser();
-
         myListService.createMyList(user,webtoonId);
     }
 }

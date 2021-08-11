@@ -66,4 +66,21 @@ public class ReviewController  {
     public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return reviewService.getMyReviews(userDetails.getUser());
     }
+
+    //리뷰 삭제
+    @DeleteMapping("reviews/{id}")
+    public void deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+    }
+
+    //리뷰에 좋아요
+    @PostMapping("reviews/{id}/like")
+    public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        //로그인된 유저 정보로 변경 되어야함
+        User user = userDetails.getUser();
+
+        reviewService.clickReviewLike(id, user);
+    }
+
 }
