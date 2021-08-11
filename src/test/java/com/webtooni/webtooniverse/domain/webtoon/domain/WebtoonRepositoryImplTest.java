@@ -51,12 +51,12 @@ class WebtoonRepositoryImplTest {
         userRepository.save(user2);
         userRepository.save(user3);
 
-        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0,4,false);
-        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
-        Webtoon webtoon3 = new Webtoon("웹툰3", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
-        Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 3.0f, 0, 4,true);
-        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 5.0f, 0, 4,true);
-        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.5f, 0, 4,true);
+        Webtoon webtoon1 = new Webtoon(1L, "제목1", "작가1", "설명1", "imgUrl", "월", "realUrl", "전체", "네이버", 4.5f, 1, 1, false);
+        Webtoon webtoon2 = new Webtoon(2L, "제목2", "작가2", "설명2", "imgUrl", "화", "realUrl", "전체", "네이버", 2.5f, 2, 2, false);
+        Webtoon webtoon3 = new Webtoon(3L, "제목3", "작가3", "설명3", "imgUrl", "수", "realUrl", "전체", "네이버", 3.0f, 3, 3, false);
+        Webtoon webtoon4 = new Webtoon(4L, "제목4", "작가4", "설명4", "imgUrl", "목", "realUrl", "전체", "네이버", 3.5f, 4, 4, false);
+        Webtoon webtoon5 = new Webtoon(5L, "제목5", "작가5", "설명5", "imgUrl", "금", "realUrl", "전체", "네이버", 4.0f, 5, 5, false);
+        Webtoon webtoon6 = new Webtoon(6L, "제목6", "작가6", "설명6", "imgUrl", "토", "realUrl", "전체", "네이버", 4.5f, 6, 6, false);
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);

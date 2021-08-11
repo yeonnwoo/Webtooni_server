@@ -66,26 +66,26 @@ class WebtoonServiceTest {
 
     @BeforeEach
     void getTestData(){
-        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 2.5f, 0, 4, false);
-        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용2", "이미지2", "화", "url", "15", "네이버", 3.5f, 0, 3, false);
-        Webtoon webtoon3 = new Webtoon("웹툰3", "작가2", "내용3", "이미지3", "수", "url", "15", "네이버", 4.5f, 0, 2, false);
-        Webtoon webtoon4 = new Webtoon("웹툰4", "작가3", "내용4", "이미지4", "목", "url", "15", "네이버", 5.0f, 0, 1, false);
-        Webtoon webtoon5 = new Webtoon("웹툰5", "작가4", "내용5", "이미지5", "금", "url", "15", "네이버", 3.7f, 0, 5, false);
-        Webtoon webtoon6 = new Webtoon("웹툰6", "작가5", "내용6", "이미지6", "월", "url", "15", "네이버", 2.1f, 0, 7, false);
-        Webtoon webtoon7 = new Webtoon("웹툰7", "작가1", "내용7", "이미지7", "화", "url", "15", "네이버", 4.9f, 0, 1, false);
-        Webtoon webtoon8 = new Webtoon("웹툰8", "작가2", "내용8", "이미지8", "토", "url", "15", "네이버", 4.8f, 0, 5, false);
-        Webtoon webtoon9 = new Webtoon("웹툰9", "작가3", "내용9", "이미지9", "일", "url", "15", "네이버", 4.3f, 0, 7, false);
-        Webtoon webtoon10 = new Webtoon("웹툰10", "작가4", "내용10", "이미지10", "월", "url", "15", "네이버", 4.6f, 0, 7, false);
-        Webtoon webtoon11 = new Webtoon("웹툰11", "작가1", "내용1", "이미지1", "월", "url", "15", "카카오", 2.6f, 0, 4, false);
-        Webtoon webtoon12 = new Webtoon("웹툰12", "작가1", "내용2", "이미지2", "화", "url", "15", "카카오", 3.6f, 0, 3, false);
-        Webtoon webtoon13 = new Webtoon("웹툰13", "작가2", "내용3", "이미지3", "수", "url", "15", "카카오", 4.8f, 0, 2, false);
-        Webtoon webtoon14 = new Webtoon("웹툰14", "작가3", "내용4", "이미지4", "목", "url", "15", "카카오", 4.2f, 0, 1, false);
-        Webtoon webtoon15 = new Webtoon("웹툰15", "작가4", "내용5", "이미지5", "금", "url", "15", "카카오", 3.4f, 0, 5, false);
-        Webtoon webtoon16 = new Webtoon("웹툰16", "작가5", "내용6", "이미지6", "월", "url", "15", "카카오", 1.9f, 0, 7, false);
-        Webtoon webtoon17 = new Webtoon("웹툰17", "작가1", "내용7", "이미지7", "화", "url", "15", "카카오", 4.4f, 0, 1, false);
-        Webtoon webtoon18 = new Webtoon("웹툰18", "작가2", "내용8", "이미지8", "토", "url", "15", "카카오", 4.7f, 0, 5, false);
-        Webtoon webtoon19 = new Webtoon("웹툰19", "작가3", "내용9", "이미지9", "일", "url", "15", "카카오", 4.9f, 0, 7, false);
-        Webtoon webtoon20 = new Webtoon("웹툰20", "작가4", "내용10", "이미지10", "월", "url", "15", "카카오", 4.3f, 0, 7, false);
+        Webtoon webtoon1 = new Webtoon(1L, "제목1", "작가1", "설명1", "imgUrl", "월", "realUrl", "전체", "네이버", 4.5f, 1, 1, false);
+        Webtoon webtoon2 = new Webtoon(2L, "제목2", "작가2", "설명2", "imgUrl", "화", "realUrl", "전체", "네이버", 2.5f, 2, 2, false);
+        Webtoon webtoon3 = new Webtoon(3L, "제목3", "작가3", "설명3", "imgUrl", "수", "realUrl", "전체", "네이버", 3.0f, 3, 3, false);
+        Webtoon webtoon4 = new Webtoon(4L, "제목4", "작가4", "설명4", "imgUrl", "목", "realUrl", "전체", "네이버", 3.5f, 4, 4, false);
+        Webtoon webtoon5 = new Webtoon(5L, "제목5", "작가5", "설명5", "imgUrl", "금", "realUrl", "전체", "네이버", 4.0f, 5, 5, false);
+        Webtoon webtoon6 = new Webtoon(6L, "제목6", "작가6", "설명6", "imgUrl", "토", "realUrl", "전체", "네이버", 4.5f, 6, 6, false);
+        Webtoon webtoon7 = new Webtoon(7L, "제목7", "작가7", "설명7", "imgUrl", "일", "realUrl", "전체", "네이버", 5.0f, 7, 7, false);
+        Webtoon webtoon8 = new Webtoon(8L, "제목8", "작가8", "설명8", "imgUrl", "월", "realUrl", "전체", "네이버", 4.0f, 8, 8, false);
+        Webtoon webtoon9 = new Webtoon(9L, "제목9", "작가9", "설명9", "imgUrl", "화", "realUrl", "전체", "네이버", 2.0f, 9, 9, false);
+        Webtoon webtoon10 = new Webtoon(10L, "제목10", "작가10", "설명10", "imgUrl", "수", "realUrl", "전체", "네이버", 4.1f, 10, 10, false);
+        Webtoon webtoon11 = new Webtoon(11L, "제목11", "작가11", "설명11", "imgUrl", "목", "realUrl", "전체", "카카오", 4.2f, 11, 11, false);
+        Webtoon webtoon12 = new Webtoon(12L, "제목12", "작가12", "설명12", "imgUrl", "금", "realUrl", "전체", "카카오", 4.3f, 12, 12, false);
+        Webtoon webtoon13 = new Webtoon(20L, "제목20", "작가20", "설명20", "imgUrl", "금", "realUrl", "전체", "카카오", 1.7f, 20, 21, false);
+        Webtoon webtoon14 = new Webtoon(13L, "제목13", "작가13", "설명13", "imgUrl", "토", "realUrl", "전체", "카카오", 4.4f, 12, 13, false);
+        Webtoon webtoon15 = new Webtoon(14L, "제목14", "작가14", "설명14", "imgUrl", "일", "realUrl", "전체", "카카오", 4.5f, 13, 14, false);
+        Webtoon webtoon16 = new Webtoon(15L, "제목15", "작가15", "설명15", "imgUrl", "월", "realUrl", "전체", "카카오", 4.6f, 14, 15, false);
+        Webtoon webtoon17 = new Webtoon(16L, "제목16", "작가16", "설명16", "imgUrl", "화", "realUrl", "전체", "카카오", 4.7f, 15, 16, false);
+        Webtoon webtoon18 = new Webtoon(17L, "제목17", "작가17", "설명17", "imgUrl", "수", "realUrl", "전체", "카카오", 4.8f, 16, 17, false);
+        Webtoon webtoon19 = new Webtoon(18L, "제목18", "작가18", "설명18", "imgUrl", "목", "realUrl", "전체", "카카오", 4.9f, 17, 18, false);
+        Webtoon webtoon20 = new Webtoon(19L, "제목19", "작가19", "설명19", "imgUrl", "금", "realUrl", "전체", "카카오", 1.5f, 18, 19, false);
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);

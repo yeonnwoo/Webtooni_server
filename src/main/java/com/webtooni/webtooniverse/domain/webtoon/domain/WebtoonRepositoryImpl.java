@@ -57,7 +57,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .from(webtoonGenre)
                 .innerJoin(webtoonGenre.genre, genre)
                 .innerJoin(webtoonGenre.webtoon, webtoon)
-                .orderBy(webtoon.toonAvgPoint.desc())
+                .orderBy(webtoonGenre.webtoon.toonAvgPoint.desc())
                 .limit(10)
                 .fetch();
 
