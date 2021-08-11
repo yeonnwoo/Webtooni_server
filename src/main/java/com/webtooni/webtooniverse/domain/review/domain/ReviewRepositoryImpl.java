@@ -64,6 +64,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .innerJoin(review.user, user)
                 .innerJoin(review.webtoon, webtoon)
                 .orderBy(review.createDate.desc())
+                .limit(10)
                 .fetch();
 
     }

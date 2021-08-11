@@ -27,10 +27,6 @@ public class ReviewBestResponseDto {
 
 
 
-//    public ReviewBestResponseDto(Review review) {
-//        this.reviewContent = review.getReviewContent();
-//    }
-    @QueryProjection
     public ReviewBestResponseDto(Long id, int userImg, String userName, float userPointNumber,
                                  String reviewContent, String toonTitle, UserGrade userGrade, String toonImg,
                                  String toonAuthor, String toonPlatform, String toonWeekday, boolean finished) {

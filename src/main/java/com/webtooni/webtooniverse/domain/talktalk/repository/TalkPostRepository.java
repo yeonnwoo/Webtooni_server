@@ -5,8 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDateTime;
 
-public interface TalkPostRepository extends JpaRepository<TalkPost, Long> {
-    Page<TalkPost> findAllByCreateDateAfterOrderByCreateDateDesc(LocalDateTime localDateTime, Pageable pageable);
+public interface TalkPostRepository extends JpaRepository<TalkPost, Long>, TalkPostRepositoryCustom {
+
 }

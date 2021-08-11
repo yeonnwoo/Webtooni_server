@@ -2,19 +2,17 @@ package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageableResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import javax.websocket.server.PathParam;
-import java.util.List;
 
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
@@ -24,15 +22,15 @@ public class TalkPostController {
     private final TalkPostService talkPostService;
 
     @PostMapping("talk")
-    public TalkPost post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public TalkPost post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return talkPostService.post(requestDto, user);
     }
 
-    @GetMapping("talk")
-    public TalkPostPageableResponseDto getPost(@PathParam("page") int page, @PathParam("size") int size) {
-        return talkPostService.getPost(page, size);
-    }
+//    @GetMapping("talk")
+//    public TalkPostPageableResponseDto getPost(@PathParam("page") int page, @PathParam("size") int size) {
+//        return talkPostService.getPost(page, size);
+//    }
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id) {
@@ -45,9 +43,21 @@ public class TalkPostController {
     }
 
     @DeleteMapping("talk/{id}")
-    public TalkResponseDto delete(@PathVariable Long id){
+    public TalkResponseDto delete(@PathVariable Long id) {
         return talkPostService.deletePost(id);
     }
+
+    //모든 톡톡 게시글 불러오기
+    @GetMapping("talk")
+    public AllTalkPostPageResponseDto getPost(
+            @PathParam("page") int pageNumber,
+            @PathParam("size") int size
+    ){
+
+        return talkPostService.getPost(pageNumber, size);
+    }
+
+
 }
 
 
