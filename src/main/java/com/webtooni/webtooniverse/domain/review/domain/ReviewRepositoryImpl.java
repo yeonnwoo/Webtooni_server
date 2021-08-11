@@ -59,7 +59,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                         review.webtoon.toonAuthor,
                         review.webtoon.toonPlatform,
                         review.webtoon.toonWeekday,
-                        review.webtoon.finished
+                        review.webtoon.finished,
+                        review.createDate
                 ))
                 .from(review)
                 .innerJoin(review.user, user)

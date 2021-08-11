@@ -44,11 +44,11 @@ public class TalkPostController {
     //모든 톡톡 게시글 불러오기
     @GetMapping("talk")
     public AllTalkPostPageResponseDto getPost(
-            @RequestParam("pageNumber") int pageNumber,
+            @RequestParam("page") int page,
             @RequestParam("size") int size
     ){
 
-        return talkPostService.getPost(pageNumber, size);
+        return talkPostService.getPost(page, size);
     }
 
 
