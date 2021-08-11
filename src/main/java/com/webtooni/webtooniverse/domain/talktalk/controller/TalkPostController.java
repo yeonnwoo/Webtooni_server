@@ -1,6 +1,8 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
@@ -22,15 +24,15 @@ public class TalkPostController {
     private final TalkPostService talkPostService;
 
     @PostMapping("talk")
-    public TalkPost post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public TalkPost post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return talkPostService.post(requestDto, user);
     }
 
-    @GetMapping("talk")
-    public List<TalkPostResponseDto> getPost() {
-        return talkPostService.getPost();
-    }
+//    @GetMapping("talk")
+//    public List<TalkPostResponseDto> getPost() {
+//        return talkPostService.getPost();
+//    }
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id) {
@@ -44,9 +46,21 @@ public class TalkPostController {
 
 
     @DeleteMapping("talk/{id}")
-    public TalkResponseDto delete(@PathVariable Long id){
+    public TalkResponseDto delete(@PathVariable Long id) {
         return talkPostService.deletePost(id);
     }
+
+    //모든 톡톡 게시글 불러오기
+    @GetMapping("talk")
+    public AllTalkPostResponseDto getPost(
+            @RequestParam("pageNumber") int pageNumber,
+            @RequestParam("size") int size
+    ){
+
+        return talkPostService.getPost(pageNumber, size);
+    }
+
+
 }
 
 

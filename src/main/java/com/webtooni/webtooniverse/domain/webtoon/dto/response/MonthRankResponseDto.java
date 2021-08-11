@@ -2,14 +2,8 @@ package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Getter

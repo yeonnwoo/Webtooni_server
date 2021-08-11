@@ -1,18 +1,21 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor
@@ -53,12 +56,24 @@ public class TalkPostService {
     /**
      * TODO 람다식으로 변경 확인
      */
-    public List<TalkPostResponseDto> getPost() {
-        List<TalkPost> talkPosts = talkPostRepository.findAll();
+//    public List<TalkPostResponseDto> getPost() {
+//        List<TalkPost> talkPosts = talkPostRepository.findAll();
+//
+//        return talkPosts
+//                .stream()
+//                .map(TalkPostResponseDto::new)
+//                .collect(Collectors.toList());
+//    }
 
-        List<TalkPostResponseDto> AllPosts = talkPosts.stream()
-                .map(TalkPostResponseDto::new)
-                .collect(Collectors.toList());
-        return AllPosts;
+    //전체 게시글 불러오기
+    public AllTalkPostResponseDto getPost(int pageNumber, int size){
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+
+        List<TalkPostPageResponseDto> posts = talkPostRepository.findAllTalkPost(pageable);
+        long postCount = talkPostRepository.count();
+
+        return new AllTalkPostResponseDto(posts, postCount);
+
     }
+
 }
