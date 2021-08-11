@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.webtoon.service;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -133,15 +134,22 @@ public class WebtoonService {
         );
 
         //해당 웹툰의 장르 찾기
-        List<Genre> WebToonGenre = webtoonRepository.findWebToonGenre(webtoon);
+        List<Genre> webtoonGenre = webtoonRepository.findWebToonGenre(webtoon);
         List<String> genreList = new ArrayList<>();
-        genreList.add(WebToonGenre.get(0).getGenreType());
-        genreList.add(WebToonGenre.get(1).getGenreType());
+
+        for (Genre genre : webtoonGenre){
+            genreList.add(genre.getGenreType());
+        }
 
         //해당 웹툰의 리뷰 찾기
         List<Review> reviewList = reviewRepository.findReviewByWebToonId(id);
 
-        return new WebtoonDetailDto(webtoon, genreList, reviewList);
+        //리뷰 Dto
+        List<WebtoonDetailReviewResponseDto> ReviewDtoList = reviewList.stream()
+                .map(WebtoonDetailReviewResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new WebtoonDetailDto(webtoon, genreList, ReviewDtoList);
     }
 
     /**
@@ -152,15 +160,19 @@ public class WebtoonService {
      */
     public List<SimilarGenreToonDto> getSimilarGenre(Long id) {
 
-        //웹툰 찾기
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id의 웹툰은 존재하지 않습니다.")
         );
 
         List<Genre> genre = webtoonRepository.findWebToonGenre(webtoon);
 
-        //비슷한 장르의 웹툰 찾기
-        List<Webtoon> webtoonList = webtoonRepository.findSimilarWebtoonByGenre(genre.get(1).getGenreType(), webtoon);
+
+        List<Webtoon> webtoonList= new ArrayList<>();
+        for (Genre g : genre) {
+            //비슷한 장르의 웹툰 찾기
+            List<Webtoon> similarWebtoonByGenre = webtoonRepository.findSimilarWebtoonByGenre(g.getGenreType(), webtoon);
+            webtoonList.addAll(similarWebtoonByGenre);
+        }
 
         return webtoonList.stream()
                 .map(SimilarGenreToonDto::new)

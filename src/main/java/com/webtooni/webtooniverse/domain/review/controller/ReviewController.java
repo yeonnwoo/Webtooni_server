@@ -3,8 +3,13 @@ package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLatestRepsponse;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
+
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
@@ -25,16 +30,19 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 @RestController
-public class ReviewController  {
+public class ReviewController {
 
     private final WebtoonRepository webtoonRepository;
     private final ReviewService reviewService;
+
 
     // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
     public List<ReviewNewResponseDto> getNewReview() {
         return reviewService.getNewReview();
     }
+
+
 
     /**
      * TODO (dto로 묶어서 보내주기), service 거쳐서 가져오기 MVC
@@ -49,8 +57,25 @@ public class ReviewController  {
 
     //리뷰 작성(수정)
     @PutMapping("reviews/{id}")
-    public Long updateReview(@PathVariable Long id, @RequestBody ReviewContentRequestDto reviewDto) {
+    public ReviewCreateResponseDto updateReview(@PathVariable Long id, @RequestBody ReviewContentRequestDto reviewDto) {
+
         return reviewService.updateReview(id, reviewDto);
+    }
+
+    //리뷰 삭제
+    @DeleteMapping("reviews/{id}")
+    public void deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+    }
+
+    //리뷰에 좋아요
+    @PostMapping("reviews/{id}/like")
+    public void clickReviewLike(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        //로그인된 유저 정보로 변경 되어야함
+        User user = userDetails.getUser();
+
+        reviewService.clickReviewLike(id, user);
     }
 
     /**

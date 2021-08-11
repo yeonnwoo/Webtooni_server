@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
+import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,24 +23,24 @@ public class WebtoonDetailDto {
 
     private String realUrl;
 
-    private int totalPointCount;
-
     private float toonAvgPoint;
+
+    private int totalPointCount;
 
     private String toonContent;
 
     private String toonWeekday;
 
-    private String toonFlatform;
+    private String toonPlatform;
 
     private int reviewCount;
 
     private boolean finished;
 
     //전체 리뷰
-    private List<Review> reviews = new ArrayList<>();
+    private List<WebtoonDetailReviewResponseDto> reviews;
 
-    public WebtoonDetailDto(Webtoon webtoon,List<String> genreList,List<Review> reviewList)
+    public WebtoonDetailDto(Webtoon webtoon,List<String> genreList,List<WebtoonDetailReviewResponseDto> reviewList)
     {
 
         this.toonImg=webtoon.getToonImg();
@@ -52,7 +53,7 @@ public class WebtoonDetailDto {
         this.toonAvgPoint= webtoon.getToonAvgPoint();
         this.toonContent=webtoon.getToonContent();
         this.toonWeekday=webtoon.getToonWeekday();
-        this.toonFlatform=webtoon.getToonPlatform();
+        this.toonPlatform=webtoon.getToonPlatform();
         this.reviewCount=reviewList.size();
         this.finished=webtoon.isFinished();
         this.reviews=reviewList;
