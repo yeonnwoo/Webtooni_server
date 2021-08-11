@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.talktalk.dto;
+package com.webtooni.webtooniverse.domain.talktalk.dto.requset;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

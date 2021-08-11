@@ -7,6 +7,7 @@ import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.webtooni.webtooniverse.domain.genre.domain.QGenre.genre;
+import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
@@ -38,8 +41,21 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     //이번달 웹투니버스 종합순위
-    public List<Webtoon> getTotalRank() {
-        return queryFactory.selectFrom(webtoon)
+    public List<MonthRankResponseDto> getTotalRank() {
+        return queryFactory
+                .select(Projections.constructor(MonthRankResponseDto.class,
+                        webtoonGenre.webtoon.id,
+                        webtoonGenre.webtoon.toonImg,
+                        webtoonGenre.webtoon.toonTitle,
+                        webtoonGenre.webtoon.toonAuthor,
+                        webtoonGenre.webtoon.toonAvgPoint,
+                        webtoonGenre.webtoon.toonPlatform,
+                        webtoonGenre.webtoon.toonWeekday,
+                        webtoonGenre.webtoon.finished,
+                        webtoonGenre.genre))
+                .from(webtoonGenre)
+                .innerJoin(webtoonGenre.genre, genre)
+                .innerJoin(webtoonGenre.webtoon, webtoon)
                 .orderBy(webtoon.toonAvgPoint.desc())
                 .limit(10)
                 .fetch();
@@ -64,16 +80,20 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
     }
 
+    //베스트 리뷰어 추천 웹툰
     @Override
-    public List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate) {
-        User bestReviewer = queryFactory.select(review.user)
+    public User findBestReviewer(LocalDateTime startDate) {
+        return queryFactory.select(review.user)
                 .from(review)
                 .where(review.createDate.between(startDate, LocalDateTime.now()))
                 .groupBy(review.user)
                 .orderBy(review.user.count().desc())
                 .limit(1)
                 .fetchOne();
+    }
 
+    @Override
+    public List<Webtoon> findBestReviewerWebtoon(User bestReviewer) {
         return queryFactory.select(review.webtoon)
                 .from(review)
                 .where(review.user.eq(bestReviewer))
@@ -81,6 +101,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .limit(5)
                 .fetch();
     }
+
 
     //유저 취향 웹툰 추천
     @Override
@@ -153,6 +174,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             users.add(dto.getUser());
         }
 
+
         List<Review> reviews = queryFactory.selectFrom(review)
                 .where(review.user.in(users))
                 .fetch();
@@ -168,4 +190,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         }
         return dtos;
     }
+
+    @Override
+    public List<Webtoon> findMyListWebtoon(User user) {
+        return queryFactory.select(myList.webtoon)
+                .from(myList)
+                .where(myList.user.eq(user))
+                .fetch();
+    }
+
+
 }

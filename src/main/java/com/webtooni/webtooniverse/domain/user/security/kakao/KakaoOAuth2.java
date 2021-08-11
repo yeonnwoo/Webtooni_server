@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.user.security.kakao;
 
-import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,8 +11,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+@RequiredArgsConstructor
 @Component
 public class KakaoOAuth2 {
+
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
         String accessToken = getAccessToken(authorizedCode);
@@ -30,8 +32,9 @@ public class KakaoOAuth2 {
         // HttpBody 오브젝트 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "{}");
-        params.add("redirect_uri", "http://localhost:8080/user/kakao/callback");
+        params.add("client_id", "9bf8aff1cb1460ec63268cd09c603a1a");
+        params.add("redirect_uri", "http://localhost:3000/user/kakao");
+//        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
@@ -63,6 +66,7 @@ public class KakaoOAuth2 {
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
         RestTemplate rt = new RestTemplate();
+
         HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
 
         // Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.

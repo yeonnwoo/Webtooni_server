@@ -1,15 +1,19 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -25,26 +29,35 @@ public class TalkPostService {
         return talkPost;
     }
 
-
-
-    public Long updatePost(Long id, TalkPostRequestDto talkPostRequestDto){
+    public TalkResponseDto updatePost(Long id, TalkPostRequestDto talkPostRequestDto){
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
         );
         talkPost.update(talkPostRequestDto);
-        return id;
+        return new TalkResponseDto("수정이 완료되었습니다.");
     }
 
-    /**
-     * TODO 람다식으로 변경 확인
-     */
-    public List<TalkPostResponseDto> getPost() {
-        List<TalkPostResponseDto> sendingList = new ArrayList<>();
-        List<TalkPost> talkPosts = talkPostRepository.findAll();
-        for (TalkPost talkPost : talkPosts) {
-            TalkPostResponseDto talkPostResponseDto = new TalkPostResponseDto(talkPost);
-            sendingList.add(talkPostResponseDto);
-        }
-        return sendingList;
+    public TalkResponseDto deletePost(Long id){
+        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
+                ()-> new NullPointerException("해당 게시글이 존재하지 않습니다.")
+        );
+        talkPostRepository.delete(talkPost);
+        return new TalkResponseDto("삭제가 완료되었습니다.");
     }
+
+    public TalkPostResponseDto getOnePost(Long id){
+        TalkPost talkPost =  talkPostRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("해당 포스팅이 존재하지 않습니다.")
+        );
+        return new TalkPostResponseDto(talkPost);
+    }
+
+    public AllTalkPostPageResponseDto getPost(int pageNumber, int size){
+        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+        List<TalkPostPageResponseDto> posts = talkPostRepository.findAllTalkPost(pageable);
+        long postCount = talkPostRepository.count();
+
+        return new AllTalkPostPageResponseDto(posts, postCount);
+    }
+
 }

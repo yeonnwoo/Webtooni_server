@@ -2,8 +2,13 @@ package com.webtooni.webtooniverse.domain.review.service;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
+
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
+
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLatestRepsponse;
+
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
 
@@ -33,21 +38,15 @@ public class ReviewService {
     private final ReviewLikeRepository reviewLikeRepository;
     private final WebtoonRepository webtoonRepository;
 
-    //리뷰 최신순 불러오기
+
+    //리뷰 최신순,베스트순 불러오기
+
     public ReviewMainResponseDto getMainReview(){
-        List<Review> getRecentNewReviews = reviewRepository.getNewReview();
-        List<Review> getRecentBestReviews = reviewRepository.getBestReview();
 
-        List<ReviewNewResponseDto> collectNewReview = getRecentNewReviews.stream()
-                .map(ReviewNewResponseDto::new)
-                .collect(Collectors.toList());
+        List<ReviewBestResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
+        List<ReviewNewResponseDto> getRecentNewReviews = reviewRepository.getNewReview();
 
-
-        List<ReviewBestResponseDto> collectBestReview = getRecentBestReviews.stream()
-                .map(ReviewBestResponseDto::new)
-                .collect(Collectors.toList());
-
-        return new ReviewMainResponseDto(collectBestReview, collectNewReview);
+        return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
 
     }
 
@@ -168,5 +167,15 @@ public class ReviewService {
         }
     }
 
+    public List<ReviewNewResponseDto> getNewReview(){
+        return reviewRepository.getNewReview();
+    }
 
+
+    public List<MyReviewResponseDto> getMyReviews(User user) {
+        List<Review> myReviews = reviewRepository.findMyReviews(user);
+        return myReviews.stream()
+                .map(MyReviewResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,8 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "user_password")
+    @JsonIgnore
+    @Column(name = "password")
     private String password;
 
     @Column(name = "user_img")
@@ -34,7 +36,7 @@ public class User {
 
     public User(String password, Long kakaoId){
         this.password = password;
-        this.userGrade = UserGrade.valueOf("BASIC");
+        this.userGrade = UserGrade.FIRST;
         this.kakaoId = kakaoId;
     }
     public void update(UserInfoRequestDto requestDto){
@@ -50,6 +52,7 @@ public class User {
         this.userGrade = userGrade;
         this.kakaoId = kakaoId;
     }
+
 
     public User(String userName,int userImg, UserGrade userGrade) {
         this.userName = userName;
