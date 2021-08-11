@@ -64,49 +64,7 @@ class WebtoonServiceTest {
     @PersistenceContext
     EntityManager em;
 
-    @BeforeEach
-    void getTestData(){
-        Webtoon webtoon1 = new Webtoon(1L, "제목1", "작가1", "설명1", "imgUrl", "월", "realUrl", "전체", "네이버", 4.5f, 1, 1, false);
-        Webtoon webtoon2 = new Webtoon(2L, "제목2", "작가2", "설명2", "imgUrl", "화", "realUrl", "전체", "네이버", 2.5f, 2, 2, false);
-        Webtoon webtoon3 = new Webtoon(3L, "제목3", "작가3", "설명3", "imgUrl", "수", "realUrl", "전체", "네이버", 3.0f, 3, 3, false);
-        Webtoon webtoon4 = new Webtoon(4L, "제목4", "작가4", "설명4", "imgUrl", "목", "realUrl", "전체", "네이버", 3.5f, 4, 4, false);
-        Webtoon webtoon5 = new Webtoon(5L, "제목5", "작가5", "설명5", "imgUrl", "금", "realUrl", "전체", "네이버", 4.0f, 5, 5, false);
-        Webtoon webtoon6 = new Webtoon(6L, "제목6", "작가6", "설명6", "imgUrl", "토", "realUrl", "전체", "네이버", 4.5f, 6, 6, false);
-        Webtoon webtoon7 = new Webtoon(7L, "제목7", "작가7", "설명7", "imgUrl", "일", "realUrl", "전체", "네이버", 5.0f, 7, 7, false);
-        Webtoon webtoon8 = new Webtoon(8L, "제목8", "작가8", "설명8", "imgUrl", "월", "realUrl", "전체", "네이버", 4.0f, 8, 8, false);
-        Webtoon webtoon9 = new Webtoon(9L, "제목9", "작가9", "설명9", "imgUrl", "화", "realUrl", "전체", "네이버", 2.0f, 9, 9, false);
-        Webtoon webtoon10 = new Webtoon(10L, "제목10", "작가10", "설명10", "imgUrl", "수", "realUrl", "전체", "네이버", 4.1f, 10, 10, false);
-        Webtoon webtoon11 = new Webtoon(11L, "제목11", "작가11", "설명11", "imgUrl", "목", "realUrl", "전체", "카카오", 4.2f, 11, 11, false);
-        Webtoon webtoon12 = new Webtoon(12L, "제목12", "작가12", "설명12", "imgUrl", "금", "realUrl", "전체", "카카오", 4.3f, 12, 12, false);
-        Webtoon webtoon13 = new Webtoon(20L, "제목20", "작가20", "설명20", "imgUrl", "금", "realUrl", "전체", "카카오", 1.7f, 20, 21, false);
-        Webtoon webtoon14 = new Webtoon(13L, "제목13", "작가13", "설명13", "imgUrl", "토", "realUrl", "전체", "카카오", 4.4f, 12, 13, false);
-        Webtoon webtoon15 = new Webtoon(14L, "제목14", "작가14", "설명14", "imgUrl", "일", "realUrl", "전체", "카카오", 4.5f, 13, 14, false);
-        Webtoon webtoon16 = new Webtoon(15L, "제목15", "작가15", "설명15", "imgUrl", "월", "realUrl", "전체", "카카오", 4.6f, 14, 15, false);
-        Webtoon webtoon17 = new Webtoon(16L, "제목16", "작가16", "설명16", "imgUrl", "화", "realUrl", "전체", "카카오", 4.7f, 15, 16, false);
-        Webtoon webtoon18 = new Webtoon(17L, "제목17", "작가17", "설명17", "imgUrl", "수", "realUrl", "전체", "카카오", 4.8f, 16, 17, false);
-        Webtoon webtoon19 = new Webtoon(18L, "제목18", "작가18", "설명18", "imgUrl", "목", "realUrl", "전체", "카카오", 4.9f, 17, 18, false);
-        Webtoon webtoon20 = new Webtoon(19L, "제목19", "작가19", "설명19", "imgUrl", "금", "realUrl", "전체", "카카오", 1.5f, 18, 19, false);
-        webtoonRepository.save(webtoon1);
-        webtoonRepository.save(webtoon2);
-        webtoonRepository.save(webtoon3);
-        webtoonRepository.save(webtoon4);
-        webtoonRepository.save(webtoon5);
-        webtoonRepository.save(webtoon6);
-        webtoonRepository.save(webtoon7);
-        webtoonRepository.save(webtoon8);
-        webtoonRepository.save(webtoon9);
-        webtoonRepository.save(webtoon10);
-        webtoonRepository.save(webtoon11);
-        webtoonRepository.save(webtoon12);
-        webtoonRepository.save(webtoon13);
-        webtoonRepository.save(webtoon14);
-        webtoonRepository.save(webtoon15);
-        webtoonRepository.save(webtoon16);
-        webtoonRepository.save(webtoon17);
-        webtoonRepository.save(webtoon18);
-        webtoonRepository.save(webtoon19);
-        webtoonRepository.save(webtoon20);
-    }
+
 
     @AfterEach
     void tearDown()
@@ -196,16 +154,74 @@ class WebtoonServiceTest {
     @DisplayName("웹투니버스 종합 랭킹")
     @Test
     public void test1(){
-//        //given
-//
-//        //when
-//        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
-//        //then
-//        for(MonthRankResponseDto rankResponseDto : totalRankToon){
-//            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
-//                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
-//        }
-//        assertThat(totalRankToon.size()).isEqualTo(10);
+        //given
+        //장르 저장
+        Genre g1 = createGenre("일상");
+        Genre g2 = createGenre("개그");
+        Genre g3 = createGenre("판타지");
+
+        genreRepository.save(g1);
+        genreRepository.save(g2);
+        genreRepository.save(g3);
+
+
+        //웹툰 저장
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
+        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
+        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3",20);
+        Webtoon w4 = createWebtoon("제목4", "작가4", "내용4",20);
+        Webtoon w5 = createWebtoon("제목5", "작가5", "내용5",20);
+        Webtoon w6 = createWebtoon("제목6", "작가6", "내용6",20);
+        Webtoon w7 = createWebtoon("제목7", "작가7", "내용7",20);
+        Webtoon w8 = createWebtoon("제목8", "작가8", "내용8",20);
+        Webtoon w9 = createWebtoon("제목9", "작가9", "내용9",20);
+        Webtoon w10 = createWebtoon("제목10", "작가10", "내용10",20);
+
+
+        webtoonRepository.save(w1);
+        webtoonRepository.save(w2);
+        webtoonRepository.save(w3);
+        webtoonRepository.save(w4);
+        webtoonRepository.save(w5);
+        webtoonRepository.save(w6);
+        webtoonRepository.save(w7);
+        webtoonRepository.save(w8);
+        webtoonRepository.save(w9);
+        webtoonRepository.save(w10);
+
+
+        //when
+        //웹툰_장르 설정
+        WebtoonGenre wg1 = createWebToonGenre(w1, g1);
+        WebtoonGenre wg2 = createWebToonGenre(w2, g2);
+        WebtoonGenre wg3 = createWebToonGenre(w3, g3);
+        WebtoonGenre wg4 = createWebToonGenre(w4, g1);
+        WebtoonGenre wg5 = createWebToonGenre(w5, g2);
+        WebtoonGenre wg6 = createWebToonGenre(w6, g3);
+        WebtoonGenre wg7 = createWebToonGenre(w7, g1);
+        WebtoonGenre wg8 = createWebToonGenre(w8, g2);
+        WebtoonGenre wg9 = createWebToonGenre(w9, g3);
+        WebtoonGenre wg10 = createWebToonGenre(w10, g1);
+
+        webtoonGenreRepository.save(wg1);
+        webtoonGenreRepository.save(wg2);
+        webtoonGenreRepository.save(wg3);
+        webtoonGenreRepository.save(wg4);
+        webtoonGenreRepository.save(wg5);
+        webtoonGenreRepository.save(wg6);
+        webtoonGenreRepository.save(wg7);
+        webtoonGenreRepository.save(wg8);
+        webtoonGenreRepository.save(wg9);
+        webtoonGenreRepository.save(wg10);
+
+        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
+
+        //then
+        for(MonthRankResponseDto rankResponseDto : totalRankToon){
+            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
+                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
+        }
+        assertThat(totalRankToon.size()).isEqualTo(10);
     }
 
     @DisplayName("웹투니버스 네이버 랭킹")
