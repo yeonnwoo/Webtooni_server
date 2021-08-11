@@ -74,14 +74,15 @@ public class    WebtoonController {
         return webtoonService.getMonthKakaoRank();
     }
 
-
+    //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
     public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id)
     {
         return webtoonService.getDetailAndReviewList(id);
     }
 
-    @GetMapping("webtoon/{id}/offer/genre")
+    //비슷한 장르 추천
+   @GetMapping("webtoon/{id}/offer/genre")
     public List<SimilarGenreToonDto> getSimilarWebtoon(@PathVariable Long id)
     {
         return webtoonService.getSimilarGenre(id);

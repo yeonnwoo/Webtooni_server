@@ -36,8 +36,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .from(wg)
                 .join(wg.genre)
                 .on(wg.genre.genreType.eq(genre), wg.webtoon.ne(webtoon))
-                .orderBy(NumberExpression.random().asc())
-                .limit(2)
+                .limit(10)
                 .fetch();
     }
 
@@ -58,6 +57,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .innerJoin(webtoonGenre.genre, genre)
                 .innerJoin(webtoonGenre.webtoon, webtoon)
                 .orderBy(webtoon.toonAvgPoint.desc())
+                .limit(10)
                 .fetch();
 
     }
