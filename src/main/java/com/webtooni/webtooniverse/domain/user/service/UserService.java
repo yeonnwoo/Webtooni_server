@@ -56,15 +56,18 @@ public class UserService {
 
             kakaoUser = new User(encodedPassword, kakaoId);
             userRepository.save(kakaoUser);
+
         }
 
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+
         String kakao = String.valueOf(kakaoId);
 
-        return jwtTokenProvider.createToken(kakao, kakaoUser.getId(), kakaoUser.getUserName(), kakaoUser.getUserGrade(), kakaoUser.getUserImg());
+
+        return jwtTokenProvider.createToken(kakao);
     }
 
 
