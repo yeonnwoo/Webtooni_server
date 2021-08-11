@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageableResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequestMapping("/api/v1/")
@@ -28,8 +30,8 @@ public class TalkPostController {
     }
 
     @GetMapping("talk")
-    public List<TalkPostResponseDto> getPost() {
-        return talkPostService.getPost();
+    public TalkPostPageableResponseDto getPost(@PathParam("page") int page, @PathParam("size") int size) {
+        return talkPostService.getPost(page, size);
     }
 
     @GetMapping("talk/{id}")

@@ -38,6 +38,13 @@ public class WebtoonService {
     //금주의 웹툰 평론가 추천
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
         User bestReviewer = webtoonRepository.findBestReviewer(startDate());
+        if (bestReviewer == null) {
+            List<Webtoon> naverRank = webtoonRepository.getNaverRank();
+            List<WebtoonResponseDto> webtoonResponseDto = naverRank.stream()
+                    .map(WebtoonResponseDto::new)
+                    .collect(Collectors.toList());
+            return new BestReviewerWebtoonResponseDto(new UserInfoResponseDto(), webtoonResponseDto);
+        }
         List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
         List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
                 .map(WebtoonResponseDto::new)
@@ -141,10 +148,12 @@ public class WebtoonService {
         );
 
         //해당 웹툰의 장르 찾기
-        List<Genre> WebToonGenre = webtoonRepository.findWebToonGenre(webtoon);
+        List<Genre> webToonGenre = webtoonRepository.findWebToonGenre(webtoon);
         List<String> genreList = new ArrayList<>();
-        genreList.add(WebToonGenre.get(0).getGenreType());
-        genreList.add(WebToonGenre.get(1).getGenreType());
+
+        for (Genre genre : webToonGenre){
+            genreList.add(genre.getGenreType());
+        }
 
         //해당 웹툰의 리뷰 찾기
         List<Review> reviewList = reviewRepository.findReviewByWebToonId(id);
@@ -186,6 +195,7 @@ public class WebtoonService {
     public String getFirstId(Long id) {
         return webtoonRepository.findById(id).get().getToonTitle();
     }
+
     public List<WebtoonResponseDto> getUnreviewdList() {
         List<Webtoon> Webtoons = webtoonRepository.findByReviewCountLessThanEqual(1);
         List<WebtoonResponseDto> UnreviewedWebtoons = Webtoons.stream()
