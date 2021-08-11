@@ -28,7 +28,9 @@ public class TalkPostRepositoryImpl implements TalkPostRepositoryCustom{
                         talkPost.user.userImg,
                         talkPost.user.userName,
                         talkPost.user.userGrade,
-                        talkPost.createDate))
+                        talkPost.createDate,
+                        talkPost.likeNum,
+                        talkPost.talkCommentCount))
                 .from(talkPost)
                 .innerJoin(talkPost.user, user)
                 .orderBy(talkPost.createDate.desc())

@@ -52,6 +52,7 @@ public class TalkPostController {
     public AllTalkPostPageResponseDto getPost(
             @PathParam("page") int pageNumber,
             @PathParam("size") int size
+
     ){
 
         return talkPostService.getPost(pageNumber, size);
