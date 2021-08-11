@@ -52,8 +52,8 @@ public class TalkPostService {
         return new TalkPostResponseDto(talkPost);
     }
 
-    public AllTalkPostPageResponseDto getPost(int pageNumber, int size){
-        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+    public AllTalkPostPageResponseDto getPost(int page, int size){
+        Pageable pageable = PageRequest.of(page - 1, size);
         List<TalkPostPageResponseDto> posts = talkPostRepository.findAllTalkPost(pageable);
         long postCount = talkPostRepository.count();
 

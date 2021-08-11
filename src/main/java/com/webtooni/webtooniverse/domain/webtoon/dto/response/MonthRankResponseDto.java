@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ public class MonthRankResponseDto {
     private Genre genre;
 
 
-    @QueryProjection
+
     public MonthRankResponseDto(Long id, String toonImg, String toonTitle, String toonAuthor, float toonAvgPoint,
                                 String toonPlatform, String toonWeekday, boolean finished, Genre genre) {
         this.id = id;
