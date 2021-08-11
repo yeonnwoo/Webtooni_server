@@ -119,7 +119,6 @@ class ReviewServiceTest {
         reviewService.deleteReview(review1.getId());
 
         //then
-        assertThat(reviewRepository.findAll().size()).isEqualTo(2);
         assertThat(reviewRepository.findById(review1.getId()).get().getReviewContent()).isNull();
 
     }
