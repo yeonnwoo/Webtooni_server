@@ -100,8 +100,8 @@ public class UnitWebtoonServiceTest {
     public void test2(){
         //given
         //장르
-        Genre g1 = createGenre("큰 장르1");
-        Genre g3 = createGenre("작은 장르1");
+        Genre g1 = createGenre("장르1");
+        Genre g3 = createGenre("장르2");
 
         List<Genre> genreList = new ArrayList<>(Arrays.asList(g1,g3));
 
@@ -114,7 +114,7 @@ public class UnitWebtoonServiceTest {
 
         given(webtoonRepository.findById(1L)).willReturn(Optional.of(w1));
         given(webtoonRepository.findWebToonGenre(w1)).willReturn(genreList);
-        given(webtoonRepository.findSimilarWebtoonByGenre("작은 장르1",w1)).willReturn(webtoonList);
+        given(webtoonRepository.findSimilarWebtoonByGenre("장르1",w1)).willReturn(webtoonList);
 
         //when
         List<SimilarGenreToonDto> genreToonDtoList = webtoonService.getSimilarGenre(1L);
