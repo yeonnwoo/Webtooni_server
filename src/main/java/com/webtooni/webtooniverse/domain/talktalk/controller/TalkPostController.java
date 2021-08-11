@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageableResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
@@ -11,6 +12,7 @@ import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import javax.websocket.server.PathParam;
 
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
@@ -25,6 +27,11 @@ public class TalkPostController {
         return talkPostService.post(requestDto, user);
     }
 
+//    @GetMapping("talk")
+//    public TalkPostPageableResponseDto getPost(@PathParam("page") int page, @PathParam("size") int size) {
+//        return talkPostService.getPost(page, size);
+//    }
+
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id) {
         return talkPostService.getOnePost(id);
@@ -35,7 +42,6 @@ public class TalkPostController {
         return talkPostService.updatePost(id, requestDto);
     }
 
-
     @DeleteMapping("talk/{id}")
     public TalkResponseDto delete(@PathVariable Long id) {
         return talkPostService.deletePost(id);
@@ -44,11 +50,12 @@ public class TalkPostController {
     //모든 톡톡 게시글 불러오기
     @GetMapping("talk")
     public AllTalkPostPageResponseDto getPost(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size
+            @PathParam("page") int pageNumber,
+            @PathParam("size") int size
+
     ){
 
-        return talkPostService.getPost(page, size);
+        return talkPostService.getPost(pageNumber, size);
     }
 
 

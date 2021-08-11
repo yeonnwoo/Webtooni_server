@@ -2,12 +2,11 @@ package com.webtooni.webtooniverse.domain.review.domain;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
 import lombok.RequiredArgsConstructor;
-
 import java.util.List;
-
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
@@ -69,5 +68,12 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .limit(10)
                 .fetch();
 
+    }
+
+    @Override
+    public List<Review> findMyReviews(User user) {
+        return jpaQueryFactory.selectFrom(review)
+                .where(review.user.eq(user))
+                .fetch();
     }
 }

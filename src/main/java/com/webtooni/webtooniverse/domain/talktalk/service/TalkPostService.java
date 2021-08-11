@@ -52,16 +52,12 @@ public class TalkPostService {
         return new TalkPostResponseDto(talkPost);
     }
 
-
-    //전체 게시글 불러오기
     public AllTalkPostPageResponseDto getPost(int pageNumber, int size){
         Pageable pageable = PageRequest.of(pageNumber - 1, size);
-
         List<TalkPostPageResponseDto> posts = talkPostRepository.findAllTalkPost(pageable);
         long postCount = talkPostRepository.count();
 
         return new AllTalkPostPageResponseDto(posts, postCount);
-
     }
 
 }

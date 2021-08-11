@@ -193,84 +193,19 @@ class WebtoonServiceTest {
 
     }
 
-    @DisplayName("비슷한 장르의 웹툰을 랜덤으로 추천 테스트")
-    @Test
-    public void test(){
-        //given
-        //웹툰
-
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
-        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
-        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3",20);
-        Webtoon w4 = createWebtoon("제목4", "작가4", "내용4",20);
-        Webtoon w5 = createWebtoon("제목4", "작가4", "내용4",20);
-
-        webtoonRepository.save(w1);
-        webtoonRepository.save(w2);
-        webtoonRepository.save(w3);
-        webtoonRepository.save(w4);
-        webtoonRepository.save(w5);
-
-
-        //장르 저장
-        Genre g1 = createGenre("일상");
-        Genre g2 = createGenre("개그");
-        Genre g3 = createGenre("판타지");
-
-        genreRepository.save(g1);
-        genreRepository.save(g2);
-        genreRepository.save(g3);
-
-        //웹툰_장르 설정
-        WebtoonGenre wg1 = createWebToonGenre(w1, g1);
-        WebtoonGenre wg2 = createWebToonGenre(w1, g2);
-        WebtoonGenre wg3 = createWebToonGenre(w2, g1);
-        WebtoonGenre wg4 = createWebToonGenre(w2, g2);
-        WebtoonGenre wg5 = createWebToonGenre(w3, g3);
-        WebtoonGenre wg6 = createWebToonGenre(w3, g2);
-        WebtoonGenre wg7 = createWebToonGenre(w4, g1);
-        WebtoonGenre wg8 = createWebToonGenre(w4, g3);
-        WebtoonGenre wg9 = createWebToonGenre(w5, g1);
-        WebtoonGenre wg10 = createWebToonGenre(w5, g2);
-
-        webtoonGenreRepository.save(wg1);
-        webtoonGenreRepository.save(wg2);
-        webtoonGenreRepository.save(wg3);
-        webtoonGenreRepository.save(wg4);
-        webtoonGenreRepository.save(wg5);
-        webtoonGenreRepository.save(wg6);
-        webtoonGenreRepository.save(wg7);
-        webtoonGenreRepository.save(wg8);
-        webtoonGenreRepository.save(wg9);
-        webtoonGenreRepository.save(wg10);
-
-
-        //when
-        List<SimilarGenreToonDto> toonDtos = webtoonService.getSimilarGenre(w1.getId());
-
-        //then
-        assertThat(toonDtos.size()).isEqualTo(2);
-        assertThat(toonDtos.get(0).getToonTitle()).isNotEqualTo(w1.getToonTitle());
-
-        for (SimilarGenreToonDto toonDto : toonDtos) {
-            System.out.println("toonDto.getToonTitle() = " + toonDto.getToonTitle());
-        }
-
-    }
-
     @DisplayName("웹투니버스 종합 랭킹")
     @Test
     public void test1(){
-        //given
-
-        //when
-        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
-        //then
-        for(MonthRankResponseDto rankResponseDto : totalRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
-                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
-        }
-        assertThat(totalRankToon.size()).isEqualTo(10);
+//        //given
+//
+//        //when
+//        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
+//        //then
+//        for(MonthRankResponseDto rankResponseDto : totalRankToon){
+//            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
+//                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
+//        }
+//        assertThat(totalRankToon.size()).isEqualTo(10);
     }
 
     @DisplayName("웹투니버스 네이버 랭킹")

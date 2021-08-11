@@ -13,10 +13,12 @@ public interface WebtoonRepositoryCustom {
     List<Webtoon> getNaverRank();
     List<Webtoon> getKakaoRank();
     List<Webtoon> findSimilarWebtoonByGenre(String genre,Webtoon webtoon);
-    List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate);
+    List<Webtoon> findBestReviewerWebtoon(User user);
+    User findBestReviewer(LocalDateTime startDate);
     List<Webtoon> findUserGenreWebtoon(User user);
     List<Webtoon> findSimilarUserWebtoon(User user);
     List<Webtoon> findFinishedWebtoon();
     List<BestReviewerResponseDto> findBestReviewerForMain();
+    List<Webtoon> findMyListWebtoon(User user);
 
 }

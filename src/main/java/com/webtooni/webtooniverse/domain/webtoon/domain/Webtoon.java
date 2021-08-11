@@ -1,14 +1,10 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import javax.persistence.*;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -47,10 +43,9 @@ public class Webtoon {
 
 
     @Builder
-    public Webtoon(Long id,String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
+    public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
                    String realUrl, String toonAge, String toonPlatform, float toonAvgPoint,
                    int totalPointCount, int reviewCount, boolean finished) {
-        this.id = id;
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
         this.toonContent = toonContent;
@@ -99,5 +94,4 @@ public class Webtoon {
         this.toonAvgPoint = Float.parseFloat(String.format("%.1f", totalPoint / this.totalPointCount));
 
     }
-
 }

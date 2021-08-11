@@ -3,15 +3,19 @@ package com.webtooni.webtooniverse.domain.webtoon.service;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,9 +37,21 @@ public class WebtoonService {
     private final ReviewRepository reviewRepository;
 
     //금주의 웹툰 평론가 추천
-    public List<WebtoonResponseDto> getBestReviewerWebtoon() {
-        List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(startDate());
-        return bestReviewerWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+    public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
+        User bestReviewer = webtoonRepository.findBestReviewer(startDate());
+        if (bestReviewer == null) {
+            List<Webtoon> naverRank = webtoonRepository.getNaverRank();
+            List<WebtoonResponseDto> webtoonResponseDto = naverRank.stream()
+                    .map(WebtoonResponseDto::new)
+                    .collect(Collectors.toList());
+            return new BestReviewerWebtoonResponseDto(new UserInfoResponseDto(), webtoonResponseDto);
+        }
+        List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
+        List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
+                .map(WebtoonResponseDto::new)
+                .collect(Collectors.toList());
+        UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(bestReviewer);
+        return new BestReviewerWebtoonResponseDto(userInfoResponseDto, webtoonResponseDto);
     }
 
     //유저 관심 장르 중 랜덤 추천
@@ -133,15 +149,22 @@ public class WebtoonService {
         );
 
         //해당 웹툰의 장르 찾기
-        List<Genre> WebToonGenre = webtoonRepository.findWebToonGenre(webtoon);
+
+        List<Genre> webtoonGenre = webtoonRepository.findWebToonGenre(webtoon);
         List<String> genreList = new ArrayList<>();
-        genreList.add(WebToonGenre.get(0).getGenreType());
-        genreList.add(WebToonGenre.get(1).getGenreType());
+        for (Genre genre : webtoonGenre){
+            genreList.add(genre.getGenreType());
+        }
 
         //해당 웹툰의 리뷰 찾기
         List<Review> reviewList = reviewRepository.findReviewByWebToonId(id);
 
-        return new WebtoonDetailDto(webtoon, genreList, reviewList);
+        //리뷰 Dto
+        List<WebtoonDetailReviewResponseDto> ReviewDtoList = reviewList.stream()
+                .map(WebtoonDetailReviewResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new WebtoonDetailDto(webtoon, genreList, ReviewDtoList);
     }
 
     /**
@@ -152,19 +175,35 @@ public class WebtoonService {
      */
     public List<SimilarGenreToonDto> getSimilarGenre(Long id) {
 
-        //웹툰 찾기
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id의 웹툰은 존재하지 않습니다.")
         );
 
         List<Genre> genre = webtoonRepository.findWebToonGenre(webtoon);
 
-        //비슷한 장르의 웹툰 찾기
-        List<Webtoon> webtoonList = webtoonRepository.findSimilarWebtoonByGenre(genre.get(1).getGenreType(), webtoon);
+
+        List<Webtoon> webtoonList= new ArrayList<>();
+        for (Genre g : genre) {
+            //비슷한 장르의 웹툰 찾기
+            List<Webtoon> similarWebtoonByGenre = webtoonRepository.findSimilarWebtoonByGenre(g.getGenreType(), webtoon);
+            webtoonList.addAll(similarWebtoonByGenre);
+        }
 
         return webtoonList.stream()
                 .map(SimilarGenreToonDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<WebtoonResponseDto> getMyListWebtoons(User user) {
+        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(user);
+        return myListWebtoon.stream()
+                .map(WebtoonResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Cacheable(key = "#id", value = "getFirstId")
+    public String getFirstId(Long id) {
+        return webtoonRepository.findById(id).get().getToonTitle();
     }
 
     public List<WebtoonResponseDto> getUnreviewdList() {
@@ -174,5 +213,4 @@ public class WebtoonService {
                 .collect(Collectors.toList());
         return UnreviewedWebtoons;
     }
-
 }
