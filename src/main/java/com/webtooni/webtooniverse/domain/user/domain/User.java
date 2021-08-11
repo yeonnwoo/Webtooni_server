@@ -32,6 +32,9 @@ public class User {
     @Column(name = "kakao_id")
     private Long kakaoId;
 
+    @Column(name = "naver_id")
+    private Long naverId;
+
     public User(String password, Long kakaoId){
         this.password = password;
         this.userGrade = UserGrade.valueOf("FIRST");

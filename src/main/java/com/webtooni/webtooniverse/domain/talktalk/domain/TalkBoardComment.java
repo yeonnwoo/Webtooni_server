@@ -31,7 +31,6 @@ public class TalkBoardComment extends TimeStamped {
     private String commentContent;
 
     public TalkBoardComment(TalkCommentRequestDto requestDto, User user, TalkPost talkPost){
-        this.talkPost = requestDto.getTalkPost();
         this.commentContent = requestDto.getCommentContent();
         this.user = user;
         this.talkPost = talkPost;

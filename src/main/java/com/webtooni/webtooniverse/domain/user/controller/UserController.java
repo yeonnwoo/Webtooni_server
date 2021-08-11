@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping("/api/v1/user/naver/callback")
     public String naverLogin(@RequestParam String code) {
         // authorizedCode:
-        return userService.kakaoLogin(code);
+        return userService.naverLogin(code);
     }
 
     @PutMapping("/api/v1/user/info/{id}")

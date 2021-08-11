@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.user.service;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
@@ -11,6 +12,8 @@ import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseD
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
+import com.webtooni.webtooniverse.domain.user.security.naver.NaverOAuth2;
+import com.webtooni.webtooniverse.domain.user.security.naver.NaverUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,9 +38,11 @@ public class UserService {
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
     private final KakaoOAuth2 kakaoOAuth2;
+    private final NaverOAuth2 naverOAuth2;
     private final UserGenreRepository userGenreRepository;
     private final WebtoonRepository webtoonRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final GenreRepository genreRepository;
 
 
     public String kakaoLogin(String authorizedCode) {
@@ -66,12 +71,38 @@ public class UserService {
         Authentication authentication = authenticationManager.authenticate(SocialUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-
-        String kakao = String.valueOf(kakaoId);
-
-        return jwtTokenProvider.createToken(kakao, kakaoUser.getId(), kakaoUser.getUserName(), kakaoUser.getUserGrade(), kakaoUser.getUserImg());
+        return jwtTokenProvider.createToken(SocialId);
     }
 
+    public String naverLogin(String authorizedCode) {
+        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
+        NaverUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode);
+        Long naverId = userInfo.getId();
+        // 패스워드 = 카카오 Id + ADMIN TOKEN
+        String password = naverId + ADMIN_TOKEN;
+
+        // DB 에 중복된 Kakao Id 가 있는지 확인
+        User naverUser = userRepository.findByNaverId(naverId)
+                .orElse(null);
+
+        // 카카오 정보로 회원가입
+        if (naverUser == null) {
+            // 패스워드 인코딩
+            String encodedPassword = passwordEncoder.encode(password);
+
+            naverUser = new User(encodedPassword, naverId);
+            userRepository.save(naverUser);
+        }
+
+        String SocialId = String.valueOf(naverUser.getId());
+
+        Authentication SocialUsernamePassword = new UsernamePasswordAuthenticationToken(SocialId, password);
+        Authentication authentication = authenticationManager.authenticate(SocialUsernamePassword);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
+        return jwtTokenProvider.createToken(SocialId);
+    }
 
     @Transactional
     public void updateInfo(Long id, UserInfoRequestDto requestDto) {
@@ -80,6 +111,7 @@ public class UserService {
         );
         user.update(requestDto);
     }
+
 
     /**
      * TODO 수정 필요(오류)
@@ -92,11 +124,11 @@ public class UserService {
 
     @Transactional
     public List<UserGenre> pickGenre(User user, UserGenreRequestDto requestDto) {
+        ArrayList<String> pickedGenres = requestDto.getGenres();
         List<UserGenre> userGenres = new ArrayList<>();
-        List<Genre> genres = requestDto.getGenres();
-        for (Genre genre : genres) {
+        for (String pickedGenre : pickedGenres) {
+            Genre genre = genreRepository.findByGenreType(pickedGenre);
             UserGenre userGenre = new UserGenre(user, genre);
-            userGenreRepository.save(userGenre);
             userGenres.add(userGenre);
         }
         return userGenres;
