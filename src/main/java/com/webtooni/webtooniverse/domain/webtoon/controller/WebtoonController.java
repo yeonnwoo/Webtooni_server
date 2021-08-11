@@ -2,20 +2,16 @@ package com.webtooni.webtooniverse.domain.webtoon.controller;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import java.util.List;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
@@ -24,13 +20,8 @@ public class    WebtoonController {
 
     private final WebtoonService webtoonService;
 
-    /**
-     * TODO : ddd
-     * @return
-     */
-
     @GetMapping("offer/best-reviewer")
-    public List<WebtoonResponseDto> getBestReviewerWebtoons(){
+    public BestReviewerWebtoonResponseDto getBestReviewerWebtoons(){
         return webtoonService.getBestReviewerWebtoon();
     }
 
@@ -86,6 +77,16 @@ public class    WebtoonController {
     public List<SimilarGenreToonDto> getSimilarWebtoon(@PathVariable Long id)
     {
         return webtoonService.getSimilarGenre(id);
+    }
+
+    @GetMapping("user/me/subscribe")
+    public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return webtoonService.getMyListWebtoons(userDetails.getUser());
+    }
+
+    @GetMapping("test")
+    public String test() {
+        return webtoonService.getFirstId(1L);
     }
 
     @GetMapping("reviews/suggestion")

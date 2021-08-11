@@ -9,6 +9,7 @@ import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
@@ -74,9 +75,9 @@ public class UserService {
         return jwtTokenProvider.createToken(SocialId);
     }
 
-    public String naverLogin(String authorizedCode) {
+    public String naverLogin(String authorizedCode, String state) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        NaverUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode);
+        NaverUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode, state);
         Long naverId = userInfo.getId();
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = naverId + ADMIN_TOKEN;
@@ -132,6 +133,13 @@ public class UserService {
             userGenres.add(userGenre);
         }
         return userGenres;
+    }
+    public UserInfoResponseDto getUserInfo(User user) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
+        );
+        return new UserInfoResponseDto(findUser);
+
     }
 
 

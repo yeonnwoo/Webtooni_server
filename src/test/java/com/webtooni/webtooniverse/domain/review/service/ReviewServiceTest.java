@@ -326,7 +326,6 @@ class ReviewServiceTest {
             System.out.println("responseDto.getUserPointNumber()= " + responseDto.getUserPointNumber());
         }
         for (ReviewNewResponseDto responseDto1 : reviewNewResponseDto){
-            System.out.println("responseDto1.getCreateDate()= " + responseDto1.getCreateDate());
         }
         ReviewMainResponseDto responseDto2 = new ReviewMainResponseDto(reviewBestResponseDto, reviewNewResponseDto);
         System.out.println("responseDto2.getBestReview()= " + responseDto2.getBestReview()+", " +

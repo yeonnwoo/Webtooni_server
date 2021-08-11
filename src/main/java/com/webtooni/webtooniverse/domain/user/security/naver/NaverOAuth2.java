@@ -15,16 +15,16 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 @Component
 public class NaverOAuth2 {
-    public NaverUserInfo getUserInfo(String authorizedCode) {
+    public NaverUserInfo getUserInfo(String authorizedCode, String state) {
         // 1. 인가코드 -> 액세스 토큰
-        String accessToken = getAccessToken(authorizedCode);
+        String accessToken = getAccessToken(authorizedCode, state);
         // 2. 액세스 토큰 -> 카카오 사용자 정보
         NaverUserInfo NuserInfo = getUserInfoByToken(accessToken);
 
         return NuserInfo;
     }
 
-    private String getAccessToken(String authorizedCode) {
+    private String getAccessToken(String authorizedCode, String state) {
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -33,8 +33,10 @@ public class NaverOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "{7RBFbToxSfOTA51ofOYj}");
+        params.add("client_secret", "");
         params.add("redirect_uri", "http://localhost:8080/api/v1/user/naver/callback");
         params.add("code", authorizedCode);
+        params.add("state", state);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
         RestTemplate rt = new RestTemplate();
