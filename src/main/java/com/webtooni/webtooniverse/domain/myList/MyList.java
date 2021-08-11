@@ -2,13 +2,14 @@ package com.webtooni.webtooniverse.domain.myList;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class MyList {
     
@@ -34,5 +35,4 @@ public class MyList {
         return new MyList(user,webtoon);
     }
 
-    
 }

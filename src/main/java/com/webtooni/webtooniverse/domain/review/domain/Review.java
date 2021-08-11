@@ -1,24 +1,26 @@
 package com.webtooni.webtooniverse.domain.review.domain;
-
-import com.webtooni.webtooniverse.domain.BaseTimeEntity;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import com.webtooni.webtooniverse.global.utils.TimeStamped;
+import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Review extends BaseTimeEntity {
+public class Review {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
+
+    private LocalDateTime createDate;
 
     private String reviewContent;
 
@@ -35,11 +37,14 @@ public class Review extends BaseTimeEntity {
     private User user;
 
     @Builder
-    public Review(String reviewContent, float userPointNumber, int likeCount) {
+    public Review(String reviewContent, float userPointNumber, int likeCount, Webtoon webtoon, User user) {
         this.reviewContent = reviewContent;
         this.userPointNumber = userPointNumber;
         this.likeCount = likeCount;
+        this.webtoon = webtoon;
+        this.user = user;
     }
+
     /**
      * 처음 웹툰에 별점을 등록하는 경우엔 별점을 등록
      */
@@ -77,6 +82,7 @@ public class Review extends BaseTimeEntity {
      */
     public void changeReviewContent(ReviewContentRequestDto reviewDto) {
         this.reviewContent=reviewDto.getReviewContent();
+        this.createDate=LocalDateTime.now();
     }
 
     /**
@@ -101,4 +107,5 @@ public class Review extends BaseTimeEntity {
     {
         this.likeCount-=1;
     }
+
 }
