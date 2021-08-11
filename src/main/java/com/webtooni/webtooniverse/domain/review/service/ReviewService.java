@@ -33,8 +33,7 @@ public class ReviewService {
     private final ReviewLikeRepository reviewLikeRepository;
     private final WebtoonRepository webtoonRepository;
 
-    //리뷰 최신순 불러오기
-
+    //리뷰 최신순,베스트순 불러오기
     public ReviewMainResponseDto getMainReview(){
 
         List<ReviewBestResponseDto> getRecentBestReviews = reviewRepository.getBestReview();

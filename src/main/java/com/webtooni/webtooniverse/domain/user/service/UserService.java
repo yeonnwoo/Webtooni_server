@@ -10,9 +10,9 @@ import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
-import com.webtooni.webtooniverse.domain.user.dto.response.UserResponseDto;
+
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
-import com.webtooni.webtooniverse.domain.user.security.dto.TokenDto;
+
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
