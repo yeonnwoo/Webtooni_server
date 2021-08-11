@@ -199,5 +199,13 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Webtoon> findSearchedWebtoon(String keyword) {
+        return queryFactory.selectFrom(webtoon)
+                .where(webtoon.toonTitle.contains(keyword))
+                .limit(20)
+                .fetch();
+    }
+
 
 }

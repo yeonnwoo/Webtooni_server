@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -92,6 +93,11 @@ public class    WebtoonController {
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {
         return webtoonService.getUnreviewdList();
+    }
+
+    @GetMapping("search")
+    public List<WebtoonResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
+        return webtoonService.getSearchedWebtoon(keyword);
     }
 
 }

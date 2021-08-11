@@ -213,4 +213,11 @@ public class WebtoonService {
                 .collect(Collectors.toList());
         return UnreviewedWebtoons;
     }
+
+    public List<WebtoonResponseDto> getSearchedWebtoon(String keyword) {
+        List<Webtoon> webtoons = webtoonRepository.findSearchedWebtoon(keyword);
+        return webtoons.stream()
+                .map(WebtoonResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }
