@@ -1,20 +1,16 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
@@ -28,11 +24,6 @@ public class TalkPostController {
         User user = userDetails.getUser();
         return talkPostService.post(requestDto, user);
     }
-
-//    @GetMapping("talk")
-//    public List<TalkPostResponseDto> getPost() {
-//        return talkPostService.getPost();
-//    }
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id) {
@@ -52,7 +43,7 @@ public class TalkPostController {
 
     //모든 톡톡 게시글 불러오기
     @GetMapping("talk")
-    public AllTalkPostResponseDto getPost(
+    public AllTalkPostPageResponseDto getPost(
             @RequestParam("pageNumber") int pageNumber,
             @RequestParam("size") int size
     ){

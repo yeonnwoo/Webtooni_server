@@ -1,11 +1,8 @@
 package com.webtooni.webtooniverse.domain.talktalk.repository;
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
