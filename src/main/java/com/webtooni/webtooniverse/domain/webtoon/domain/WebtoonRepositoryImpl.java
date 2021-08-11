@@ -2,11 +2,13 @@ package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.webtooni.webtooniverse.domain.genre.domain.QGenre.genre;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
@@ -38,8 +41,21 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     //이번달 웹투니버스 종합순위
-    public List<Webtoon> getTotalRank() {
-        return queryFactory.selectFrom(webtoon)
+    public List<MonthRankResponseDto> getTotalRank() {
+        return queryFactory
+                .select(Projections.constructor(MonthRankResponseDto.class,
+                        webtoonGenre.webtoon.id,
+                        webtoonGenre.webtoon.toonImg,
+                        webtoonGenre.webtoon.toonTitle,
+                        webtoonGenre.webtoon.toonAuthor,
+                        webtoonGenre.webtoon.toonAvgPoint,
+                        webtoonGenre.webtoon.toonPlatform,
+                        webtoonGenre.webtoon.toonWeekday,
+                        webtoonGenre.webtoon.finished,
+                        webtoonGenre.genre))
+                .from(webtoonGenre)
+                .innerJoin(webtoonGenre.genre, genre)
+                .innerJoin(webtoonGenre.webtoon, webtoon)
                 .orderBy(webtoon.toonAvgPoint.desc())
                 .limit(10)
                 .fetch();
@@ -152,6 +168,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         for (BestReviewerResponseDto dto : dtos) {
             users.add(dto.getUser());
         }
+
 
         List<Review> reviews = queryFactory.selectFrom(review)
                 .where(review.user.in(users))

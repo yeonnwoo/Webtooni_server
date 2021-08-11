@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkLikeResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkLikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,7 @@ public class TalkLikeController {
     private final TalkLikeService talkLikeService;
 
     @PostMapping("talk/{id}/like")
-    public TalkLikeResponseDto like(@PathVariable Long id){
+    public TalkResponseDto like(@PathVariable Long id){
         return talkLikeService.postLike(id);
     }
 }

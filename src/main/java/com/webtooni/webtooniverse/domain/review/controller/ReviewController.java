@@ -3,8 +3,13 @@ package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLatestRepsponse;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
+
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
@@ -27,26 +32,17 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @RestController
 public class ReviewController {
 
-    private final ReviewRepository reviewRepository;
     private final WebtoonRepository webtoonRepository;
     private final ReviewService reviewService;
 
 
     // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
-    public List<Review> getLatestReview() {
-        return reviewRepository.findAllByOrderByCreateDate();
+    public List<ReviewNewResponseDto> getNewReview() {
+        return reviewService.getNewReview();
     }
 
-    @GetMapping("reviews/likes")
-    public List<Review> getLikeReview() {
-        return reviewRepository.findAllByOrderByLikeCountDesc();
-    }
 
-    @GetMapping("reviews/suggestion")
-    public List<Webtoon> gerUnreviewdlist() {
-        return webtoonRepository.findByReviewCountLessThanEqual(5);
-    }
 
     /**
      * TODO (dto로 묶어서 보내주기), service 거쳐서 가져오기 MVC
