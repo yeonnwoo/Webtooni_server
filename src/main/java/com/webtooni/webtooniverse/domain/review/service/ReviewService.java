@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.review.service;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
 
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
@@ -171,4 +172,10 @@ public class ReviewService {
     }
 
 
+    public List<MyReviewResponseDto> getMyReviews(User user) {
+        List<Review> myReviews = reviewRepository.findMyReviews(user);
+        return myReviews.stream()
+                .map(MyReviewResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

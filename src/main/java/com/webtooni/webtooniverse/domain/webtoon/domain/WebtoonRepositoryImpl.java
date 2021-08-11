@@ -2,7 +2,6 @@ package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.webtooni.webtooniverse.domain.genre.domain.QGenre.genre;
+import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
@@ -80,16 +80,20 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
     }
 
+    //베스트 리뷰어 추천 웹툰
     @Override
-    public List<Webtoon> findBestReviewerWebtoon(LocalDateTime startDate) {
-        User bestReviewer = queryFactory.select(review.user)
+    public User findBestReviewer(LocalDateTime startDate) {
+        return queryFactory.select(review.user)
                 .from(review)
                 .where(review.createDate.between(startDate, LocalDateTime.now()))
                 .groupBy(review.user)
                 .orderBy(review.user.count().desc())
                 .limit(1)
                 .fetchOne();
+    }
 
+    @Override
+    public List<Webtoon> findBestReviewerWebtoon(User bestReviewer) {
         return queryFactory.select(review.webtoon)
                 .from(review)
                 .where(review.user.eq(bestReviewer))
@@ -97,6 +101,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .limit(5)
                 .fetch();
     }
+
 
     //유저 취향 웹툰 추천
     @Override
@@ -185,4 +190,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         }
         return dtos;
     }
+
+    @Override
+    public List<Webtoon> findMyListWebtoon(User user) {
+        return queryFactory.select(myList.webtoon)
+                .from(myList)
+                .where(myList.user.eq(user))
+                .fetch();
+    }
+
+
 }

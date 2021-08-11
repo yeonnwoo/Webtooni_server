@@ -196,16 +196,16 @@ class WebtoonServiceTest {
     @DisplayName("웹투니버스 종합 랭킹")
     @Test
     public void test1(){
-        //given
-
-        //when
-        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
-        //then
-        for(MonthRankResponseDto rankResponseDto : totalRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
-                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
-        }
-        assertThat(totalRankToon.size()).isEqualTo(10);
+//        //given
+//
+//        //when
+//        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
+//        //then
+//        for(MonthRankResponseDto rankResponseDto : totalRankToon){
+//            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
+//                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
+//        }
+//        assertThat(totalRankToon.size()).isEqualTo(10);
     }
 
     @DisplayName("웹투니버스 네이버 랭킹")

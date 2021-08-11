@@ -1,31 +1,21 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
 
-import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
-
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
-
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLatestRepsponse;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
-
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
+import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
@@ -62,22 +52,6 @@ public class ReviewController {
         return reviewService.updateReview(id, reviewDto);
     }
 
-    //리뷰 삭제
-    @DeleteMapping("reviews/{id}")
-    public void deleteReview(@PathVariable Long id) {
-        reviewService.deleteReview(id);
-    }
-
-    //리뷰에 좋아요
-    @PostMapping("reviews/{id}/like")
-    public void clickReviewLike(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        //로그인된 유저 정보로 변경 되어야함
-        User user = userDetails.getUser();
-
-        reviewService.clickReviewLike(id, user);
-    }
-
     /**
      * 웹툰에 별점주기
      *
@@ -92,4 +66,26 @@ public class ReviewController {
         reviewService.clickWebtoonPointNumber(reviewStarDto, user);
 
     }
+
+    @GetMapping("user/me/reviews")
+    public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return reviewService.getMyReviews(userDetails.getUser());
+    }
+
+    //리뷰 삭제
+    @DeleteMapping("reviews/{id}")
+    public void deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+    }
+
+    //리뷰에 좋아요
+    @PostMapping("reviews/{id}/like")
+    public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        //로그인된 유저 정보로 변경 되어야함
+        User user = userDetails.getUser();
+
+        reviewService.clickReviewLike(id, user);
+    }
+
 }
