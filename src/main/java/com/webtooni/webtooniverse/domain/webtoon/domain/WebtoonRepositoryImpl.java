@@ -9,11 +9,14 @@ import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.webtooni.webtooniverse.domain.genre.domain.QGenre.genre;
 import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
@@ -44,19 +47,18 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     public List<MonthRankResponseDto> getTotalRank() {
         return queryFactory
                 .select(Projections.constructor(MonthRankResponseDto.class,
-                        webtoonGenre.webtoon.id,
-                        webtoonGenre.webtoon.toonImg,
-                        webtoonGenre.webtoon.toonTitle,
-                        webtoonGenre.webtoon.toonAuthor,
-                        webtoonGenre.webtoon.toonAvgPoint,
-                        webtoonGenre.webtoon.toonPlatform,
-                        webtoonGenre.webtoon.toonWeekday,
-                        webtoonGenre.webtoon.finished,
-                        webtoonGenre.genre))
-                .from(webtoonGenre)
-                .innerJoin(webtoonGenre.genre, genre)
-                .innerJoin(webtoonGenre.webtoon, webtoon)
-                .orderBy(webtoonGenre.webtoon.toonAvgPoint.desc())
+                        webtoon.id,
+                        webtoon.toonImg,
+                        webtoon.toonTitle,
+                        webtoon.toonAuthor,
+                        webtoon.toonAvgPoint,
+                        webtoon.toonPlatform,
+                        webtoon.toonWeekday,
+                        webtoon.finished))
+                .from(webtoon)
+                .innerJoin(webtoonGenre).on(webtoon.id.eq(webtoonGenre.webtoon.id))
+                .innerJoin(genre).on(webtoonGenre.genre.id.eq(genre.id))
+                .orderBy(webtoon.toonAvgPoint.desc())
                 .limit(10)
                 .fetch();
 
