@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.user.dto;
+package com.webtooni.webtooniverse.domain.user.dto.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

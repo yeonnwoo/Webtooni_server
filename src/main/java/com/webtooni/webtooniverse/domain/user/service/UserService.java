@@ -4,10 +4,9 @@ import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
-import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
-import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
-import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
+import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
+import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
@@ -94,7 +93,7 @@ public class UserService {
     }
 
     @Transactional
-    public List<UserGenre> pickGenre(User user, UserGenreRequestDto requestDto) {
+    public void pickGenre(User user, UserOnBoardingRequestDto requestDto) {
         ArrayList<String> pickedGenres = requestDto.getGenres();
         List<UserGenre> userGenres = new ArrayList<>();
         for (String pickedGenre : pickedGenres) {
@@ -102,8 +101,9 @@ public class UserService {
             UserGenre userGenre = new UserGenre(user, genre);
             userGenres.add(userGenre);
         }
-        return userGenres;
+        user.OnBoarding(requestDto);
     }
+
     public UserInfoResponseDto getUserInfo(User user) {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
