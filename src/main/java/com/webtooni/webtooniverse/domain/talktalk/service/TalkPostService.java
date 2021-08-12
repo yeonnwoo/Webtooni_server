@@ -3,10 +3,7 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.*;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkLikeRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor
@@ -45,6 +43,7 @@ public class TalkPostService {
     }
 
     public TalkResponseDto deletePost(Long id){
+        //해당 게시글 정보 찾기
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당 게시글이 존재하지 않습니다.")
         );
@@ -53,19 +52,35 @@ public class TalkPostService {
     }
 
     public TalkPostResponseDto getOnePost(Long id, User user){
+        // 해당 게시글 정보 찾기
         TalkPost talkPost =  talkPostRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 포스팅이 존재하지 않습니다.")
         );
-        TalkLike talkLike = talkLikeRepository.findByUserAndTalkPost(talkPost, user);
-        return new TalkPostResponseDto(talkPost, talkLike);
+
+        // 해당 게시물이 내가 좋아요를 누른 웹툰인지 아닌지 확인
+        boolean exists = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
+
+        // 해당 유저가 좋아요한 게시글 리스트
+        List<TalkLike> likeList = talkLikeRepository.findAllByUser(user);
+        List<TalkLikeListResponseDto> likeListDto = likeList.stream()
+                .map(TalkLikeListResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new TalkPostResponseDto(talkPost, exists, likeListDto);
     }
 
-    public AllTalkPostPageResponseDto getPost(int pageNumber, int size){
-        Pageable pageable = PageRequest.of(pageNumber - 1, size);
+    public AllTalkPostPageLikeResponseDto getPost(int page, int size, User user){
+        Pageable pageable = PageRequest.of(page - 1, size);
         List<TalkPostPageResponseDto> posts = talkPostRepository.findAllTalkPost(pageable);
         long postCount = talkPostRepository.count();
+        AllTalkPostPageResponseDto AllPostDto = new AllTalkPostPageResponseDto(posts, postCount);
 
-        return new AllTalkPostPageResponseDto(posts, postCount);
+        List<TalkLike> likeList = talkLikeRepository.findAllByUser(user);
+        List<TalkLikeListResponseDto> likeListDto = likeList.stream()
+                .map(TalkLikeListResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new AllTalkPostPageLikeResponseDto(AllPostDto, likeListDto);
     }
 
 }

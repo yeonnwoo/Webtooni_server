@@ -2,15 +2,7 @@ package com.webtooni.webtooniverse.domain.review.service;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
-import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
-
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
-
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLatestRepsponse;
-
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.*;
 
 
 import java.util.List;
@@ -167,8 +159,14 @@ public class ReviewService {
         }
     }
 
-    public List<ReviewNewResponseDto> getNewReview(){
-        return reviewRepository.getNewReview();
+    public ReviewLikeResponseDto getNewReview(User user){
+        List<ReviewLike> likeList = reviewLikeRepository.findAllByUser(user);
+        List<ReviewLikeListResponseDto> likeListDto = likeList.stream()
+                .map(ReviewLikeListResponseDto::new)
+                .collect(Collectors.toList());
+        List<ReviewNewResponseDto> reviewDto =  reviewRepository.getNewReview();
+
+        return new ReviewLikeResponseDto(likeListDto, reviewDto);
     }
 
 

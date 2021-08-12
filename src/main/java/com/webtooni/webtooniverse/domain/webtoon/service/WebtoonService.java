@@ -1,19 +1,16 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.myList.MyListRepository;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
+import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -35,6 +32,8 @@ public class WebtoonService {
 
     private final WebtoonRepository webtoonRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewLikeRepository reviewLikeRepository;
+    private final MyListRepository myListRepository;
 
     //금주의 웹툰 평론가 추천
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
@@ -142,7 +141,7 @@ public class WebtoonService {
      * @param id 웹툰 id
      * @return WebtoonDetailDto
      */
-    public WebtoonDetailDto getDetailAndReviewList(Long id) {
+    public WebtoonDetailDto getDetailAndReviewList(Long id,User user) {
         //해당 웹툰 정보 찾기
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id는 존재하지 않습니다.")
@@ -164,7 +163,13 @@ public class WebtoonService {
                 .map(WebtoonDetailReviewResponseDto::new)
                 .collect(Collectors.toList());
 
-        return new WebtoonDetailDto(webtoon, genreList, ReviewDtoList);
+        //해당 user가 좋아요한 리뷰 게시글의 id 리스트
+        List<Long> reviewIdListByUser = reviewLikeRepository.findReviewIdListByUser(user.getId());
+
+        //내가 찜한 웹툰인지 아닌지
+        boolean exists = myListRepository.existsById(user.getId(), id);
+
+        return new WebtoonDetailDto(reviewIdListByUser,exists,webtoon, genreList, ReviewDtoList);
     }
 
     /**

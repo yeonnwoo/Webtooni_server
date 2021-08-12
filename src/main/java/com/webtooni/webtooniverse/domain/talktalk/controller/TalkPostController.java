@@ -33,9 +33,8 @@ public class TalkPostController {
 //    }
 
     @GetMapping("talk/{id}")
-    public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userDetails.getUser();
-        return talkPostService.getOnePost(id, user);
+    public TalkPostResponseDto getPost(@PathVariable Long id) {
+        return talkPostService.getOnePost(id);
     }
 
     @PutMapping("talk/{id}")
@@ -51,10 +50,12 @@ public class TalkPostController {
     //모든 톡톡 게시글 불러오기
     @GetMapping("talk")
     public AllTalkPostPageResponseDto getPost(
-            @PathParam("page") int pageNumber,
+            @PathParam("page") int page,
             @PathParam("size") int size
+
     ){
-        return talkPostService.getPost(pageNumber, size);
+
+        return talkPostService.getPost(page, size);
     }
 
 

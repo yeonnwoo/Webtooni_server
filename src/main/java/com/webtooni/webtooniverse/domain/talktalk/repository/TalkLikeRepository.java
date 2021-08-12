@@ -5,12 +5,15 @@ import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {
     /**
      * TODO exist 사용 성능 확인, 대체 코드 작성
      */
     boolean existsByTalkPostAndUser(TalkPost talkPost, User user);
     void deleteByTalkPostAndUser(TalkPost talkPost, User user);
-    TalkLike findByUserAndTalkPost(TalkPost talkPost, User user);
+    List<TalkLike> findAllByUser(User user);
+
 
 }

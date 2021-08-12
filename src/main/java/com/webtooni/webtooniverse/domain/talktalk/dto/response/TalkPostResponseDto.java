@@ -3,10 +3,11 @@ package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -21,9 +22,11 @@ public class TalkPostResponseDto {
     private String postContent;
     private int likeNum;
     private int talkCommentCount;
-    private TalkLike talkLike;
+    private boolean ILike;
+    private List<TalkLikeListResponseDto> ILikeList;
 
-    public TalkPostResponseDto(TalkPost talkPost, TalkLike talkLike){
+    public TalkPostResponseDto(TalkPost talkPost, boolean exists, List<TalkLikeListResponseDto> ILikeList){
+        this.ILikeList = ILikeList;
         this.TalkPostId = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();
@@ -33,7 +36,7 @@ public class TalkPostResponseDto {
         this.userImg = talkPost.getUser().getUserImg();
         this.userName = talkPost.getUser().getUserName();
         this.userGrade = talkPost.getUser().getUserGrade();
-        this.talkLike = talkLike;
+        this.ILike = exists;
     }
 }
 
