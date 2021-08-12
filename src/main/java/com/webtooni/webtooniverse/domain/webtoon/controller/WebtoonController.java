@@ -21,6 +21,11 @@ public class    WebtoonController {
 
     private final WebtoonService webtoonService;
 
+    /**
+     * TODO : ddd
+     * @return
+     */
+
     @GetMapping("offer/best-reviewer")
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoons(){
         return webtoonService.getBestReviewerWebtoon();
@@ -68,9 +73,10 @@ public class    WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id)
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return webtoonService.getDetailAndReviewList(id);
+        User user=userDetails.getUser();
+        return webtoonService.getDetailAndReviewList(id,user);
     }
 
     //비슷한 장르 추천
