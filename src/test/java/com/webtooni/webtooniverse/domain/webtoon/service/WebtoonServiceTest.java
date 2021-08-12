@@ -124,7 +124,7 @@ class WebtoonServiceTest {
         reviewRepository.save(review2);
 
         //when
-        WebtoonDetailDto webtoonDetailDto = webtoonService.getDetailAndReviewList(w1.getId());
+        WebtoonDetailDto webtoonDetailDto = webtoonService.getDetailAndReviewList(w1.getId(),user);
 
         //then
 

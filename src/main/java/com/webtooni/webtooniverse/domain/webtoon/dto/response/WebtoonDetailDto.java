@@ -13,6 +13,10 @@ import java.util.List;
 @Getter
 public class WebtoonDetailDto {
 
+    //내가 좋아요한 리뷰 게시글의 아이디 리스트
+    private List<Long> userLikeReviewList= new ArrayList<>();
+    private Boolean MyListOrNot;
+
     private String toonImg;
     private String toonTitle;
     private String toonAuthor;
@@ -40,9 +44,10 @@ public class WebtoonDetailDto {
     //전체 리뷰
     private List<WebtoonDetailReviewResponseDto> reviews;
 
-    public WebtoonDetailDto(Webtoon webtoon,List<String> genreList,List<WebtoonDetailReviewResponseDto> reviewList)
+    public WebtoonDetailDto(List<Long> reviewIdListByUser,boolean exists,Webtoon webtoon,List<String> genreList,List<WebtoonDetailReviewResponseDto> reviewList)
     {
-
+        this.userLikeReviewList=reviewIdListByUser;
+        this.MyListOrNot=exists;
         this.toonImg=webtoon.getToonImg();
         this.toonTitle=webtoon.getToonTitle();
         this.toonAuthor=webtoon.getToonAuthor();
@@ -58,6 +63,5 @@ public class WebtoonDetailDto {
         this.finished=webtoon.isFinished();
         this.reviews=reviewList;
     }
-
 
 }
