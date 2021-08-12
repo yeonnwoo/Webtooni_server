@@ -20,10 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public UserDetails loadUserByUsername(String SocialId) throws UsernameNotFoundException {
-        long id = Long.parseLong(SocialId);
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + id));
+    public UserDetails loadUserByUsername(String kakao) throws UsernameNotFoundException {
+        long kakaoId = Long.parseLong(kakao);
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + kakaoId));
 
         return new UserDetailsImpl(user);
     }
