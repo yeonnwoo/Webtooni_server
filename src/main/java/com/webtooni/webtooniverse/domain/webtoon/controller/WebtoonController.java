@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class    WebtoonController {
     }
 
     @GetMapping("offer/similar-user")
-    public List<WebtoonResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
     }
@@ -48,13 +49,13 @@ public class    WebtoonController {
     }
 
     @GetMapping("offer/end")
-    public List<WebtoonResponseDto> getFinishedWebtoons(){
+    public List<WebtoonAndGenreResponseDto> getFinishedWebtoons(){
         return webtoonService.getFinishedWebtoon();
     }
 
     //이번달 웹투니버스 순위
     @GetMapping("rank/total")
-    public List<MonthRankResponseDto> getMonthTotalRanks(){
+    public List<WebtoonAndGenreResponseDto> getMonthTotalRanks(){
         return webtoonService.getMonthTotalRank();
     }
 
@@ -90,14 +91,19 @@ public class    WebtoonController {
         return webtoonService.getMyListWebtoons(userDetails.getUser());
     }
 
-    @GetMapping("test")
-    public String test() {
-        return webtoonService.getFirstId(1L);
-    }
+//    @GetMapping("test")
+//    public String test() {
+//        return webtoonService.getFirstId(1L);
+//    }
 
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {
         return webtoonService.getUnreviewdList();
+    }
+
+    @GetMapping("search")
+    public List<WebtoonResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
+        return webtoonService.getSearchedWebtoon(keyword);
     }
 
 }

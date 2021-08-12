@@ -9,6 +9,7 @@ import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenreRepository;
 import org.junit.jupiter.api.*;
@@ -50,12 +51,12 @@ class WebtoonRepositoryImplTest {
         userRepository.save(user2);
         userRepository.save(user3);
 
-        Webtoon webtoon1 = new Webtoon("제목1", "작가1", "설명1", "imgUrl", "월", "realUrl", "전체", "네이버", 4.5f, 1, 1, false);
-        Webtoon webtoon2 = new Webtoon("제목2", "작가2", "설명2", "imgUrl", "화", "realUrl", "전체", "네이버", 2.5f, 2, 2, false);
-        Webtoon webtoon3 = new Webtoon("제목3", "작가3", "설명3", "imgUrl", "수", "realUrl", "전체", "네이버", 3.0f, 3, 3, false);
-        Webtoon webtoon4 = new Webtoon("제목4", "작가4", "설명4", "imgUrl", "목", "realUrl", "전체", "네이버", 3.5f, 4, 4, false);
-        Webtoon webtoon5 = new Webtoon("제목5", "작가5", "설명5", "imgUrl", "금", "realUrl", "전체", "네이버", 4.0f, 5, 5, false);
-        Webtoon webtoon6 = new Webtoon("제목6", "작가6", "설명6", "imgUrl", "토", "realUrl", "전체", "네이버", 4.5f, 6, 6, false);
+        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0,4,false);
+        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
+        Webtoon webtoon3 = new Webtoon("웹툰3", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.0f, 0, 4,false);
+        Webtoon webtoon4 = new Webtoon("웹툰4", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 3.0f, 0, 4,true);
+        Webtoon webtoon5 = new Webtoon("웹툰5", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 5.0f, 0, 4,true);
+        Webtoon webtoon6 = new Webtoon("웹툰6", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 4.5f, 0, 4,true);
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);
@@ -161,9 +162,9 @@ class WebtoonRepositoryImplTest {
         void 완결웹툰추천_완결확인() {
             //given
             //when
-            List<Webtoon> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
+            List<WebtoonAndGenreResponseDto> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
             //then
-            for (Webtoon webtoon : finishedWebtoon) {
+            for (WebtoonAndGenreResponseDto webtoon : finishedWebtoon) {
                 assertThat(webtoon.isFinished()).isEqualTo(true);
             }
         }
@@ -173,7 +174,7 @@ class WebtoonRepositoryImplTest {
         void 완결웹툰추천_점수순확인() {
             //given
             //when
-            List<Webtoon> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
+            List<WebtoonAndGenreResponseDto> finishedWebtoon = webtoonRepository.findFinishedWebtoon();
             //then
             assertThat(finishedWebtoon.get(0).getToonTitle()).isEqualTo("웹툰5");
             assertThat(finishedWebtoon.get(1).getToonTitle()).isEqualTo("웹툰6");
@@ -226,7 +227,7 @@ class WebtoonRepositoryImplTest {
             //given
             User user = userRepository.findByUserName("user1").get();
             //when
-            List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
+            List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
             //then
             assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰5");
             assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰6");
@@ -238,7 +239,7 @@ class WebtoonRepositoryImplTest {
             //given
             User user = userRepository.findByUserName("user2").get();
             //when
-            List<Webtoon> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
+            List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository.findSimilarUserWebtoon(user);
             //then
             assertThat(webtoons.get(0).getToonTitle()).isEqualTo("웹툰2");
             assertThat(webtoons.get(1).getToonTitle()).isEqualTo("웹툰5");

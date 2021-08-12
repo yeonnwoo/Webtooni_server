@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SimilarGenreToonDto {
 
+    private Long toonId;
     private String toonImg;
     private String toonTitle;
     private String toonAuthor;
@@ -19,12 +20,13 @@ public class SimilarGenreToonDto {
 
     public SimilarGenreToonDto(Webtoon webtoon)
     {
-        this.toonImg= webtoon.getToonImg();
-        this.toonTitle= webtoon.getToonTitle();
-        this.toonAuthor= webtoon.getToonAuthor();
-        this.toonPlatform= webtoon.getToonPlatform();
-        this.toonWeekday=webtoon.getToonWeekday();
-        this.toonAvgPoint= webtoon.getToonAvgPoint();
-        this.totalPointCount= webtoon.getTotalPointCount();
+        this.toonId = webtoon.getId();
+        this.toonImg = webtoon.getToonImg();
+        this.toonTitle = webtoon.getToonTitle();
+        this.toonAuthor = webtoon.getToonAuthor();
+        this.toonPlatform = webtoon.getToonPlatform();
+        this.toonWeekday = webtoon.getToonWeekday();
+        this.toonAvgPoint = webtoon.getToonAvgPoint();
+        this.totalPointCount = webtoon.getTotalPointCount();
     }
 }
