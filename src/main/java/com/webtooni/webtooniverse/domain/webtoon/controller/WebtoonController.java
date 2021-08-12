@@ -38,7 +38,7 @@ public class    WebtoonController {
     }
 
     @GetMapping("offer/similar-user")
-    public List<WebtoonResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
     }
@@ -49,7 +49,7 @@ public class    WebtoonController {
     }
 
     @GetMapping("offer/end")
-    public List<WebtoonResponseDto> getFinishedWebtoons(){
+    public List<WebtoonAndGenreResponseDto> getFinishedWebtoons(){
         return webtoonService.getFinishedWebtoon();
     }
 

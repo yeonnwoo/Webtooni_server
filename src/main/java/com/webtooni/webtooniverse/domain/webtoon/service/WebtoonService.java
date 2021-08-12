@@ -12,7 +12,6 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,19 +38,15 @@ public class WebtoonService {
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
         User bestReviewer = webtoonRepository.findBestReviewer(startDate());
         if (bestReviewer == null) {
-            List<Webtoon> naverRank = webtoonRepository.getNaverRank();
-            List<WebtoonResponseDto> webtoonResponseDto = naverRank.stream()
-                    .map(WebtoonResponseDto::new)
-                    .collect(Collectors.toList());
-            return new BestReviewerWebtoonResponseDto(new UserInfoResponseDto(), webtoonResponseDto);
+            return null;
         }
-        List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
+        List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
 
-        List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
-                .map(WebtoonResponseDto::new)
-                .collect(Collectors.toList());
+//        List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
+//                .map(WebtoonResponseDto::new)
+//                .collect(Collectors.toList());
         UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(bestReviewer);
-        return new BestReviewerWebtoonResponseDto(userInfoResponseDto, webtoonResponseDto);
+        return new BestReviewerWebtoonResponseDto(userInfoResponseDto, bestReviewerWebtoons);
     }
 
     //유저 관심 장르 중 랜덤 추천
@@ -67,9 +62,8 @@ public class WebtoonService {
     }
 
     //비슷한 취향을 가진 유저가 높게 평가한 작품 추천
-    public List<WebtoonResponseDto> getSimilarUserWebtoon(User user) {
-        List<Webtoon> similarUserWebtoons = webtoonRepository.findSimilarUserWebtoon(user);
-        return similarUserWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoon(User user) {
+        return webtoonRepository.findSimilarUserWebtoon(user);
     }
 
     //MD 추천
@@ -80,19 +74,16 @@ public class WebtoonService {
         return new WebtoonResponseDto(webtoon);
     }
 
-    /**
-     * TODO 완결웹툰 5개를 보여줘야하는데 매번 같은 걸 보여줄 것 같아서 상위 10개에서 5개 랜덤으로 돌리는 방식 채택중 (추후 수정 필요)
-     */
     //완결 웹툰 추천
-    public List<WebtoonResponseDto> getFinishedWebtoon() {
+    public List<WebtoonAndGenreResponseDto> getFinishedWebtoon() {
         int howManyWebtoons = 5;
-        List<Webtoon> finishedWebtoons = webtoonRepository.findFinishedWebtoon();
+        List<WebtoonAndGenreResponseDto> finishedWebtoons = webtoonRepository.findFinishedWebtoon();
         Collections.shuffle(finishedWebtoons);
-        List<Webtoon> countedFinishedWebtoons = new ArrayList<>();
+        List<WebtoonAndGenreResponseDto> countedFinishedWebtoons = new ArrayList<>();
         for (int i = 0; i < howManyWebtoons; i++) {
             countedFinishedWebtoons.add(finishedWebtoons.get(i));
         }
-        return countedFinishedWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+        return countedFinishedWebtoons;
     }
 
 
