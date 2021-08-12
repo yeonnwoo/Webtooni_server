@@ -122,6 +122,7 @@ public class UnitWebtoonServiceTest {
     /**
      * 비슷한 장르의 웹툰을 랜덤으로 추천 테스트
      */
+
     @DisplayName("비슷한 장르의 웹툰 추천 테스트")
     @Test
     public void test2(){

@@ -7,15 +7,12 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +36,21 @@ public class WebtoonService {
     private final MyListRepository myListRepository;
 
     //금주의 웹툰 평론가 추천
-    public List<WebtoonResponseDto> getBestReviewerWebtoon() {
-        List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(startDate());
-        return bestReviewerWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+    public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
+        User bestReviewer = webtoonRepository.findBestReviewer(startDate());
+        if (bestReviewer == null) {
+            List<Webtoon> naverRank = webtoonRepository.getNaverRank();
+            List<WebtoonResponseDto> webtoonResponseDto = naverRank.stream()
+                    .map(WebtoonResponseDto::new)
+                    .collect(Collectors.toList());
+            return new BestReviewerWebtoonResponseDto(new UserInfoResponseDto(), webtoonResponseDto);
+        }
+        List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
+        List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
+                .map(WebtoonResponseDto::new)
+                .collect(Collectors.toList());
+        UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(bestReviewer);
+        return new BestReviewerWebtoonResponseDto(userInfoResponseDto, webtoonResponseDto);
     }
 
     //유저 관심 장르 중 랜덤 추천
@@ -86,32 +95,29 @@ public class WebtoonService {
     }
 
 
-    public LocalDateTime startDate(){
+    public LocalDateTime startDate() {
         LocalDateTime date = LocalDateTime.now().minusDays(1);
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         System.out.println("dayOfWeek = " + dayOfWeek);
         LocalDateTime startDate = LocalDateTime.now();
         List<DayOfWeek> week = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY
-                ,DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+                , DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
         for (int i = 0; i <= 6; i++) {
             if (dayOfWeek == week.get(i)) {
                 System.out.println("i = " + i);
                 startDate = LocalDateTime.now().minusDays(i + 1);
             }
         }
-        return startDate.withHour(0).withMinute(0).withSecond(0);}
+        return startDate.withHour(0).withMinute(0).withSecond(0);
+    }
 
     //이번달 웹투니버스 종합순위
-    public List<MonthRankResponseDto> getMonthTotalRank(){
-        List<Webtoon> monthTotalRank = webtoonRepository.getTotalRank();
-        return monthTotalRank
-                .stream()
-                .map(MonthRankResponseDto::new)
-                .collect(Collectors.toList());
+    public List<MonthRankResponseDto> getMonthTotalRank() {
+        return webtoonRepository.getTotalRank();
     }
 
     //웹투니버스 네이버 웹툰 Top10
-    public List<PlatformRankResponseDto> getMonthNaverRank(){
+    public List<PlatformRankResponseDto> getMonthNaverRank() {
         List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
         return monthNaverRank
                 .stream()
@@ -120,7 +126,7 @@ public class WebtoonService {
     }
 
     //웹투니버스 카카오 웹툰 Top10
-    public List<PlatformRankResponseDto> getMonthKakaoRank(){
+    public List<PlatformRankResponseDto> getMonthKakaoRank() {
         List<Webtoon> monthKakaoRank = webtoonRepository.getKakaoRank();
         return monthKakaoRank
                 .stream()
@@ -142,9 +148,9 @@ public class WebtoonService {
         );
 
         //해당 웹툰의 장르 찾기
+
         List<Genre> webtoonGenre = webtoonRepository.findWebToonGenre(webtoon);
         List<String> genreList = new ArrayList<>();
-
         for (Genre genre : webtoonGenre){
             genreList.add(genre.getGenreType());
         }
@@ -193,4 +199,23 @@ public class WebtoonService {
                 .collect(Collectors.toList());
     }
 
+    public List<WebtoonResponseDto> getMyListWebtoons(User user) {
+        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(user);
+        return myListWebtoon.stream()
+                .map(WebtoonResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Cacheable(key = "#id", value = "getFirstId")
+    public String getFirstId(Long id) {
+        return webtoonRepository.findById(id).get().getToonTitle();
+    }
+
+    public List<WebtoonResponseDto> getUnreviewdList() {
+        List<Webtoon> Webtoons = webtoonRepository.findByReviewCountLessThanEqual(1);
+        List<WebtoonResponseDto> UnreviewedWebtoons = Webtoons.stream()
+                .map(WebtoonResponseDto::new)
+                .collect(Collectors.toList());
+        return UnreviewedWebtoons;
+    }
 }

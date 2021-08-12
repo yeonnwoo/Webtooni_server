@@ -8,24 +8,22 @@ import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
+import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -33,14 +31,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
-    private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
-
+    private static final String ADMIN_TOKEN = "AAABnv/xRVklrfnYxKZ0aHgTBcXukedZygoC";
+    private final WebtoonRepository webtoonRepository;
     private final KakaoOAuth2 kakaoOAuth2;
     private final UserGenreRepository userGenreRepository;
-    private final WebtoonRepository webtoonRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
-    public void kakaoLogin(String authorizedCode) {
+    public String kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
         Long kakaoId = userInfo.getId();
@@ -58,13 +56,20 @@ public class UserService {
 
             kakaoUser = new User(encodedPassword, kakaoId);
             userRepository.save(kakaoUser);
+
         }
 
-        // 로그인 처리
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
+        String kakao = String.valueOf(kakaoId);
+
+
+        return jwtTokenProvider.createToken(kakao);
     }
+
 
     @Transactional
     public void updateInfo(Long id, UserInfoRequestDto requestDto) {
@@ -79,7 +84,7 @@ public class UserService {
      */
 
     //베스트 리뷰어 가져오기
-    public List<BestReviewerResponseDto> getBestReviewerRank() {
+    public List<BestReviewerResponseDto> getBestReviewerRank(){
         return webtoonRepository.findBestReviewerForMain();
     }
 
@@ -93,6 +98,14 @@ public class UserService {
             userGenres.add(userGenre);
         }
         return userGenres;
+    }
+
+    public UserInfoResponseDto getUserInfo(User user) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
+        );
+        return new UserInfoResponseDto(findUser);
+
     }
 }
 

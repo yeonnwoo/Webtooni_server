@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.dto.TalkReviewRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
 import lombok.AccessLevel;
@@ -30,13 +30,13 @@ public class TalkBoardComment extends TimeStamped {
     @Column(name = "talk_comment")
     private String commentContent;
 
-    public TalkBoardComment(TalkReviewRequestDto requestDto, User user){
+    public TalkBoardComment(TalkCommentRequestDto requestDto, User user){
         this.talkPost = requestDto.getTalkPost();
         this.commentContent = requestDto.getCommentContent();
         this.user = user;
     }
 
-    public void update(TalkReviewRequestDto requestDto){
+    public void update(TalkCommentRequestDto requestDto){
         this.commentContent = requestDto.getCommentContent();
     }
 }

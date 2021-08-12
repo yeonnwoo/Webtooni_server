@@ -33,12 +33,8 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String userPk, int userImg, UserGrade userGrade) {
-        Claims claims = Jwts.claims().setSubject(userPk);
-        // claim : JWT payload 에 저장되는 정보단위
-
-        claims.put("userImg", userImg);
-        claims.put("userGrade", userGrade);
+    public String createToken(String kakao) {
+        Claims claims = Jwts.claims().setSubject(kakao);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -61,9 +57,9 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옴. "X-AUTH-TOKEN" : "TOKEN값'
+    // Request의 Header에서 token 값을 가져옴. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
     // 토큰의 유효성 + 만료일자 확인
