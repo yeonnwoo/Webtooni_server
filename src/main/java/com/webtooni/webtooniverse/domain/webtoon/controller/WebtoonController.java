@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.controller;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebtoonController {
 
     private final WebtoonService webtoonService;
+
+
+    private final UserRepository userRepository;
 
     /**
      * TODO : ddd
@@ -75,9 +79,11 @@ public class WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id)
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return webtoonService.getDetailAndReviewList(id);
+//        User user=userDetails.getUser();
+        User user =userRepository.getById(500L);
+        return webtoonService.getDetailAndReviewList(id,user);
     }
 
     //비슷한 장르 추천
