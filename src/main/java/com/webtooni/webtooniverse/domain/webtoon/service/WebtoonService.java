@@ -104,7 +104,7 @@ public class WebtoonService {
     }
 
     //이번달 웹투니버스 종합순위
-    public List<MonthRankResponseDto> getMonthTotalRank() {
+    public List<WebtoonAndGenreResponseDto> getMonthTotalRank() {
         return webtoonRepository.getTotalRank();
     }
 

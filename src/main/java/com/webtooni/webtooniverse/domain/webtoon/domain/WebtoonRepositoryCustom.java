@@ -3,14 +3,13 @@ package com.webtooni.webtooniverse.domain.webtoon.domain;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface WebtoonRepositoryCustom {
 
-    List<MonthRankResponseDto> getTotalRank();
+    List<WebtoonAndGenreResponseDto> getTotalRank();
     List<Webtoon> getNaverRank();
     List<Webtoon> getKakaoRank();
     List<Webtoon> findSimilarWebtoonByGenre(String genre,Webtoon webtoon);

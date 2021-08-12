@@ -8,7 +8,6 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.webtooni.webtooniverse.domain.genre.domain.QGenre.genre;
+
 import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
@@ -43,25 +42,22 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     //이번달 웹투니버스 종합순위
-    public List<MonthRankResponseDto> getTotalRank() {
-        return queryFactory
-                .select(Projections.constructor(MonthRankResponseDto.class,
-                        webtoonGenre.webtoon.id,
-                        webtoonGenre.webtoon.toonImg,
-                        webtoonGenre.webtoon.toonTitle,
-                        webtoonGenre.webtoon.toonAuthor,
-                        webtoonGenre.webtoon.toonAvgPoint,
-                        webtoonGenre.webtoon.toonPlatform,
-                        webtoonGenre.webtoon.toonWeekday,
-                        webtoonGenre.webtoon.finished,
-                        webtoonGenre.genre))
-                .from(webtoonGenre)
-                .innerJoin(webtoonGenre.genre, genre)
-                .innerJoin(webtoonGenre.webtoon, webtoon)
-                .orderBy(webtoonGenre.webtoon.toonAvgPoint.desc())
+    public List<WebtoonAndGenreResponseDto> getTotalRank() {
+        List<Webtoon> monthRankResponseDtos = queryFactory
+//                .select(Projections.fields(Webtoon.class),
+//                        webtoon.id,
+//                        webtoon.toonImg,
+//                        webtoon.toonTitle,
+//                        webtoon.toonAuthor,
+//                        webtoon.toonAvgPoint,
+//                        webtoon.toonPlatform,
+//                        webtoon.toonWeekday,
+//                        webtoon.finished))
+                .selectFrom(webtoon)
+                .orderBy(webtoon.toonAvgPoint.desc())
                 .limit(10)
                 .fetch();
-
+        return addGenreToWebtoonList(monthRankResponseDtos);
     }
 
     //네이버 웹툰 Top10

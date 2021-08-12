@@ -55,7 +55,7 @@ public class    WebtoonController {
 
     //이번달 웹투니버스 순위
     @GetMapping("rank/total")
-    public List<MonthRankResponseDto> getMonthTotalRanks(){
+    public List<WebtoonAndGenreResponseDto> getMonthTotalRanks(){
         return webtoonService.getMonthTotalRank();
     }
 
