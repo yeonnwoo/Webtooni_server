@@ -11,5 +11,6 @@ public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {
      */
     boolean existsByTalkPostAndUser(TalkPost talkPost, User user);
     void deleteByTalkPostAndUser(TalkPost talkPost, User user);
+    TalkLike findByUserAndTalkPost(TalkPost talkPost, User user);
 
 }

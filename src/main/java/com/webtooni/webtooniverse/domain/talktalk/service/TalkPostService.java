@@ -1,13 +1,18 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.repository.TalkLikeRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
+import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserGenreResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +27,8 @@ import java.util.List;
 public class TalkPostService {
 
     private final TalkPostRepository talkPostRepository;
+    private final UserGenreRepository userGenreRepository;
+    private final TalkLikeRepository talkLikeRepository;
 
     public TalkPost post(TalkPostRequestDto requestDto, User user){
         TalkPost talkPost = new TalkPost(requestDto, user);
@@ -45,11 +52,12 @@ public class TalkPostService {
         return new TalkResponseDto("삭제가 완료되었습니다.");
     }
 
-    public TalkPostResponseDto getOnePost(Long id){
+    public TalkPostResponseDto getOnePost(Long id, User user){
         TalkPost talkPost =  talkPostRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 포스팅이 존재하지 않습니다.")
         );
-        return new TalkPostResponseDto(talkPost);
+        TalkLike talkLike = talkLikeRepository.findByUserAndTalkPost(talkPost, user);
+        return new TalkPostResponseDto(talkPost, talkLike);
     }
 
     public AllTalkPostPageResponseDto getPost(int pageNumber, int size){

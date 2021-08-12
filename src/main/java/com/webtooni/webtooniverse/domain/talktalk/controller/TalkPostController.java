@@ -33,8 +33,9 @@ public class TalkPostController {
 //    }
 
     @GetMapping("talk/{id}")
-    public TalkPostResponseDto getPost(@PathVariable Long id) {
-        return talkPostService.getOnePost(id);
+    public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return talkPostService.getOnePost(id, user);
     }
 
     @PutMapping("talk/{id}")
@@ -53,7 +54,6 @@ public class TalkPostController {
             @PathParam("page") int pageNumber,
             @PathParam("size") int size
     ){
-
         return talkPostService.getPost(pageNumber, size);
     }
 
