@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,6 +21,11 @@ import java.util.List;
 public class    WebtoonController {
 
     private final WebtoonService webtoonService;
+
+    /**
+     * TODO : ddd
+     * @return
+     */
 
     @GetMapping("offer/best-reviewer")
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoons(){
@@ -33,7 +39,7 @@ public class    WebtoonController {
     }
 
     @GetMapping("offer/similar-user")
-    public List<WebtoonResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
     }
@@ -44,7 +50,7 @@ public class    WebtoonController {
     }
 
     @GetMapping("offer/end")
-    public List<WebtoonResponseDto> getFinishedWebtoons(){
+    public List<WebtoonAndGenreResponseDto> getFinishedWebtoons(){
         return webtoonService.getFinishedWebtoon();
     }
 
@@ -68,9 +74,10 @@ public class    WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id)
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return webtoonService.getDetailAndReviewList(id);
+        User user=userDetails.getUser();
+        return webtoonService.getDetailAndReviewList(id,user);
     }
 
     //비슷한 장르 추천
@@ -85,14 +92,19 @@ public class    WebtoonController {
         return webtoonService.getMyListWebtoons(userDetails.getUser());
     }
 
-    @GetMapping("test")
-    public String test() {
-        return webtoonService.getFirstId(1L);
-    }
+//    @GetMapping("test")
+//    public String test() {
+//        return webtoonService.getFirstId(1L);
+//    }
 
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {
         return webtoonService.getUnreviewdList();
+    }
+
+    @GetMapping("search")
+    public List<WebtoonResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
+        return webtoonService.getSearchedWebtoon(keyword);
     }
 
 }
