@@ -12,11 +12,12 @@ import java.time.LocalDateTime;
 @Setter
 public class ReviewNewResponseDto {
 
-    private Long id;
+    private Long userId;
     private int userImg;
     private String userName;
     private float userPointNumber;
     private String reviewContent;
+    private Long toonId;
     private String toonTitle;
     private UserGrade userGrade;
     private String toonImg;
@@ -27,14 +28,15 @@ public class ReviewNewResponseDto {
     private LocalDateTime creatDate;
 
 
-    public ReviewNewResponseDto(Long id, int userImg, String userName, float userPointNumber, String reviewContent,
-                                String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
+    public ReviewNewResponseDto(Long userId, int userImg, String userName, float userPointNumber, String reviewContent,
+                                Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
                                 String toonPlatform, String toonWeekday, boolean finished, LocalDateTime creatDate) {
-        this.id = id;
+        this.userId = userId;
         this.userImg = userImg;
         this.userName = userName;
         this.userPointNumber = userPointNumber;
         this.reviewContent = reviewContent;
+        this.toonId = toonId;
         this.toonTitle = toonTitle;
         this.userGrade = userGrade;
         this.toonImg = toonImg;
