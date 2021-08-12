@@ -47,6 +47,7 @@ public class WebtoonService {
             return new BestReviewerWebtoonResponseDto(new UserInfoResponseDto(), webtoonResponseDto);
         }
         List<Webtoon> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
+
         List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
                 .map(WebtoonResponseDto::new)
                 .collect(Collectors.toList());
@@ -201,10 +202,10 @@ public class WebtoonService {
                 .collect(Collectors.toList());
     }
 
-    @Cacheable(key = "#id", value = "getFirstId")
-    public String getFirstId(Long id) {
-        return webtoonRepository.findById(id).get().getToonTitle();
-    }
+//    @Cacheable(key = "#id", value = "getFirstId")
+//    public String getFirstId(Long id) {
+//        return webtoonRepository.findById(id).get().getToonTitle();
+//    }
 
     public List<WebtoonResponseDto> getUnreviewdList() {
         List<Webtoon> Webtoons = webtoonRepository.findByReviewCountLessThanEqual(1);
@@ -215,9 +216,14 @@ public class WebtoonService {
     }
 
     public List<WebtoonResponseDto> getSearchedWebtoon(String keyword) {
-        List<Webtoon> webtoons = webtoonRepository.findSearchedWebtoon(keyword);
-        return webtoons.stream()
-                .map(WebtoonResponseDto::new)
-                .collect(Collectors.toList());
+        List<Webtoon> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0,1));
+        String trimKeyword = keyword.replace(" ", "");
+        List<WebtoonResponseDto> webtoonResponseDtos = new ArrayList<>();
+        for (Webtoon webtoon : webtoons) {
+            if (webtoon.getToonTitle().replace(" ", "").contains(trimKeyword)) {
+                webtoonResponseDtos.add(new WebtoonResponseDto(webtoon));
+            }
+        }
+        return webtoonResponseDtos;
     }
 }
