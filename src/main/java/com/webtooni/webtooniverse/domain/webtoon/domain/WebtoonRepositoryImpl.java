@@ -229,9 +229,6 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         for (WebtoonAndGenreResponseDto webtoonAndGenreResponseDto : webtoonAndGenreResponseDtos) {
             for (Tuple webtoonGenre : webtoonGenreTuples) {
-                Long aLong = webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id);
-                String s = webtoonGenre.get(QWebtoonGenre.webtoonGenre.genre.genreType);
-                System.out.println("s = " + aLong + " " + s);
                 if (webtoonAndGenreResponseDto.getId() == webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id)) {
                     webtoonAndGenreResponseDto.addGenre(webtoonGenre.get(QWebtoonGenre.webtoonGenre.genre.genreType));
                 }
