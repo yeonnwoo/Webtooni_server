@@ -1,7 +1,5 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,17 +22,12 @@ public class ReviewNewResponseDto {
     private String toonPlatform;
     private String toonWeekday;
     private boolean finished;
+    private LocalDateTime creatDate;
 
 
-//    public ReviewNewResponseDto(Review review) {
-//        this.reviewContent = review.getReviewContent();
-//        this.createDate = review.getCreateDate();
-//    }
-
-    @QueryProjection
-    public ReviewNewResponseDto(Long id, int userImg, String userName, float userPointNumber,
-                                String reviewContent, String toonTitle, UserGrade userGrade, String toonImg,
-                                String toonAuthor, String toonPlatform, String toonWeekday, boolean finished) {
+    public ReviewNewResponseDto(Long id, int userImg, String userName, float userPointNumber, String reviewContent,
+                                String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
+                                String toonPlatform, String toonWeekday, boolean finished, LocalDateTime creatDate) {
         this.id = id;
         this.userImg = userImg;
         this.userName = userName;
@@ -47,5 +40,6 @@ public class ReviewNewResponseDto {
         this.toonPlatform = toonPlatform;
         this.toonWeekday = toonWeekday;
         this.finished = finished;
+        this.creatDate = creatDate;
     }
 }

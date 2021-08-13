@@ -25,12 +25,12 @@ public class TalkCommentService {
     private final TalkPostRepository talkPostRepository;
 
     public TalkBoardComment commentPost(TalkCommentRequestDto requestDto, User user, Long id) {
-        TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user);
-        talkCommentRepository.save(talkBoardComment);
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
         );
         talkPost.updateTalkCommentNum(1);
+        TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user, talkPost);
+        talkCommentRepository.save(talkBoardComment);
 
         return talkBoardComment;
     }

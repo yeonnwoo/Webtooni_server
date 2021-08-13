@@ -1,39 +1,31 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
 
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
+import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
+import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenreRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
-import com.webtooni.webtooniverse.domain.genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
-
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-
-import javax.transaction.Transactional;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,6 +56,17 @@ class WebtoonServiceTest {
     @PersistenceContext
     EntityManager em;
 
+
+
+    @AfterEach
+    void tearDown()
+    {
+        webtoonRepository.deleteAll();
+        reviewRepository.deleteAll();
+        genreRepository.deleteAll();
+        webtoonGenreRepository.deleteAll();
+        userRepository.deleteAll();
+    }
     @BeforeEach
     void getTestData(){
         Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 2.5f, 0, 4, false);
@@ -106,16 +109,6 @@ class WebtoonServiceTest {
         webtoonRepository.save(webtoon18);
         webtoonRepository.save(webtoon19);
         webtoonRepository.save(webtoon20);
-    }
-
-    @AfterEach
-    void tearDown()
-    {
-        webtoonRepository.deleteAll();
-        reviewRepository.deleteAll();
-        genreRepository.deleteAll();
-        webtoonGenreRepository.deleteAll();
-        userRepository.deleteAll();
     }
 
     @DisplayName("웹툰 1개 정보,리뷰 리스트 불러오기 테스트")
@@ -196,16 +189,74 @@ class WebtoonServiceTest {
     @DisplayName("웹투니버스 종합 랭킹")
     @Test
     public void test1(){
-//        //given
-//
-//        //when
-//        List<MonthRankResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
-//        //then
-//        for(MonthRankResponseDto rankResponseDto : totalRankToon){
-//            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
-//                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
-//        }
-//        assertThat(totalRankToon.size()).isEqualTo(10);
+        //given
+        //장르 저장
+        Genre g1 = createGenre("일상");
+        Genre g2 = createGenre("개그");
+        Genre g3 = createGenre("판타지");
+
+        genreRepository.save(g1);
+        genreRepository.save(g2);
+        genreRepository.save(g3);
+
+
+        //웹툰 저장
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
+        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
+        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3",20);
+        Webtoon w4 = createWebtoon("제목4", "작가4", "내용4",20);
+        Webtoon w5 = createWebtoon("제목5", "작가5", "내용5",20);
+        Webtoon w6 = createWebtoon("제목6", "작가6", "내용6",20);
+        Webtoon w7 = createWebtoon("제목7", "작가7", "내용7",20);
+        Webtoon w8 = createWebtoon("제목8", "작가8", "내용8",20);
+        Webtoon w9 = createWebtoon("제목9", "작가9", "내용9",20);
+        Webtoon w10 = createWebtoon("제목10", "작가10", "내용10",20);
+
+
+        webtoonRepository.save(w1);
+        webtoonRepository.save(w2);
+        webtoonRepository.save(w3);
+        webtoonRepository.save(w4);
+        webtoonRepository.save(w5);
+        webtoonRepository.save(w6);
+        webtoonRepository.save(w7);
+        webtoonRepository.save(w8);
+        webtoonRepository.save(w9);
+        webtoonRepository.save(w10);
+
+
+        //when
+        //웹툰_장르 설정
+        WebtoonGenre wg1 = createWebToonGenre(w1, g1);
+        WebtoonGenre wg2 = createWebToonGenre(w2, g2);
+        WebtoonGenre wg3 = createWebToonGenre(w3, g3);
+        WebtoonGenre wg4 = createWebToonGenre(w4, g1);
+        WebtoonGenre wg5 = createWebToonGenre(w5, g2);
+        WebtoonGenre wg6 = createWebToonGenre(w6, g3);
+        WebtoonGenre wg7 = createWebToonGenre(w7, g1);
+        WebtoonGenre wg8 = createWebToonGenre(w8, g2);
+        WebtoonGenre wg9 = createWebToonGenre(w9, g3);
+        WebtoonGenre wg10 = createWebToonGenre(w10, g1);
+
+        webtoonGenreRepository.save(wg1);
+        webtoonGenreRepository.save(wg2);
+        webtoonGenreRepository.save(wg3);
+        webtoonGenreRepository.save(wg4);
+        webtoonGenreRepository.save(wg5);
+        webtoonGenreRepository.save(wg6);
+        webtoonGenreRepository.save(wg7);
+        webtoonGenreRepository.save(wg8);
+        webtoonGenreRepository.save(wg9);
+        webtoonGenreRepository.save(wg10);
+
+        List<WebtoonAndGenreResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
+
+        //then
+        for(WebtoonAndGenreResponseDto rankResponseDto : totalRankToon){
+            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
+                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
+        }
+        assertThat(totalRankToon.size()).isEqualTo(10);
     }
 
     @DisplayName("웹투니버스 네이버 랭킹")

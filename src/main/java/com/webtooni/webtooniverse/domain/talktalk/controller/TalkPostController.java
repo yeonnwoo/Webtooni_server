@@ -1,11 +1,8 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageableResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.*;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
@@ -33,8 +30,9 @@ public class TalkPostController {
 //    }
 
     @GetMapping("talk/{id}")
-    public TalkPostResponseDto getPost(@PathVariable Long id) {
-        return talkPostService.getOnePost(id);
+    public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return talkPostService.getOnePost(id, user);
     }
 
     @PutMapping("talk/{id}")
@@ -49,12 +47,14 @@ public class TalkPostController {
 
     //모든 톡톡 게시글 불러오기
     @GetMapping("talk")
-    public AllTalkPostPageResponseDto getPost(
-            @PathParam("page") int pageNumber,
-            @PathParam("size") int size
-    ){
+    public AllTalkPostPageLikeResponseDto getPost(
+            @PathParam("page") int page,
+            @PathParam("size") int size,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
 
-        return talkPostService.getPost(pageNumber, size);
+    ){
+        User user = userDetails.getUser();
+        return talkPostService.getPost(page, size, user);
     }
 
 

@@ -11,8 +11,6 @@ public class TalkCommentRequestDto {
      * TODO 사용여부 확인
      */
 
-    private TalkPost talkPost;
-    private User user;
     private String commentContent;
 
 

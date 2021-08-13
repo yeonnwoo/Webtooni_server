@@ -8,10 +8,10 @@ import java.util.List;
 @Getter
 public class BestReviewerWebtoonResponseDto {
     UserInfoResponseDto userInfoResponseDto;
-    List<WebtoonResponseDto> webtoonResponseDtoList;
+    List<WebtoonAndGenreResponseDto> webtoonAndGenreResponseDtos;
 
-    public BestReviewerWebtoonResponseDto(UserInfoResponseDto userInfoResponseDto, List<WebtoonResponseDto> webtoonResponseDtoList) {
+    public BestReviewerWebtoonResponseDto(UserInfoResponseDto userInfoResponseDto, List<WebtoonAndGenreResponseDto> webtoonResponseDtoList) {
         this.userInfoResponseDto = userInfoResponseDto;
-        this.webtoonResponseDtoList = webtoonResponseDtoList;
+        this.webtoonAndGenreResponseDtos = webtoonResponseDtoList;
     }
 }

@@ -1,7 +1,6 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +27,6 @@ public class SimilarGenreToonDto {
         this.toonWeekday=webtoon.getToonWeekday();
         this.toonAvgPoint= webtoon.getToonAvgPoint();
         this.totalPointCount= webtoon.getTotalPointCount();
+
     }
 }

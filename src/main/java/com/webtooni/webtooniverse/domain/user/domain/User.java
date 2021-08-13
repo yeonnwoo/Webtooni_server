@@ -39,6 +39,7 @@ public class User {
         this.userGrade = UserGrade.FIRST;
         this.kakaoId = kakaoId;
     }
+
     public void update(UserInfoRequestDto requestDto){
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();
