@@ -110,7 +110,7 @@ public class UnitWebtoonServiceTest {
         given(myListRepository.existsById(fakeId,1L)).willReturn(true);
 
         //when
-        WebtoonDetailDto detailAndReviewList = webtoonService.getDetailAndReviewList(1L,user);
+        WebtoonDetailDto detailAndReviewList = webtoonService.getDetailAndReviewList(1L,Optional.of(user));
 
         //then
         assertThat(detailAndReviewList.getReviews().size()).isEqualTo(2);

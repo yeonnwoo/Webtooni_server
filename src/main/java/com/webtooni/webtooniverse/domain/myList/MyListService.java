@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MyListService {
 
     private final MyListRepository myListRepository;
-
     private final WebtoonRepository webtoonRepository;
 
     /**
@@ -25,11 +24,18 @@ public class MyListService {
     public void createMyList(User user, MyListRequestDto myListRequestDto)
     {
         Long webtoonId=myListRequestDto.getWebtoonId();
+        boolean myListOrNot= myListRequestDto.isMyListOrNot();
+
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(
                 () -> new IllegalArgumentException("해당 웹툰은 존재하지 않습니다.")
         );
-
-        MyList myList = MyList.of(user,webtoon);
-        myListRepository.save(myList);
+        if(myListOrNot){
+            MyList myList = MyList.of(user,webtoon);
+            myListRepository.save(myList);
+        }
+        else{
+            MyList myList = myListRepository.findMyList(webtoonId, user.getId());
+            myListRepository.delete(myList);
+        }
     }
 }

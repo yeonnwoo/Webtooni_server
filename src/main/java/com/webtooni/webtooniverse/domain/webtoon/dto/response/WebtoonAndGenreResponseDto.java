@@ -19,7 +19,7 @@ public class WebtoonAndGenreResponseDto {
     private String toonPlatform;
     private float toonAvgPoint;
     private boolean finished;
-    private List<String> genres = new ArrayList<>();
+    private final List<String> genres = new ArrayList<>();
 
     public WebtoonAndGenreResponseDto(Webtoon webtoon) {
         this.id = webtoon.getId();
