@@ -12,15 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TalkCommentPostingResponseDto {
     private Long commentId;
-    private TalkPost postId;
-    private User userId;
+    private Long postId;
+    private Long userId;
     private String commentContent;
     private LocalDateTime createDate;
 
     public TalkCommentPostingResponseDto(TalkBoardComment talkBoardComment){
         this.commentId = talkBoardComment.getId();
-        this.postId = talkBoardComment.getTalkPost();
-        this.userId = talkBoardComment.getUser();
+        this.postId = talkBoardComment.getTalkPost().getId();
+        this.userId = talkBoardComment.getUser().getId();
         this.commentContent = talkBoardComment.getCommentContent();
         this.createDate = talkBoardComment.getCreateDate();
     }

@@ -15,7 +15,7 @@ import java.util.List;
 public class TalkPostResponseDto {
 
     private Long postId;
-    private User user;
+    private Long userId;
     private int userImg;
     private String userName;
     private UserGrade userGrade;
@@ -34,7 +34,7 @@ public class TalkPostResponseDto {
         this.postContent = talkPost.getPostContent();
         this.likeNum = talkPost.getLikeNum();
         this.talkCommentCount = talkPost.getTalkCommentCount();
-        this.user = talkPost.getUser();
+        this.userId = talkPost.getUser().getId();
         this.userImg = talkPost.getUser().getUserImg();
         this.userName = talkPost.getUser().getUserName();
         this.userGrade = talkPost.getUser().getUserGrade();
