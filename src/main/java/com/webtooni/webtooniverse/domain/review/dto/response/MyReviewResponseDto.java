@@ -3,8 +3,10 @@ package com.webtooni.webtooniverse.domain.review.dto.response;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MyReviewResponseDto {
 
     private String reviewContent;
