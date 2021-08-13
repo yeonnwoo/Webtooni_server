@@ -54,9 +54,9 @@ public class ReviewController {
 
     /**
      * 웹툰에 별점주기
-     *
      * @param reviewStarDto 웹툰 id,userPointNumber 담은 dto
      */
+
     @PutMapping("reviews/star")
     public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
