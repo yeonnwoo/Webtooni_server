@@ -47,14 +47,11 @@ public class TalkPostController {
 
     //모든 톡톡 게시글 불러오기
     @GetMapping("talk")
-    public AllTalkPostPageLikeResponseDto getPost(
+    public AllTalkPostPageResponseDto getPost(
             @PathParam("page") int page,
-            @PathParam("size") int size,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-
+            @PathParam("size") int size
     ){
-        User user = userDetails.getUser();
-        return talkPostService.getPost(page, size, user);
+        return talkPostService.getPost(page, size);
     }
 
 

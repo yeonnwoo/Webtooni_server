@@ -1,15 +1,15 @@
 package com.webtooni.webtooniverse.domain.user.security;
 
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class JwtTokenProvider {
     private String secretKey = "TooniverseWebkey";
 
     // 토큰 유효시간 30분
-    private long tokenValidTime = 30 * 60 * 1000L;
+    private long tokenValidTime =  5 * 1000L;
     private final UserDetailsServiceImpl userDetailsService;
 
     // 객체 초기화, secretKey를 Base64로 인코딩
@@ -67,8 +67,12 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
+        } catch (ExpiredJwtException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "토큰의 유효기간이 만료되었습니다.");
+        } catch (UnsupportedJwtException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "JWT 토큰이 잘못되었습니다.");
         }
     }
 }

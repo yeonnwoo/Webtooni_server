@@ -60,27 +60,16 @@ public class TalkPostService {
         // 해당 게시물이 내가 좋아요를 누른 웹툰인지 아닌지 확인
         boolean exists = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
 
-        // 해당 유저가 좋아요한 게시글 리스트
-        List<TalkLike> likeList = talkLikeRepository.findAllByUser(user);
-        List<TalkLikeListResponseDto> likeListDto = likeList.stream()
-                .map(TalkLikeListResponseDto::new)
-                .collect(Collectors.toList());
-
-        return new TalkPostResponseDto(talkPost, exists, likeListDto);
+        return new TalkPostResponseDto(talkPost, exists);
     }
 
-    public AllTalkPostPageLikeResponseDto getPost(int page, int size, User user){
+    public AllTalkPostPageResponseDto getPost(int page, int size){
         Pageable pageable = PageRequest.of(page - 1, size);
         List<TalkPostPageResponseDto> posts = talkPostRepository.findAllTalkPost(pageable);
         long postCount = talkPostRepository.count();
-        AllTalkPostPageResponseDto AllPostDto = new AllTalkPostPageResponseDto(posts, postCount);
 
-        List<TalkLike> likeList = talkLikeRepository.findAllByUser(user);
-        List<TalkLikeListResponseDto> likeListDto = likeList.stream()
-                .map(TalkLikeListResponseDto::new)
-                .collect(Collectors.toList());
 
-        return new AllTalkPostPageLikeResponseDto(AllPostDto, likeListDto);
+        return new AllTalkPostPageResponseDto(posts, postCount);
     }
 
 }

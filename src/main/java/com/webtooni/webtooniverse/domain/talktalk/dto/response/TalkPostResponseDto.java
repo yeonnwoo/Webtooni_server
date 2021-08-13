@@ -25,10 +25,8 @@ public class TalkPostResponseDto {
     private int talkCommentCount;
     private boolean ILike;
     private LocalDateTime createDate;
-    private List<TalkLikeListResponseDto> ILikeList;
 
-    public TalkPostResponseDto(TalkPost talkPost, boolean exists, List<TalkLikeListResponseDto> ILikeList){
-        this.ILikeList = ILikeList;
+    public TalkPostResponseDto(TalkPost talkPost, boolean exists){
         this.postId = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();
