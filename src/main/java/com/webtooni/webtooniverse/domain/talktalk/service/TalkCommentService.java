@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentPostingResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
@@ -24,15 +25,14 @@ public class TalkCommentService {
     private final TalkCommentRepository talkCommentRepository;
     private final TalkPostRepository talkPostRepository;
 
-    public TalkBoardComment commentPost(TalkCommentRequestDto requestDto, User user, Long id) {
+    public TalkCommentPostingResponseDto commentPost(TalkCommentRequestDto requestDto, User user, Long id) {
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
         );
         talkPost.updateTalkCommentNum(1);
         TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user, talkPost);
         talkCommentRepository.save(talkBoardComment);
-
-        return talkBoardComment;
+        return new TalkCommentPostingResponseDto(talkBoardComment);
     }
 
     public TalkResponseDto commentDelete(Long id){
@@ -44,7 +44,6 @@ public class TalkCommentService {
         talkCommentRepository.delete(talkBoardComment);
         return new TalkResponseDto("삭제가 완료되었습니다.");
     }
-
 
     public TalkResponseDto update(TalkCommentRequestDto requestDto, Long id){
         TalkBoardComment talkBoardComment = talkCommentRepository.findById(id).orElseThrow(

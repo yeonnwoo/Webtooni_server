@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
@@ -75,7 +76,14 @@ public class    WebtoonController {
     @GetMapping("webtoon/{id}")
     public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        User user=userDetails.getUser();
+        Optional<User> user;
+        if(userDetails==null)
+        {
+            user = Optional.empty();
+        }
+        else{
+            user = Optional.ofNullable(userDetails.getUser());
+        }
         return webtoonService.getDetailAndReviewList(id,user);
     }
 
@@ -102,7 +110,7 @@ public class    WebtoonController {
     }
 
     @GetMapping("search")
-    public List<WebtoonResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
+    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
         return webtoonService.getSearchedWebtoon(keyword);
     }
 

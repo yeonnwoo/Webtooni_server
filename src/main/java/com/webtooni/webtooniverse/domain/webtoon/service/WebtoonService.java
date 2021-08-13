@@ -7,6 +7,7 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoOnlyResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -17,10 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -45,8 +43,8 @@ public class WebtoonService {
 //        List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
 //                .map(WebtoonResponseDto::new)
 //                .collect(Collectors.toList());
-        UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(bestReviewer);
-        return new BestReviewerWebtoonResponseDto(userInfoResponseDto, bestReviewerWebtoons);
+        UserInfoOnlyResponseDto userInfoOnlyResponseDto = new UserInfoOnlyResponseDto(bestReviewer);
+        return new BestReviewerWebtoonResponseDto(userInfoOnlyResponseDto, bestReviewerWebtoons);
     }
 
     //유저 관심 장르 중 랜덤 추천
@@ -133,17 +131,16 @@ public class WebtoonService {
      * @param id 웹툰 id
      * @return WebtoonDetailDto
      */
-    public WebtoonDetailDto getDetailAndReviewList(Long id,User user) {
+    public WebtoonDetailDto getDetailAndReviewList(Long id, Optional<User> user) {
         //해당 웹툰 정보 찾기
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id는 존재하지 않습니다.")
         );
 
         //해당 웹툰의 장르 찾기
-
         List<Genre> webtoonGenre = webtoonRepository.findWebToonGenre(webtoon);
         List<String> genreList = new ArrayList<>();
-        for (Genre genre : webtoonGenre){
+        for (Genre genre : webtoonGenre) {
             genreList.add(genre.getGenreType());
         }
 
@@ -155,13 +152,20 @@ public class WebtoonService {
                 .map(WebtoonDetailReviewResponseDto::new)
                 .collect(Collectors.toList());
 
-        //해당 user가 좋아요한 리뷰 게시글의 id 리스트
-        List<Long> reviewIdListByUser = reviewLikeRepository.findReviewIdListByUser(user.getId());
+        List<Long> reviewIdListByUser;
+        boolean exists;
+        if (user.isPresent()) {
+            //해당 user가 좋아요한 리뷰 게시글의 id 리스트
+            reviewIdListByUser = reviewLikeRepository.findReviewIdListByUser(user.get().getId());
 
-        //내가 찜한 웹툰인지 아닌지
-        boolean exists = myListRepository.existsById(user.getId(), id);
+            //내가 찜한 웹툰인지 아닌지
+            exists = myListRepository.existsById(user.get().getId(), id);
 
-        return new WebtoonDetailDto(reviewIdListByUser,exists,webtoon, genreList, ReviewDtoList);
+        } else {
+            reviewIdListByUser = null;
+            exists = false;
+        }
+        return new WebtoonDetailDto(reviewIdListByUser, exists, webtoon, genreList, ReviewDtoList);
     }
 
     /**
@@ -179,7 +183,7 @@ public class WebtoonService {
         List<Genre> genre = webtoonRepository.findWebToonGenre(webtoon);
 
 
-        List<Webtoon> webtoonList= new ArrayList<>();
+        List<Webtoon> webtoonList = new ArrayList<>();
         for (Genre g : genre) {
             //비슷한 장르의 웹툰 찾기
             List<Webtoon> similarWebtoonByGenre = webtoonRepository.findSimilarWebtoonByGenre(g.getGenreType(), webtoon);
@@ -211,13 +215,13 @@ public class WebtoonService {
         return UnreviewedWebtoons;
     }
 
-    public List<WebtoonResponseDto> getSearchedWebtoon(String keyword) {
-        List<Webtoon> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0,1));
+    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(String keyword) {
+        List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0, 1));
         String trimKeyword = keyword.replace(" ", "");
-        List<WebtoonResponseDto> webtoonResponseDtos = new ArrayList<>();
-        for (Webtoon webtoon : webtoons) {
+        List<WebtoonAndGenreResponseDto> webtoonResponseDtos = new ArrayList<>();
+        for (WebtoonAndGenreResponseDto webtoon : webtoons) {
             if (webtoon.getToonTitle().replace(" ", "").contains(trimKeyword)) {
-                webtoonResponseDtos.add(new WebtoonResponseDto(webtoon));
+                webtoonResponseDtos.add(webtoon);
             }
         }
         return webtoonResponseDtos;
