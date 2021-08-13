@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentPostingResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
@@ -21,7 +22,7 @@ public class TalkCommentController {
     private final TalkCommentService talkCommentService;
 
     @PostMapping("talk/{id}/comment")
-    public TalkBoardComment postComment(@PathVariable Long id, @RequestBody TalkCommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public TalkCommentPostingResponseDto postComment(@PathVariable Long id, @RequestBody TalkCommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
         return talkCommentService.commentPost(requestDto, user, id);
     }

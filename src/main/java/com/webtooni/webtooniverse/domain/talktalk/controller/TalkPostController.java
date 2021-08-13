@@ -19,7 +19,7 @@ public class TalkPostController {
     private final TalkPostService talkPostService;
 
     @PostMapping("talk")
-    public TalkPost post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public TalkPostPostingResponseDto post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return talkPostService.post(requestDto, user);
     }

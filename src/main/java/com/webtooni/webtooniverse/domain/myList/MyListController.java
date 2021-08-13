@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.myList;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

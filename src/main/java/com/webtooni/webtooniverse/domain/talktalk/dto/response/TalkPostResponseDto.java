@@ -7,6 +7,7 @@ import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -23,6 +24,7 @@ public class TalkPostResponseDto {
     private int likeNum;
     private int talkCommentCount;
     private boolean ILike;
+    private LocalDateTime createDate;
     private List<TalkLikeListResponseDto> ILikeList;
 
     public TalkPostResponseDto(TalkPost talkPost, boolean exists, List<TalkLikeListResponseDto> ILikeList){
@@ -37,6 +39,7 @@ public class TalkPostResponseDto {
         this.userName = talkPost.getUser().getUserName();
         this.userGrade = talkPost.getUser().getUserGrade();
         this.ILike = exists;
+        this.createDate = talkPost.getCreateDate();
     }
 }
 

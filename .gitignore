@@ -1,5 +1,6 @@
 HELP.md
 .gradle
+src/main/resources/application.properties
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -19,7 +20,6 @@ bin/
 
 ### IntelliJ IDEA ###
 .idea
-src/main/resources/application.properties
 *.iws
 *.iml
 *.ipr

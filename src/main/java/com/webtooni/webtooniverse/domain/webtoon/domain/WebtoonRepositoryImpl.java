@@ -239,5 +239,4 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return webtoonAndGenreResponseDtos;
     }
 
-
 }

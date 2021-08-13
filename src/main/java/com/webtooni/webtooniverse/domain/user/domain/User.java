@@ -1,7 +1,8 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
+import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
+import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,10 @@ public class User {
     }
 
     public void update(UserInfoRequestDto requestDto){
+        this.userImg = requestDto.getUserImg();
+        this.userName = requestDto.getUserName();
+    }
+    public void OnBoarding(UserOnBoardingRequestDto requestDto){
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();
     }
