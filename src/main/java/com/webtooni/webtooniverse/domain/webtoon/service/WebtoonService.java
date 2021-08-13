@@ -39,13 +39,9 @@ public class WebtoonService {
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
         User bestReviewer = webtoonRepository.findBestReviewer(startDate());
         if (bestReviewer == null) {
-            return null;
+            throw new NullPointerException("리뷰를 작성한 유저가 없습니다.");
         }
         List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
-
-//        List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
-//                .map(WebtoonResponseDto::new)
-//                .collect(Collectors.toList());
         UserInfoOnlyResponseDto userInfoOnlyResponseDto = new UserInfoOnlyResponseDto(bestReviewer);
         return new BestReviewerWebtoonResponseDto(userInfoOnlyResponseDto, bestReviewerWebtoons);
     }
