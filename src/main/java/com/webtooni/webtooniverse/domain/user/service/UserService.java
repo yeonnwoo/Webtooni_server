@@ -108,7 +108,10 @@ public class UserService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
         );
-        return new UserInfoResponseDto(findUser);
+
+        List<String> userGenre = userRepository.getUserGenre(user.getId());
+
+        return new UserInfoResponseDto(findUser, userGenre);
 
     }
 

@@ -7,6 +7,7 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoOnlyResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -45,8 +46,8 @@ public class WebtoonService {
 //        List<WebtoonResponseDto> webtoonResponseDto = bestReviewerWebtoons.stream()
 //                .map(WebtoonResponseDto::new)
 //                .collect(Collectors.toList());
-        UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(bestReviewer);
-        return new BestReviewerWebtoonResponseDto(userInfoResponseDto, bestReviewerWebtoons);
+        UserInfoOnlyResponseDto userInfoOnlyResponseDto = new UserInfoOnlyResponseDto(bestReviewer);
+        return new BestReviewerWebtoonResponseDto(userInfoOnlyResponseDto, bestReviewerWebtoons);
     }
 
     //유저 관심 장르 중 랜덤 추천
@@ -211,13 +212,13 @@ public class WebtoonService {
         return UnreviewedWebtoons;
     }
 
-    public List<WebtoonResponseDto> getSearchedWebtoon(String keyword) {
-        List<Webtoon> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0,1));
+    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(String keyword) {
+        List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0,1));
         String trimKeyword = keyword.replace(" ", "");
-        List<WebtoonResponseDto> webtoonResponseDtos = new ArrayList<>();
-        for (Webtoon webtoon : webtoons) {
+        List<WebtoonAndGenreResponseDto> webtoonResponseDtos = new ArrayList<>();
+        for (WebtoonAndGenreResponseDto webtoon : webtoons) {
             if (webtoon.getToonTitle().replace(" ", "").contains(trimKeyword)) {
-                webtoonResponseDtos.add(new WebtoonResponseDto(webtoon));
+                webtoonResponseDtos.add(webtoon);
             }
         }
         return webtoonResponseDtos;

@@ -146,8 +146,9 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         List<Webtoon> webtoons = queryFactory.selectFrom(webtoon)
                 .where(webtoon.finished.eq(true))
                 .orderBy(webtoon.toonAvgPoint.desc())
-                .limit(20)
+                .limit(15)
                 .fetch();
+
         return addGenreToWebtoonList(webtoons);
     }
 
@@ -195,11 +196,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     @Override
-    public List<Webtoon> findSearchedWebtoon(String keyword) {
-        return queryFactory.selectFrom(webtoon)
+    public List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword) {
+        List<Webtoon> webtoons = queryFactory.selectFrom(webtoon)
                 .where(webtoon.toonTitle.contains(keyword))
                 .limit(20)
                 .fetch();
+        return addGenreToWebtoonList(webtoons);
     }
 
 
@@ -217,7 +219,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         for (WebtoonAndGenreResponseDto webtoonAndGenreResponseDto : webtoonAndGenreResponseDtos) {
             for (Tuple webtoonGenre : webtoonGenreTuples) {
-                if (Objects.equals(webtoonAndGenreResponseDto.getId(), webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id))) {
+                if (webtoonAndGenreResponseDto.getId().equals(webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id))) {
                     webtoonAndGenreResponseDto.addGenre(webtoonGenre.get(QWebtoonGenre.webtoonGenre.genre.genreType));
                 }
             }
