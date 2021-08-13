@@ -103,6 +103,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .from(userGenre)
                 .where(userGenre.user.eq(user))
                 .fetch();
+        //유저가 취향선택 안되었을 때 웹투니버스 높은 점수순으로 추천
+        if (genres.size() == 0) {
+            return queryFactory.select(webtoonGenre.webtoon)
+                    .from(webtoon)
+                    .orderBy(webtoon.toonAvgPoint.desc())
+                    .limit(20)
+                    .fetch();
+        }
 
         return queryFactory.select(webtoonGenre.webtoon)
                 .from(webtoonGenre)
@@ -119,6 +127,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .where(review.user.eq(user), review.userPointNumber.goe(3.5))
                 .fetch();
 
+        if (webtoons.size() == 0) {
+            return addGenreToWebtoonList(findUserGenreWebtoon(user));
+        }
+
         User similarUser = queryFactory.select(review.user)
                 .from(review)
                 .where(review.webtoon.in(webtoons), review.user.ne(user), review.userPointNumber.goe(3.5))
@@ -132,8 +144,8 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         List<Webtoon> webtoonList = queryFactory.select(review.webtoon)
                 .from(review)
-                .where(review.user.eq(similarUser), review.userPointNumber.goe(4.0), review.webtoon.notIn(webtoons))
-                .orderBy(review.webtoon.toonAvgPoint.desc())
+                .where(review.user.eq(similarUser), review.userPointNumber.goe(3.5), review.webtoon.notIn(webtoons))
+                .orderBy(review.userPointNumber.desc())
                 .limit(5)
                 .fetch();
 
@@ -226,6 +238,5 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         }
         return webtoonAndGenreResponseDtos;
     }
-
 
 }

@@ -14,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequestMapping("/api/v1/")
@@ -25,12 +26,10 @@ public class ReviewController {
     private final ReviewService reviewService;
 
 
-    // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
-    public ReviewLikeResponseDto getNewReview(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+    public ReviewLikeResponseDto getNewReview(@PathParam("page") int page, @PathParam("size") int size, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        return reviewService.getNewReview(user);
+        return reviewService.getNewReview(user, page, size);
     }
 
 
@@ -71,8 +70,6 @@ public class ReviewController {
 
     @GetMapping("user/me/reviews")
     public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
-
         return reviewService.getMyReviews(userDetails.getUser());
     }
 
@@ -85,7 +82,6 @@ public class ReviewController {
     //리뷰에 좋아요
     @PostMapping("reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
 
         //로그인된 유저 정보로 변경 되어야함
         User user = userDetails.getUser();

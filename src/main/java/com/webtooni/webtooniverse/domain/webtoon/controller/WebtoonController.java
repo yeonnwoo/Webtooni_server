@@ -15,83 +15,92 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
 @RestController
-public class    WebtoonController {
+public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
     /**
      * TODO : ddd
+     *
      * @return
      */
 
     @GetMapping("offer/best-reviewer")
-    public BestReviewerWebtoonResponseDto getBestReviewerWebtoons(){
+    public BestReviewerWebtoonResponseDto getBestReviewerWebtoons() {
         return webtoonService.getBestReviewerWebtoon();
     }
 
     @GetMapping("offer/for-user")
-    public List<WebtoonResponseDto> getForUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+    public List<WebtoonResponseDto> getForUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return webtoonService.getForUserWebtoon(user);
     }
 
     @GetMapping("offer/similar-user")
-    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
     }
 
     @GetMapping("offer/md")
-    public WebtoonResponseDto getMdWebtoons(){
+    public WebtoonResponseDto getMdWebtoons() {
         return webtoonService.getMdWebtoon();
     }
 
     @GetMapping("offer/end")
-    public List<WebtoonAndGenreResponseDto> getFinishedWebtoons(){
+    public List<WebtoonAndGenreResponseDto> getFinishedWebtoons() {
         return webtoonService.getFinishedWebtoon();
     }
 
     //이번달 웹투니버스 순위
     @GetMapping("rank/total")
-    public List<WebtoonAndGenreResponseDto> getMonthTotalRanks(){
+    public List<WebtoonAndGenreResponseDto> getMonthTotalRanks() {
         return webtoonService.getMonthTotalRank();
     }
 
     //네이버 웹툰 Top10
     @GetMapping("rank/naver")
-    public List<PlatformRankResponseDto> getMonthNaverRanks(){
+    public List<PlatformRankResponseDto> getMonthNaverRanks() {
         return webtoonService.getMonthNaverRank();
     }
 
     //카카오 웹툰 Top10
     @GetMapping("rank/kakao")
-    public List<PlatformRankResponseDto> getMonthKakaoRanks(){
+    public List<PlatformRankResponseDto> getMonthKakaoRanks() {
         return webtoonService.getMonthKakaoRank();
     }
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
-        User user=userDetails.getUser();
-        return webtoonService.getDetailAndReviewList(id,user);
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+
+        {
+            Optional<User> user;
+            if (userDetails == null) {
+                user = Optional.empty();
+            } else {
+                user = Optional.ofNullable(userDetails.getUser());
+            }
+            return webtoonService.getDetailAndReviewList(id, user);
+        }
     }
 
     //비슷한 장르 추천
-   @GetMapping("webtoon/{id}/offer/genre")
-    public List<SimilarGenreToonDto> getSimilarWebtoon(@PathVariable Long id)
-    {
+    @GetMapping("webtoon/{id}/offer/genre")
+    public List<SimilarGenreToonDto> getSimilarWebtoon(@PathVariable Long id) {
         return webtoonService.getSimilarGenre(id);
     }
 
     @GetMapping("user/me/subscribe")
-    public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return webtoonService.getMyListWebtoons(userDetails.getUser());
     }
 
