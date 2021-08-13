@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequestMapping("/api/v1/")
@@ -23,11 +24,10 @@ public class ReviewController {
     private final ReviewService reviewService;
 
 
-    // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
-    public ReviewLikeResponseDto getNewReview(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ReviewLikeResponseDto getNewReview(@PathParam("page") int page, @PathParam("size") int size, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        return reviewService.getNewReview(user);
+        return reviewService.getNewReview(user, page, size);
     }
 
 
