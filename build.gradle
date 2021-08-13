@@ -46,6 +46,10 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
     implementation 'com.querydsl:querydsl-jpa'
 
+    // 스웨거
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+
 }
 
 test {

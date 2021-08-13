@@ -9,8 +9,10 @@ import com.webtooni.webtooniverse.domain.talktalk.service.TalkCommentService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class TalkCommentController {
 
     @PostMapping("talk/{id}/comment")
     public TalkCommentPostingResponseDto postComment(@PathVariable Long id, @RequestBody TalkCommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return talkCommentService.commentPost(requestDto, user, id);
     }
@@ -33,8 +36,8 @@ public class TalkCommentController {
     }
 
     @PutMapping("talk/{id}/comment")
-    public TalkResponseDto updateComment(@RequestBody TalkCommentRequestDto requestDto, @PathVariable Long id){
-        return talkCommentService.update(requestDto, id);
+    public void updateComment(@RequestBody TalkCommentRequestDto requestDto, @PathVariable Long id){
+        talkCommentService.update(requestDto, id);
     }
 
     /**
@@ -42,7 +45,7 @@ public class TalkCommentController {
      */
 
     @DeleteMapping("talk/{id}/comment")
-    public TalkResponseDto delete(@PathVariable Long id){
-        return talkCommentService.commentDelete(id);
+    public void delete(@PathVariable Long id){
+        talkCommentService.commentDelete(id);
     }
 }
