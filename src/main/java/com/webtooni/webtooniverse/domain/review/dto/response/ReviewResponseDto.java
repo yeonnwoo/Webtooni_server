@@ -27,12 +27,15 @@ public class ReviewResponseDto {
     private boolean finished;
     private LocalDateTime creatDate;
     private float toonAvgPoint;
+    private int likeCount;
+    private Long reviewId;
     private List<String> genres = new ArrayList<>();
 
 
     public ReviewResponseDto(Long userId, int userImg, String userName, float userPointNumber, String reviewContent,
                              Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
-                             String toonPlatform, String toonWeekday, boolean finished, LocalDateTime creatDate, float toonAvgPoint) {
+                             String toonPlatform, String toonWeekday, boolean finished, LocalDateTime creatDate,
+                             float toonAvgPoint, int likeCount, Long reviewId) {
         this.userId = userId;
         this.userImg = userImg;
         this.userName = userName;
@@ -48,6 +51,8 @@ public class ReviewResponseDto {
         this.finished = finished;
         this.creatDate = creatDate;
         this.toonAvgPoint = toonAvgPoint;
+        this.likeCount = likeCount;
+        this.reviewId = reviewId;
     }
 
     public void addGenre(String genre) {

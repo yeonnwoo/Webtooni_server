@@ -40,7 +40,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 review.webtoon.toonWeekday,
                 review.webtoon.finished,
                 review.createDate,
-                review.webtoon.toonAvgPoint
+                review.webtoon.toonAvgPoint,
+                review.likeCount,
+                review.id
         ))
                 .from(review)
                 .innerJoin(review.user, user)
@@ -73,7 +75,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                         review.webtoon.toonWeekday,
                         review.webtoon.finished,
                         review.createDate,
-                        review.webtoon.toonAvgPoint
+                        review.webtoon.toonAvgPoint,
+                        review.likeCount,
+                        review.id
                 ))
                 .from(review)
                 .innerJoin(review.user, user)
@@ -103,8 +107,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 review.webtoon.toonWeekday,
                 review.webtoon.finished,
                 review.createDate,
-                review.webtoon.toonAvgPoint
-        ))
+                review.webtoon.toonAvgPoint,
+                review.likeCount,
+                review.id
+                ))
                 .from(review)
                 .innerJoin(review.user, user)
                 .innerJoin(review.webtoon, webtoon)
