@@ -4,6 +4,7 @@ package com.webtooni.webtooniverse.domain.user.controller;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RequiredArgsConstructor
@@ -44,6 +46,7 @@ public class UserController {
 
     @PostMapping("user/onBoarding")
     public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserOnBoardingRequestDto requestDto) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         userService.pickGenre(user, requestDto);
     }
@@ -58,6 +61,7 @@ public class UserController {
     @PutMapping("user/info")
     public void updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                               @RequestBody UserInfoRequestDto userInfoRequestDto) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         userService.updateInfo(userDetails.getUser().getId(), userInfoRequestDto );
     }
 }
