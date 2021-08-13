@@ -55,6 +55,11 @@ public class UserController {
         return userService.getBestReviewerRank();
     }
 
+    @GetMapping("user/info")
+    public UserInfoResponseDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return userService.getUserInfo(userDetails.getUser());
+    }
+
     @PutMapping("user/info")
     public void updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                               @RequestBody UserInfoRequestDto userInfoRequestDto) {
