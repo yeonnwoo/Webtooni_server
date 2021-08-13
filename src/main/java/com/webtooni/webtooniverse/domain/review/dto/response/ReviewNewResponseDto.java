@@ -1,7 +1,5 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import lombok.Getter;
 import lombok.Setter;

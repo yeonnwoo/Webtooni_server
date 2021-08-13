@@ -3,10 +3,7 @@ package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.*;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
@@ -28,8 +25,9 @@ public class ReviewController {
 
     // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
-    public List<ReviewNewResponseDto> getNewReview() {
-        return reviewService.getNewReview();
+    public ReviewLikeResponseDto getNewReview(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return reviewService.getNewReview(user);
     }
 
 
