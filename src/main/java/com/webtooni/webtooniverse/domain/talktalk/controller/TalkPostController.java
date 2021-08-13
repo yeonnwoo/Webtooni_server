@@ -35,7 +35,6 @@ public class TalkPostController {
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return talkPostService.getOnePost(id, user);
     }
