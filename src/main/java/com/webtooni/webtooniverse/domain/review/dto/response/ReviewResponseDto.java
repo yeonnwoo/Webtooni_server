@@ -35,7 +35,7 @@ public class ReviewResponseDto {
                              Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
                              String toonPlatform, String toonWeekday, boolean finished, LocalDateTime creatDate,
                              float toonAvgPoint) {
-
+        
         this.userId = userId;
         this.userImg = userImg;
         this.userName = userName;
