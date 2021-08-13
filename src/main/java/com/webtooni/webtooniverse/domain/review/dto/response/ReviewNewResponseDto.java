@@ -17,10 +17,19 @@ public class ReviewNewResponseDto {
     private String reviewContent;
     private int likeCount;
     private LocalDateTime creatDate;
+    private Long toonId;
+    private String toonTitle;
+    private String toonImg;
+    private String toonAuthor;
+    private String toonPlatform;
+    private String toonWeekday;
+    private boolean finished;
 
 
     public ReviewNewResponseDto(Long userId, int userImg, String userName, float userPointNumber,
-                                String reviewContent, int likeCount, LocalDateTime creatDate) {
+                                String reviewContent, int likeCount, LocalDateTime creatDate, Long toonId,
+                                String toonTitle, String toonImg, String toonAuthor, String toonPlatform,
+                                String toonWeekday, boolean finished) {
         this.userId = userId;
         this.userImg = userImg;
         this.userName = userName;
@@ -28,5 +37,12 @@ public class ReviewNewResponseDto {
         this.reviewContent = reviewContent;
         this.likeCount = likeCount;
         this.creatDate = creatDate;
+        this.toonId = toonId;
+        this.toonTitle = toonTitle;
+        this.toonImg = toonImg;
+        this.toonAuthor = toonAuthor;
+        this.toonPlatform = toonPlatform;
+        this.toonWeekday = toonWeekday;
+        this.finished = finished;
     }
 }

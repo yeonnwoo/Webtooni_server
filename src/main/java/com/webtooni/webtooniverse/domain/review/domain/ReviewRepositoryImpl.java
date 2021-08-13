@@ -26,9 +26,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                         review.user.userName,
                         review.userPointNumber,
                         review.reviewContent,
+                        review.likeCount,
+                        review.createDate,
                         review.webtoon.id,
                         review.webtoon.toonTitle,
-                        review.user.userGrade,
                         review.webtoon.toonImg,
                         review.webtoon.toonAuthor,
                         review.webtoon.toonPlatform,
@@ -38,8 +39,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .from(review)
                 .innerJoin(review.user, user)
                 .innerJoin(review.webtoon, webtoon)
-                .orderBy(review.userPointNumber.desc())
-                .limit(10)
+                .orderBy(review.likeCount.desc())
+                .limit(5)
                 .fetch();
 
     }
@@ -53,21 +54,21 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                         review.user.userName,
                         review.userPointNumber,
                         review.reviewContent,
+                        review.likeCount,
+                        review.createDate,
                         review.webtoon.id,
                         review.webtoon.toonTitle,
-                        review.user.userGrade,
                         review.webtoon.toonImg,
                         review.webtoon.toonAuthor,
                         review.webtoon.toonPlatform,
                         review.webtoon.toonWeekday,
-                        review.webtoon.finished,
-                        review.createDate
+                        review.webtoon.finished
                 ))
                 .from(review)
                 .innerJoin(review.user, user)
                 .innerJoin(review.webtoon, webtoon)
                 .orderBy(review.createDate.desc())
-                .limit(10)
+                .limit(5)
                 .fetch();
 
     }
