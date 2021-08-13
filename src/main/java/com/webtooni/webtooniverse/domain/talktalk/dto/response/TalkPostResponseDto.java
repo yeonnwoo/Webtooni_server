@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TalkPostResponseDto {
 
-    private Long TalkPostId;
+    private Long postId;
     private User user;
     private int userImg;
     private String userName;
@@ -29,7 +29,7 @@ public class TalkPostResponseDto {
 
     public TalkPostResponseDto(TalkPost talkPost, boolean exists, List<TalkLikeListResponseDto> ILikeList){
         this.ILikeList = ILikeList;
-        this.TalkPostId = talkPost.getId();
+        this.postId = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();
         this.likeNum = talkPost.getLikeNum();
