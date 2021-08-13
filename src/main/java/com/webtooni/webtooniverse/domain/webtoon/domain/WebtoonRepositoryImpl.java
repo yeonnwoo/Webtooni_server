@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -43,21 +44,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
     //이번달 웹투니버스 종합순위
     public List<WebtoonAndGenreResponseDto> getTotalRank() {
-        List<Webtoon> monthRankResponseDtos = queryFactory
-//                .select(Projections.fields(Webtoon.class),
-//                        webtoon.id,
-//                        webtoon.toonImg,
-//                        webtoon.toonTitle,
-//                        webtoon.toonAuthor,
-//                        webtoon.toonAvgPoint,
-//                        webtoon.toonPlatform,
-//                        webtoon.toonWeekday,
-//                        webtoon.finished))
+        List<Webtoon> webtoons = queryFactory
                 .selectFrom(webtoon)
                 .orderBy(webtoon.toonAvgPoint.desc())
                 .limit(10)
                 .fetch();
-        return addGenreToWebtoonList(monthRankResponseDtos);
+        return addGenreToWebtoonList(webtoons);
     }
 
     //네이버 웹툰 Top10
@@ -226,6 +218,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         for (WebtoonAndGenreResponseDto webtoonAndGenreResponseDto : webtoonAndGenreResponseDtos) {
             for (Tuple webtoonGenre : webtoonGenreTuples) {
                 if (webtoonAndGenreResponseDto.getId().equals(webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id))) {
+
                     webtoonAndGenreResponseDto.addGenre(webtoonGenre.get(QWebtoonGenre.webtoonGenre.genre.genreType));
                 }
             }
