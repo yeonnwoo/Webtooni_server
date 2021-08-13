@@ -9,13 +9,13 @@ import java.util.List;
 @Getter
 public class ReviewMainResponseDto {
 
-    private List<ReviewBestResponseDto> bestReview;
-    private List<ReviewNewResponseDto> newReview;
+    private List<ReviewResponseDto> bestReview;
+    private List<ReviewResponseDto> newReview;
 
-    public ReviewMainResponseDto(List<ReviewBestResponseDto> reviewBestResponseDto,
-                                 List<ReviewNewResponseDto> reviewNewResponseDto){
+    public ReviewMainResponseDto(List<ReviewResponseDto> reviewBestResponseDto,
+                                 List<ReviewResponseDto> reviewResponseDto){
 
         this.bestReview = reviewBestResponseDto;
-        this.newReview = reviewNewResponseDto;
+        this.newReview = reviewResponseDto;
     }
 }

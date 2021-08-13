@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
-public class ReviewNewResponseDto {
+public class ReviewResponseDto {
 
     private Long userId;
     private int userImg;
@@ -24,12 +26,16 @@ public class ReviewNewResponseDto {
     private String toonPlatform;
     private String toonWeekday;
     private boolean finished;
+    private LocalDateTime creatDate;
+    private float toonAvgPoint;
+    private List<String> genres = new ArrayList<>();
 
 
-    public ReviewNewResponseDto(Long userId, int userImg, String userName, float userPointNumber,
-                                String reviewContent, int likeCount, LocalDateTime createDate, Long toonId,
-                                String toonTitle, String toonImg, String toonAuthor, String toonPlatform,
-                                String toonWeekday, boolean finished) {
+    public ReviewResponseDto(Long userId, int userImg, String userName, float userPointNumber, String reviewContent,
+                             Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
+                             String toonPlatform, String toonWeekday, boolean finished, LocalDateTime creatDate,
+                             float toonAvgPoint) {
+
         this.userId = userId;
         this.userImg = userImg;
         this.userName = userName;
@@ -44,5 +50,11 @@ public class ReviewNewResponseDto {
         this.toonPlatform = toonPlatform;
         this.toonWeekday = toonWeekday;
         this.finished = finished;
+        this.creatDate = creatDate;
+        this.toonAvgPoint = toonAvgPoint;
+    }
+
+    public void addGenre(String genre) {
+        genres.add(genre);
     }
 }

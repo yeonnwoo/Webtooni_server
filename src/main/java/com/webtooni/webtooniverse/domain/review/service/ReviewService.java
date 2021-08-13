@@ -5,6 +5,7 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,8 @@ import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +38,8 @@ public class ReviewService {
 
     public ReviewMainResponseDto getMainReview(){
 
-        List<ReviewBestResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
-        List<ReviewNewResponseDto> getRecentNewReviews = reviewRepository.getNewReview();
+        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
+        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getNewReview();
 
         return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
 
@@ -159,14 +162,15 @@ public class ReviewService {
         }
     }
 
-    public ReviewLikeResponseDto getNewReview(User user){
+    public ReviewLikeResponseDto getNewReview(User user, int page, int size){
         List<ReviewLike> likeList = reviewLikeRepository.findAllByUser(user);
-        List<ReviewLikeListResponseDto> likeListDto = likeList.stream()
-                .map(ReviewLikeListResponseDto::new)
-                .collect(Collectors.toList());
-        List<ReviewNewResponseDto> reviewDto =  reviewRepository.getNewReview();
-
-        return new ReviewLikeResponseDto(likeListDto, reviewDto);
+        List<Long> likeReviewIdList = new ArrayList<>();
+        for (ReviewLike reviewLike : likeList) {
+            likeReviewIdList.add(reviewLike.getReview().getId());
+        }
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<ReviewResponseDto> reviewDto = reviewRepository.getNewReviewWithPageable(pageable);
+        return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
 
 
