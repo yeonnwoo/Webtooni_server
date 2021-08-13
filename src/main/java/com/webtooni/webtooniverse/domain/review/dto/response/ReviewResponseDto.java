@@ -1,16 +1,16 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
-public class ReviewBestResponseDto {
+public class ReviewResponseDto {
 
     private Long userId;
     private int userImg;
@@ -25,12 +25,14 @@ public class ReviewBestResponseDto {
     private String toonPlatform;
     private String toonWeekday;
     private boolean finished;
+    private LocalDateTime creatDate;
+    private float toonAvgPoint;
+    private List<String> genres = new ArrayList<>();
 
 
-
-    public ReviewBestResponseDto(Long userId, int userImg, String userName, float userPointNumber, String reviewContent,
-                                 Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
-                                 String toonPlatform, String toonWeekday, boolean finished) {
+    public ReviewResponseDto(Long userId, int userImg, String userName, float userPointNumber, String reviewContent,
+                             Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
+                             String toonPlatform, String toonWeekday, boolean finished, LocalDateTime creatDate, float toonAvgPoint) {
         this.userId = userId;
         this.userImg = userImg;
         this.userName = userName;
@@ -44,5 +46,11 @@ public class ReviewBestResponseDto {
         this.toonPlatform = toonPlatform;
         this.toonWeekday = toonWeekday;
         this.finished = finished;
+        this.creatDate = creatDate;
+        this.toonAvgPoint = toonAvgPoint;
+    }
+
+    public void addGenre(String genre) {
+        genres.add(genre);
     }
 }

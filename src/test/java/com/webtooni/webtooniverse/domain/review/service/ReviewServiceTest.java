@@ -4,9 +4,8 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
@@ -317,17 +316,17 @@ class ReviewServiceTest {
 
 
         //when
-        List<ReviewBestResponseDto> reviewBestResponseDto = reviewService.getMainReview().getBestReview();
-        List<ReviewNewResponseDto> reviewNewResponseDto = reviewService.getMainReview().getNewReview();
+        List<ReviewResponseDto> reviewBestResponseDto = reviewService.getMainReview().getBestReview();
+        List<ReviewResponseDto> reviewResponseDto = reviewService.getMainReview().getNewReview();
         ReviewMainResponseDto reviewMainResponseDto = reviewService.getMainReview();
         //then
-        for (ReviewBestResponseDto responseDto : reviewBestResponseDto){
+        for (ReviewResponseDto responseDto : reviewBestResponseDto){
             System.out.println("responseDto.getUserPointNumber()= " + responseDto.getUserPointNumber());
         }
-        for (ReviewNewResponseDto responseDto1 : reviewNewResponseDto){
+        for (ReviewResponseDto responseDto1 : reviewResponseDto){
             System.out.println("responseDto1.getCreateDate()= " + responseDto1.getCreatDate());
         }
-        ReviewMainResponseDto responseDto2 = new ReviewMainResponseDto(reviewBestResponseDto, reviewNewResponseDto);
+        ReviewMainResponseDto responseDto2 = new ReviewMainResponseDto(reviewBestResponseDto, reviewResponseDto);
         System.out.println("responseDto2.getBestReview()= " + responseDto2.getBestReview()+", " +
                 "responseDto2.getNewReview" + responseDto2.getNewReview());
 
