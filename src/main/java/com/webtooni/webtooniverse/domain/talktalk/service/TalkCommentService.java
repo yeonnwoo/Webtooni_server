@@ -35,22 +35,20 @@ public class TalkCommentService {
         return new TalkCommentPostingResponseDto(talkBoardComment);
     }
 
-    public TalkResponseDto commentDelete(Long id){
+    public void commentDelete(Long id){
         TalkBoardComment talkBoardComment = talkCommentRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
         );
         TalkPost talkPost = talkBoardComment.getTalkPost();
         talkPost.updateTalkCommentNum(-1);
         talkCommentRepository.delete(talkBoardComment);
-        return new TalkResponseDto("삭제가 완료되었습니다.");
     }
 
-    public TalkResponseDto update(TalkCommentRequestDto requestDto, Long id){
+    public void update(TalkCommentRequestDto requestDto, Long id){
         TalkBoardComment talkBoardComment = talkCommentRepository.findById(id).orElseThrow(
                 ()-> new NullPointerException("해당 댓글이 존재하지 않습니다")
         );
         talkBoardComment.update(requestDto);
-        return new TalkResponseDto("수정이 완료되었습니다.");
     }
     /**
      * TODO 람다식 변경

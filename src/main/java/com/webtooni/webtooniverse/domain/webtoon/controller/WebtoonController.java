@@ -78,10 +78,6 @@ public class WebtoonController {
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
     public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
-        }
-
         {
             Optional<User> user;
             if (userDetails == null) {

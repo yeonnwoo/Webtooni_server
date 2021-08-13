@@ -36,8 +36,8 @@ public class TalkCommentController {
     }
 
     @PutMapping("talk/{id}/comment")
-    public TalkResponseDto updateComment(@RequestBody TalkCommentRequestDto requestDto, @PathVariable Long id){
-        return talkCommentService.update(requestDto, id);
+    public void updateComment(@RequestBody TalkCommentRequestDto requestDto, @PathVariable Long id){
+        talkCommentService.update(requestDto, id);
     }
 
     /**
@@ -45,7 +45,7 @@ public class TalkCommentController {
      */
 
     @DeleteMapping("talk/{id}/comment")
-    public TalkResponseDto delete(@PathVariable Long id){
-        return talkCommentService.commentDelete(id);
+    public void delete(@PathVariable Long id){
+        talkCommentService.commentDelete(id);
     }
 }
