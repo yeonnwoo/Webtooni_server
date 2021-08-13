@@ -4,6 +4,7 @@ import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
+import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
@@ -40,6 +41,7 @@ public class UserService {
     private final WebtoonRepository webtoonRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GenreRepository genreRepository;
+    private final UserGenreRepository userGenreRepository;
 
 
     public String kakaoLogin(String authorizedCode) {
@@ -95,11 +97,10 @@ public class UserService {
     @Transactional
     public void pickGenre(User user, UserOnBoardingRequestDto requestDto) {
         ArrayList<String> pickedGenres = requestDto.getGenres();
-        List<UserGenre> userGenres = new ArrayList<>();
         for (String pickedGenre : pickedGenres) {
             Genre genre = genreRepository.findByGenreType(pickedGenre);
             UserGenre userGenre = new UserGenre(user, genre);
-            userGenres.add(userGenre);
+            userGenreRepository.save(userGenre);
         }
         user.OnBoarding(requestDto);
     }

@@ -204,7 +204,7 @@ public class WebtoonService {
 //    }
 
     public List<WebtoonResponseDto> getUnreviewdList() {
-        List<Webtoon> Webtoons = webtoonRepository.findByReviewCountLessThanEqual(1);
+        List<Webtoon> Webtoons = webtoonRepository.findTop10ByReviewCountLessThanEqual(1);
         List<WebtoonResponseDto> UnreviewedWebtoons = Webtoons.stream()
                 .map(WebtoonResponseDto::new)
                 .collect(Collectors.toList());

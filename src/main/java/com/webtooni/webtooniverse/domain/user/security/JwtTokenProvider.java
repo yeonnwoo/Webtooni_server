@@ -1,15 +1,14 @@
 package com.webtooni.webtooniverse.domain.user.security;
 
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -63,11 +62,12 @@ public class JwtTokenProvider {
     }
 
     // 토큰의 유효성 + 만료일자 확인
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "토큰의 유효기간이 만료되었습니다.")
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
             return false;
         }
     }

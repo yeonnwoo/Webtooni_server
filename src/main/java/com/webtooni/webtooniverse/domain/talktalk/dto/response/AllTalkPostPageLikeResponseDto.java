@@ -13,7 +13,8 @@ public class AllTalkPostPageLikeResponseDto {
     private AllTalkPostPageResponseDto AllPostDto;
     private List<TalkLikeListResponseDto> likeListDto;
 
-    public AllTalkPostPageLikeResponseDto(AllTalkPostPageResponseDto AllPostDto, List<TalkLikeListResponseDto> likeListDto){
+    public AllTalkPostPageLikeResponseDto(AllTalkPostPageResponseDto AllPostDto,
+                                          List<TalkLikeListResponseDto> likeListDto){
         this.AllPostDto = AllPostDto;
         this.likeListDto = likeListDto;
     }
