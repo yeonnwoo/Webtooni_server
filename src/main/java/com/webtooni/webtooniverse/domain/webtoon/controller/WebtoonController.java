@@ -102,7 +102,7 @@ public class    WebtoonController {
     }
 
     @GetMapping("search")
-    public List<WebtoonResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
+    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
         return webtoonService.getSearchedWebtoon(keyword);
     }
 

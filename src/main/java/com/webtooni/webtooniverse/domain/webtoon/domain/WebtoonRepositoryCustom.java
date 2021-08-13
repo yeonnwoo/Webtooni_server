@@ -20,5 +20,5 @@ public interface WebtoonRepositoryCustom {
     List<WebtoonAndGenreResponseDto> findFinishedWebtoon();
     List<BestReviewerResponseDto> findBestReviewerForMain();
     List<Webtoon> findMyListWebtoon(User user);
-    List<Webtoon> findSearchedWebtoon(String keyword);
+    List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword);
 }

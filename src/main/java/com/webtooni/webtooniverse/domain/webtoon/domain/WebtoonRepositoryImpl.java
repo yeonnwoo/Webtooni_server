@@ -204,11 +204,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     @Override
-    public List<Webtoon> findSearchedWebtoon(String keyword) {
-        return queryFactory.selectFrom(webtoon)
+    public List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword) {
+        List<Webtoon> webtoons = queryFactory.selectFrom(webtoon)
                 .where(webtoon.toonTitle.contains(keyword))
                 .limit(20)
                 .fetch();
+        return addGenreToWebtoonList(webtoons);
     }
 
 
