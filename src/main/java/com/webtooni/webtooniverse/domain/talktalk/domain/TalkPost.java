@@ -39,6 +39,7 @@ public class TalkPost extends TimeStamped {
         this.postContent = requestDto.getPostContent();
         this.user = user;
         this.talkCommentCount = 0;
+        this.likeNum = 0;
     }
 
     public void update(TalkPostRequestDto talkPostRequestDto){
