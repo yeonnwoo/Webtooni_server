@@ -36,8 +36,8 @@ public class TalkPostController {
     }
 
     @PutMapping("talk/{id}")
-    public TalkResponseDto updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto) {
-        return talkPostService.updatePost(id, requestDto);
+    public void updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto) {
+        talkPostService.updatePost(id, requestDto);
     }
 
     @DeleteMapping("talk/{id}")

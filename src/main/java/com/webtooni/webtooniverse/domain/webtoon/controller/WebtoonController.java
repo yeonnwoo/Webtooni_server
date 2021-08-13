@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
 @RestController
-public class    WebtoonController {
+public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
@@ -76,15 +76,7 @@ public class    WebtoonController {
     @GetMapping("webtoon/{id}")
     public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        Optional<User> user;
-        if(userDetails==null)
-        {
-            user = Optional.empty();
-        }
-        else{
-            user = Optional.ofNullable(userDetails.getUser());
-        }
-        return webtoonService.getDetailAndReviewList(id,user);
+        return webtoonService.getDetailAndReviewList(id,userDetails);
     }
 
     //비슷한 장르 추천

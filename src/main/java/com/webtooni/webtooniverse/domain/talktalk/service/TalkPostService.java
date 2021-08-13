@@ -34,12 +34,11 @@ public class TalkPostService {
         return new TalkPostPostingResponseDto(talkPost);
     }
 
-    public TalkResponseDto updatePost(Long id, TalkPostRequestDto talkPostRequestDto){
+    public void updatePost(Long id, TalkPostRequestDto talkPostRequestDto){
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
         );
         talkPost.update(talkPostRequestDto);
-        return new TalkResponseDto("수정이 완료되었습니다.");
     }
 
     public TalkResponseDto deletePost(Long id){
