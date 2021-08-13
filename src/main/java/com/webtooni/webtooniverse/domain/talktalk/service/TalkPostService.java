@@ -28,10 +28,10 @@ public class TalkPostService {
     private final UserGenreRepository userGenreRepository;
     private final TalkLikeRepository talkLikeRepository;
 
-    public TalkPost post(TalkPostRequestDto requestDto, User user){
+    public TalkPostPostingResponseDto post(TalkPostRequestDto requestDto, User user){
         TalkPost talkPost = new TalkPost(requestDto, user);
         talkPostRepository.save(talkPost);
-        return talkPost;
+        return new TalkPostPostingResponseDto(talkPost);
     }
 
     public TalkResponseDto updatePost(Long id, TalkPostRequestDto talkPostRequestDto){

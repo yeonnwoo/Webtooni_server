@@ -1,14 +1,14 @@
 package com.webtooni.webtooniverse.domain.user.controller;
 
 
+import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
-import com.webtooni.webtooniverse.domain.user.dto.UserGenreRequestDto;
-import com.webtooni.webtooniverse.domain.user.dto.UserInfoRequestDto;
+import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,21 +42,17 @@ public class UserController {
     }
 
 
-    @PostMapping("user/genre")
-    public List<UserGenre> pick(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserGenreRequestDto requestDto) {
+    @PostMapping("user/onBoarding")
+    public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserOnBoardingRequestDto requestDto) {
         User user = userDetails.getUser();
-        return userService.pickGenre(user, requestDto);
+        userService.pickGenre(user, requestDto);
     }
 
     //베스트 리뷰어(리뷰개수많은순서)
+
     @GetMapping("rank/reviewers")
     public List<BestReviewerResponseDto> getBestReviewers() {
         return userService.getBestReviewerRank();
-    }
-
-    @GetMapping("user/info")
-    public UserInfoResponseDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return userService.getUserInfo(userDetails.getUser());
     }
 
     @PutMapping("user/info")
