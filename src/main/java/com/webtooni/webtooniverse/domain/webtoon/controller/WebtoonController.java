@@ -82,7 +82,7 @@ public class    WebtoonController {
             user = Optional.empty();
         }
         else{
-            user = Optional.ofNullable(userDetails.getUser());
+            user = Optional.of(userDetails.getUser());
         }
         return webtoonService.getDetailAndReviewList(id,user);
     }
