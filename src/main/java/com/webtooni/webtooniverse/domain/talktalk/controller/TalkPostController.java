@@ -7,8 +7,11 @@ import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.websocket.server.PathParam;
 
 @RequestMapping("/api/v1/")
@@ -20,6 +23,7 @@ public class TalkPostController {
 
     @PostMapping("talk")
     public TalkPostPostingResponseDto post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return talkPostService.post(requestDto, user);
     }
@@ -31,6 +35,7 @@ public class TalkPostController {
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return talkPostService.getOnePost(id, user);
     }

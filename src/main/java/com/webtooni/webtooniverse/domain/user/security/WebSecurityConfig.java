@@ -1,7 +1,5 @@
 package com.webtooni.webtooniverse.domain.user.security;
 
-import com.webtooni.webtooniverse.domain.user.security.tokenException.CustomAccessDeniedHandler;
-import com.webtooni.webtooniverse.domain.user.security.tokenException.CustomAuthenticationEntryPoint;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,10 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests() // 요청에 대한 사용권한 체크
                 .anyRequest().permitAll() // 나머지 요청은 누구나 접근 가능
-                .and()
-                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);

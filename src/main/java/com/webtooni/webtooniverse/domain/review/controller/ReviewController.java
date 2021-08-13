@@ -9,8 +9,10 @@ import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class ReviewController {
     // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return reviewService.getNewReview(user);
     }
@@ -57,6 +60,7 @@ public class ReviewController {
      */
     @PutMapping("reviews/star")
     public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
 
         //로그인된 유저 정보로 변경 되어야함
         User user = userDetails.getUser();
@@ -67,6 +71,8 @@ public class ReviewController {
 
     @GetMapping("user/me/reviews")
     public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+
         return reviewService.getMyReviews(userDetails.getUser());
     }
 
@@ -79,6 +85,7 @@ public class ReviewController {
     //리뷰에 좋아요
     @PostMapping("reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
 
         //로그인된 유저 정보로 변경 되어야함
         User user = userDetails.getUser();

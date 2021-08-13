@@ -5,11 +5,13 @@ import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -33,12 +35,14 @@ public class    WebtoonController {
 
     @GetMapping("offer/for-user")
     public List<WebtoonResponseDto> getForUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return webtoonService.getForUserWebtoon(user);
     }
 
     @GetMapping("offer/similar-user")
     public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
     }
@@ -73,8 +77,8 @@ public class    WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user=userDetails.getUser();
         return webtoonService.getDetailAndReviewList(id,user);
     }
