@@ -25,7 +25,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long>, ReviewRepo
      * @param toonId 해당 리뷰의 id
      * @return List<Review> 리뷰 리스트
      */
-    @Query("select r from Review r inner join r.webtoon on r.webtoon.id=:toonId and r.reviewContent IS Not null")
+    @Query("select r from Review r inner join r.webtoon on r.webtoon.id=:toonId")
     List<Review> findReviewByWebToonId(@Param("toonId") Long toonId);
 
 
