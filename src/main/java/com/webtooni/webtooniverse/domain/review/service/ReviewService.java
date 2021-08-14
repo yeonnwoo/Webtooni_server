@@ -16,6 +16,7 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class ReviewService {
 
     //리뷰 최신순,베스트순 불러오기
 
-    public ReviewMainResponseDto getMainReview(){
+    public ReviewMainResponseDto getMainReview() {
 
         List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
         List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getNewReview();
@@ -48,7 +49,7 @@ public class ReviewService {
     /**
      * 리뷰를 작성하는 기능을 제공하는 구현체입니다.
      *
-     * @param id 리뷰 id
+     * @param id        리뷰 id
      * @param reviewDto 리뷰의 내용이 담긴 Dto
      * @return 리뷰 id
      */
@@ -134,7 +135,7 @@ public class ReviewService {
         //존재하지 않음
         if (findReview == null) {
 
-            Review review = Review.of(reviewStarDto.getUserPointNumber(),findWebtoon,user);
+            Review review = Review.of(reviewStarDto.getUserPointNumber(), findWebtoon, user);
 
             //총 별점 개수 늘려주기
             findWebtoon.changeToonPointTotalCount();
@@ -161,18 +162,19 @@ public class ReviewService {
 
         }
     }
+    public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
 
-    public ReviewLikeResponseDto getNewReview(User user, int page, int size){
-        List<ReviewLike> likeList = reviewLikeRepository.findAllByUser(user);
-        List<Long> likeReviewIdList = new ArrayList<>();
-        for (ReviewLike reviewLike : likeList) {
-            likeReviewIdList.add(reviewLike.getReview().getId());
+        List<Long> likeReviewIdList;
+        if (userDetails == null) {
+            likeReviewIdList = null;
+        } else {
+            User user = userDetails.getUser();
+            likeReviewIdList = reviewLikeRepository.findReviewIdListByUser(user.getId());
         }
         Pageable pageable = PageRequest.of(page - 1, size);
         List<ReviewResponseDto> reviewDto = reviewRepository.getNewReviewWithPageable(pageable);
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
-
 
     public List<MyReviewResponseDto> getMyReviews(User user) {
         List<Review> myReviews = reviewRepository.findMyReviews(user);
