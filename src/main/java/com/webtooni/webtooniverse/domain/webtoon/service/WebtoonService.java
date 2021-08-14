@@ -192,8 +192,8 @@ public class WebtoonService {
                 .collect(Collectors.toList());
     }
 
-    public List<WebtoonResponseDto> getMyListWebtoons(User user) {
-        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(user);
+    public List<WebtoonResponseDto> getMyListWebtoons(Long userId) {
+        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(userId);
         return myListWebtoon.stream()
                 .map(WebtoonResponseDto::new)
                 .collect(Collectors.toList());
@@ -211,6 +211,17 @@ public class WebtoonService {
                 .collect(Collectors.toList());
         return UnreviewedWebtoons;
     }
+
+    public void br(User user) {
+        List<Review> reviews = webtoonRepository.br(user);
+        Map<Long, Map<Long, Float>> userWebtoonScore = new HashMap<>();
+        for (Review review : reviews) {
+            Map<Long, Float> webtoonScore = new HashMap<>();
+            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
+            userWebtoonScore.put(review.getUser().getId(), webtoonScore);
+        }
+    }
+
 
     public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(String keyword) {
         List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0, 1));
