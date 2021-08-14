@@ -28,8 +28,7 @@ public class ReviewController {
 
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@PathParam("page") int page, @PathParam("size") int size, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userDetails.getUser();
-        return reviewService.getNewReview(user, page, size);
+        return reviewService.getNewReview(userDetails, page, size);
     }
 
     //메인페이지에 리뷰(최신순/ 베스트순) 불러오기
