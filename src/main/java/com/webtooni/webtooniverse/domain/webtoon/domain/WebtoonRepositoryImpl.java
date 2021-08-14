@@ -217,10 +217,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     @Override
-    public List<Review> br(User user) {
+    public List<Review> br(Long userId) {
         List<Long> webtoonIds = queryFactory.select(review.webtoon.id)
                 .from(review)
-                .where(review.user.eq(user))
+                .where(review.user.id.eq(userId))
                 .fetch();
 
         return queryFactory.selectFrom(review)

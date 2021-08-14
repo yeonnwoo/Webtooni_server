@@ -23,5 +23,5 @@ public interface WebtoonRepositoryCustom {
     List<Webtoon> findMyListWebtoon(Long userId);
     List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword);
 
-    List<Review> br(User user);
+    List<Review> br(Long userId);
 }
