@@ -16,6 +16,7 @@ import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -102,7 +103,10 @@ public class UserService {
             UserGenre userGenre = new UserGenre(user, genre);
             userGenreRepository.save(userGenre);
         }
-        user.OnBoarding(requestDto);
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("유저를 찾지 못하였습니다.")
+        );
+        findUser.OnBoarding(requestDto);
     }
 
     public UserInfoResponseDto getUserInfo(User user) {
