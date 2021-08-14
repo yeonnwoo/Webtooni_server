@@ -40,12 +40,14 @@ public class TalkPostController {
     }
 
     @PutMapping("talk/{id}")
-    public void updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto) {
+    public void updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         talkPostService.updatePost(id, requestDto);
     }
 
     @DeleteMapping("talk/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         talkPostService.deletePost(id);
     }
 
