@@ -105,10 +105,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
         //유저가 취향선택 안되었을 때 웹투니버스 높은 점수순으로 추천
         if (genres.size() == 0) {
-            return queryFactory.select(webtoonGenre.webtoon)
-                    .from(webtoon)
+            return queryFactory
+                    .selectFrom(webtoon)
                     .orderBy(webtoon.toonAvgPoint.desc())
-                    .limit(20)
+                    .limit(10)
                     .fetch();
         }
 
