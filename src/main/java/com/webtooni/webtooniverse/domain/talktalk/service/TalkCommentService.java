@@ -50,14 +50,12 @@ public class TalkCommentService {
         );
         talkBoardComment.update(requestDto);
     }
-    /**
-     * TODO 람다식 변경
-     */
+
+    //게시글 별 댓글 리스트 불러오기 id:게시글 id
     public List<TalkCommentResponseDto> getComment(Long id) {
-        List<TalkBoardComment> talkBoardComments = talkCommentRepository.findAllById(id);
-        List<TalkCommentResponseDto> AllComments = talkBoardComments.stream()
+        List<TalkBoardComment> talkBoardComments = talkCommentRepository.findAllCommentByBoardId(id);
+        return talkBoardComments.stream()
                 .map(TalkCommentResponseDto::new)
                 .collect(Collectors.toList());
-        return AllComments;
     }
 }

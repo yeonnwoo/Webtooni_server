@@ -53,8 +53,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
         return addGenreToWebtoonList(reviewResponseDtos);
 
-
-
     }
 
     //리뷰 최신순
@@ -87,7 +85,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .fetch();
 
         return addGenreToWebtoonList(reviewResponseDtos);
-
     }
 
     @Override
@@ -121,7 +118,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
         return addGenreToWebtoonList(reviewResponseDtos);
     }
-
 
     @Override
     public List<Review> findMyReviews(User user) {

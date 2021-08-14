@@ -55,6 +55,7 @@ public class ReviewController {
         reviewService.clickWebtoonPointNumber(reviewStarDto, user);
     }
 
+    //내가 쓴 리뷰 목록
     @GetMapping("user/me/reviews")
     public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return reviewService.getMyReviews(userDetails.getUser());
@@ -69,6 +70,7 @@ public class ReviewController {
     //리뷰에 좋아요
     @PostMapping("reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         reviewService.clickReviewLike(id, user);
     }

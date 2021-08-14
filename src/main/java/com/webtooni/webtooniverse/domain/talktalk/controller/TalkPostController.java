@@ -35,8 +35,7 @@ public class TalkPostController {
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userDetails.getUser();
-        return talkPostService.getOnePost(id, user);
+        return talkPostService.getOnePost(id, userDetails);
     }
 
     @PutMapping("talk/{id}")

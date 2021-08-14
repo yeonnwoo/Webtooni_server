@@ -21,11 +21,6 @@ public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
-    /**
-     * TODO : ddd
-     *
-     * @return
-     */
 
     @GetMapping("offer/best-reviewer")
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoons() {
@@ -74,7 +69,6 @@ public class WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-
     public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         return webtoonService.getDetailAndReviewList(id,userDetails);
@@ -90,11 +84,6 @@ public class WebtoonController {
     public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return webtoonService.getMyListWebtoons(userDetails.getUser());
     }
-
-//    @GetMapping("test")
-//    public String test() {
-//        return webtoonService.getFirstId(1L);
-//    }
 
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {
