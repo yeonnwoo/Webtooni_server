@@ -88,5 +88,5 @@ public class ReviewController {
 
         reviewService.clickReviewLike(id, user);
     }
-    
+
 }
