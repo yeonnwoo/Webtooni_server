@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.review.service;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.*;
 
 
@@ -123,7 +124,7 @@ public class ReviewService {
      * @param reviewStarDto 웹툰 id, 별점 점수가 담긴 Dto
      * @param user          유저 정보
      */
-    public void clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
+    public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
 
         //해당 웹툰 찾기
         Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getWebtoonId()).orElseThrow(
@@ -147,6 +148,8 @@ public class ReviewService {
             review.insertWebToonAndUser(findWebtoon, user);
 
             reviewRepository.save(review);
+
+            return new ReviewStarRequestDto(review.getId());
         }
 
         //이미 존재함
@@ -160,8 +163,11 @@ public class ReviewService {
             //유저의 별점 점수 변경
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
 
+            return new ReviewStarRequestDto(findReview.getId());
+
         }
     }
+
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
 
         List<Long> likeReviewIdList;
