@@ -54,7 +54,10 @@ public class TalkCommentService {
      * TODO 람다식 변경
      */
     public List<TalkCommentResponseDto> getComment(Long id) {
-        List<TalkBoardComment> talkBoardComments = talkCommentRepository.findAllById(id);
+        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
+                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
+        );
+        List<TalkBoardComment> talkBoardComments = talkCommentRepository.findAllByTalkPost(talkPost);
         List<TalkCommentResponseDto> AllComments = talkBoardComments.stream()
                 .map(TalkCommentResponseDto::new)
                 .collect(Collectors.toList());
