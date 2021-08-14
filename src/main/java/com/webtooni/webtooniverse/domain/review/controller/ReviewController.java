@@ -3,11 +3,13 @@ package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.*;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,18 +24,12 @@ import java.util.List;
 @RestController
 public class ReviewController {
 
-    private final WebtoonRepository webtoonRepository;
     private final ReviewService reviewService;
-
 
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@PathParam("page") int page, @PathParam("size") int size, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return reviewService.getNewReview(userDetails, page, size);
     }
-
-    /**
-     * TODO (dto로 묶어서 보내주기), service 거쳐서 가져오기 MVC
-     */
 
     //메인페이지에 리뷰(최신순/ 베스트순) 불러오기
     @GetMapping("rank/reviews")
@@ -44,7 +40,6 @@ public class ReviewController {
     //리뷰 작성(수정)
     @PutMapping("reviews/{id}")
     public ReviewCreateResponseDto updateReview(@PathVariable Long id, @RequestBody ReviewContentRequestDto reviewDto) {
-
         return reviewService.updateReview(id, reviewDto);
     }
 
@@ -56,12 +51,8 @@ public class ReviewController {
     @PutMapping("reviews/star")
     public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
-
-        //로그인된 유저 정보로 변경 되어야함
         User user = userDetails.getUser();
-
         reviewService.clickWebtoonPointNumber(reviewStarDto, user);
-
     }
 
     @GetMapping("user/me/reviews")
@@ -78,10 +69,7 @@ public class ReviewController {
     //리뷰에 좋아요
     @PostMapping("reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        //로그인된 유저 정보로 변경 되어야함
         User user = userDetails.getUser();
-
         reviewService.clickReviewLike(id, user);
     }
 

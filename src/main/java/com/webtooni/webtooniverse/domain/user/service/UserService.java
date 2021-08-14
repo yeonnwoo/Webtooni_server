@@ -16,6 +16,7 @@ import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
