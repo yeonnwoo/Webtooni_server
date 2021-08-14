@@ -87,11 +87,6 @@ public class WebtoonController {
         return webtoonService.getMyListWebtoons(userDetails.getUser().getId());
     }
 
-//    @GetMapping("test")
-//    public String test() {
-//        return webtoonService.getFirstId(1L);
-//    }
-
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {
         return webtoonService.getUnreviewdList();

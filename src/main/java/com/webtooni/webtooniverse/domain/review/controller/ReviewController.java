@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.review.controller;
 
 
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
@@ -9,6 +10,7 @@ import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseD
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,14 +49,14 @@ public class ReviewController {
      * 웹툰에 별점주기
      * @param reviewStarDto 웹툰 id,userPointNumber 담은 dto
      */
-
     @PutMapping("reviews/star")
-    public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ReviewStarRequestDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
-        reviewService.clickWebtoonPointNumber(reviewStarDto, user);
+        return reviewService.clickWebtoonPointNumber(reviewStarDto, user);
     }
 
+    //내가 쓴 리뷰 목록
     @GetMapping("user/me/reviews")
     public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
         if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
@@ -70,6 +72,7 @@ public class ReviewController {
     //리뷰에 좋아요
     @PostMapping("reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         reviewService.clickReviewLike(id, user);
     }

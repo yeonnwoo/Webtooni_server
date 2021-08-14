@@ -2,18 +2,16 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentPostingResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkCommentRepository;
+import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,17 +48,12 @@ public class TalkCommentService {
         );
         talkBoardComment.update(requestDto);
     }
-    /**
-     * TODO 람다식 변경
-     */
+
+    //게시글 별 댓글 리스트 불러오기 id:게시글 id
     public List<TalkCommentResponseDto> getComment(Long id) {
-        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
-        );
-        List<TalkBoardComment> talkBoardComments = talkCommentRepository.findAllByTalkPost(talkPost);
-        List<TalkCommentResponseDto> AllComments = talkBoardComments.stream()
+        List<TalkBoardComment> talkBoardComments = talkCommentRepository.findAllCommentByBoardId(id);
+        return talkBoardComments.stream()
                 .map(TalkCommentResponseDto::new)
                 .collect(Collectors.toList());
-        return AllComments;
     }
 }
