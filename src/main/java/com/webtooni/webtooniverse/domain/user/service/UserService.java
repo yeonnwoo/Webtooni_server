@@ -103,10 +103,10 @@ public class UserService {
             UserGenre userGenre = new UserGenre(user, genre);
             userGenreRepository.save(userGenre);
         }
-        User findUser = userRepository.findById(user.getId()).orElseThrow(
-                () -> new NullPointerException("유저를 찾지 못하였습니다.")
+        User newUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저가 없습니다")
         );
-        findUser.OnBoarding(requestDto);
+        newUser.OnBoarding(requestDto);
     }
 
     public UserInfoResponseDto getUserInfo(User user) {

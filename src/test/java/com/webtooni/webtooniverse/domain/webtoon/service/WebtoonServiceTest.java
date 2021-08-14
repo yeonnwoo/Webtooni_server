@@ -8,6 +8,7 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
@@ -159,8 +160,10 @@ class WebtoonServiceTest {
         reviewRepository.save(review1);
         reviewRepository.save(review2);
 
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
         //when
-        WebtoonDetailDto webtoonDetailDto = webtoonService.getDetailAndReviewList(w1.getId(), Optional.of(user));
+        WebtoonDetailDto webtoonDetailDto = webtoonService.getDetailAndReviewList(w1.getId(), userDetails);
 
         //then
 
