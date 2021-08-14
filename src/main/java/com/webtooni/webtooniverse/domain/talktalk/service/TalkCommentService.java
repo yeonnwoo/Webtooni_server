@@ -2,18 +2,16 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentPostingResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
-import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkCommentRepository;
+import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
