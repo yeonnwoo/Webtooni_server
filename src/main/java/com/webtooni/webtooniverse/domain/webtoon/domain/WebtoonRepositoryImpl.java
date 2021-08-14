@@ -200,10 +200,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     @Override
-    public List<Webtoon> findMyListWebtoon(User user) {
+    public List<Webtoon> findMyListWebtoon(Long userId) {
         return queryFactory.select(myList.webtoon)
                 .from(myList)
-                .where(myList.user.eq(user))
+                .where(myList.user.id.eq(userId))
                 .fetch();
     }
 
@@ -214,6 +214,18 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .limit(20)
                 .fetch();
         return addGenreToWebtoonList(webtoons);
+    }
+
+    @Override
+    public List<Review> br(User user) {
+        List<Long> webtoonIds = queryFactory.select(review.webtoon.id)
+                .from(review)
+                .where(review.user.eq(user))
+                .fetch();
+
+        return queryFactory.selectFrom(review)
+                .where(review.webtoon.id.in(webtoonIds))
+                .fetch();
     }
 
 

@@ -5,11 +5,13 @@ import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -20,7 +22,6 @@ import java.util.List;
 public class WebtoonController {
 
     private final WebtoonService webtoonService;
-
 
     @GetMapping("offer/best-reviewer")
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoons() {
@@ -82,7 +83,8 @@ public class WebtoonController {
 
     @GetMapping("user/me/subscribe")
     public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return webtoonService.getMyListWebtoons(userDetails.getUser());
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+        return webtoonService.getMyListWebtoons(userDetails.getUser().getId());
     }
 
     @GetMapping("reviews/suggestion")

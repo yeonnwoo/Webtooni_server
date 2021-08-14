@@ -58,7 +58,8 @@ public class ReviewController {
     //내가 쓴 리뷰 목록
     @GetMapping("user/me/reviews")
     public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return reviewService.getMyReviews(userDetails.getUser());
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+        return reviewService.getMyReviews(userDetails.getUser().getId());
     }
 
     //리뷰 삭제

@@ -120,9 +120,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     }
 
     @Override
-    public List<Review> findMyReviews(User user) {
+    public List<Review> findMyReviews(Long userId) {
         return jpaQueryFactory.selectFrom(review)
-                .where(review.user.eq(user))
+                .where(review.user.id.eq(userId))
                 .fetch();
     }
 
