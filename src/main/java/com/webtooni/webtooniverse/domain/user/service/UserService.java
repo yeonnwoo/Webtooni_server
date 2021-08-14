@@ -109,12 +109,12 @@ public class UserService {
         newUser.OnBoarding(requestDto);
     }
 
-    public UserInfoResponseDto getUserInfo(User user) {
-        User findUser = userRepository.findById(user.getId()).orElseThrow(
+    public UserInfoResponseDto getUserInfo(Long userId) {
+        User findUser = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
         );
 
-        List<String> userGenre = userRepository.getUserGenre(user.getId());
+        List<String> userGenre = userRepository.getUserGenre(userId);
 
         return new UserInfoResponseDto(findUser, userGenre);
 

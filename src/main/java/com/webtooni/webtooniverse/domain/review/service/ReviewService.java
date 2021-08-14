@@ -174,8 +174,8 @@ public class ReviewService {
     }
 
 
-    public List<MyReviewResponseDto> getMyReviews(User user) {
-        List<Review> myReviews = reviewRepository.findMyReviews(user);
+    public List<MyReviewResponseDto> getMyReviews(Long userId) {
+        List<Review> myReviews = reviewRepository.findMyReviews(userId);
         return myReviews.stream()
                 .map(MyReviewResponseDto::new)
                 .collect(Collectors.toList());
