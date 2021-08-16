@@ -40,6 +40,7 @@ public class ReviewService {
 
     //리뷰 최신순,베스트순 불러오기
     @LogExecutionTime
+    @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
         List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
         List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getNewReview();
@@ -161,6 +162,7 @@ public class ReviewService {
         }
     }
 
+    @Transactional(readOnly = true)
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
 
         List<Long> likeReviewIdList;
@@ -175,6 +177,7 @@ public class ReviewService {
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
 
+    @Transactional(readOnly = true)
     public List<MyReviewResponseDto> getMyReviews(Long userId) {
         List<Review> myReviews = reviewRepository.findMyReviews(userId);
         return myReviews.stream()
