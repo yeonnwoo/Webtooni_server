@@ -25,8 +25,9 @@ public class MonthRankResponseDto {
     private List<String> genres = new ArrayList<>();
 
 
-    public MonthRankResponseDto(Long toonId, String toonImg, String toonTitle, String toonAuthor, float toonAvgPoint,
-                                String toonPlatform, String toonWeekday, boolean finished, List<String> genreList) {
+    public MonthRankResponseDto(Long toonId, String toonImg, String toonTitle, String toonAuthor,
+        float toonAvgPoint,
+        String toonPlatform, String toonWeekday, boolean finished, List<String> genreList) {
         this.toonId = toonId;
         this.toonImg = toonImg;
         this.toonTitle = toonTitle;

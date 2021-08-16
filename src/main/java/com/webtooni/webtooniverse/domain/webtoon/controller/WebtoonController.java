@@ -29,14 +29,15 @@ public class WebtoonController {
     }
 
     @GetMapping("offer/for-user")
-    public List<WebtoonResponseDto> getForUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<WebtoonResponseDto> getForUserWebtoons(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return webtoonService.getForUserWebtoon(user);
     }
 
     @GetMapping("offer/similar-user")
     public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
@@ -73,7 +74,7 @@ public class WebtoonController {
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
     public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id
-            , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        , @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return webtoonService.getDetailAndReviewList(id, userDetails);
     }
 
@@ -84,7 +85,8 @@ public class WebtoonController {
     }
 
     @GetMapping("user/me/subscribe")
-    public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<WebtoonResponseDto> getMyListWebtoons(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
         }
@@ -97,7 +99,8 @@ public class WebtoonController {
     }
 
     @GetMapping("search")
-    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
+    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(
+        @PathParam("keyword") String keyword) {
         return webtoonService.getSearchedWebtoon(keyword);
     }
 

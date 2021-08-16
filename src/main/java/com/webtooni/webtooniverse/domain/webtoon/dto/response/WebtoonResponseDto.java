@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WebtoonResponseDto {
+
     private Long toonId;
     private String toonTitle;
     private String toonAuthor;

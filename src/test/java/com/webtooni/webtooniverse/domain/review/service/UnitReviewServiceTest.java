@@ -53,10 +53,10 @@ public class UnitReviewServiceTest {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -64,7 +64,7 @@ public class UnitReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review1 = createReview(user,w1);
+        Review review1 = createReview(user, w1);
 
         ReviewContentRequestDto requestDto = new ReviewContentRequestDto("변경될 내용");
 
@@ -84,14 +84,14 @@ public class UnitReviewServiceTest {
 
     @DisplayName("리뷰 삭제 테스트")
     @Test
-    public void test2(){
+    public void test2() {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -99,7 +99,7 @@ public class UnitReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review1 = createReview(user,w1);
+        Review review1 = createReview(user, w1);
 
         given(reviewRepository.findById(any())).willReturn(Optional.of(review1));
 
@@ -111,21 +111,18 @@ public class UnitReviewServiceTest {
     }
 
     /**
-     * 리뷰에 좋아요 테스트
-     * - 처음 좋아요
-     * - 좋아요 -> 취소
-     * - 취소 -> 좋아요
+     * 리뷰에 좋아요 테스트 - 처음 좋아요 - 좋아요 -> 취소 - 취소 -> 좋아요
      */
     @DisplayName("처음 누르는 사용자_리뷰에 좋아요")
     @Test
-    public void test3(){
+    public void test3() {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -133,13 +130,13 @@ public class UnitReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review1 = createReview(user,w1);
+        Review review1 = createReview(user, w1);
 
         given(reviewRepository.findById(any())).willReturn(Optional.of(review1));
-        given(reviewLikeRepository.findReviewLikeByReviewAndUser(review1,user)).willReturn(null);
+        given(reviewLikeRepository.findReviewLikeByReviewAndUser(review1, user)).willReturn(null);
 
         //when
-        reviewService.clickReviewLike(any(),user);
+        reviewService.clickReviewLike(any(), user);
 
         //then
         assertThat(review1.getLikeCount()).isEqualTo(2);
@@ -148,14 +145,14 @@ public class UnitReviewServiceTest {
 
     @DisplayName("좋아요->취소_리뷰에 좋아요")
     @Test
-    public void test4(){
+    public void test4() {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -163,34 +160,35 @@ public class UnitReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review1 = createReview(user,w1);
+        Review review1 = createReview(user, w1);
 
-        ReviewLike reviewLike= ReviewLike.builder()
-                .reviewStatus(ReviewLikeStatus.LIKE)
-                .build();
-
+        ReviewLike reviewLike = ReviewLike.builder()
+            .reviewStatus(ReviewLikeStatus.LIKE)
+            .build();
 
         given(reviewRepository.findById(any())).willReturn(Optional.of(review1));
-        given(reviewLikeRepository.findReviewLikeByReviewAndUser(review1,user)).willReturn(reviewLike);
+        given(reviewLikeRepository.findReviewLikeByReviewAndUser(review1, user))
+            .willReturn(reviewLike);
 
         //when
-        reviewService.clickReviewLike(any(),user);
+        reviewService.clickReviewLike(any(), user);
 
         //then
         assertThat(review1.getLikeCount()).isEqualTo(0);
         assertThat(reviewLike.getReviewStatus()).isEqualTo(ReviewLikeStatus.CANCEL);
 
     }
+
     @DisplayName("취소->좋아요_리뷰에 좋아요")
     @Test
-    public void test5(){
+    public void test5() {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -198,17 +196,18 @@ public class UnitReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review1 = createReview(user,w1);
+        Review review1 = createReview(user, w1);
 
-        ReviewLike reviewLike= ReviewLike.builder()
-                .reviewStatus(ReviewLikeStatus.CANCEL)
-                .build();
+        ReviewLike reviewLike = ReviewLike.builder()
+            .reviewStatus(ReviewLikeStatus.CANCEL)
+            .build();
 
         given(reviewRepository.findById(any())).willReturn(Optional.of(review1));
-        given(reviewLikeRepository.findReviewLikeByReviewAndUser(review1,user)).willReturn(reviewLike);
+        given(reviewLikeRepository.findReviewLikeByReviewAndUser(review1, user))
+            .willReturn(reviewLike);
 
         //when
-        reviewService.clickReviewLike(any(),user);
+        reviewService.clickReviewLike(any(), user);
 
         //then
         assertThat(review1.getLikeCount()).isEqualTo(2);
@@ -221,13 +220,13 @@ public class UnitReviewServiceTest {
      */
     @DisplayName("웹툰에 별점 준적 없는 사용자")
     @Test
-    public void getWebtoonPoint(){
+    public void getWebtoonPoint() {
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -235,15 +234,15 @@ public class UnitReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review1 = createReview(user,w1);
+        Review review1 = createReview(user, w1);
 
         WebtoonPointRequestDto webtoonPointRequestDto = new WebtoonPointRequestDto(1L, 1.0F);
 
         given(webtoonRepository.findById(any())).willReturn(Optional.of(w1));
-        given(reviewRepository.checkUserPointIsExist(w1,user)).willReturn(null);
+        given(reviewRepository.checkUserPointIsExist(w1, user)).willReturn(null);
 
         //when
-        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto,user);
+        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto, user);
 
         //then
         assertThat(w1.getTotalPointCount()).isEqualTo(26);
@@ -253,14 +252,14 @@ public class UnitReviewServiceTest {
 
     @DisplayName("웹툰에 별점 준적 있는 사용자")
     @Test
-    public void getWebtoonPoint2(){
+    public void getWebtoonPoint2() {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -268,16 +267,15 @@ public class UnitReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review = createReview(user,w1);
+        Review review = createReview(user, w1);
 
         WebtoonPointRequestDto webtoonPointRequestDto = new WebtoonPointRequestDto(1L, 1.0F);
 
-
         given(webtoonRepository.findById(any())).willReturn(Optional.of(w1));
-        given(reviewRepository.checkUserPointIsExist(w1,user)).willReturn(review);
+        given(reviewRepository.checkUserPointIsExist(w1, user)).willReturn(review);
 
         //when
-        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto,user);
+        reviewService.clickWebtoonPointNumber(webtoonPointRequestDto, user);
 
         //then
         assertThat(w1.getTotalPointCount()).isEqualTo(25);
@@ -286,25 +284,25 @@ public class UnitReviewServiceTest {
 
     private Review createReview(User user, Webtoon webtoon) {
         return Review.builder()
-                .reviewContent("리뷰 내용1")
-                .userPointNumber((float) 1.5)
-                .likeCount(1)
-                .user(user)
-                .webtoon(webtoon)
-                .build();
+            .reviewContent("리뷰 내용1")
+            .userPointNumber((float) 1.5)
+            .likeCount(1)
+            .user(user)
+            .webtoon(webtoon)
+            .build();
     }
 
     private Webtoon createWebtoon(int totalPointCount) {
         return Webtoon.builder()
-                .toonTitle("제목1")
-                .toonAuthor("작가1")
-                .toonContent("내용1")
-                .toonImg("이미지.png")
-                .realUrl("http://naver")
-                .toonPlatform("네이버")
-                .toonAvgPoint((float) 3.5)
-                .totalPointCount(totalPointCount)
-                .build();
+            .toonTitle("제목1")
+            .toonAuthor("작가1")
+            .toonContent("내용1")
+            .toonImg("이미지.png")
+            .realUrl("http://naver")
+            .toonPlatform("네이버")
+            .toonAvgPoint((float) 3.5)
+            .totalPointCount(totalPointCount)
+            .build();
     }
 
 

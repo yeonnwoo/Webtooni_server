@@ -64,13 +64,12 @@ public class TalkPostService {
         List<TalkPostPageResponseDto> posts = talkPostRepository.findAllTalkPost(pageable);
         long postCount = talkPostRepository.count();
 
-
         return new AllTalkPostPageResponseDto(posts, postCount);
     }
 
     private TalkPost getTalkPost(Long id) {
         return talkPostRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
+            () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
         );
     }
 

@@ -40,7 +40,8 @@ public class WebtoonService {
         if (bestReviewer == null) {
             throw new NullPointerException("리뷰를 작성한 유저가 없습니다.");
         }
-        List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
+        List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository
+            .findBestReviewerWebtoon(bestReviewer);
         UserInfoOnlyResponseDto userInfoOnlyResponseDto = new UserInfoOnlyResponseDto(bestReviewer);
         return new BestReviewerWebtoonResponseDto(userInfoOnlyResponseDto, bestReviewerWebtoons);
     }
@@ -51,10 +52,11 @@ public class WebtoonService {
         List<Webtoon> userGenreWebtoons = webtoonRepository.findUserGenreWebtoon(user);
         Collections.shuffle(userGenreWebtoons);
         List<Webtoon> countedUserGenreWebtoons
-                = IntStream.range(0, howManyWebtoons)
-                .mapToObj(userGenreWebtoons::get)
-                .collect(Collectors.toList());
-        return countedUserGenreWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
+            = IntStream.range(0, howManyWebtoons)
+            .mapToObj(userGenreWebtoons::get)
+            .collect(Collectors.toList());
+        return countedUserGenreWebtoons.stream().map(WebtoonResponseDto::new)
+            .collect(Collectors.toList());
     }
 
     //비슷한 취향을 가진 유저가 높게 평가한 작품 추천
@@ -65,7 +67,7 @@ public class WebtoonService {
     //MD 추천
     public WebtoonResponseDto getMdWebtoon() {
         Webtoon webtoon = webtoonRepository.findById(1L).orElseThrow(
-                () -> new NullPointerException("해당 id의 웹툰이 없습니다.")
+            () -> new NullPointerException("해당 id의 웹툰이 없습니다.")
         );
         return new WebtoonResponseDto(webtoon);
     }
@@ -75,7 +77,8 @@ public class WebtoonService {
         int howManyWebtoons = 5;
         List<WebtoonAndGenreResponseDto> finishedWebtoons = webtoonRepository.findFinishedWebtoon();
         Collections.shuffle(finishedWebtoons);
-        return IntStream.range(0, howManyWebtoons).mapToObj(finishedWebtoons::get).collect(Collectors.toList());
+        return IntStream.range(0, howManyWebtoons).mapToObj(finishedWebtoons::get)
+            .collect(Collectors.toList());
     }
 
     //이번달 웹투니버스 종합순위
@@ -87,24 +90,24 @@ public class WebtoonService {
     public List<PlatformRankResponseDto> getMonthNaverRank() {
         List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
         return monthNaverRank
-                .stream()
-                .map(PlatformRankResponseDto::new)
-                .collect(Collectors.toList());
+            .stream()
+            .map(PlatformRankResponseDto::new)
+            .collect(Collectors.toList());
     }
 
     //웹투니버스 카카오 웹툰 Top10
     public List<PlatformRankResponseDto> getMonthKakaoRank() {
         List<Webtoon> monthKakaoRank = webtoonRepository.getKakaoRank();
         return monthKakaoRank
-                .stream()
-                .map(PlatformRankResponseDto::new)
-                .collect(Collectors.toList());
+            .stream()
+            .map(PlatformRankResponseDto::new)
+            .collect(Collectors.toList());
     }
 
     /**
      * 웹툰 상세 정보와 review List를 조회한다.
      *
-     * @param id toonId
+     * @param id          toonId
      * @param userDetails User
      * @return WebtoonDetailDto
      */
@@ -114,16 +117,17 @@ public class WebtoonService {
         boolean exists;
 
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 웹툰의 id는 존재하지 않습니다.")
+            () -> new IllegalArgumentException("해당 웹툰의 id는 존재하지 않습니다.")
         );
 
         List<Genre> webtoonGenre = webtoonRepository.findWebToonGenre(webtoon);
-        List<String> genreList = webtoonGenre.stream().map(Genre::getGenreType).collect(Collectors.toList());
+        List<String> genreList = webtoonGenre.stream().map(Genre::getGenreType)
+            .collect(Collectors.toList());
         List<Review> reviewList = reviewRepository.findReviewByWebToonId(id);
 
         List<WebtoonDetailReviewResponseDto> ReviewDtoList = reviewList.stream()
-                .map(WebtoonDetailReviewResponseDto::new)
-                .collect(Collectors.toList());
+            .map(WebtoonDetailReviewResponseDto::new)
+            .collect(Collectors.toList());
 
         if (userDetails != null) {
             User user = userDetails.getUser();
@@ -148,15 +152,15 @@ public class WebtoonService {
     public List<SimilarGenreToonDto> getSimilarGenre(Long id) {
 
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 id의 웹툰은 존재하지 않습니다.")
+            () -> new IllegalArgumentException("해당 id의 웹툰은 존재하지 않습니다.")
         );
 
         List<Genre> genres = webtoonRepository.findWebToonGenre(webtoon);
 
         List<SimilarGenreToonDto> similarGenreToonList = new ArrayList<>();
         genres.stream()
-                .map(g -> webtoonRepository.findSimilarWebtoonByGenre(g.getGenreType(), webtoon))
-                .forEach(similarGenreToonList::addAll);
+            .map(g -> webtoonRepository.findSimilarWebtoonByGenre(g.getGenreType(), webtoon))
+            .forEach(similarGenreToonList::addAll);
 
         return similarGenreToonList;
     }
@@ -164,19 +168,20 @@ public class WebtoonService {
     public List<WebtoonResponseDto> getMyListWebtoons(Long userId) {
         List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(userId);
         return myListWebtoon.stream()
-                .map(WebtoonResponseDto::new)
-                .collect(Collectors.toList());
+            .map(WebtoonResponseDto::new)
+            .collect(Collectors.toList());
     }
 
     public List<WebtoonResponseDto> getUnreviewdList() {
         List<Webtoon> Webtoons = webtoonRepository.findTop10ByReviewCountLessThanEqual(1);
         return Webtoons.stream()
-                .map(WebtoonResponseDto::new)
-                .collect(Collectors.toList());
+            .map(WebtoonResponseDto::new)
+            .collect(Collectors.toList());
     }
 
     public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(String keyword) {
-        List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0, 1));
+        List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository
+            .findSearchedWebtoon(keyword.substring(0, 1));
         String trimKeyword = keyword.replace(" ", "");
         List<WebtoonAndGenreResponseDto> webtoonResponseDtos = new ArrayList<>();
         for (WebtoonAndGenreResponseDto webtoon : webtoons) {
@@ -192,7 +197,8 @@ public class WebtoonService {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         System.out.println("dayOfWeek = " + dayOfWeek);
         LocalDateTime startDate = LocalDateTime.now();
-        List<DayOfWeek> week = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY
+        List<DayOfWeek> week = Arrays
+            .asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY
                 , DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
         for (int i = 0; i <= 6; i++) {
             if (dayOfWeek == week.get(i)) {

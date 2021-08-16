@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface TalkPostRepository extends JpaRepository<TalkPost, Long>, TalkPostRepositoryCustom {
+public interface TalkPostRepository extends JpaRepository<TalkPost, Long>,
+    TalkPostRepositoryCustom {
 
 }

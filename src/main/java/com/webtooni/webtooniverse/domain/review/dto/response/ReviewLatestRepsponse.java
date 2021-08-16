@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ReviewLatestRepsponse {
+
     private String reviewContent;
     private float userPointNumber;
     private int likeCount;
@@ -20,7 +21,7 @@ public class ReviewLatestRepsponse {
     private String userName;
     private UserGrade userGrade;
 
-    public ReviewLatestRepsponse(Review review){
+    public ReviewLatestRepsponse(Review review) {
         this.reviewContent = review.getReviewContent();
         this.userPointNumber = review.getUserPointNumber();
         this.likeCount = review.getLikeCount();

@@ -11,11 +11,12 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class BestReviewerWebtoonResponseDto {
+
     UserInfoOnlyResponseDto userInfoOnlyResponseDto;
     List<WebtoonAndGenreResponseDto> webtoonAndGenreResponseDtos;
 
     public BestReviewerWebtoonResponseDto(UserInfoOnlyResponseDto userInfoOnlyResponseDto,
-                                          List<WebtoonAndGenreResponseDto> webtoonResponseDtoList) {
+        List<WebtoonAndGenreResponseDto> webtoonResponseDtoList) {
         this.userInfoOnlyResponseDto = userInfoOnlyResponseDto;
         this.webtoonAndGenreResponseDtos = webtoonResponseDtoList;
     }

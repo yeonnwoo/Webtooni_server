@@ -25,8 +25,8 @@ public class TalkCommentController {
 
     @PostMapping("talk/{id}/comment")
     public TalkCommentPostingResponseDto postComment(@PathVariable Long id,
-                                                     @RequestBody TalkCommentRequestDto requestDto,
-                                                     @AuthenticationPrincipal UserDetailsImpl userDetails){
+        @RequestBody TalkCommentRequestDto requestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
         User user = userDetails.getUser();
         return talkCommentService.commentPost(requestDto, user, id);
@@ -39,15 +39,15 @@ public class TalkCommentController {
 
     @PutMapping("talk/{id}/comment")
     public void updateComment(@RequestBody TalkCommentRequestDto requestDto,
-                              @PathVariable Long id,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+        @PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
         talkCommentService.update(requestDto, id);
     }
 
     @DeleteMapping("talk/{id}/comment")
     public void delete(@PathVariable Long id,
-                       @AuthenticationPrincipal UserDetailsImpl userDetails){
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
         talkCommentService.commentDelete(id);
     }

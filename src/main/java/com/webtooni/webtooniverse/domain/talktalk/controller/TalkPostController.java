@@ -23,7 +23,8 @@ public class TalkPostController {
     private final TalkPostService talkPostService;
 
     @PostMapping("talk")
-    public TalkPostPostingResponseDto post(@RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public TalkPostPostingResponseDto post(@RequestBody TalkPostRequestDto requestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
         User user = userDetails.getUser();
         return talkPostService.post(requestDto, user);
@@ -35,18 +36,21 @@ public class TalkPostController {
 //    }
 
     @GetMapping("talk/{id}")
-    public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public TalkPostResponseDto getPost(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return talkPostService.getOnePost(id, userDetails);
     }
 
     @PutMapping("talk/{id}")
-    public void updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
         talkPostService.updatePost(id, requestDto);
     }
 
     @DeleteMapping("talk/{id}")
-    public void delete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void delete(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
         talkPostService.deletePost(id);
     }
@@ -54,8 +58,8 @@ public class TalkPostController {
     //모든 톡톡 게시글 불러오기
     @GetMapping("talk")
     public AllTalkPostPageResponseDto getPost(
-            @PathParam("page") int page,
-            @PathParam("size") int size
+        @PathParam("page") int page,
+        @PathParam("size") int size
     ) {
         return talkPostService.getPost(page, size);
     }

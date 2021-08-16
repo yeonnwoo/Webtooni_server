@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ReviewLikeRepository extends JpaRepository<ReviewLike,Long> {
+public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
     ReviewLike findReviewLikeByReviewAndUser(Review review, User user);
 

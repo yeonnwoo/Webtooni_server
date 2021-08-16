@@ -15,9 +15,11 @@ public class ReviewLikeResponseDto {
     private Long postCount;
 
 
-    public ReviewLikeResponseDto(List<Long> LikeReviewIdList, List<ReviewResponseDto> reviews, Long postCount) {
+    public ReviewLikeResponseDto(List<Long> LikeReviewIdList, List<ReviewResponseDto> reviews,
+        Long postCount) {
         this.LikeReviewIdList = LikeReviewIdList;
         this.reviews = reviews;
         this.postCount = postCount;
     }
 }
+

@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewCreateResponseDto {
 
-   private LocalDateTime createDate;
-   public ReviewCreateResponseDto(Review review)
-    {
+    private LocalDateTime createDate;
+
+    public ReviewCreateResponseDto(Review review) {
         this.createDate = review.getCreateDate();
     }
 }

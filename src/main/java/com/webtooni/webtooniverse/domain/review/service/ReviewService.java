@@ -84,7 +84,8 @@ public class ReviewService {
         //해당 게시물 조회
         Review findReview = getFindReview(id);
 
-        ReviewLike reviewLike = reviewLikeRepository.findReviewLikeByReviewAndUser(findReview, user);
+        ReviewLike reviewLike = reviewLikeRepository
+            .findReviewLikeByReviewAndUser(findReview, user);
 
         if (reviewLike == null) {
             //전체 카운트 +1
@@ -116,11 +117,12 @@ public class ReviewService {
      * @return ReviewStarRequestDto 리뷰 id
      */
     @LogExecutionTime
-    public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
+    public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
+        User user) {
 
         //해당 웹툰 찾기
         Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getToonId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 웹툰이 존재하지 않습니다")
+            () -> new IllegalArgumentException("해당 웹툰이 존재하지 않습니다")
         );
 
         Review findReview = reviewRepository.checkUserPointIsExist(findWebtoon, user);
@@ -176,13 +178,13 @@ public class ReviewService {
     public List<MyReviewResponseDto> getMyReviews(Long userId) {
         List<Review> myReviews = reviewRepository.findMyReviews(userId);
         return myReviews.stream()
-                .map(MyReviewResponseDto::new)
-                .collect(Collectors.toList());
+            .map(MyReviewResponseDto::new)
+            .collect(Collectors.toList());
     }
 
     private Review getFindReview(Long id) {
         return reviewRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 review id가 존재하지 않습니다.")
+            () -> new IllegalArgumentException("해당 review id가 존재하지 않습니다.")
         );
     }
 }

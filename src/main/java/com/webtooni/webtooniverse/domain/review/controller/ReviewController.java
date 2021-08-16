@@ -29,8 +29,9 @@ public class ReviewController {
 
 
     @GetMapping("reviews/new")
-    public ReviewLikeResponseDto getNewReview(@PathParam("page") int page, @PathParam("size") int size
-            , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ReviewLikeResponseDto getNewReview(@PathParam("page") int page,
+        @PathParam("size") int size
+        , @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return reviewService.getNewReview(userDetails, page, size);
     }
 
@@ -43,7 +44,7 @@ public class ReviewController {
     //리뷰 작성(수정)
     @PutMapping("reviews/{id}")
     public ReviewCreateResponseDto updateReview(@PathVariable Long id,
-                                                @RequestBody ReviewContentRequestDto reviewDto){
+        @RequestBody ReviewContentRequestDto reviewDto) {
         return reviewService.updateReview(id, reviewDto);
     }
 
@@ -55,7 +56,7 @@ public class ReviewController {
      */
     @PutMapping("reviews/star")
     public ReviewStarRequestDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto
-            , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        , @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         checkUser(userDetails);
         User user = userDetails.getUser();
@@ -65,7 +66,8 @@ public class ReviewController {
 
     //내가 쓴 리뷰 목록
     @GetMapping("user/me/reviews")
-    public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<MyReviewResponseDto> getMyReviews(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         checkUser(userDetails);
         return reviewService.getMyReviews(userDetails.getUser().getId());
@@ -84,7 +86,8 @@ public class ReviewController {
      * @param userDetails user 정보
      */
     @PostMapping("reviews/{id}/like")
-    public void clickReviewLike(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void clickReviewLike(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         checkUser(userDetails);
         User user = userDetails.getUser();

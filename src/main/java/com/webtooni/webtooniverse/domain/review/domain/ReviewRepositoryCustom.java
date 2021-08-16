@@ -9,7 +9,10 @@ import java.util.List;
 public interface ReviewRepositoryCustom {
 
     List<Review> findMyReviews(Long userId);
+
     List<ReviewResponseDto> getBestReview();
+
     List<ReviewResponseDto> getNewReview();
+
     List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable);
 }

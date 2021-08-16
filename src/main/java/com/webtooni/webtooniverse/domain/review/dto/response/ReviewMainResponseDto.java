@@ -14,7 +14,7 @@ public class ReviewMainResponseDto {
     private List<ReviewResponseDto> newReview;
 
     public ReviewMainResponseDto(List<ReviewResponseDto> reviewBestResponseDto,
-                                 List<ReviewResponseDto> reviewResponseDto){
+        List<ReviewResponseDto> reviewResponseDto) {
 
         this.bestReview = reviewBestResponseDto;
         this.newReview = reviewResponseDto;

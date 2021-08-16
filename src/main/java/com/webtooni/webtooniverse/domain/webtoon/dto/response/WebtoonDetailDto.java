@@ -15,12 +15,12 @@ import java.util.List;
 public class WebtoonDetailDto {
 
     //내가 좋아요한 리뷰 게시글의 아이디 리스트
-    private List<Long> userLikeReviewList= new ArrayList<>();
+    private List<Long> userLikeReviewList = new ArrayList<>();
     private Boolean MyListOrNot;
     private String toonImg;
     private String toonTitle;
     private String toonAuthor;
-    private List<String> genres= new ArrayList<>();
+    private List<String> genres = new ArrayList<>();
     private String toonAge;
     private String realUrl;
     private float toonAvgPoint;
@@ -35,24 +35,23 @@ public class WebtoonDetailDto {
     private List<WebtoonDetailReviewResponseDto> reviews;
 
     public WebtoonDetailDto(List<Long> reviewIdListByUser,
-                            boolean exists,Webtoon webtoon,List<String> genreList,
-                            List<WebtoonDetailReviewResponseDto> reviewList)
-    {
-        this.userLikeReviewList=reviewIdListByUser;
-        this.MyListOrNot=exists;
-        this.toonImg=webtoon.getToonImg();
-        this.toonTitle=webtoon.getToonTitle();
-        this.toonAuthor=webtoon.getToonAuthor();
-        this.genres=genreList;
-        this.toonAge=webtoon.getToonAge();
-        this.realUrl=webtoon.getRealUrl();
-        this.totalPointCount=webtoon.getTotalPointCount();
-        this.toonAvgPoint= webtoon.getToonAvgPoint();
-        this.toonContent=webtoon.getToonContent();
-        this.toonWeekday=webtoon.getToonWeekday();
-        this.toonPlatform=webtoon.getToonPlatform();
-        this.reviewCount=reviewList.size();
-        this.finished=webtoon.isFinished();
-        this.reviews=reviewList;
+        boolean exists, Webtoon webtoon, List<String> genreList,
+        List<WebtoonDetailReviewResponseDto> reviewList) {
+        this.userLikeReviewList = reviewIdListByUser;
+        this.MyListOrNot = exists;
+        this.toonImg = webtoon.getToonImg();
+        this.toonTitle = webtoon.getToonTitle();
+        this.toonAuthor = webtoon.getToonAuthor();
+        this.genres = genreList;
+        this.toonAge = webtoon.getToonAge();
+        this.realUrl = webtoon.getRealUrl();
+        this.totalPointCount = webtoon.getTotalPointCount();
+        this.toonAvgPoint = webtoon.getToonAvgPoint();
+        this.toonContent = webtoon.getToonContent();
+        this.toonWeekday = webtoon.getToonWeekday();
+        this.toonPlatform = webtoon.getToonPlatform();
+        this.reviewCount = reviewList.size();
+        this.finished = webtoon.isFinished();
+        this.reviews = reviewList;
     }
 }

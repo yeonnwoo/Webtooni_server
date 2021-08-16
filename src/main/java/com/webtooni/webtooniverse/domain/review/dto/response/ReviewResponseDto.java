@@ -32,10 +32,11 @@ public class ReviewResponseDto {
     private List<String> genres = new ArrayList<>();
 
 
-    public ReviewResponseDto(Long userId, int userImg, String userName, float userPointNumber, String reviewContent,
-                             Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
-                             String toonPlatform, String toonWeekday, boolean finished, LocalDateTime createDate,
-                             float toonAvgPoint, int likeCount, Long reviewId) {
+    public ReviewResponseDto(Long userId, int userImg, String userName, float userPointNumber,
+        String reviewContent,
+        Long toonId, String toonTitle, UserGrade userGrade, String toonImg, String toonAuthor,
+        String toonPlatform, String toonWeekday, boolean finished, LocalDateTime createDate,
+        float toonAvgPoint, int likeCount, Long reviewId) {
         this.userId = userId;
         this.userImg = userImg;
         this.userName = userName;
