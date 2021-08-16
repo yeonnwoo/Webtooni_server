@@ -114,24 +114,101 @@ class WebtoonServiceTest {
     @Test
     public void br() {
         List<Review> reviews = webtoonRepository.br(1L);
-        Map<Long, Map<Long, Float>> userWebtoonScore = new HashMap<>();
-        for (Review review : reviews) {
 
-            Map<Long, Float> webtoonScore = new HashMap<>();
-            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
-            userWebtoonScore.put(review.getUser().getId(), webtoonScore);
-            System.out.println(review.getUser().getId());
-        }
+//        Map<Long, List<Float>> data = new HashMap<>();
+//
+//        for (Long userId : data.keySet()) {
+//            float sum = 0;
+//            int cont
+//            List<Float> movieAndScore = data.get(userId);
+//        }
+//        List<Long> idList = new ArrayList<>();
+//
+//        for (Review review : reviews) {
+//            idList.add(review.getUser().getId());
+//        }
+//
+//        List<List<Float>> outerList = new ArrayList<>();
+//        for (Review review : reviews) {
+//            List<Float> innerList = new ArrayList<>();
+//            innerList.add((float) review.getUser().getId());
+//            innerList.add((float) review.getWebtoon().getId());
+//            innerList.add(review.getUserPointNumber());
+//            outerList.add(innerList);
+//        }
+//
+////        for (List<Float> floats : outerList) {
+////            System.out.println(floats.get(0) + " / " + floats.get(1) + " / " + floats.get(2));
+////        }
+////        System.out.println("-----------------------------");
+//
+//        //한 row씩 돌고 있음
+//        for (List<Float> innerList : outerList) {
+//            for (Long userId : idList) {
+//
+//            }
+//            float sum = 0;
+//            int count = 0;
+////            for (Float score : innerList) {
+////                sum += score;
+////                count += 1;
+////            }
+////            float avgScore = sum / count;
+////            for (Float score : innerList) {
+////                score -= avgScore;
+////            }
+//
+//        }
+//
+//        for (List<Float> floats : outerList) {
+//            System.out.println(floats.get(0) + " / " + floats.get(1) + " / " + floats.get(2));
+//        }
 
-        for(Long key : userWebtoonScore.keySet()) {
-            Map<Long, Float> secondKey = userWebtoonScore.get(key);
-            for(Long innerKey : secondKey.keySet()) {
-                Float value = secondKey.get(innerKey);
-                System.out.println(key + " : " + innerKey + " : " + value);
-            }
-        }
+
+//        <Long, List<Map<Long, Float>>> userWebtoonScore = new HashMap<>();
+//        for (Review review : reviews) {
+//            Long userId = review.getUser().getId();
+//            Map<Long, Float> webtoonScore = new HashMap<>();
+//            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
+//            if (userWebtoonScore.containsKey(userId)) {
+//                List<Map<Long, Float>> list = userWebtoonScore.get(userId);
+//                list.add(webtoonScore);
+//            } else {
+//                List<Map<Long, Float>> list = new ArrayList<>();
+//                list.add(webtoonScore);
+//                userWebtoonScore.put(userId, list);
+//            }
+//        }
+//
+//        List<Long> webtoonIdList = new ArrayList<>();
+//        List<Map<Long, Float>> mapList = userWebtoonScore.get(1L);
+//        for (Map<Long, Float> longFloatMap : mapList) {
+//            for(Long key : longFloatMap.keySet()){
+//                webtoonIdList.add(key);
+//            }
+//        }
+//        for (Long aLong : webtoonIdList) {
+//            System.out.println("aLong = " + aLong);
+//        }
+//
+//        for (Long key : userWebtoonScore.keySet()) {
+//            //유저 한명
+//            List<Map<Long, Float>> webtoonScoreList = userWebtoonScore.get(key);
+//            for (Map<Long, Float> longFloatMap : webtoonScoreList) {
+//                longFloatMap.values();
+//                for( va)
+//            }M
+
+
+
+//            }
+
+//        }
+
 
     }
+
+
 
     @DisplayName("웹툰 1개 정보,리뷰 리스트 불러오기 테스트")
     @Test

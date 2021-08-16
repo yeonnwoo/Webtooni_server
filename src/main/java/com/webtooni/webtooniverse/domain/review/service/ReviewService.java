@@ -2,11 +2,11 @@ package com.webtooni.webtooniverse.domain.review.service;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
+import com.webtooni.webtooniverse.domain.review.domain.ReviewStatus;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.*;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,10 +39,8 @@ public class ReviewService {
     //리뷰 최신순,베스트순 불러오기
 
     public ReviewMainResponseDto getMainReview() {
-
-        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
-        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getNewReview();
-
+        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestOrNewReview(ReviewStatus.BEST);
+        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getBestOrNewReview(ReviewStatus.NEW);
         return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
 
     }
@@ -59,7 +57,6 @@ public class ReviewService {
         Review findReview = reviewRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id를 찾을 수 없습니다.")
         );
-
         //리뷰 내용,날짜 변경
         findReview.changeReviewContent(reviewDto);
 
