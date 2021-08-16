@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 public interface WebtoonGenreRepository extends JpaRepository<WebtoonGenre, Long> {
-
 }
