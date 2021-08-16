@@ -192,21 +192,4 @@ public class WebtoonService {
         return webtoonResponseDtos;
     }
 
-    public LocalDateTime startDate() {
-        LocalDateTime date = LocalDateTime.now().minusDays(1);
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        System.out.println("dayOfWeek = " + dayOfWeek);
-        LocalDateTime startDate = LocalDateTime.now();
-        List<DayOfWeek> week = Arrays
-            .asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY
-                , DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
-        for (int i = 0; i <= 6; i++) {
-            if (dayOfWeek == week.get(i)) {
-                System.out.println("i = " + i);
-                startDate = LocalDateTime.now().minusDays(i + 1);
-            }
-        }
-        return startDate.withHour(0).withMinute(0).withSecond(0);
-    }
-
 }

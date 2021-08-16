@@ -27,7 +27,6 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@PathParam("page") int page,
         @PathParam("size") int size
