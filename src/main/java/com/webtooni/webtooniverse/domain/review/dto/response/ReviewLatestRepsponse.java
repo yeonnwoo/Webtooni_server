@@ -7,8 +7,8 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 public class ReviewLatestRepsponse {
     private String reviewContent;
     private float userPointNumber;
@@ -31,3 +31,4 @@ public class ReviewLatestRepsponse {
     }
 
 }
+

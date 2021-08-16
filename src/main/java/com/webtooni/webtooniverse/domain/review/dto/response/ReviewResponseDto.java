@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.review.dto.response;
 
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
+@NoArgsConstructor
 public class ReviewResponseDto {
 
     private Long userId;

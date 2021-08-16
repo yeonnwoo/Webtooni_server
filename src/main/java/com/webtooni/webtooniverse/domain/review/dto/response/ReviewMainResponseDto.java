@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 public class ReviewMainResponseDto {
 
     private List<ReviewResponseDto> bestReview;

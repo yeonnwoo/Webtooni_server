@@ -23,8 +23,8 @@ public class MyListService {
      */
     public void createMyList(User user, MyListRequestDto myListRequestDto)
     {
-        Long webtoonId=myListRequestDto.getWebtoonId();
-        boolean myListOrNot= myListRequestDto.isMyListOrNot();
+        Long webtoonId = myListRequestDto.getWebtoonId();
+        boolean myListOrNot = myListRequestDto.isMyListOrNot();
 
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(
                 () -> new IllegalArgumentException("해당 웹툰은 존재하지 않습니다.")

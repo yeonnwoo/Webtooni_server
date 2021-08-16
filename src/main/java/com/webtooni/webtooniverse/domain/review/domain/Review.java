@@ -1,13 +1,13 @@
 package com.webtooni.webtooniverse.domain.review.domain;
-import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
-import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import com.webtooni.webtooniverse.global.utils.TimeStamped;
+
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
+import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -32,7 +32,7 @@ public class Review {
     @JoinColumn(name = "toon_id")
     private Webtoon webtoon;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

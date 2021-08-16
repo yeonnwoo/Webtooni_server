@@ -1,8 +1,9 @@
 package com.webtooni.webtooniverse.domain.talktalk.controller;
 
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.response.*;
 import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPostingResponseDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
@@ -28,10 +29,6 @@ public class TalkPostController {
         return talkPostService.post(requestDto, user);
     }
 
-//    @GetMapping("talk")
-//    public TalkPostPageableResponseDto getPost(@PathParam("page") int page, @PathParam("size") int size) {
-//        return talkPostService.getPost(page, size);
-//    }
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {

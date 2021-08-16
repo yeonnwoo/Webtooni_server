@@ -8,7 +8,6 @@ import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReview
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoOnlyResponseDto;
-import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -176,10 +175,7 @@ public class WebtoonService {
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 id의 웹툰은 존재하지 않습니다.")
         );
-
         List<Genre> genre = webtoonRepository.findWebToonGenre(webtoon);
-
-
         List<Webtoon> webtoonList = new ArrayList<>();
         for (Genre g : genre) {
             //비슷한 장르의 웹툰 찾기

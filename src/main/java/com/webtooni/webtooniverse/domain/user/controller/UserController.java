@@ -3,27 +3,24 @@ package com.webtooni.webtooniverse.domain.user.controller;
 
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
+import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserWebtoonAndReviewResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
-import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.user.service.UserService;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -37,7 +34,6 @@ public class UserController {
 
     @GetMapping("user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) {
-        // authorizedCode:
         return userService.kakaoLogin(code);
     }
 
@@ -45,7 +41,6 @@ public class UserController {
     public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto){
         userService.updateInfo(id, requestDto);
     }
-
 
     @PostMapping("user/onBoarding")
     public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserOnBoardingRequestDto requestDto) {
@@ -55,7 +50,6 @@ public class UserController {
     }
 
     //베스트 리뷰어(리뷰개수많은순서)
-
     @GetMapping("rank/reviewers")
     public List<BestReviewerResponseDto> getBestReviewers() {
         return userService.getBestReviewerRank();
@@ -69,7 +63,6 @@ public class UserController {
 
     @GetMapping("user/infos")
     public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") Long user){
-
         List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
         List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
         return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews);

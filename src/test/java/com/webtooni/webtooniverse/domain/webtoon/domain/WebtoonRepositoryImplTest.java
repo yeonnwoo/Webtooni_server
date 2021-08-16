@@ -123,36 +123,36 @@ class WebtoonRepositoryImplTest {
         }
     }
 
-//    @Nested
-//    @DisplayName("금주의 웹툰 평론가 추천")
-//    class 금주의웹툰평론가추천{
-//
-//        @Test
-//        @DisplayName("금주의 웹툰 평론가 일치 여부")
-//        void 금주의_웹툰평론가_추천_평론가() {
-//            //given
-//            //when
-//            User bestReviewer = webtoonRepository.findBestReviewer();
-//            System.out.println("bestReviewer = " + bestReviewer.getUserName());
-//            List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
-//            //then
-//            assertThat(bestReviewerWebtoons.size()).isEqualTo(3);
-//        }
-//
-//        @Test
-//        @DisplayName("웹툰 평가순으로 나열")
-//        void 금주의_웹툰평론가_추천_평가순() {
-//            //given
-//            //when
-//            User bestReviewer = webtoonRepository.findBestReviewer();
-//            List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
-//            //then
-//            assertThat(bestReviewerWebtoons.get(0).getToonTitle()).isEqualTo("웹툰5");
-//            assertThat(bestReviewerWebtoons.get(1).getToonTitle()).isEqualTo("웹툰6");
-//            assertThat(bestReviewerWebtoons.get(2).getToonTitle()).isEqualTo("웹툰1");
-//        }
-//
-//    }
+    @Nested
+    @DisplayName("금주의 웹툰 평론가 추천")
+    class 금주의웹툰평론가추천{
+
+        @Test
+        @DisplayName("금주의 웹툰 평론가 일치 여부")
+        void 금주의_웹툰평론가_추천_평론가() {
+            //given
+            //when
+            User bestReviewer = webtoonRepository.findBestReviewer();
+            System.out.println("bestReviewer = " + bestReviewer.getUserName());
+            List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
+            //then
+            assertThat(bestReviewerWebtoons.size()).isEqualTo(3);
+        }
+
+        @Test
+        @DisplayName("웹툰 평가순으로 나열")
+        void 금주의_웹툰평론가_추천_평가순() {
+            //given
+            //when
+            User bestReviewer = webtoonRepository.findBestReviewer();
+            List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository.findBestReviewerWebtoon(bestReviewer);
+            //then
+            assertThat(bestReviewerWebtoons.get(0).getToonTitle()).isEqualTo("웹툰5");
+            assertThat(bestReviewerWebtoons.get(1).getToonTitle()).isEqualTo("웹툰6");
+            assertThat(bestReviewerWebtoons.get(2).getToonTitle()).isEqualTo("웹툰1");
+        }
+
+    }
 
     @Nested
     @DisplayName("완결 웹툰 추천")
