@@ -35,7 +35,7 @@ public class WebtoonService {
 
     //금주의 웹툰 평론가 추천
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
-        User bestReviewer = webtoonRepository.findBestReviewer(startDate());
+        User bestReviewer = webtoonRepository.findBestReviewer();
         if (bestReviewer == null) {
             throw new NullPointerException("리뷰를 작성한 유저가 없습니다.");
         }
@@ -212,14 +212,19 @@ public class WebtoonService {
         return UnreviewedWebtoons;
     }
 
-    public void br(User user) {
-        List<Review> reviews = webtoonRepository.br(user);
+    public void br(Long userId) {
+        List<Review> reviews = webtoonRepository.br(userId);
         Map<Long, Map<Long, Float>> userWebtoonScore = new HashMap<>();
         for (Review review : reviews) {
             Map<Long, Float> webtoonScore = new HashMap<>();
             webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
             userWebtoonScore.put(review.getUser().getId(), webtoonScore);
         }
+        Iterator<Long> iter = userWebtoonScore.keySet().iterator();
+        while(iter.hasNext()) {
+            Long key = iter.next();
+            Map<Long, Float> value = userWebtoonScore.get(key);
+            System.out.println(key + " : " + value); }
     }
 
 

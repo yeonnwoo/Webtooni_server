@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class MonthRankResponseDto {
 
-    private Long id;
+    private Long toonId;
     private String toonImg;
     private String toonTitle;
     private String toonAuthor;
@@ -22,13 +22,13 @@ public class MonthRankResponseDto {
     private String toonPlatform;
     private String toonWeekday;
     private boolean finished;
-    private List<String> toonGenre = new ArrayList<>();
+    private List<String> genres = new ArrayList<>();
 
 
 
-    public MonthRankResponseDto(Long id, String toonImg, String toonTitle, String toonAuthor, float toonAvgPoint,
+    public MonthRankResponseDto(Long toonId, String toonImg, String toonTitle, String toonAuthor, float toonAvgPoint,
                                 String toonPlatform, String toonWeekday, boolean finished, List<String> genreList) {
-        this.id = id;
+        this.toonId = toonId;
         this.toonImg = toonImg;
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
@@ -36,6 +36,6 @@ public class MonthRankResponseDto {
         this.toonPlatform = toonPlatform;
         this.toonWeekday = toonWeekday;
         this.finished = finished;
-        this.toonGenre = genreList;
+        this.genres = genreList;
     }
 }

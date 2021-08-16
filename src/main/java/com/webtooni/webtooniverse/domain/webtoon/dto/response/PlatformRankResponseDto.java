@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlatformRankResponseDto {
 
-    private Long id;
+    private Long toonId;
     private String toonImg;
     private String toonTitle;
     private String toonAuthor;
@@ -18,7 +18,7 @@ public class PlatformRankResponseDto {
     private boolean finished;
 
     public PlatformRankResponseDto(Webtoon webtoon) {
-        this.id = webtoon.getId();
+        this.toonId = webtoon.getId();
         this.toonImg = webtoon.getToonImg();
         this.toonTitle = webtoon.getToonTitle();
         this.toonAuthor = webtoon.getToonAuthor();
