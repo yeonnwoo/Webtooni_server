@@ -35,7 +35,7 @@ public class WebtoonService {
 
     //금주의 웹툰 평론가 추천
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
-        User bestReviewer = webtoonRepository.findBestReviewer(startDate());
+        User bestReviewer = webtoonRepository.findBestReviewer();
         if (bestReviewer == null) {
             throw new NullPointerException("리뷰를 작성한 유저가 없습니다.");
         }

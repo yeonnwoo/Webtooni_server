@@ -15,7 +15,7 @@ public interface WebtoonRepositoryCustom {
     List<Webtoon> getKakaoRank();
     List<Webtoon> findSimilarWebtoonByGenre(String genre,Webtoon webtoon);
     List<WebtoonAndGenreResponseDto> findBestReviewerWebtoon(User user);
-    User findBestReviewer(LocalDateTime startDate);
+    User findBestReviewer();
     List<Webtoon> findUserGenreWebtoon(User user);
     List<WebtoonAndGenreResponseDto> findSimilarUserWebtoon(User user);
     List<WebtoonAndGenreResponseDto> findFinishedWebtoon();
