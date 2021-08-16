@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WebtoonResponseDto {
-    private Long id;
+    private Long toonId;
     private String toonTitle;
     private String toonAuthor;
     private String toonContent;
@@ -22,7 +22,7 @@ public class WebtoonResponseDto {
     private boolean finished;
 
     public WebtoonResponseDto(Webtoon webtoon) {
-        this.id = webtoon.getId();
+        this.toonId = webtoon.getId();
         this.toonTitle = webtoon.getToonTitle();
         this.toonAuthor = webtoon.getToonAuthor();
         this.toonContent = webtoon.getToonContent();
