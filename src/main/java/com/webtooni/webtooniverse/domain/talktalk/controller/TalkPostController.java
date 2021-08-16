@@ -59,10 +59,4 @@ public class TalkPostController {
         return talkPostService.getPost(page, size);
     }
 
-
 }
-
-
-/**
- * TODO service 쪽으로 돌릴 수 있는 거 돌리기
- */
