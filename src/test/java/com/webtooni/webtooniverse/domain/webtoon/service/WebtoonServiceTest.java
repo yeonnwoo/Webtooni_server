@@ -8,6 +8,7 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
@@ -26,8 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -111,6 +111,27 @@ class WebtoonServiceTest {
         webtoonRepository.save(webtoon19);
         webtoonRepository.save(webtoon20);
     }
+    @Test
+    public void br() {
+        List<Review> reviews = webtoonRepository.br(1L);
+        Map<Long, Map<Long, Float>> userWebtoonScore = new HashMap<>();
+        for (Review review : reviews) {
+
+            Map<Long, Float> webtoonScore = new HashMap<>();
+            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
+            userWebtoonScore.put(review.getUser().getId(), webtoonScore);
+            System.out.println(review.getUser().getId());
+        }
+
+        for(Long key : userWebtoonScore.keySet()) {
+            Map<Long, Float> secondKey = userWebtoonScore.get(key);
+            for(Long innerKey : secondKey.keySet()) {
+                Float value = secondKey.get(innerKey);
+                System.out.println(key + " : " + innerKey + " : " + value);
+            }
+        }
+
+    }
 
     @DisplayName("웹툰 1개 정보,리뷰 리스트 불러오기 테스트")
     @Test
@@ -159,8 +180,10 @@ class WebtoonServiceTest {
         reviewRepository.save(review1);
         reviewRepository.save(review2);
 
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
         //when
-        WebtoonDetailDto webtoonDetailDto = webtoonService.getDetailAndReviewList(w1.getId(), Optional.of(user));
+        WebtoonDetailDto webtoonDetailDto = webtoonService.getDetailAndReviewList(w1.getId(), userDetails);
 
         //then
 

@@ -28,7 +28,7 @@ public class Review {
 
     private int likeCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "toon_id")
     private Webtoon webtoon;
 

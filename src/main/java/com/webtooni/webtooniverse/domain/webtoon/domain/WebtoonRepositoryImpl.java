@@ -72,10 +72,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
     //베스트 리뷰어 찾기
     @Override
-    public User findBestReviewer(LocalDateTime startDate) {
+    public User findBestReviewer() {
         return queryFactory.select(review.user)
                 .from(review)
-                .where(review.createDate.between(startDate, LocalDateTime.now()))
+                .where(review.createDate.between(LocalDateTime.now().minusDays(7), LocalDateTime.now()))
                 .groupBy(review.user)
                 .orderBy(review.user.count().desc())
                 .limit(1)
@@ -105,10 +105,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .fetch();
         //유저가 취향선택 안되었을 때 웹투니버스 높은 점수순으로 추천
         if (genres.size() == 0) {
-            return queryFactory.select(webtoonGenre.webtoon)
-                    .from(webtoon)
+            return queryFactory
+                    .selectFrom(webtoon)
                     .orderBy(webtoon.toonAvgPoint.desc())
-                    .limit(20)
+                    .limit(10)
                     .fetch();
         }
 
@@ -200,10 +200,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     @Override
-    public List<Webtoon> findMyListWebtoon(User user) {
+    public List<Webtoon> findMyListWebtoon(Long userId) {
         return queryFactory.select(myList.webtoon)
                 .from(myList)
-                .where(myList.user.eq(user))
+                .where(myList.user.id.eq(userId))
                 .fetch();
     }
 
@@ -214,6 +214,18 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .limit(20)
                 .fetch();
         return addGenreToWebtoonList(webtoons);
+    }
+
+    @Override
+    public List<Review> br(Long userId) {
+        List<Long> webtoonIds = queryFactory.select(review.webtoon.id)
+                .from(review)
+                .where(review.user.id.eq(userId))
+                .fetch();
+
+        return queryFactory.selectFrom(review)
+                .where(review.webtoon.id.in(webtoonIds))
+                .fetch();
     }
 
 

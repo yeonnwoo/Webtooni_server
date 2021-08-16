@@ -40,18 +40,18 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 review.webtoon.toonWeekday,
                 review.webtoon.finished,
                 review.createDate,
-                review.webtoon.toonAvgPoint
+                review.webtoon.toonAvgPoint,
+                review.likeCount,
+                review.id
         ))
                 .from(review)
                 .innerJoin(review.user, user)
                 .innerJoin(review.webtoon, webtoon)
                 .orderBy(review.likeCount.desc())
-                .limit(5)
+                .limit(10)
                 .fetch();
 
         return addGenreToWebtoonList(reviewResponseDtos);
-
-
 
     }
 
@@ -74,7 +74,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                         review.webtoon.toonWeekday,
                         review.webtoon.finished,
                         review.createDate,
-                        review.webtoon.toonAvgPoint
+                        review.webtoon.toonAvgPoint,
+                        review.likeCount,
+                        review.id
                 ))
                 .from(review)
                 .innerJoin(review.user, user)
@@ -84,7 +86,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .fetch();
 
         return addGenreToWebtoonList(reviewResponseDtos);
-
     }
 
     @Override
@@ -104,8 +105,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 review.webtoon.toonWeekday,
                 review.webtoon.finished,
                 review.createDate,
-                review.webtoon.toonAvgPoint
-        ))
+                review.webtoon.toonAvgPoint,
+                review.likeCount,
+                review.id
+                ))
                 .from(review)
                 .innerJoin(review.user, user)
                 .innerJoin(review.webtoon, webtoon)
@@ -117,11 +120,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         return addGenreToWebtoonList(reviewResponseDtos);
     }
 
-
     @Override
-    public List<Review> findMyReviews(User user) {
+    public List<Review> findMyReviews(Long userId) {
         return jpaQueryFactory.selectFrom(review)
-                .where(review.user.eq(user))
+                .where(review.user.id.eq(userId))
                 .fetch();
     }
 

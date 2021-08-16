@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/")
@@ -23,12 +22,6 @@ import java.util.Optional;
 public class WebtoonController {
 
     private final WebtoonService webtoonService;
-
-    /**
-     * TODO : ddd
-     *
-     * @return
-     */
 
     @GetMapping("offer/best-reviewer")
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoons() {
@@ -77,16 +70,9 @@ public class WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        {
-            Optional<User> user;
-            if (userDetails == null) {
-                user = Optional.empty();
-            } else {
-                user = Optional.ofNullable(userDetails.getUser());
-            }
-            return webtoonService.getDetailAndReviewList(id, user);
-        }
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
+    {
+        return webtoonService.getDetailAndReviewList(id,userDetails);
     }
 
     //비슷한 장르 추천
@@ -97,13 +83,9 @@ public class WebtoonController {
 
     @GetMapping("user/me/subscribe")
     public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return webtoonService.getMyListWebtoons(userDetails.getUser());
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+        return webtoonService.getMyListWebtoons(userDetails.getUser().getId());
     }
-
-//    @GetMapping("test")
-//    public String test() {
-//        return webtoonService.getFirstId(1L);
-//    }
 
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {

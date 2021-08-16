@@ -35,18 +35,18 @@ public class TalkPostController {
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
-        User user = userDetails.getUser();
-        return talkPostService.getOnePost(id, user);
+        return talkPostService.getOnePost(id, userDetails);
     }
 
     @PutMapping("talk/{id}")
-    public void updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto) {
+    public void updatePost(@PathVariable Long id, @RequestBody TalkPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         talkPostService.updatePost(id, requestDto);
     }
 
     @DeleteMapping("talk/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         talkPostService.deletePost(id);
     }
 
@@ -59,10 +59,4 @@ public class TalkPostController {
         return talkPostService.getPost(page, size);
     }
 
-
 }
-
-
-/**
- * TODO service 쪽으로 돌릴 수 있는 거 돌리기
- */

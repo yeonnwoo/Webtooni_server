@@ -10,6 +10,7 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
+import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.ArrayList;
@@ -109,8 +111,10 @@ public class UnitWebtoonServiceTest {
         given(reviewLikeRepository.findReviewIdListByUser(fakeId)).willReturn(reviewId);
         given(myListRepository.existsById(fakeId,1L)).willReturn(true);
 
+        UserDetailsImpl userDetails = new UserDetailsImpl(user);
+
         //when
-        WebtoonDetailDto detailAndReviewList = webtoonService.getDetailAndReviewList(1L,Optional.of(user));
+        WebtoonDetailDto detailAndReviewList = webtoonService.getDetailAndReviewList(1L, userDetails);
 
         //then
         assertThat(detailAndReviewList.getReviews().size()).isEqualTo(2);

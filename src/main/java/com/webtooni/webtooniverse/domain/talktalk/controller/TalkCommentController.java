@@ -36,7 +36,8 @@ public class TalkCommentController {
     }
 
     @PutMapping("talk/{id}/comment")
-    public void updateComment(@RequestBody TalkCommentRequestDto requestDto, @PathVariable Long id){
+    public void updateComment(@RequestBody TalkCommentRequestDto requestDto, @PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         talkCommentService.update(requestDto, id);
     }
 
@@ -45,7 +46,8 @@ public class TalkCommentController {
      */
 
     @DeleteMapping("talk/{id}/comment")
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         talkCommentService.commentDelete(id);
     }
 }

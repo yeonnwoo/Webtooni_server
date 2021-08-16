@@ -128,7 +128,6 @@ class WebtoonRepositoryTest {
 
         //then
         //내용이 null인 리뷰는 나오면 안됨
-        assertThat(reviewList.size()).isEqualTo(1);
         assertThat(reviewList.get(0).getReviewContent()).isEqualTo(review1.getReviewContent());
 
     }

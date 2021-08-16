@@ -14,7 +14,6 @@ public class AllTalkPostPageResponseDto {
 
 
     public AllTalkPostPageResponseDto(List<TalkPostPageResponseDto> posts, Long postCount) {
-
         this.posts = posts;
         this.postCount = postCount;
     }

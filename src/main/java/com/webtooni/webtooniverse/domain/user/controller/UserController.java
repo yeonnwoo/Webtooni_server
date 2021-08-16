@@ -1,9 +1,14 @@
 package com.webtooni.webtooniverse.domain.user.controller;
 
 
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
+import com.webtooni.webtooniverse.domain.user.dto.response.UserWebtoonAndReviewResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -18,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.websocket.server.PathParam;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -25,18 +32,14 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserController {
 
     private final UserService userService;
+    private final ReviewService reviewService;
+    private final WebtoonService webtoonService;
 
     @GetMapping("user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) {
         // authorizedCode:
         return userService.kakaoLogin(code);
     }
-
-//    @GetMapping("user/naver/callback")
-//    public String naverLogin(@RequestParam String code, @RequestParam String state) {
-//        // authorizedCode:
-//        return userService.naverLogin(code, state);
-//    }
 
     @PutMapping("user/info/{id}")
     public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto){
@@ -56,6 +59,20 @@ public class UserController {
     @GetMapping("rank/reviewers")
     public List<BestReviewerResponseDto> getBestReviewers() {
         return userService.getBestReviewerRank();
+    }
+
+    @GetMapping("user/info")
+    public UserInfoResponseDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+        return userService.getUserInfo(userDetails.getUser().getId());
+    }
+
+    @GetMapping("user/infos")
+    public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") Long user){
+
+        List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
+        List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
+        return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews);
     }
 
     @PutMapping("user/info")
