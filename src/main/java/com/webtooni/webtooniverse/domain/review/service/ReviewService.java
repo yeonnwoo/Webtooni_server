@@ -17,6 +17,7 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -123,11 +124,12 @@ public class ReviewService {
      *
      * @param reviewStarDto 웹툰 id, 별점 점수가 담긴 Dto
      * @param user          유저 정보
+     * @return ReviewStarRequestDto 리뷰 id
      */
     public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
 
         //해당 웹툰 찾기
-        Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getWebtoonId()).orElseThrow(
+        Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getToonId()).orElseThrow(
                 () -> new IllegalArgumentException("해당 웹툰이 존재하지 않습니다")
         );
 

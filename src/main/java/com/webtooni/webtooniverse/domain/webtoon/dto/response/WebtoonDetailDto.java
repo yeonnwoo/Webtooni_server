@@ -21,7 +21,7 @@ public class WebtoonDetailDto {
     private String toonTitle;
     private String toonAuthor;
 
-    private List<String> toonGenre= new ArrayList<>();
+    private List<String> genres= new ArrayList<>();
 
     private String toonAge;
 
@@ -51,7 +51,7 @@ public class WebtoonDetailDto {
         this.toonImg=webtoon.getToonImg();
         this.toonTitle=webtoon.getToonTitle();
         this.toonAuthor=webtoon.getToonAuthor();
-        this.toonGenre=genreList;
+        this.genres=genreList;
         this.toonAge=webtoon.getToonAge();
         this.realUrl=webtoon.getRealUrl();
         this.totalPointCount=webtoon.getTotalPointCount();
