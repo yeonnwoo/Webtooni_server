@@ -1,12 +1,13 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AllTalkPostPageResponseDto {
 
     private List<TalkPostPageResponseDto> posts;

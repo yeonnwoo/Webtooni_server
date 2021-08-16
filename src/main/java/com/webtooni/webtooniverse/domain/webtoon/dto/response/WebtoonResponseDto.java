@@ -1,12 +1,15 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WebtoonResponseDto {
+
     private Long toonId;
     private String toonTitle;
     private String toonAuthor;

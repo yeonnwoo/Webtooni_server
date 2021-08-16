@@ -44,8 +44,7 @@ class ReviewServiceTest {
     private UserRepository userRepository;
 
     @AfterEach
-    void tearDown()
-    {
+    void tearDown() {
         reviewRepository.deleteAll();
         reviewLikeRepository.deleteAll();
         webtoonRepository.deleteAll();
@@ -58,10 +57,10 @@ class ReviewServiceTest {
 
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -70,8 +69,8 @@ class ReviewServiceTest {
         webtoonRepository.save(w1);
 
         //리뷰 생성
-        Review review1 = createReview("리뷰 내용1", 4.5F, 13,user,w1);
-        Review review2 = createReview("리뷰 내용2", 4.3F, 15,user,w1);
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
+        Review review2 = createReview("리뷰 내용2", 4.3F, 15, user, w1);
 
         reviewRepository.save(review1);
         reviewRepository.save(review2);
@@ -96,10 +95,10 @@ class ReviewServiceTest {
 
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -108,8 +107,8 @@ class ReviewServiceTest {
         webtoonRepository.save(w1);
 
         //리뷰 생성
-        Review review1 = createReview("리뷰 내용1", 4.5F, 13,user,w1);
-        Review review2 = createReview("리뷰 내용2", 4.3F, 15,user,w1);
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
+        Review review2 = createReview("리뷰 내용2", 4.3F, 15, user, w1);
 
         reviewRepository.save(review1);
         reviewRepository.save(review2);
@@ -132,10 +131,10 @@ class ReviewServiceTest {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -144,14 +143,14 @@ class ReviewServiceTest {
         webtoonRepository.save(w1);
 
         //리뷰 생성
-        Review review1 = createReview("리뷰 내용1", 4.5F, 13,user,w1);
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
         reviewRepository.save(review1);
 
         ReviewLike reviewLike = ReviewLike.builder()
-                .user(user)
-                .review(review1)
-                .reviewStatus(ReviewLikeStatus.CANCEL)
-                .build();
+            .user(user)
+            .review(review1)
+            .reviewStatus(ReviewLikeStatus.CANCEL)
+            .build();
 
         reviewLikeRepository.save(reviewLike);
 
@@ -160,7 +159,9 @@ class ReviewServiceTest {
 
         //then
         assertThat(review1.getLikeCount()).isEqualTo(14);
-        assertThat(reviewLikeRepository.findReviewLikeByReviewAndUser(review1, user).getReviewStatus()).isEqualTo(ReviewLikeStatus.LIKE);
+        assertThat(
+            reviewLikeRepository.findReviewLikeByReviewAndUser(review1, user).getReviewStatus())
+            .isEqualTo(ReviewLikeStatus.LIKE);
 
     }
 
@@ -171,10 +172,10 @@ class ReviewServiceTest {
         //given
         ///임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -183,17 +184,16 @@ class ReviewServiceTest {
         webtoonRepository.save(w1);
 
         //리뷰 생성
-        Review review1 = createReview("리뷰 내용1", 4.5F, 13,user,w1);
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
         reviewRepository.save(review1);
 
-
         ReviewLike reviewLike = ReviewLike.builder()
-                .user(user)
-                .review(review1)
-                .reviewStatus(ReviewLikeStatus.LIKE)
-                .build();
+            .user(user)
+            .review(review1)
+            .reviewStatus(ReviewLikeStatus.LIKE)
+            .build();
 
-       reviewLikeRepository.save(reviewLike);
+        reviewLikeRepository.save(reviewLike);
 
         reviewService.clickReviewLike(review1.getId(), user);
 
@@ -208,10 +208,10 @@ class ReviewServiceTest {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -220,14 +220,14 @@ class ReviewServiceTest {
         webtoonRepository.save(w1);
 
         //리뷰 생성
-        Review review1 = createReview("리뷰 내용1", 4.5F, 13,user,w1);
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
         reviewRepository.save(review1);
 
         ReviewLike reviewLike = ReviewLike.builder()
-                .user(user)
-                .review(review1)
-                .reviewStatus(ReviewLikeStatus.CANCEL)
-                .build();
+            .user(user)
+            .review(review1)
+            .reviewStatus(ReviewLikeStatus.CANCEL)
+            .build();
 
         reviewLikeRepository.save(reviewLike);
 
@@ -246,10 +246,10 @@ class ReviewServiceTest {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -258,11 +258,11 @@ class ReviewServiceTest {
         webtoonRepository.save(w1);
 
         //별점 정보
-        WebtoonPointRequestDto webtoonPointRequestDto = new WebtoonPointRequestDto(w1.getId(), 1.0F);
+        WebtoonPointRequestDto webtoonPointRequestDto = new WebtoonPointRequestDto(w1.getId(),
+            1.0F);
 
         //when
         reviewService.clickWebtoonPointNumber(webtoonPointRequestDto, user);
-
 
         //then
         assertThat(w1.getToonAvgPoint()).isEqualTo(3.4F);
@@ -270,7 +270,8 @@ class ReviewServiceTest {
 
         //when2 - 별점 수정하려는 사용자
         //별점 정보2
-        WebtoonPointRequestDto webtoonPointRequestDto2 = new WebtoonPointRequestDto(w1.getId(), 2.0F);
+        WebtoonPointRequestDto webtoonPointRequestDto2 = new WebtoonPointRequestDto(w1.getId(),
+            2.0F);
 
         reviewService.clickWebtoonPointNumber(webtoonPointRequestDto2, user);
 
@@ -281,14 +282,14 @@ class ReviewServiceTest {
 
     @DisplayName("리뷰 베스트/최신순 조회")
     @Test
-    public void test(){
+    public void test() {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
@@ -296,14 +297,14 @@ class ReviewServiceTest {
         Webtoon w1 = createWebtoon(25);
         webtoonRepository.save(w1);
 
-        Review review1 = createReview("리뷰 내용1", 1.5f, 1,user,w1);
-        Review review2 = createReview("리뷰 내용2", 2.0f, 2,user,w1);
-        Review review3 = createReview("리뷰 내용3", 2.5f, 3,user,w1);
-        Review review4 = createReview("리뷰 내용4", 3.0f, 4,user,w1);
-        Review review5 = createReview("리뷰 내용5", 3.5f, 5,user,w1);
-        Review review6 = createReview("리뷰 내용6", 4.0f, 6,user,w1);
-        Review review7 = createReview("리뷰 내용7", 4.5F, 7,user,w1);
-        Review review8 = createReview("리뷰 내용8", 5.0f, 8,user,w1);
+        Review review1 = createReview("리뷰 내용1", 1.5f, 1, user, w1);
+        Review review2 = createReview("리뷰 내용2", 2.0f, 2, user, w1);
+        Review review3 = createReview("리뷰 내용3", 2.5f, 3, user, w1);
+        Review review4 = createReview("리뷰 내용4", 3.0f, 4, user, w1);
+        Review review5 = createReview("리뷰 내용5", 3.5f, 5, user, w1);
+        Review review6 = createReview("리뷰 내용6", 4.0f, 6, user, w1);
+        Review review7 = createReview("리뷰 내용7", 4.5F, 7, user, w1);
+        Review review8 = createReview("리뷰 내용8", 5.0f, 8, user, w1);
 
         reviewRepository.save(review1);
         reviewRepository.save(review2);
@@ -314,50 +315,48 @@ class ReviewServiceTest {
         reviewRepository.save(review7);
         reviewRepository.save(review8);
 
-
         //when
-        List<ReviewResponseDto> reviewBestResponseDto = reviewService.getMainReview().getBestReview();
+        List<ReviewResponseDto> reviewBestResponseDto = reviewService.getMainReview()
+            .getBestReview();
         List<ReviewResponseDto> reviewResponseDto = reviewService.getMainReview().getNewReview();
         ReviewMainResponseDto reviewMainResponseDto = reviewService.getMainReview();
         //then
-        for (ReviewResponseDto responseDto : reviewBestResponseDto){
-            System.out.println("responseDto.getUserPointNumber()= " + responseDto.getUserPointNumber());
+        for (ReviewResponseDto responseDto : reviewBestResponseDto) {
+            System.out
+                .println("responseDto.getUserPointNumber()= " + responseDto.getUserPointNumber());
         }
-        for (ReviewResponseDto responseDto1 : reviewResponseDto){
-<<<<<<< Updated upstream
-            System.out.println("responseDto1.getCreateDate()= " + responseDto1.getCreatDate());
-=======
+        for (ReviewResponseDto responseDto1 : reviewResponseDto) {
             System.out.println("responseDto1.getCreateDate()= " + responseDto1.getCreateDate());
-
->>>>>>> Stashed changes
         }
-        ReviewMainResponseDto responseDto2 = new ReviewMainResponseDto(reviewBestResponseDto, reviewResponseDto);
-        System.out.println("responseDto2.getBestReview()= " + responseDto2.getBestReview()+", " +
-                "responseDto2.getNewReview" + responseDto2.getNewReview());
+        ReviewMainResponseDto responseDto2 = new ReviewMainResponseDto(reviewBestResponseDto,
+            reviewResponseDto);
+        System.out.println("responseDto2.getBestReview()= " + responseDto2.getBestReview() + ", " +
+            "responseDto2.getNewReview" + responseDto2.getNewReview());
 
     }
 
-    private Review createReview(String reviewContent, float userPointNumber, int likeCount,User user,Webtoon webtoon) {
+    private Review createReview(String reviewContent, float userPointNumber, int likeCount,
+        User user, Webtoon webtoon) {
         return Review.builder()
-                .reviewContent(reviewContent)
-                .userPointNumber(userPointNumber)
-                .likeCount(likeCount)
-                .user(user)
-                .webtoon(webtoon)
-                .build();
+            .reviewContent(reviewContent)
+            .userPointNumber(userPointNumber)
+            .likeCount(likeCount)
+            .user(user)
+            .webtoon(webtoon)
+            .build();
     }
 
     private Webtoon createWebtoon(int totalPointCount) {
         return Webtoon.builder()
-                .toonTitle("제목1")
-                .toonAuthor("작가1")
-                .toonContent("내용1")
-                .toonImg("이미지.png")
-                .realUrl("http://naver")
-                .toonPlatform("네이버")
-                .toonAvgPoint((float) 3.5)
-                .totalPointCount(totalPointCount)
-                .build();
+            .toonTitle("제목1")
+            .toonAuthor("작가1")
+            .toonContent("내용1")
+            .toonImg("이미지.png")
+            .realUrl("http://naver")
+            .toonPlatform("네이버")
+            .toonAvgPoint((float) 3.5)
+            .totalPointCount(totalPointCount)
+            .build();
     }
 
 }

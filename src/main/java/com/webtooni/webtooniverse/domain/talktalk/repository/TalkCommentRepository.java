@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface TalkCommentRepository extends JpaRepository<TalkBoardComment, Long> {
 
-    List<TalkBoardComment> findAllById(Long id);
-
     @Query("select tc from TalkBoardComment tc where tc.talkPost.id=:id")
     List<TalkBoardComment> findAllCommentByBoardId(@Param("id") Long id);
 

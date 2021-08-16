@@ -16,7 +16,7 @@ public class TalkLikeController {
     private final TalkLikeService talkLikeService;
 
     @PostMapping("talk/{id}/like")
-    public TalkResponseDto like(@PathVariable Long id){
+    public TalkResponseDto like(@PathVariable Long id) {
         return talkLikeService.postLike(id);
     }
 }

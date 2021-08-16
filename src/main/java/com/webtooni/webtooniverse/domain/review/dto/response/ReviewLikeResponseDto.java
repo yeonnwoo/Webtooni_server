@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,9 +15,11 @@ public class ReviewLikeResponseDto {
     private Long postCount;
 
 
-    public ReviewLikeResponseDto(List<Long> LikeReviewIdList, List<ReviewResponseDto> reviews, Long postCount) {
+    public ReviewLikeResponseDto(List<Long> LikeReviewIdList, List<ReviewResponseDto> reviews,
+        Long postCount) {
         this.LikeReviewIdList = LikeReviewIdList;
         this.reviews = reviews;
         this.postCount = postCount;
     }
 }
+

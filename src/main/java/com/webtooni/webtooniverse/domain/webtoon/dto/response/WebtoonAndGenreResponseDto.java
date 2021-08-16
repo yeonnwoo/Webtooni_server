@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

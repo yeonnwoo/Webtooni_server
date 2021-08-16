@@ -23,9 +23,10 @@ public class TalkCommentService {
     private final TalkCommentRepository talkCommentRepository;
     private final TalkPostRepository talkPostRepository;
 
-    public TalkCommentPostingResponseDto commentPost(TalkCommentRequestDto requestDto, User user, Long id) {
+    public TalkCommentPostingResponseDto commentPost(TalkCommentRequestDto requestDto, User user,
+        Long id) {
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
+            () -> new NullPointerException("해당 게시물이 존재하지 않습니다.")
         );
         talkPost.updateTalkCommentNum(1);
         TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user, talkPost);
@@ -33,27 +34,30 @@ public class TalkCommentService {
         return new TalkCommentPostingResponseDto(talkBoardComment);
     }
 
-    public void commentDelete(Long id){
-        TalkBoardComment talkBoardComment = talkCommentRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
-        );
+    public void commentDelete(Long id) {
+        TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         TalkPost talkPost = talkBoardComment.getTalkPost();
         talkPost.updateTalkCommentNum(-1);
         talkCommentRepository.delete(talkBoardComment);
     }
 
-    public void update(TalkCommentRequestDto requestDto, Long id){
-        TalkBoardComment talkBoardComment = talkCommentRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 댓글이 존재하지 않습니다")
-        );
+    public void update(TalkCommentRequestDto requestDto, Long id) {
+        TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         talkBoardComment.update(requestDto);
     }
 
     //게시글 별 댓글 리스트 불러오기 id:게시글 id
     public List<TalkCommentResponseDto> getComment(Long id) {
-        List<TalkBoardComment> talkBoardComments = talkCommentRepository.findAllCommentByBoardId(id);
+        List<TalkBoardComment> talkBoardComments = talkCommentRepository
+            .findAllCommentByBoardId(id);
         return talkBoardComments.stream()
-                .map(TalkCommentResponseDto::new)
-                .collect(Collectors.toList());
+            .map(TalkCommentResponseDto::new)
+            .collect(Collectors.toList());
+    }
+
+    private TalkBoardComment getTalkBoardComment(Long id) {
+        return talkCommentRepository.findById(id).orElseThrow(
+            () -> new NullPointerException("해당 댓글은 존재하지 않습니다.")
+        );
     }
 }
