@@ -1,8 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
-import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import lombok.AccessLevel;
 import lombok.Getter;

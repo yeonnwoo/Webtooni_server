@@ -1,15 +1,18 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
+import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class WebtoonAndGenreResponseDto {
 
     private Long id;
@@ -31,6 +34,18 @@ public class WebtoonAndGenreResponseDto {
         this.toonPlatform = webtoon.getToonPlatform();
         this.toonAvgPoint = webtoon.getToonAvgPoint();
         this.finished = webtoon.isFinished();
+    }
+
+    public WebtoonAndGenreResponseDto(Webtoon webtoon, List<String> genreList) {
+        this.id = webtoon.getId();
+        this.toonTitle = webtoon.getToonTitle();
+        this.toonAuthor = webtoon.getToonAuthor();
+        this.toonImg = webtoon.getToonImg();
+        this.toonWeekday = webtoon.getToonWeekday();
+        this.toonPlatform = webtoon.getToonPlatform();
+        this.toonAvgPoint = webtoon.getToonAvgPoint();
+        this.finished = webtoon.isFinished();
+        genres.addAll(genreList);
     }
 
     public void addGenre(String genre) {

@@ -13,22 +13,18 @@ import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
-
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.implementation.bytecode.Throw;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -65,15 +61,10 @@ public class UserService {
             userRepository.save(kakaoUser);
 
         }
-
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
         String kakao = String.valueOf(kakaoId);
-
-
         return jwtTokenProvider.createToken(kakao);
     }
 
@@ -113,11 +104,8 @@ public class UserService {
         User findUser = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
         );
-
         List<String> userGenre = userRepository.getUserGenre(userId);
-
         return new UserInfoResponseDto(findUser, userGenre);
-
     }
 
 

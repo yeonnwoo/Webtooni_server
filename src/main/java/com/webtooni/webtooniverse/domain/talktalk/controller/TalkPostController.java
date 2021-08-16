@@ -30,10 +30,6 @@ public class TalkPostController {
         return talkPostService.post(requestDto, user);
     }
 
-//    @GetMapping("talk")
-//    public TalkPostPageableResponseDto getPost(@PathParam("page") int page, @PathParam("size") int size) {
-//        return talkPostService.getPost(page, size);
-//    }
 
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id,

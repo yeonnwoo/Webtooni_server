@@ -1,7 +1,5 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
-import com.querydsl.core.annotations.QueryProjection;
-import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
