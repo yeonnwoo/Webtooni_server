@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
-
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
@@ -193,9 +192,9 @@ class WebtoonServiceTest {
         assertThat(webtoonDetailDto.getToonAuthor()).isEqualTo(w1.getToonAuthor());
 
         //웹툰 장르정보
-        assertThat(webtoonDetailDto.getToonGenre().size()).isEqualTo(2);
-        assertThat(webtoonDetailDto.getToonGenre().get(0)).isEqualTo("일상");
-        assertThat(webtoonDetailDto.getToonGenre().get(1)).isEqualTo("개그");
+        assertThat(webtoonDetailDto.getGenres().size()).isEqualTo(2);
+        assertThat(webtoonDetailDto.getGenres().get(0)).isEqualTo("일상");
+        assertThat(webtoonDetailDto.getGenres().get(1)).isEqualTo("개그");
 
         //리뷰리스트 정보
         assertThat(webtoonDetailDto.getReviews().size()).isEqualTo(2);

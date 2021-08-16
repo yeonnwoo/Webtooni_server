@@ -35,7 +35,9 @@ public class WebtoonController {
     }
 
     @GetMapping("offer/similar-user")
-    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
     }
@@ -70,9 +72,9 @@ public class WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        return webtoonService.getDetailAndReviewList(id,userDetails);
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id
+            , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return webtoonService.getDetailAndReviewList(id, userDetails);
     }
 
     //비슷한 장르 추천
@@ -83,7 +85,9 @@ public class WebtoonController {
 
     @GetMapping("user/me/subscribe")
     public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
         return webtoonService.getMyListWebtoons(userDetails.getUser().getId());
     }
 

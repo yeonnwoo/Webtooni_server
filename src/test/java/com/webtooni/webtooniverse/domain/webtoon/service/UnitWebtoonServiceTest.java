@@ -118,41 +118,8 @@ public class UnitWebtoonServiceTest {
 
         //then
         assertThat(detailAndReviewList.getReviews().size()).isEqualTo(2);
-        assertThat(detailAndReviewList.getToonGenre().get(0)).isEqualTo("일상");
-        assertThat(detailAndReviewList.getToonGenre().get(1)).isEqualTo("개그");
-
-    }
-
-    /**
-     * 비슷한 장르의 웹툰을 랜덤으로 추천 테스트
-     */
-
-    @DisplayName("비슷한 장르의 웹툰 추천 테스트")
-    @Test
-    public void test2(){
-        //given
-        //장르
-        Genre g1 = createGenre("장르1");
-        Genre g3 = createGenre("장르2");
-
-        List<Genre> genreList = new ArrayList<>(Arrays.asList(g1,g3));
-
-        //웹툰
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
-        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
-        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3",20);
-
-        List<Webtoon> webtoonList = new ArrayList<>(Arrays.asList(w2,w3));
-
-        given(webtoonRepository.findById(1L)).willReturn(Optional.of(w1));
-        given(webtoonRepository.findWebToonGenre(w1)).willReturn(genreList);
-        given(webtoonRepository.findSimilarWebtoonByGenre("장르1",w1)).willReturn(webtoonList);
-
-        //when
-        List<SimilarGenreToonDto> genreToonDtoList = webtoonService.getSimilarGenre(1L);
-
-        //then
-        assertThat(genreToonDtoList.size()).isEqualTo(2);
+        assertThat(detailAndReviewList.getGenres().get(0)).isEqualTo("일상");
+        assertThat(detailAndReviewList.getGenres().get(1)).isEqualTo("개그");
 
     }
 

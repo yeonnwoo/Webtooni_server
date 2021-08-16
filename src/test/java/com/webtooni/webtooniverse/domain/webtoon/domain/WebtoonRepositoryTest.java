@@ -41,9 +41,6 @@ class WebtoonRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @PersistenceContext
-    EntityManager em;
-
     @AfterEach
     public void tearDown() {
         reviewRepository.deleteAll();

@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 public class TalkPostService {
 
     private final TalkPostRepository talkPostRepository;
-    private final UserGenreRepository userGenreRepository;
     private final TalkLikeRepository talkLikeRepository;
 
     public TalkPostPostingResponseDto post(TalkPostRequestDto requestDto, User user) {
@@ -36,25 +35,19 @@ public class TalkPostService {
     }
 
     public void updatePost(Long id, TalkPostRequestDto talkPostRequestDto) {
-        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
-        );
+        TalkPost talkPost = getTalkPost(id);
         talkPost.update(talkPostRequestDto);
     }
 
     public void deletePost(Long id) {
         //해당 게시글 정보 찾기
-        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
-        );
+        TalkPost talkPost = getTalkPost(id);
         talkPostRepository.delete(talkPost);
     }
 
     public TalkPostResponseDto getOnePost(Long id, UserDetailsImpl userDetails) {
         // 해당 게시글 정보 찾기
-        TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 포스팅이 존재하지 않습니다.")
-        );
+        TalkPost talkPost = getTalkPost(id);
         boolean exists;
         if (userDetails == null) {
             exists = false;
@@ -73,6 +66,12 @@ public class TalkPostService {
 
 
         return new AllTalkPostPageResponseDto(posts, postCount);
+    }
+
+    private TalkPost getTalkPost(Long id) {
+        return talkPostRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")
+        );
     }
 
 }

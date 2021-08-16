@@ -21,6 +21,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @RequiredArgsConstructor
@@ -49,10 +50,10 @@ public class WebtoonService {
         int howManyWebtoons = 5;
         List<Webtoon> userGenreWebtoons = webtoonRepository.findUserGenreWebtoon(user);
         Collections.shuffle(userGenreWebtoons);
-        List<Webtoon> countedUserGenreWebtoons = new ArrayList<>();
-        for (int i = 0; i < howManyWebtoons; i++) {
-            countedUserGenreWebtoons.add(userGenreWebtoons.get(i));
-        }
+        List<Webtoon> countedUserGenreWebtoons
+                = IntStream.range(0, howManyWebtoons)
+                .mapToObj(userGenreWebtoons::get)
+                .collect(Collectors.toList());
         return countedUserGenreWebtoons.stream().map(WebtoonResponseDto::new).collect(Collectors.toList());
     }
 
@@ -74,28 +75,7 @@ public class WebtoonService {
         int howManyWebtoons = 5;
         List<WebtoonAndGenreResponseDto> finishedWebtoons = webtoonRepository.findFinishedWebtoon();
         Collections.shuffle(finishedWebtoons);
-        List<WebtoonAndGenreResponseDto> countedFinishedWebtoons = new ArrayList<>();
-        for (int i = 0; i < howManyWebtoons; i++) {
-            countedFinishedWebtoons.add(finishedWebtoons.get(i));
-        }
-        return countedFinishedWebtoons;
-    }
-
-
-    public LocalDateTime startDate() {
-        LocalDateTime date = LocalDateTime.now().minusDays(1);
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        System.out.println("dayOfWeek = " + dayOfWeek);
-        LocalDateTime startDate = LocalDateTime.now();
-        List<DayOfWeek> week = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY
-                , DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
-        for (int i = 0; i <= 6; i++) {
-            if (dayOfWeek == week.get(i)) {
-                System.out.println("i = " + i);
-                startDate = LocalDateTime.now().minusDays(i + 1);
-            }
-        }
-        return startDate.withHour(0).withMinute(0).withSecond(0);
+        return IntStream.range(0, howManyWebtoons).mapToObj(finishedWebtoons::get).collect(Collectors.toList());
     }
 
     //이번달 웹투니버스 종합순위
@@ -122,37 +102,31 @@ public class WebtoonService {
     }
 
     /**
-     * 웹툰의 기본정보들과 리뷰 리스트를 재공하는 구현체입니다.
+     * 웹툰 상세 정보와 review List를 조회한다.
      *
-     * @param id 웹툰 id
+     * @param id toonId
+     * @param userDetails User
      * @return WebtoonDetailDto
      */
     public WebtoonDetailDto getDetailAndReviewList(Long id, UserDetailsImpl userDetails) {
-        //해당 웹툰 정보 찾기
+
+        List<Long> reviewIdListByUser;
+        boolean exists;
+
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 id는 존재하지 않습니다.")
+                () -> new IllegalArgumentException("해당 웹툰의 id는 존재하지 않습니다.")
         );
 
-        //해당 웹툰의 장르 찾기
         List<Genre> webtoonGenre = webtoonRepository.findWebToonGenre(webtoon);
-        List<String> genreList = new ArrayList<>();
-        for (Genre genre : webtoonGenre) {
-            genreList.add(genre.getGenreType());
-        }
-
-        //해당 웹툰의 리뷰 찾기
+        List<String> genreList = webtoonGenre.stream().map(Genre::getGenreType).collect(Collectors.toList());
         List<Review> reviewList = reviewRepository.findReviewByWebToonId(id);
 
-        //리뷰 Dto
         List<WebtoonDetailReviewResponseDto> ReviewDtoList = reviewList.stream()
                 .map(WebtoonDetailReviewResponseDto::new)
                 .collect(Collectors.toList());
 
-        List<Long> reviewIdListByUser;
-        boolean exists;
-        if (userDetails!=null) {
-            User user =userDetails.getUser();
-            //해당 user가 좋아요한 리뷰 게시글의 id 리스트
+        if (userDetails != null) {
+            User user = userDetails.getUser();
             reviewIdListByUser = reviewLikeRepository.findReviewIdListByUser(user.getId());
 
             //내가 찜한 웹툰인지 아닌지
@@ -166,10 +140,10 @@ public class WebtoonService {
     }
 
     /**
-     * 비슷한 장르의 웹툰을 추천하는 기능을 제공하는 구현체입니다.
+     * 비슷한 장르의 웹툰을 추천한다.
      *
-     * @param id 웹툰 id
-     * @return List<SimilarGenreToonDto> 웹툰 리스트
+     * @param id toonId
+     * @return List<SimilarGenreToonDto>
      */
     public List<SimilarGenreToonDto> getSimilarGenre(Long id) {
 
@@ -177,19 +151,14 @@ public class WebtoonService {
                 () -> new IllegalArgumentException("해당 id의 웹툰은 존재하지 않습니다.")
         );
 
-        List<Genre> genre = webtoonRepository.findWebToonGenre(webtoon);
+        List<Genre> genres = webtoonRepository.findWebToonGenre(webtoon);
 
+        List<SimilarGenreToonDto> similarGenreToonList = new ArrayList<>();
+        genres.stream()
+                .map(g -> webtoonRepository.findSimilarWebtoonByGenre(g.getGenreType(), webtoon))
+                .forEach(similarGenreToonList::addAll);
 
-        List<Webtoon> webtoonList = new ArrayList<>();
-        for (Genre g : genre) {
-            //비슷한 장르의 웹툰 찾기
-            List<Webtoon> similarWebtoonByGenre = webtoonRepository.findSimilarWebtoonByGenre(g.getGenreType(), webtoon);
-            webtoonList.addAll(similarWebtoonByGenre);
-        }
-
-        return webtoonList.stream()
-                .map(SimilarGenreToonDto::new)
-                .collect(Collectors.toList());
+        return similarGenreToonList;
     }
 
     public List<WebtoonResponseDto> getMyListWebtoons(Long userId) {
@@ -199,34 +168,12 @@ public class WebtoonService {
                 .collect(Collectors.toList());
     }
 
-//    @Cacheable(key = "#id", value = "getFirstId")
-//    public String getFirstId(Long id) {
-//        return webtoonRepository.findById(id).get().getToonTitle();
-//    }
-
     public List<WebtoonResponseDto> getUnreviewdList() {
         List<Webtoon> Webtoons = webtoonRepository.findTop10ByReviewCountLessThanEqual(1);
-        List<WebtoonResponseDto> UnreviewedWebtoons = Webtoons.stream()
+        return Webtoons.stream()
                 .map(WebtoonResponseDto::new)
                 .collect(Collectors.toList());
-        return UnreviewedWebtoons;
     }
-
-    public void br(Long userId) {
-        List<Review> reviews = webtoonRepository.br(userId);
-        Map<Long, Map<Long, Float>> userWebtoonScore = new HashMap<>();
-        for (Review review : reviews) {
-            Map<Long, Float> webtoonScore = new HashMap<>();
-            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
-            userWebtoonScore.put(review.getUser().getId(), webtoonScore);
-        }
-        Iterator<Long> iter = userWebtoonScore.keySet().iterator();
-        while(iter.hasNext()) {
-            Long key = iter.next();
-            Map<Long, Float> value = userWebtoonScore.get(key);
-            System.out.println(key + " : " + value); }
-    }
-
 
     public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(String keyword) {
         List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository.findSearchedWebtoon(keyword.substring(0, 1));
@@ -239,4 +186,21 @@ public class WebtoonService {
         }
         return webtoonResponseDtos;
     }
+
+    public LocalDateTime startDate() {
+        LocalDateTime date = LocalDateTime.now().minusDays(1);
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        System.out.println("dayOfWeek = " + dayOfWeek);
+        LocalDateTime startDate = LocalDateTime.now();
+        List<DayOfWeek> week = Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY
+                , DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+        for (int i = 0; i <= 6; i++) {
+            if (dayOfWeek == week.get(i)) {
+                System.out.println("i = " + i);
+                startDate = LocalDateTime.now().minusDays(i + 1);
+            }
+        }
+        return startDate.withHour(0).withMinute(0).withSecond(0);
+    }
+
 }

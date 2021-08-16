@@ -94,7 +94,7 @@ public class Review {
     }
 
     /**
-     * 좋아요를 처음 누르는 사용자인 경우
+     * 좋아요를 처음 누르는 사용자인 경우 좋아요수+1
      */
     public void plusLikeCount() {
         this.likeCount+=1;

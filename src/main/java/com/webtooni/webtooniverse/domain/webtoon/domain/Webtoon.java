@@ -1,10 +1,15 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import javax.persistence.*;
+
+import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -17,30 +22,17 @@ public class Webtoon {
     private Long id;
 
     private String toonTitle;
-
     private String toonAuthor;
-
     private String toonContent;
-
     private String toonImg;
-
     private String toonWeekday;
-
     private String realUrl;
-
     private String toonAge;
-
     private String toonPlatform;
-
     private float toonAvgPoint;
-
     private int totalPointCount;
-
     private int reviewCount;
-
     private boolean finished;
-
-
 
     @Builder
     public Webtoon(String toonTitle, String toonAuthor, String toonContent, String toonImg, String toonWeekday,
@@ -60,10 +52,9 @@ public class Webtoon {
         this.finished = finished;
     }
 
-
     /**
-     * case : 별점을 처음 다는 유저
-     * <p>
+     * 별점을 처음 다는 유저
+     *
      * 별점을 달았을 때 총 별점 개수를 늘려준다.
      */
     public void changeToonPointTotalCount() {
@@ -71,8 +62,8 @@ public class Webtoon {
     }
 
     /**
-     * case : 별점을 처음 다는 유저
-     * <p>
+     * 별점을 처음 다는 유저
+     *
      * 평균 별점 점수 계산
      */
     public void changeToonAvgPoint(float userPoint) {
@@ -84,8 +75,8 @@ public class Webtoon {
     }
 
     /**
-     * case : 별점 수정하려는 유저
-     * <p>
+     * 별점을 수정하려는 유저
+     *
      * - 별점 개수 변화 X
      * - 평균 별점 점수 변경
      */

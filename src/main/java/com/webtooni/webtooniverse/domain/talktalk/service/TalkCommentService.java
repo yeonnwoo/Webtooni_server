@@ -34,18 +34,14 @@ public class TalkCommentService {
     }
 
     public void commentDelete(Long id){
-        TalkBoardComment talkBoardComment = talkCommentRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 게시물이 존재하지 않습니다.")
-        );
+        TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         TalkPost talkPost = talkBoardComment.getTalkPost();
         talkPost.updateTalkCommentNum(-1);
         talkCommentRepository.delete(talkBoardComment);
     }
 
     public void update(TalkCommentRequestDto requestDto, Long id){
-        TalkBoardComment talkBoardComment = talkCommentRepository.findById(id).orElseThrow(
-                ()-> new NullPointerException("해당 댓글이 존재하지 않습니다")
-        );
+        TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         talkBoardComment.update(requestDto);
     }
 
@@ -55,5 +51,11 @@ public class TalkCommentService {
         return talkBoardComments.stream()
                 .map(TalkCommentResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    private TalkBoardComment getTalkBoardComment(Long id) {
+        return talkCommentRepository.findById(id).orElseThrow(
+                () -> new NullPointerException("해당 댓글은 존재하지 않습니다.")
+        );
     }
 }

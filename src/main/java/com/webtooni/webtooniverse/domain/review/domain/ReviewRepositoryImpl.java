@@ -25,7 +25,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     //리뷰 베스트순
     public List<ReviewResponseDto> getBestReview() {
-        List<ReviewResponseDto> reviewResponseDtos = jpaQueryFactory.select(Projections.constructor(ReviewResponseDto.class,
+        List<ReviewResponseDto> reviewResponseDtos
+                = jpaQueryFactory.select(Projections.constructor(ReviewResponseDto.class,
                 review.user.id,
                 review.user.userImg,
                 review.user.userName,
@@ -52,44 +53,12 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .fetch();
 
         return addGenreToWebtoonList(reviewResponseDtos);
-
     }
 
     //리뷰 최신순
     public List<ReviewResponseDto> getNewReview() {
-        List<ReviewResponseDto> reviewResponseDtos = jpaQueryFactory
-                .select(Projections.constructor(ReviewResponseDto.class,
-                        review.user.id,
-                        review.user.userImg,
-                        review.user.userName,
-                        review.userPointNumber,
-                        review.reviewContent,
-                        review.webtoon.id,
-                        review.webtoon.toonTitle,
-                        review.user.userGrade,
-                        review.webtoon.toonImg,
-                        review.webtoon.toonAuthor,
-                        review.webtoon.toonPlatform,
-                        review.webtoon.toonWeekday,
-                        review.webtoon.finished,
-                        review.createDate,
-                        review.webtoon.toonAvgPoint,
-                        review.likeCount,
-                        review.id
-                ))
-                .from(review)
-                .innerJoin(review.user, user)
-                .innerJoin(review.webtoon, webtoon)
-                .orderBy(review.createDate.desc())
-                .limit(10)
-                .fetch();
-
-        return addGenreToWebtoonList(reviewResponseDtos);
-    }
-
-    @Override
-    public List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable) {
-        List<ReviewResponseDto> reviewResponseDtos = jpaQueryFactory.select(Projections.constructor(ReviewResponseDto.class,
+        List<ReviewResponseDto> reviewResponseDtos
+                = jpaQueryFactory.select(Projections.constructor(ReviewResponseDto.class,
                 review.user.id,
                 review.user.userImg,
                 review.user.userName,
@@ -107,7 +76,39 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 review.webtoon.toonAvgPoint,
                 review.likeCount,
                 review.id
-                ))
+        ))
+                .from(review)
+                .innerJoin(review.user, user)
+                .innerJoin(review.webtoon, webtoon)
+                .orderBy(review.createDate.desc())
+                .limit(10)
+                .fetch();
+
+        return addGenreToWebtoonList(reviewResponseDtos);
+    }
+
+    @Override
+    public List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable) {
+        List<ReviewResponseDto> reviewResponseDtos
+                = jpaQueryFactory.select(Projections.constructor(ReviewResponseDto.class,
+                review.user.id,
+                review.user.userImg,
+                review.user.userName,
+                review.userPointNumber,
+                review.reviewContent,
+                review.webtoon.id,
+                review.webtoon.toonTitle,
+                review.user.userGrade,
+                review.webtoon.toonImg,
+                review.webtoon.toonAuthor,
+                review.webtoon.toonPlatform,
+                review.webtoon.toonWeekday,
+                review.webtoon.finished,
+                review.createDate,
+                review.webtoon.toonAvgPoint,
+                review.likeCount,
+                review.id
+        ))
                 .from(review)
                 .innerJoin(review.user, user)
                 .innerJoin(review.webtoon, webtoon)
@@ -128,7 +129,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private List<ReviewResponseDto> addGenreToWebtoonList(List<ReviewResponseDto> reviewResponseDtos) {
         List<Long> webtoonIdList = new ArrayList<>();
-        reviewResponseDtos.stream().forEach(w -> webtoonIdList.add(w.getToonId()));
+        reviewResponseDtos.forEach(w -> webtoonIdList.add(w.getToonId()));
 
         List<Tuple> webtoonGenreTuples = jpaQueryFactory.select(webtoonGenre.webtoon.id, webtoonGenre.genre.genreType)
                 .from(webtoonGenre)

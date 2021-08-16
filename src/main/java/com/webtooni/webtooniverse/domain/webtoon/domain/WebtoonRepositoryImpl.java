@@ -7,6 +7,7 @@ import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
+import static com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre.*;
 import static com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre.webtoonGenre;
 
 @RequiredArgsConstructor
@@ -28,16 +30,23 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     //비슷한 장르의 웹툰 추천
-    @Override
-    public List<Webtoon> findSimilarWebtoonByGenre(String genre, Webtoon webtoon) {
-        QWebtoonGenre wg = new QWebtoonGenre("wg");
-
-        return queryFactory
-                .select(wg.webtoon)
-                .from(wg)
-                .join(wg.genre)
-                .on(wg.genre.genreType.eq(genre), wg.webtoon.ne(webtoon),wg.genre.id.ne(1L),
-                        wg.genre.id.ne(2L),wg.genre.id.ne(3L))
+    public List<SimilarGenreToonDto> findSimilarWebtoonByGenre(String genre,Webtoon webtoon)
+    {
+          return queryFactory.select(Projections.constructor(SimilarGenreToonDto.class,
+                webtoonGenre.webtoon.id.as("toonId"),
+                webtoonGenre.webtoon.toonImg,
+                webtoonGenre.webtoon.toonTitle,
+                webtoonGenre.webtoon.toonAuthor,
+                webtoonGenre.webtoon.toonPlatform,
+                webtoonGenre.webtoon.toonWeekday,
+                webtoonGenre.webtoon.toonAvgPoint,
+                webtoonGenre.webtoon.totalPointCount
+                ))
+                .from(webtoonGenre)
+                .join(webtoonGenre.genre)
+                .on(webtoonGenre.genre.genreType.eq(genre), webtoonGenre.webtoon.ne(webtoon),
+                        webtoonGenre.genre.id.ne(1L), webtoonGenre.genre.id.ne(2L),
+                        webtoonGenre.genre.id.ne(3L))
                 .limit(20)
                 .fetch();
     }

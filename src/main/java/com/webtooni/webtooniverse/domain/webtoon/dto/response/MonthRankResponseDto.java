@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MonthRankResponseDto {
 
     private Long toonId;
@@ -23,7 +23,6 @@ public class MonthRankResponseDto {
     private String toonWeekday;
     private boolean finished;
     private List<String> genres = new ArrayList<>();
-
 
 
     public MonthRankResponseDto(Long toonId, String toonImg, String toonTitle, String toonAuthor, float toonAvgPoint,
