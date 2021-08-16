@@ -9,7 +9,6 @@ import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 public class ReviewResponseDto {
 
     private Long userId;

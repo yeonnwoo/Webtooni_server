@@ -29,8 +29,8 @@ public class WebtoonController {
     }
 
     @GetMapping("offer/for-user")
-    public List<WebtoonResponseDto> getForUserWebtoons(
-        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<WebtoonResponseDto> getForUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
         return webtoonService.getForUserWebtoon(user);
     }

@@ -113,24 +113,101 @@ class WebtoonServiceTest {
     @Test
     public void br() {
         List<Review> reviews = webtoonRepository.br(1L);
-        Map<Long, Map<Long, Float>> userWebtoonScore = new HashMap<>();
-        for (Review review : reviews) {
 
-            Map<Long, Float> webtoonScore = new HashMap<>();
-            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
-            userWebtoonScore.put(review.getUser().getId(), webtoonScore);
-            System.out.println(review.getUser().getId());
-        }
+//        Map<Long, List<Float>> data = new HashMap<>();
+//
+//        for (Long userId : data.keySet()) {
+//            float sum = 0;
+//            int cont
+//            List<Float> movieAndScore = data.get(userId);
+//        }
+//        List<Long> idList = new ArrayList<>();
+//
+//        for (Review review : reviews) {
+//            idList.add(review.getUser().getId());
+//        }
+//
+//        List<List<Float>> outerList = new ArrayList<>();
+//        for (Review review : reviews) {
+//            List<Float> innerList = new ArrayList<>();
+//            innerList.add((float) review.getUser().getId());
+//            innerList.add((float) review.getWebtoon().getId());
+//            innerList.add(review.getUserPointNumber());
+//            outerList.add(innerList);
+//        }
+//
+////        for (List<Float> floats : outerList) {
+////            System.out.println(floats.get(0) + " / " + floats.get(1) + " / " + floats.get(2));
+////        }
+////        System.out.println("-----------------------------");
+//
+//        //한 row씩 돌고 있음
+//        for (List<Float> innerList : outerList) {
+//            for (Long userId : idList) {
+//
+//            }
+//            float sum = 0;
+//            int count = 0;
+////            for (Float score : innerList) {
+////                sum += score;
+////                count += 1;
+////            }
+////            float avgScore = sum / count;
+////            for (Float score : innerList) {
+////                score -= avgScore;
+////            }
+//
+//        }
+//
+//        for (List<Float> floats : outerList) {
+//            System.out.println(floats.get(0) + " / " + floats.get(1) + " / " + floats.get(2));
+//        }
 
-        for(Long key : userWebtoonScore.keySet()) {
-            Map<Long, Float> secondKey = userWebtoonScore.get(key);
-            for(Long innerKey : secondKey.keySet()) {
-                Float value = secondKey.get(innerKey);
-                System.out.println(key + " : " + innerKey + " : " + value);
-            }
-        }
+
+//        <Long, List<Map<Long, Float>>> userWebtoonScore = new HashMap<>();
+//        for (Review review : reviews) {
+//            Long userId = review.getUser().getId();
+//            Map<Long, Float> webtoonScore = new HashMap<>();
+//            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
+//            if (userWebtoonScore.containsKey(userId)) {
+//                List<Map<Long, Float>> list = userWebtoonScore.get(userId);
+//                list.add(webtoonScore);
+//            } else {
+//                List<Map<Long, Float>> list = new ArrayList<>();
+//                list.add(webtoonScore);
+//                userWebtoonScore.put(userId, list);
+//            }
+//        }
+//
+//        List<Long> webtoonIdList = new ArrayList<>();
+//        List<Map<Long, Float>> mapList = userWebtoonScore.get(1L);
+//        for (Map<Long, Float> longFloatMap : mapList) {
+//            for(Long key : longFloatMap.keySet()){
+//                webtoonIdList.add(key);
+//            }
+//        }
+//        for (Long aLong : webtoonIdList) {
+//            System.out.println("aLong = " + aLong);
+//        }
+//
+//        for (Long key : userWebtoonScore.keySet()) {
+//            //유저 한명
+//            List<Map<Long, Float>> webtoonScoreList = userWebtoonScore.get(key);
+//            for (Map<Long, Float> longFloatMap : webtoonScoreList) {
+//                longFloatMap.values();
+//                for( va)
+//            }M
+
+
+
+//            }
+
+//        }
+
 
     }
+
+
 
     @DisplayName("웹툰 1개 정보,리뷰 리스트 불러오기 테스트")
     @Test
@@ -209,78 +286,78 @@ class WebtoonServiceTest {
 
     }
 
-    @DisplayName("웹투니버스 종합 랭킹")
-    @Test
-    public void test1(){
-        //given
-        //장르 저장
-        Genre g1 = createGenre("일상");
-        Genre g2 = createGenre("개그");
-        Genre g3 = createGenre("판타지");
-
-        genreRepository.save(g1);
-        genreRepository.save(g2);
-        genreRepository.save(g3);
-
-
-        //웹툰 저장
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
-        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
-        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3",20);
-        Webtoon w4 = createWebtoon("제목4", "작가4", "내용4",20);
-        Webtoon w5 = createWebtoon("제목5", "작가5", "내용5",20);
-        Webtoon w6 = createWebtoon("제목6", "작가6", "내용6",20);
-        Webtoon w7 = createWebtoon("제목7", "작가7", "내용7",20);
-        Webtoon w8 = createWebtoon("제목8", "작가8", "내용8",20);
-        Webtoon w9 = createWebtoon("제목9", "작가9", "내용9",20);
-        Webtoon w10 = createWebtoon("제목10", "작가10", "내용10",20);
-
-
-        webtoonRepository.save(w1);
-        webtoonRepository.save(w2);
-        webtoonRepository.save(w3);
-        webtoonRepository.save(w4);
-        webtoonRepository.save(w5);
-        webtoonRepository.save(w6);
-        webtoonRepository.save(w7);
-        webtoonRepository.save(w8);
-        webtoonRepository.save(w9);
-        webtoonRepository.save(w10);
-
-
-        //when
-        //웹툰_장르 설정
-        WebtoonGenre wg1 = createWebToonGenre(w1, g1);
-        WebtoonGenre wg2 = createWebToonGenre(w2, g2);
-        WebtoonGenre wg3 = createWebToonGenre(w3, g3);
-        WebtoonGenre wg4 = createWebToonGenre(w4, g1);
-        WebtoonGenre wg5 = createWebToonGenre(w5, g2);
-        WebtoonGenre wg6 = createWebToonGenre(w6, g3);
-        WebtoonGenre wg7 = createWebToonGenre(w7, g1);
-        WebtoonGenre wg8 = createWebToonGenre(w8, g2);
-        WebtoonGenre wg9 = createWebToonGenre(w9, g3);
-        WebtoonGenre wg10 = createWebToonGenre(w10, g1);
-
-        webtoonGenreRepository.save(wg1);
-        webtoonGenreRepository.save(wg2);
-        webtoonGenreRepository.save(wg3);
-        webtoonGenreRepository.save(wg4);
-        webtoonGenreRepository.save(wg5);
-        webtoonGenreRepository.save(wg6);
-        webtoonGenreRepository.save(wg7);
-        webtoonGenreRepository.save(wg8);
-        webtoonGenreRepository.save(wg9);
-        webtoonGenreRepository.save(wg10);
-
-        List<WebtoonAndGenreResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
-
-        //then
-        for(WebtoonAndGenreResponseDto rankResponseDto : totalRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
-                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
-        }
-        assertThat(totalRankToon.size()).isEqualTo(10);
-    }
+//    @DisplayName("웹투니버스 종합 랭킹")
+//    @Test
+//    public void test1(){
+//        //given
+//        //장르 저장
+//        Genre g1 = createGenre("일상");
+//        Genre g2 = createGenre("개그");
+//        Genre g3 = createGenre("판타지");
+//
+//        genreRepository.save(g1);
+//        genreRepository.save(g2);
+//        genreRepository.save(g3);
+//
+//
+//        //웹툰 저장
+//        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
+//        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
+//        Webtoon w3 = createWebtoon("제목3", "작가3", "내용3",20);
+//        Webtoon w4 = createWebtoon("제목4", "작가4", "내용4",20);
+//        Webtoon w5 = createWebtoon("제목5", "작가5", "내용5",20);
+//        Webtoon w6 = createWebtoon("제목6", "작가6", "내용6",20);
+//        Webtoon w7 = createWebtoon("제목7", "작가7", "내용7",20);
+//        Webtoon w8 = createWebtoon("제목8", "작가8", "내용8",20);
+//        Webtoon w9 = createWebtoon("제목9", "작가9", "내용9",20);
+//        Webtoon w10 = createWebtoon("제목10", "작가10", "내용10",20);
+//
+//
+//        webtoonRepository.save(w1);
+//        webtoonRepository.save(w2);
+//        webtoonRepository.save(w3);
+//        webtoonRepository.save(w4);
+//        webtoonRepository.save(w5);
+//        webtoonRepository.save(w6);
+//        webtoonRepository.save(w7);
+//        webtoonRepository.save(w8);
+//        webtoonRepository.save(w9);
+//        webtoonRepository.save(w10);
+//
+//
+//        //when
+//        //웹툰_장르 설정
+//        WebtoonGenre wg1 = createWebToonGenre(w1, g1);
+//        WebtoonGenre wg2 = createWebToonGenre(w2, g2);
+//        WebtoonGenre wg3 = createWebToonGenre(w3, g3);
+//        WebtoonGenre wg4 = createWebToonGenre(w4, g1);
+//        WebtoonGenre wg5 = createWebToonGenre(w5, g2);
+//        WebtoonGenre wg6 = createWebToonGenre(w6, g3);
+//        WebtoonGenre wg7 = createWebToonGenre(w7, g1);
+//        WebtoonGenre wg8 = createWebToonGenre(w8, g2);
+//        WebtoonGenre wg9 = createWebToonGenre(w9, g3);
+//        WebtoonGenre wg10 = createWebToonGenre(w10, g1);
+//
+//        webtoonGenreRepository.save(wg1);
+//        webtoonGenreRepository.save(wg2);
+//        webtoonGenreRepository.save(wg3);
+//        webtoonGenreRepository.save(wg4);
+//        webtoonGenreRepository.save(wg5);
+//        webtoonGenreRepository.save(wg6);
+//        webtoonGenreRepository.save(wg7);
+//        webtoonGenreRepository.save(wg8);
+//        webtoonGenreRepository.save(wg9);
+//        webtoonGenreRepository.save(wg10);
+//
+//        List<WebtoonAndGenreResponseDto> totalRankToon = webtoonService.getMonthTotalRank();
+//
+//        //then
+//        for(WebtoonAndGenreResponseDto rankResponseDto : totalRankToon){
+//            System.out.println("rankResponseDto.getToonTitle()=" + rankResponseDto.getToonTitle()+ ", "+
+//                    "rankResponseDto.getToonAvgPoint()=" + rankResponseDto.getToonAvgPoint());
+//        }
+//        assertThat(totalRankToon.size()).isEqualTo(10);
+//    }
 
     @DisplayName("웹투니버스 네이버 랭킹")
     @Test

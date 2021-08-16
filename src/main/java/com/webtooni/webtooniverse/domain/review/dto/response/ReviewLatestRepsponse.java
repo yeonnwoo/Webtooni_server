@@ -8,8 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 public class ReviewLatestRepsponse {
 
     private String reviewContent;
@@ -33,3 +33,4 @@ public class ReviewLatestRepsponse {
     }
 
 }
+

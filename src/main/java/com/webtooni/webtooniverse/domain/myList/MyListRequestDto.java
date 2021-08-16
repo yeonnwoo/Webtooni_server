@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MyListRequestDto {
-
     private Long toonId;
     private boolean myListOrNot;
 }
