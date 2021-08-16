@@ -1,21 +1,19 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AllTalkPostPageResponseDto {
-
-    private List<TalkPostPageResponseDto> posts;
+@Getter
+public class TalkPostPageableResponseDto {
+    private List<TalkPost> talkPosts;
     private Long postCount;
 
-
-    public AllTalkPostPageResponseDto(List<TalkPostPageResponseDto> posts, Long postCount) {
-        this.posts = posts;
+    public TalkPostPageableResponseDto(List<TalkPost> talkPosts, Long postCount) {
+        this.talkPosts = talkPosts;
         this.postCount = postCount;
     }
 }

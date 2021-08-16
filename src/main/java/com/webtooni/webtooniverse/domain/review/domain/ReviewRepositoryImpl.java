@@ -40,32 +40,36 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
+
         return addGenreToWebtoonList(reviewResponseDtos);
     }
 
     @Override
     public List<Review> findMyReviews(Long userId) {
         return jpaQueryFactory.selectFrom(review)
-                .where(review.user.id.eq(userId))
-                .fetch();
+            .where(review.user.id.eq(userId))
+            .fetch();
     }
 
     //웹툰 리스트에 장르 추가
     private List<ReviewResponseDto> addGenreToWebtoonList(List<ReviewResponseDto> reviewResponseDtos) {
         List<Long> webtoonIdList = new ArrayList<>();
-        reviewResponseDtos.stream().forEach(w -> webtoonIdList.add(w.getToonId()));
+        reviewResponseDtos.forEach(w -> webtoonIdList.add(w.getToonId()));
 
-        List<Tuple> webtoonGenreTuples = jpaQueryFactory.select(webtoonGenre.webtoon.id, webtoonGenre.genre.genreType)
-                .from(webtoonGenre)
-                .join(webtoonGenre.webtoon)
-                .join(webtoonGenre.genre)
-                .where(webtoonGenre.webtoon.id.in(webtoonIdList))
-                .fetch();
+        List<Tuple> webtoonGenreTuples = jpaQueryFactory
+            .select(webtoonGenre.webtoon.id, webtoonGenre.genre.genreType)
+            .from(webtoonGenre)
+            .join(webtoonGenre.webtoon)
+            .join(webtoonGenre.genre)
+            .where(webtoonGenre.webtoon.id.in(webtoonIdList))
+            .fetch();
 
         for (ReviewResponseDto reviewResponseDto : reviewResponseDtos) {
             for (Tuple webtoonGenre : webtoonGenreTuples) {
-                if (reviewResponseDto.getToonId().equals(webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id))) {
-                    reviewResponseDto.addGenre(webtoonGenre.get(QWebtoonGenre.webtoonGenre.genre.genreType));
+                if (reviewResponseDto.getToonId()
+                    .equals(webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id))) {
+                    reviewResponseDto
+                        .addGenre(webtoonGenre.get(QWebtoonGenre.webtoonGenre.genre.genreType));
                 }
             }
         }
@@ -100,4 +104,5 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
         return jpaQuery;
     }
+
 }

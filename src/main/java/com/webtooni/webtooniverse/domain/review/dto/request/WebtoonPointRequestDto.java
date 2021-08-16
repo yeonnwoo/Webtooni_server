@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class WebtoonPointRequestDto {
 
-    private Long webtoonId;
+    private Long toonId;
     private float userPointNumber;
 
-    public WebtoonPointRequestDto(Long webtoonId, float userPointNumber) {
-        this.webtoonId = webtoonId;
+    public WebtoonPointRequestDto(Long toonId, float userPointNumber) {
+        this.toonId = toonId;
         this.userPointNumber = userPointNumber;
     }
 }

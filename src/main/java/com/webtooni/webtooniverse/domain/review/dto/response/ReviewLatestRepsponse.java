@@ -4,12 +4,14 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 public class ReviewLatestRepsponse {
+
     private String reviewContent;
     private float userPointNumber;
     private int likeCount;
@@ -19,7 +21,7 @@ public class ReviewLatestRepsponse {
     private String userName;
     private UserGrade userGrade;
 
-    public ReviewLatestRepsponse(Review review){
+    public ReviewLatestRepsponse(Review review) {
         this.reviewContent = review.getReviewContent();
         this.userPointNumber = review.getUserPointNumber();
         this.likeCount = review.getLikeCount();

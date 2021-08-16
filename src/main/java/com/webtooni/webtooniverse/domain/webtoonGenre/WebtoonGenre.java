@@ -13,12 +13,13 @@ import javax.persistence.*;
 @Entity
 public class WebtoonGenre {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "toon_genre_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="genre_id")
+    @JoinColumn(name = "genre_id")
     private Genre genre;
 
     @ManyToOne(fetch = FetchType.LAZY)

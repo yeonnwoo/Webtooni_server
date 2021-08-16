@@ -28,7 +28,7 @@ public class TalkLike {
     private User user;
 
     @Builder
-    public TalkLike(TalkPost talkPost, User user){
+    public TalkLike(TalkPost talkPost, User user) {
         this.talkPost = talkPost;
         this.user = user;
     }

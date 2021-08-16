@@ -17,9 +17,11 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+import com.webtooni.webtooniverse.global.utils.LogExecutionTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,16 +39,15 @@ public class ReviewService {
 
 
     //리뷰 최신순,베스트순 불러오기
-
+    @LogExecutionTime
     public ReviewMainResponseDto getMainReview() {
         List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestOrNewReview(ReviewStatus.BEST);
         List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getBestOrNewReview(ReviewStatus.NEW);
         return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
-
     }
 
     /**
-     * 리뷰를 작성하는 기능을 제공하는 구현체입니다.
+     * 리뷰를 작성한다.
      *
      * @param id        리뷰 id
      * @param reviewDto 리뷰의 내용이 담긴 Dto
@@ -54,48 +55,40 @@ public class ReviewService {
      */
     public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto) {
         //해당 리뷰 찾기
-        Review findReview = reviewRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 id를 찾을 수 없습니다.")
-        );
+        Review findReview = getFindReview(id);
         //리뷰 내용,날짜 변경
         findReview.changeReviewContent(reviewDto);
-
         return new ReviewCreateResponseDto(findReview);
     }
 
     /**
-     * 리뷰를 삭제하는 기능을 제공하는 구현체입니다.
+     * 리뷰를 삭제한다.
      *
      * @param id 리뷰의 id
      */
     public void deleteReview(Long id) {
         //해당 리뷰 찾기
-        Review findReview = reviewRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 id를 찾을 수 없습니다.")
-        );
+        Review findReview = getFindReview(id);
         findReview.deleteReview();
     }
 
     /**
-     * 리뷰에 좋아요를 누르는 기능을 제공하는 구현체입니다.
+     * 리뷰에 좋아요를 누른다.
      *
      * @param id   리뷰 id
      * @param user 사용자 정보
      */
-
+    @LogExecutionTime
     public void clickReviewLike(Long id, User user) {
         //해당 게시물 조회
-        Review findReview = reviewRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 id가 존재하지 않습니다.")
-        );
+        Review findReview = getFindReview(id);
 
-        ReviewLike reviewLike = reviewLikeRepository.findReviewLikeByReviewAndUser(findReview, user);
-
+        ReviewLike reviewLike = reviewLikeRepository
+            .findReviewLikeByReviewAndUser(findReview, user);
 
         if (reviewLike == null) {
             //전체 카운트 +1
             findReview.plusLikeCount();
-
             //ReviewLike에 해당 유저와 리뷰 추가
             ReviewLike newReviewLike = ReviewLike.of(user, findReview);
             reviewLikeRepository.save(newReviewLike);
@@ -116,16 +109,19 @@ public class ReviewService {
     }
 
     /**
-     * 특정 웹툰에 별점을 주는 기능을 제공하는 구현체입니다.
+     * 특정 웹툰에 별점을 준다.
      *
      * @param reviewStarDto 웹툰 id, 별점 점수가 담긴 Dto
      * @param user          유저 정보
+     * @return ReviewStarRequestDto 리뷰 id
      */
-    public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto, User user) {
+    @LogExecutionTime
+    public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
+        User user) {
 
         //해당 웹툰 찾기
-        Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getWebtoonId()).orElseThrow(
-                () -> new IllegalArgumentException("해당 웹툰이 존재하지 않습니다")
+        Webtoon findWebtoon = webtoonRepository.findById(reviewStarDto.getToonId()).orElseThrow(
+            () -> new IllegalArgumentException("해당 웹툰이 존재하지 않습니다")
         );
 
         Review findReview = reviewRepository.checkUserPointIsExist(findWebtoon, user);
@@ -161,7 +157,6 @@ public class ReviewService {
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
 
             return new ReviewStarRequestDto(findReview.getId());
-
         }
     }
 
@@ -182,7 +177,13 @@ public class ReviewService {
     public List<MyReviewResponseDto> getMyReviews(Long userId) {
         List<Review> myReviews = reviewRepository.findMyReviews(userId);
         return myReviews.stream()
-                .map(MyReviewResponseDto::new)
-                .collect(Collectors.toList());
+            .map(MyReviewResponseDto::new)
+            .collect(Collectors.toList());
+    }
+
+    private Review getFindReview(Long id) {
+        return reviewRepository.findById(id).orElseThrow(
+            () -> new IllegalArgumentException("해당 review id가 존재하지 않습니다.")
+        );
     }
 }

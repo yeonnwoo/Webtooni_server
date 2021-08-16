@@ -22,8 +22,10 @@ public class TalkCommentController {
     private final TalkCommentService talkCommentService;
 
     @PostMapping("talk/{id}/comment")
-    public TalkCommentPostingResponseDto postComment(@PathVariable Long id, @RequestBody TalkCommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+    public TalkCommentPostingResponseDto postComment(@PathVariable Long id,
+        @RequestBody TalkCommentRequestDto requestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        checkUser(userDetails);
         User user = userDetails.getUser();
         return talkCommentService.commentPost(requestDto, user, id);
     }
@@ -34,18 +36,23 @@ public class TalkCommentController {
     }
 
     @PutMapping("talk/{id}/comment")
-    public void updateComment(@RequestBody TalkCommentRequestDto requestDto, @PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+    public void updateComment(@RequestBody TalkCommentRequestDto requestDto,
+        @PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        checkUser(userDetails);
         talkCommentService.update(requestDto, id);
     }
 
-    /**
-     * TODO service 쪽으로 돌릴 수 있는 거 돌리기
-     */
-
     @DeleteMapping("talk/{id}/comment")
-    public void delete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
+    public void delete(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        checkUser(userDetails);
         talkCommentService.commentDelete(id);
+    }
+
+    private void checkUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
     }
 }
