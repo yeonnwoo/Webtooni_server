@@ -23,7 +23,7 @@ public class MyListService {
      */
     public void createMyList(User user, MyListRequestDto myListRequestDto)
     {
-        Long webtoonId=myListRequestDto.getWebtoonId();
+        Long webtoonId=myListRequestDto.getToonId();
         boolean myListOrNot= myListRequestDto.isMyListOrNot();
 
         Webtoon webtoon = webtoonRepository.findById(webtoonId).orElseThrow(

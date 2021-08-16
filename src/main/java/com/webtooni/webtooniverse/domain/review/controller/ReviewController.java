@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
-
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
@@ -48,6 +47,7 @@ public class ReviewController {
     /**
      * 웹툰에 별점주기
      * @param reviewStarDto 웹툰 id,userPointNumber 담은 dto
+     * @return 리뷰 id
      */
     @PutMapping("reviews/star")
     public ReviewStarRequestDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -74,6 +74,7 @@ public class ReviewController {
     public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
         User user = userDetails.getUser();
+
         reviewService.clickReviewLike(id, user);
     }
 

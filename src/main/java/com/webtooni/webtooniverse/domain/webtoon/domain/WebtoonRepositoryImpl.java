@@ -14,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-
 
 import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
@@ -29,6 +27,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    //비슷한 장르의 웹툰 추천
     @Override
     public List<Webtoon> findSimilarWebtoonByGenre(String genre, Webtoon webtoon) {
         QWebtoonGenre wg = new QWebtoonGenre("wg");
@@ -37,8 +36,9 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 .select(wg.webtoon)
                 .from(wg)
                 .join(wg.genre)
-                .on(wg.genre.genreType.eq(genre), wg.webtoon.ne(webtoon))
-                .limit(10)
+                .on(wg.genre.genreType.eq(genre), wg.webtoon.ne(webtoon),wg.genre.id.ne(1L),
+                        wg.genre.id.ne(2L),wg.genre.id.ne(3L))
+                .limit(20)
                 .fetch();
     }
 

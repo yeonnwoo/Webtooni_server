@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MyListRequestDto {
 
-    private Long webtoonId;
+    private Long toonId;
     private boolean myListOrNot;
 }
