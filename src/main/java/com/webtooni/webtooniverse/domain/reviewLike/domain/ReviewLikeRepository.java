@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ReviewLikeRepository extends JpaRepository<ReviewLike,Long> {
-    List<ReviewLike> findAllByUser(User user);
+public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
+
     ReviewLike findReviewLikeByReviewAndUser(Review review, User user);
 
     @Query("select rl.review.id from ReviewLike rl where rl.user.id=:userId and rl.reviewStatus='LIKE'")

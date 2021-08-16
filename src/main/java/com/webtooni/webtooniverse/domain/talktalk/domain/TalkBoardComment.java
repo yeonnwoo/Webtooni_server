@@ -30,13 +30,13 @@ public class TalkBoardComment extends TimeStamped {
     @Column(name = "talk_comment")
     private String commentContent;
 
-    public TalkBoardComment(TalkCommentRequestDto requestDto, User user, TalkPost talkPost){
+    public TalkBoardComment(TalkCommentRequestDto requestDto, User user, TalkPost talkPost) {
         this.commentContent = requestDto.getCommentContent();
         this.user = user;
         this.talkPost = talkPost;
     }
 
-    public void update(TalkCommentRequestDto requestDto){
+    public void update(TalkCommentRequestDto requestDto) {
         this.commentContent = requestDto.getCommentContent();
     }
 }

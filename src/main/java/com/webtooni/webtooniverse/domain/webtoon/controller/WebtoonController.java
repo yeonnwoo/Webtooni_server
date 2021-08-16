@@ -5,11 +5,13 @@ import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -21,25 +23,22 @@ public class WebtoonController {
 
     private final WebtoonService webtoonService;
 
-    /**
-     * TODO : ddd
-     *
-     * @return
-     */
-
     @GetMapping("offer/best-reviewer")
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoons() {
         return webtoonService.getBestReviewerWebtoon();
     }
 
     @GetMapping("offer/for-user")
-    public List<WebtoonResponseDto> getForUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<WebtoonResponseDto> getForUserWebtoons(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         return webtoonService.getForUserWebtoon(user);
     }
 
     @GetMapping("offer/similar-user")
-    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoons(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         User user = userDetails.getUser();
         return webtoonService.getSimilarUserWebtoon(user);
     }
@@ -74,10 +73,9 @@ public class WebtoonController {
 
     //웹툰,리뷰 상세 정보
     @GetMapping("webtoon/{id}")
-
-    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        return webtoonService.getDetailAndReviewList(id,userDetails);
+    public WebtoonDetailDto getWebtoonDetail(@PathVariable Long id
+        , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return webtoonService.getDetailAndReviewList(id, userDetails);
     }
 
     //비슷한 장르 추천
@@ -87,14 +85,13 @@ public class WebtoonController {
     }
 
     @GetMapping("user/me/subscribe")
-    public List<WebtoonResponseDto> getMyListWebtoons(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return webtoonService.getMyListWebtoons(userDetails.getUser());
+    public List<WebtoonResponseDto> getMyListWebtoons(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+        return webtoonService.getMyListWebtoons(userDetails.getUser().getId());
     }
-
-//    @GetMapping("test")
-//    public String test() {
-//        return webtoonService.getFirstId(1L);
-//    }
 
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {
@@ -102,7 +99,8 @@ public class WebtoonController {
     }
 
     @GetMapping("search")
-    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(@PathParam("keyword") String keyword) {
+    public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(
+        @PathParam("keyword") String keyword) {
         return webtoonService.getSearchedWebtoon(keyword);
     }
 

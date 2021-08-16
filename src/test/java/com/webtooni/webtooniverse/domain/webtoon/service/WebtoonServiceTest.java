@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.webtoon.service;
 
-
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
@@ -27,8 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -112,6 +110,27 @@ class WebtoonServiceTest {
         webtoonRepository.save(webtoon19);
         webtoonRepository.save(webtoon20);
     }
+    @Test
+    public void br() {
+        List<Review> reviews = webtoonRepository.br(1L);
+        Map<Long, Map<Long, Float>> userWebtoonScore = new HashMap<>();
+        for (Review review : reviews) {
+
+            Map<Long, Float> webtoonScore = new HashMap<>();
+            webtoonScore.put(review.getWebtoon().getId(), review.getUserPointNumber());
+            userWebtoonScore.put(review.getUser().getId(), webtoonScore);
+            System.out.println(review.getUser().getId());
+        }
+
+        for(Long key : userWebtoonScore.keySet()) {
+            Map<Long, Float> secondKey = userWebtoonScore.get(key);
+            for(Long innerKey : secondKey.keySet()) {
+                Float value = secondKey.get(innerKey);
+                System.out.println(key + " : " + innerKey + " : " + value);
+            }
+        }
+
+    }
 
     @DisplayName("웹툰 1개 정보,리뷰 리스트 불러오기 테스트")
     @Test
@@ -173,9 +192,9 @@ class WebtoonServiceTest {
         assertThat(webtoonDetailDto.getToonAuthor()).isEqualTo(w1.getToonAuthor());
 
         //웹툰 장르정보
-        assertThat(webtoonDetailDto.getToonGenre().size()).isEqualTo(2);
-        assertThat(webtoonDetailDto.getToonGenre().get(0)).isEqualTo("일상");
-        assertThat(webtoonDetailDto.getToonGenre().get(1)).isEqualTo("개그");
+        assertThat(webtoonDetailDto.getGenres().size()).isEqualTo(2);
+        assertThat(webtoonDetailDto.getGenres().get(0)).isEqualTo("일상");
+        assertThat(webtoonDetailDto.getGenres().get(1)).isEqualTo("개그");
 
         //리뷰리스트 정보
         assertThat(webtoonDetailDto.getReviews().size()).isEqualTo(2);

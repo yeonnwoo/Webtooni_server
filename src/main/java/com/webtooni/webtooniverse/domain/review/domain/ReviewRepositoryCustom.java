@@ -8,8 +8,11 @@ import java.util.List;
 
 public interface ReviewRepositoryCustom {
 
-    List<Review> findMyReviews(User user);
+    List<Review> findMyReviews(Long userId);
+
     List<ReviewResponseDto> getBestReview();
+
     List<ReviewResponseDto> getNewReview();
+
     List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable);
 }

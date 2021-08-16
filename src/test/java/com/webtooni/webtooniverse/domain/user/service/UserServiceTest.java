@@ -32,18 +32,28 @@ class UserServiceTest {
     ReviewRepository reviewRepository;
 
     @BeforeEach
-    void getTestData(){
+    void getTestData() {
 
-        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 2.5f, 0, 4, false);
-        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용2", "이미지2", "화", "url", "15", "네이버", 3.5f, 0, 3, false);
-        Webtoon webtoon3 = new Webtoon( "웹툰3", "작가2", "내용3", "이미지3", "수", "url", "15", "네이버", 4.5f, 0, 2, false);
-        Webtoon webtoon4 = new Webtoon("웹툰4", "작가3", "내용4", "이미지4", "목", "url", "15", "네이버", 5.0f, 0, 1, false);
-        Webtoon webtoon5 = new Webtoon("웹툰5", "작가4", "내용5", "이미지5", "금", "url", "15", "네이버", 3.7f, 0, 5, false);
-        Webtoon webtoon6 = new Webtoon("웹툰6", "작가5", "내용6", "이미지6", "월", "url", "15", "네이버", 2.1f, 0, 7, false);
-        Webtoon webtoon7 = new Webtoon("웹툰7", "작가1", "내용7", "이미지7", "화", "url", "15", "네이버", 4.9f, 0, 1, false);
-        Webtoon webtoon8 = new Webtoon( "웹툰8", "작가2", "내용8", "이미지8", "토", "url", "15", "네이버", 4.8f, 0, 5, false);
-        Webtoon webtoon9 = new Webtoon("웹툰9", "작가3", "내용9", "이미지9", "일", "url", "15", "네이버", 4.3f, 0, 7, false);
-        Webtoon webtoon10 = new Webtoon("웹툰10", "작가4", "내용10", "이미지10", "월", "url", "15", "카카오", 4.6f, 0, 7, false);
+        Webtoon webtoon1 = new Webtoon("웹툰1", "작가1", "내용1", "이미지1", "월", "url", "15", "네이버", 2.5f,
+            0, 4, false);
+        Webtoon webtoon2 = new Webtoon("웹툰2", "작가1", "내용2", "이미지2", "화", "url", "15", "네이버", 3.5f,
+            0, 3, false);
+        Webtoon webtoon3 = new Webtoon("웹툰3", "작가2", "내용3", "이미지3", "수", "url", "15", "네이버", 4.5f,
+            0, 2, false);
+        Webtoon webtoon4 = new Webtoon("웹툰4", "작가3", "내용4", "이미지4", "목", "url", "15", "네이버", 5.0f,
+            0, 1, false);
+        Webtoon webtoon5 = new Webtoon("웹툰5", "작가4", "내용5", "이미지5", "금", "url", "15", "네이버", 3.7f,
+            0, 5, false);
+        Webtoon webtoon6 = new Webtoon("웹툰6", "작가5", "내용6", "이미지6", "월", "url", "15", "네이버", 2.1f,
+            0, 7, false);
+        Webtoon webtoon7 = new Webtoon("웹툰7", "작가1", "내용7", "이미지7", "화", "url", "15", "네이버", 4.9f,
+            0, 1, false);
+        Webtoon webtoon8 = new Webtoon("웹툰8", "작가2", "내용8", "이미지8", "토", "url", "15", "네이버", 4.8f,
+            0, 5, false);
+        Webtoon webtoon9 = new Webtoon("웹툰9", "작가3", "내용9", "이미지9", "일", "url", "15", "네이버", 4.3f,
+            0, 7, false);
+        Webtoon webtoon10 = new Webtoon("웹툰10", "작가4", "내용10", "이미지10", "월", "url", "15", "카카오",
+            4.6f, 0, 7, false);
         webtoonRepository.save(webtoon1);
         webtoonRepository.save(webtoon2);
         webtoonRepository.save(webtoon3);
@@ -55,9 +65,9 @@ class UserServiceTest {
         webtoonRepository.save(webtoon9);
         webtoonRepository.save(webtoon10);
 
-        User user1 = new User("user1",  1, UserGrade.FIRST);
+        User user1 = new User("user1", 1, UserGrade.FIRST);
         User user2 = new User("user2", 2, UserGrade.FIRST);
-        User user3 = new User("user3",  3, UserGrade.FIRST);
+        User user3 = new User("user3", 3, UserGrade.FIRST);
         User user4 = new User("user4", 4, UserGrade.FIRST);
         userRepository.save(user1);
         userRepository.save(user2);
@@ -91,14 +101,15 @@ class UserServiceTest {
 
     @DisplayName("베스트 리뷰어(리뷰작성개수 순)")
     @Test
-    public void test(){
+    public void test() {
         //given
 
         //when
         List<BestReviewerResponseDto> BestReviewer = userService.getBestReviewerRank();
         //then
         for (BestReviewerResponseDto bestReviewerResponseDto : BestReviewer) {
-            System.out.println("bestReviewerResponseDto.getUserName()" + bestReviewerResponseDto.getUser());
+            System.out.println(
+                "bestReviewerResponseDto.getUserName()" + bestReviewerResponseDto.getUser());
         }
     }
 }
