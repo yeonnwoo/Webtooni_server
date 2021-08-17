@@ -10,7 +10,10 @@ public class ReviewStarRequestDto {
 
     private Long reviewId;
 
-    public ReviewStarRequestDto(Long reviewId) {
+    private float toonAvgPoint;
+
+    public ReviewStarRequestDto(Long reviewId, float toonAvgPoint) {
         this.reviewId = reviewId;
+        this.toonAvgPoint = toonAvgPoint;
     }
 }

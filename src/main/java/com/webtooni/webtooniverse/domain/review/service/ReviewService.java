@@ -143,7 +143,7 @@ public class ReviewService {
 
             reviewRepository.save(review);
 
-            return new ReviewStarRequestDto(review.getId());
+            return new ReviewStarRequestDto(review.getId(),findWebtoon.getToonAvgPoint());
         }
 
         //이미 존재함
@@ -157,7 +157,7 @@ public class ReviewService {
             //유저의 별점 점수 변경
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
 
-            return new ReviewStarRequestDto(findReview.getId());
+            return new ReviewStarRequestDto(findReview.getId(),findWebtoon.getToonAvgPoint());
         }
     }
 

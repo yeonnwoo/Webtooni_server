@@ -15,7 +15,7 @@ import java.util.List;
 @ToString
 public class WebtoonAndGenreResponseDto {
 
-    private Long id;
+    private Long toonId;
     private String toonTitle;
     private String toonAuthor;
     private String toonImg;
@@ -26,7 +26,7 @@ public class WebtoonAndGenreResponseDto {
     private final List<String> genres = new ArrayList<>();
 
     public WebtoonAndGenreResponseDto(Webtoon webtoon) {
-        this.id = webtoon.getId();
+        this.toonId = webtoon.getId();
         this.toonTitle = webtoon.getToonTitle();
         this.toonAuthor = webtoon.getToonAuthor();
         this.toonImg = webtoon.getToonImg();
@@ -37,7 +37,7 @@ public class WebtoonAndGenreResponseDto {
     }
 
     public WebtoonAndGenreResponseDto(Webtoon webtoon, List<String> genreList) {
-        this.id = webtoon.getId();
+        this.toonId = webtoon.getId();
         this.toonTitle = webtoon.getToonTitle();
         this.toonAuthor = webtoon.getToonAuthor();
         this.toonImg = webtoon.getToonImg();
