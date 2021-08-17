@@ -359,37 +359,37 @@ class WebtoonServiceTest {
 //        assertThat(totalRankToon.size()).isEqualTo(10);
 //    }
 
-    @DisplayName("웹투니버스 네이버 랭킹")
-    @Test
-    public void test2(){
-        //given
+//     @DisplayName("웹투니버스 네이버 랭킹")
+//     @Test
+//     public void test2(){
+//         //given
 
-        //when
-        List<PlatformRankResponseDto> platformRankToon = webtoonService.getMonthNaverRank();
-        //then
-        for(PlatformRankResponseDto platformRankResponseDto : platformRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +", "+
-                    "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +", "+
-                    "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
-        }
-        assertThat(platformRankToon.size()).isEqualTo(10);
-    }
+//         //when
+//         List<PlatformRankResponseDto> platformRankToon = webtoonService.getMonthNaverRank();
+//         //then
+//         for(PlatformRankResponseDto platformRankResponseDto : platformRankToon){
+//             System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +", "+
+//                     "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +", "+
+//                     "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
+//         }
+//         assertThat(platformRankToon.size()).isEqualTo(10);
+//     }
 
-    @DisplayName("웹투니버스 카카오 랭킹")
-    @Test
-    public void test3(){
-        //given
+//     @DisplayName("웹투니버스 카카오 랭킹")
+//     @Test
+//     public void test3(){
+//         //given
 
-        //when
-        List<PlatformRankResponseDto> platformRankToon = webtoonService.getMonthKakaoRank();
-        //then
-        for(PlatformRankResponseDto platformRankResponseDto : platformRankToon){
-            System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +", "+
-                    "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +", "+
-                    "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
-        }
-        assertThat(platformRankToon.size()).isEqualTo(10);
-    }
+//         //when
+//         List<PlatformRankResponseDto> platformRankToon = webtoonService.getMonthKakaoRank();
+//         //then
+//         for(PlatformRankResponseDto platformRankResponseDto : platformRankToon){
+//             System.out.println("rankResponseDto.getToonTitle()=" + platformRankResponseDto.getToonTitle() +", "+
+//                     "rankResponseDto.getToonAvgPoint()=" + platformRankResponseDto.getToonAvgPoint() +", "+
+//                     "rankResponseDto.getToonPlatform()= " + platformRankResponseDto.getToonPlatform());
+//         }
+//         assertThat(platformRankToon.size()).isEqualTo(10);
+//     }
 
     /**
      * 데이터를 임의로 생성한다.
