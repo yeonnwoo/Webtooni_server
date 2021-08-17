@@ -6,5 +6,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class TalkCommentRequestDto {
-    private String commentContent;
+
+  private String commentContent;
 }

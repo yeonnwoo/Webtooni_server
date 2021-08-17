@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ReviewContentRequestDto {
 
-    private String reviewContent;
+  private String reviewContent;
 
-    public ReviewContentRequestDto(String reviewContent) {
-        this.reviewContent = reviewContent;
-    }
+  public ReviewContentRequestDto(String reviewContent) {
+    this.reviewContent = reviewContent;
+  }
 }

@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserGenreResponseDto {
 
-    private User user;
-    private Genre genre;
+  private User user;
+  private Genre genre;
 
-    private UserGenreResponseDto(User user, Genre genre){
-        this.user = user;
-        this.genre = genre;
-    }
+  private UserGenreResponseDto(User user, Genre genre) {
+    this.user = user;
+    this.genre = genre;
+  }
 }

@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @RequiredArgsConstructor
 public class WebtooniverseApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(WebtooniverseApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(WebtooniverseApplication.class, args);
+  }
 }

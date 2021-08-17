@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TalkLikeController {
 
-    private final TalkLikeService talkLikeService;
+  private final TalkLikeService talkLikeService;
 
-    @PostMapping("talk/{id}/like")
-    public TalkResponseDto like(@PathVariable Long id) {
-        return talkLikeService.postLike(id);
-    }
+  @PostMapping("talk/{id}/like")
+  public TalkResponseDto like(@PathVariable Long id) {
+    return talkLikeService.postLike(id);
+  }
 }
