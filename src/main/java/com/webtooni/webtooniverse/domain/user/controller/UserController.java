@@ -37,10 +37,10 @@ public class UserController {
         return userService.kakaoLogin(code);
     }
 
-//    @GetMapping("user/naver/callback")
-//    public String naverLogin(@RequestParam String code) {
-//        return "응답!";
-//    }
+    @GetMapping("user/naver/callback")
+    public String naverLogin(@RequestParam String code) {
+        return userService.naverLogin(code);
+    }
 
     @PutMapping("user/info/{id}")
     public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto){

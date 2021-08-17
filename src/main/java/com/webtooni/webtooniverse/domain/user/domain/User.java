@@ -35,10 +35,15 @@ public class User {
     @Column(name = "kakao_id")
     private Long kakaoId;
 
-    public User(String password, Long kakaoId){
+    @Column(name = "naver_id")
+    private Long naverId;
+
+    @Builder
+    public User(String password, Long kakaoId, Long naverId){
         this.password = password;
         this.userGrade = UserGrade.FIRST;
         this.kakaoId = kakaoId;
+        this.naverId = naverId;
     }
 
     public void update(UserInfoRequestDto requestDto){

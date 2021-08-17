@@ -13,6 +13,8 @@ import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
+import com.webtooni.webtooniverse.domain.user.security.kakao.NaverOAuth2;
+import com.webtooni.webtooniverse.domain.user.security.kakao.NaverUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +37,7 @@ public class UserService {
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrfnYxKZ0aHgTBcXukedZygoC";
 
     private final KakaoOAuth2 kakaoOAuth2;
+    private final NaverOAuth2 naverOAuth2;
     private final WebtoonRepository webtoonRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GenreRepository genreRepository;
@@ -57,7 +60,7 @@ public class UserService {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
 
-            kakaoUser = new User(encodedPassword, kakaoId);
+            kakaoUser = User.builder().password(encodedPassword).kakaoId(kakaoId).build();
             userRepository.save(kakaoUser);
 
         }
@@ -66,6 +69,33 @@ public class UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String kakao = String.valueOf(kakaoId);
         return jwtTokenProvider.createToken(kakao);
+    }
+
+    public String naverLogin(String authorizedCode) {
+        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
+        NaverUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode);
+        Long naverId = userInfo.getId();
+        // 패스워드 = 카카오 Id + ADMIN TOKEN
+        String password = naverId + ADMIN_TOKEN;
+
+        // DB 에 중복된 Kakao Id 가 있는지 확인
+        User naverUser = userRepository.findByNaverId(naverId)
+            .orElse(null);
+
+        // 카카오 정보로 회원가입
+        if (naverUser == null) {
+            // 패스워드 인코딩
+            String encodedPassword = passwordEncoder.encode(password);
+
+            naverUser = User.builder().password(encodedPassword).naverId(naverId).build();
+            userRepository.save(naverUser);
+
+        }
+        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(naverId, password);
+        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String naver = String.valueOf(naverId);
+        return jwtTokenProvider.createToken(naver);
     }
 
     @Transactional
