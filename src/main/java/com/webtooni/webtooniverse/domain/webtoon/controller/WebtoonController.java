@@ -84,6 +84,7 @@ public class WebtoonController {
         return webtoonService.getSimilarGenre(id);
     }
 
+    //마이리스트 추가 웹툰 리스트
     @GetMapping("user/me/subscribe")
     public List<WebtoonResponseDto> getMyListWebtoons(
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
