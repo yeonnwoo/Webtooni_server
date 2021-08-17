@@ -13,4 +13,6 @@ public interface TalkCommentRepository extends JpaRepository<TalkBoardComment, L
     @Query("select tc from TalkBoardComment tc where tc.talkPost.id=:id")
     List<TalkBoardComment> findAllCommentByBoardId(@Param("id") Long id);
 
+    void deleteAllByTalkPost(TalkPost talkPost);
+
 }

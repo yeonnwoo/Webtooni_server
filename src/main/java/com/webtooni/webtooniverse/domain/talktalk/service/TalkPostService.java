@@ -1,8 +1,10 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.request.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.*;
+import com.webtooni.webtooniverse.domain.talktalk.repository.TalkCommentRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkLikeRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
@@ -23,6 +25,7 @@ public class TalkPostService {
 
     private final TalkPostRepository talkPostRepository;
     private final TalkLikeRepository talkLikeRepository;
+    private final TalkCommentRepository talkCommentRepository;
 
 
     /**
@@ -55,6 +58,12 @@ public class TalkPostService {
      * @param id postId
      */
     public void deletePost(Long id) {
+
+        TalkPost talkPost = getTalkPost(id);
+
+        //talkBoradLike,comment도 함께 삭제
+        talkCommentRepository.deleteAllByTalkPost(talkPost);
+        talkLikeRepository.deleteAllByTalkPost(talkPost);
         talkPostRepository.deleteById(id);
     }
 
