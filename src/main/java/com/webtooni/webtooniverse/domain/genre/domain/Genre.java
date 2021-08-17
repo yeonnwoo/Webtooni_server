@@ -11,7 +11,8 @@ import javax.persistence.*;
 @Entity
 public class Genre {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "genre_id")
     private Long id;
 

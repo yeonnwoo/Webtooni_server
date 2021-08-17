@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
@@ -35,11 +36,10 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     @Override
     public List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable) {
         List<ReviewResponseDto> reviewResponseDtos = getReviewResponseQuery()
-                .orderBy(review.createDate.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
+            .orderBy(review.createDate.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
 
         return addGenreToWebtoonList(reviewResponseDtos);
     }
@@ -52,7 +52,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     }
 
     //웹툰 리스트에 장르 추가
-    private List<ReviewResponseDto> addGenreToWebtoonList(List<ReviewResponseDto> reviewResponseDtos) {
+    private List<ReviewResponseDto> addGenreToWebtoonList(
+        List<ReviewResponseDto> reviewResponseDtos) {
         List<Long> webtoonIdList = new ArrayList<>();
         reviewResponseDtos.forEach(w -> webtoonIdList.add(w.getToonId()));
 
@@ -78,7 +79,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     //reviewResponseDto 기본 query
     private JPAQuery<ReviewResponseDto> getReviewResponseQuery() {
-        JPAQuery<ReviewResponseDto> jpaQuery = jpaQueryFactory.select(Projections.constructor(ReviewResponseDto.class,
+        JPAQuery<ReviewResponseDto> jpaQuery = jpaQueryFactory
+            .select(Projections.constructor(ReviewResponseDto.class,
                 review.user.id,
                 review.user.userImg,
                 review.user.userName,
@@ -96,11 +98,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 review.webtoon.toonAvgPoint,
                 review.likeCount,
                 review.id
-        ))
-                .from(review)
-                .innerJoin(review.user, user)
-                .innerJoin(review.webtoon, webtoon)
-                .limit(10);
+            ))
+            .from(review)
+            .innerJoin(review.user, user)
+            .innerJoin(review.webtoon, webtoon)
+            .limit(10);
 
         return jpaQuery;
     }

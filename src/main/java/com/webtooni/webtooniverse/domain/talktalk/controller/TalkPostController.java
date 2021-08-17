@@ -30,7 +30,6 @@ public class TalkPostController {
         return talkPostService.post(requestDto, user);
     }
 
-
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getPost(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {

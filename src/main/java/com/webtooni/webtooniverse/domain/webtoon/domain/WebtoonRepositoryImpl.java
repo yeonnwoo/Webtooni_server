@@ -55,13 +55,13 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     //이번달 웹투니버스 종합순위
     public List<WebtoonAndGenreResponseDto> getTotalRank() {
         Map<Webtoon, List<String>> webtoonListMap = queryFactory
-                .from(webtoon)
-                .orderBy(webtoon.toonAvgPoint.desc())
-                .join(webtoonGenre)
-                .on(webtoonGenre.webtoon.id.eq(webtoon.id))
-                .join(webtoonGenre.genre)
-                .limit(10)
-                .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
+            .from(webtoon)
+            .orderBy(webtoon.toonAvgPoint.desc())
+            .join(webtoonGenre)
+            .on(webtoonGenre.webtoon.id.eq(webtoon.id))
+            .join(webtoonGenre.genre)
+            .limit(10)
+            .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonListMap);
     }
 
@@ -99,15 +99,15 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     @Override
     public List<WebtoonAndGenreResponseDto> findBestReviewerWebtoon(User bestReviewer) {
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
-                .from(review)
-                .join(review.webtoon, webtoon)
-                .join(webtoonGenre)
-                .on(review.webtoon.id.eq(webtoonGenre.webtoon.id))
-                .join(webtoonGenre.genre)
-                .where(review.user.eq(bestReviewer))
-                .orderBy(review.userPointNumber.desc())
-                .limit(5)
-                .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
+            .from(review)
+            .join(review.webtoon, webtoon)
+            .join(webtoonGenre)
+            .on(review.webtoon.id.eq(webtoonGenre.webtoon.id))
+            .join(webtoonGenre.genre)
+            .where(review.user.eq(bestReviewer))
+            .orderBy(review.userPointNumber.desc())
+            .limit(5)
+            .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
     }
 
@@ -160,15 +160,16 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         }
 
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
-                .from(review)
-                .join(review.webtoon)
-                .join(webtoonGenre)
-                .on(review.webtoon.id.eq(webtoonGenre.webtoon.id))
-                .join(webtoonGenre.genre)
-                .where(review.user.eq(similarUser), review.userPointNumber.goe(3.5), review.webtoon.notIn(webtoons))
-                .orderBy(review.userPointNumber.desc())
-                .limit(5)
-                .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
+            .from(review)
+            .join(review.webtoon)
+            .join(webtoonGenre)
+            .on(review.webtoon.id.eq(webtoonGenre.webtoon.id))
+            .join(webtoonGenre.genre)
+            .where(review.user.eq(similarUser), review.userPointNumber.goe(3.5),
+                review.webtoon.notIn(webtoons))
+            .orderBy(review.userPointNumber.desc())
+            .limit(5)
+            .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
     }
 
@@ -176,14 +177,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     @Override
     public List<WebtoonAndGenreResponseDto> findFinishedWebtoon() {
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
-                .from(webtoon)
-                .join(webtoonGenre)
-                .on(webtoon.id.eq(webtoonGenre.webtoon.id))
-                .join(webtoonGenre.genre)
-                .where(webtoon.finished.eq(true))
-                .orderBy(webtoon.toonAvgPoint.desc())
-                .limit(15)
-                .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
+            .from(webtoon)
+            .join(webtoonGenre)
+            .on(webtoon.id.eq(webtoonGenre.webtoon.id))
+            .join(webtoonGenre.genre)
+            .where(webtoon.finished.eq(true))
+            .orderBy(webtoon.toonAvgPoint.desc())
+            .limit(15)
+            .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
     }
 
@@ -233,13 +234,13 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     @Override
     public List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword) {
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
-                .from(webtoon)
-                .join(webtoonGenre)
-                .on(webtoon.id.eq(webtoonGenre.webtoon.id))
-                .join(webtoonGenre.genre)
-                .where(webtoon.toonTitle.contains(keyword))
-                .limit(20)
-                .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
+            .from(webtoon)
+            .join(webtoonGenre)
+            .on(webtoon.id.eq(webtoonGenre.webtoon.id))
+            .join(webtoonGenre.genre)
+            .where(webtoon.toonTitle.contains(keyword))
+            .limit(20)
+            .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
     }
 
@@ -281,10 +282,11 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return webtoonAndGenreResponseDtos;
     }
 
-    private List<WebtoonAndGenreResponseDto> mappingMapToDto(Map<Webtoon, List<String>> WebtoonGenreMap) {
+    private List<WebtoonAndGenreResponseDto> mappingMapToDto(
+        Map<Webtoon, List<String>> WebtoonGenreMap) {
         return WebtoonGenreMap.entrySet().stream()
-                .map(entry -> new WebtoonAndGenreResponseDto(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
+            .map(entry -> new WebtoonAndGenreResponseDto(entry.getKey(), entry.getValue()))
+            .collect(Collectors.toList());
 
     }
 
