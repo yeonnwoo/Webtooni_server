@@ -1,12 +1,19 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Getter
 @Entity
@@ -28,7 +35,7 @@ public class TalkLike {
     private User user;
 
     @Builder
-    public TalkLike(TalkPost talkPost, User user){
+    public TalkLike(TalkPost talkPost, User user) {
         this.talkPost = talkPost;
         this.user = user;
     }

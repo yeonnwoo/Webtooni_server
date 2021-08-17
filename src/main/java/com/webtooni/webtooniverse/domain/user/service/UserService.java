@@ -4,6 +4,7 @@ import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
+import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
@@ -12,25 +13,22 @@ import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
-
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
-
+import javax.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
@@ -40,6 +38,7 @@ public class UserService {
     private final WebtoonRepository webtoonRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GenreRepository genreRepository;
+    private final UserGenreRepository userGenreRepository;
 
 
     public String kakaoLogin(String authorizedCode) {
@@ -51,7 +50,7 @@ public class UserService {
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
-                .orElse(null);
+            .orElse(null);
 
         // 카카오 정보로 회원가입
         if (kakaoUser == null) {
@@ -62,22 +61,18 @@ public class UserService {
             userRepository.save(kakaoUser);
 
         }
-
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
+        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId,
+            password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
         String kakao = String.valueOf(kakaoId);
-
-
         return jwtTokenProvider.createToken(kakao);
     }
 
     @Transactional
     public void updateInfo(Long id, UserInfoRequestDto requestDto) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
+            () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
         );
         user.update(requestDto);
     }
@@ -95,24 +90,23 @@ public class UserService {
     @Transactional
     public void pickGenre(User user, UserOnBoardingRequestDto requestDto) {
         ArrayList<String> pickedGenres = requestDto.getGenres();
-        List<UserGenre> userGenres = new ArrayList<>();
         for (String pickedGenre : pickedGenres) {
             Genre genre = genreRepository.findByGenreType(pickedGenre);
             UserGenre userGenre = new UserGenre(user, genre);
-            userGenres.add(userGenre);
+            userGenreRepository.save(userGenre);
         }
-        user.OnBoarding(requestDto);
+        User newUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저가 없습니다")
+        );
+        newUser.OnBoarding(requestDto);
     }
 
-    public UserInfoResponseDto getUserInfo(User user) {
-        User findUser = userRepository.findById(user.getId()).orElseThrow(
-                () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
+    public UserInfoResponseDto getUserInfo(Long userId) {
+        User findUser = userRepository.findById(userId).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
         );
-
-        List<String> userGenre = userRepository.getUserGenre(user.getId());
-
+        List<String> userGenre = userRepository.getUserGenre(userId);
         return new UserInfoResponseDto(findUser, userGenre);
-
     }
 
 

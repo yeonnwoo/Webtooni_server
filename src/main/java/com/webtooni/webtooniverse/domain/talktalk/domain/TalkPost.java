@@ -1,13 +1,19 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.request.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -42,16 +48,16 @@ public class TalkPost extends TimeStamped {
         this.likeNum = 0;
     }
 
-    public void update(TalkPostRequestDto talkPostRequestDto){
+    public void update(TalkPostRequestDto talkPostRequestDto) {
         this.postTitle = talkPostRequestDto.getPostTitle();
         this.postContent = talkPostRequestDto.getPostContent();
     }
 
-    public void updateLikeNum(int count){
+    public void updateLikeNum(int count) {
         this.likeNum += count;
     }
 
-    public void updateTalkCommentNum(int count){
-        this.likeNum += count;
+    public void updateTalkCommentNum(int count) {
+        this.talkCommentCount += count;
     }
 }

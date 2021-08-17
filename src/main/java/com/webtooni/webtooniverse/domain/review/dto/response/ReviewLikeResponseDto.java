@@ -1,20 +1,23 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class ReviewLikeResponseDto {
 
-    private List<ReviewLikeListResponseDto> likeListDto;
-    private List<ReviewNewResponseDto> reviewDto;
+    private List<Long> LikeReviewIdList;
+    private List<ReviewResponseDto> reviews;
+    private Long postCount;
 
 
-    public ReviewLikeResponseDto(List<ReviewLikeListResponseDto> likeListDto, List<ReviewNewResponseDto> reviewDto) {
-        this.likeListDto = likeListDto;
-        this.reviewDto = reviewDto;
+    public ReviewLikeResponseDto(List<Long> LikeReviewIdList, List<ReviewResponseDto> reviews,
+        Long postCount) {
+        this.LikeReviewIdList = LikeReviewIdList;
+        this.reviews = reviews;
+        this.postCount = postCount;
     }
 }
+

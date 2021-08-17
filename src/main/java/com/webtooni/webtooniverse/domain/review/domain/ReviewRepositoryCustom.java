@@ -1,13 +1,14 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 
-import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewBestResponseDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.ReviewNewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewRepositoryCustom {
 
-    List<Review> findMyReviews(User user);
-    List<ReviewBestResponseDto> getBestReview();
-    List<ReviewNewResponseDto> getNewReview();
+    List<Review> findMyReviews(Long userId);
+
+    List<ReviewResponseDto> getBestOrNewReview(ReviewStatus reviewStatus);
+
+    List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable);
 }

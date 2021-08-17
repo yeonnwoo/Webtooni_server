@@ -3,11 +3,16 @@ package com.webtooni.webtooniverse.domain.user.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
@@ -15,7 +20,8 @@ import javax.persistence.*;
 public class User {
 
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -35,17 +41,18 @@ public class User {
     @Column(name = "kakao_id")
     private Long kakaoId;
 
-    public User(String password, Long kakaoId){
+    public User(String password, Long kakaoId) {
         this.password = password;
         this.userGrade = UserGrade.FIRST;
         this.kakaoId = kakaoId;
     }
 
-    public void update(UserInfoRequestDto requestDto){
+    public void update(UserInfoRequestDto requestDto) {
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();
     }
-    public void OnBoarding(UserOnBoardingRequestDto requestDto){
+
+    public void OnBoarding(UserOnBoardingRequestDto requestDto) {
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();
     }
@@ -60,13 +67,13 @@ public class User {
     }
 
 
-    public User(String userName,int userImg, UserGrade userGrade) {
+    public User(String userName, int userImg, UserGrade userGrade) {
         this.userName = userName;
         this.userImg = userImg;
         this.userGrade = userGrade;
     }
 
-    public User(String userName){
-        this.userName=userName;
+    public User(String userName) {
+        this.userName = userName;
     }
 }

@@ -2,19 +2,28 @@ package com.webtooni.webtooniverse.domain.reviewLike.domain;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class ReviewLike {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_like_id")
     private Long id;
 
@@ -36,16 +45,15 @@ public class ReviewLike {
         this.reviewStatus = reviewStatus;
     }
 
-    public static ReviewLike of(User user, Review review)
-    {
-        return new ReviewLike(user,review,ReviewLikeStatus.LIKE);
+    public static ReviewLike of(User user, Review review) {
+        return new ReviewLike(user, review, ReviewLikeStatus.LIKE);
     }
 
     public void changeStatusLike() {
-        this.reviewStatus= ReviewLikeStatus.LIKE;
+        this.reviewStatus = ReviewLikeStatus.LIKE;
     }
 
     public void changeStatusCancel() {
-        this.reviewStatus= ReviewLikeStatus.CANCEL;
+        this.reviewStatus = ReviewLikeStatus.CANCEL;
     }
 }

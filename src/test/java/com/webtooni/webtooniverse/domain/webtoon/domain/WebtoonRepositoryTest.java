@@ -41,9 +41,6 @@ class WebtoonRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @PersistenceContext
-    EntityManager em;
-
     @AfterEach
     public void tearDown() {
         reviewRepository.deleteAll();
@@ -62,14 +59,12 @@ class WebtoonRepositoryTest {
         genreRepository.save(g2);
         genreRepository.save(g3);
 
-
         //웹툰 저장
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
-        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1", 20);
+        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2", 20);
 
         webtoonRepository.save(w1);
         webtoonRepository.save(w2);
-
 
         //when
         //웹툰_장르 설정
@@ -82,7 +77,6 @@ class WebtoonRepositoryTest {
         webtoonGenreRepository.save(wg2);
         webtoonGenreRepository.save(wg3);
         webtoonGenreRepository.save(wg4);
-
 
         //then
         List<Genre> webToonGenre = webtoonRepository.findWebToonGenre(w1);
@@ -102,33 +96,31 @@ class WebtoonRepositoryTest {
         //given
         //임시 유저
         User user = User.builder()
-                .userName("홍길동")
-                .userImg(1)
-                .userGrade(UserGrade.FIRST)
-                .build();
+            .userName("홍길동")
+            .userImg(1)
+            .userGrade(UserGrade.FIRST)
+            .build();
 
         userRepository.save(user);
 
         //웹툰
-        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1",20);
-        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2",20);
+        Webtoon w1 = createWebtoon("제목1", "작가1", "내용1", 20);
+        Webtoon w2 = createWebtoon("제목2", "작가2", "내용2", 20);
         webtoonRepository.save(w1);
         webtoonRepository.save(w2);
 
         //리뷰
-        Review review1 = createReview("리뷰 내용1", 4.5F, 13,user,w1);
-        Review review2 = createReview(null, 4.5F, 13,user,w1);
+        Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
+        Review review2 = createReview(null, 4.5F, 13, user, w1);
 
         reviewRepository.save(review1);
         reviewRepository.save(review2);
-
 
         //when
         List<Review> reviewList = reviewRepository.findReviewByWebToonId(w1.getId());
 
         //then
         //내용이 null인 리뷰는 나오면 안됨
-        assertThat(reviewList.size()).isEqualTo(1);
         assertThat(reviewList.get(0).getReviewContent()).isEqualTo(review1.getReviewContent());
 
     }
@@ -137,42 +129,44 @@ class WebtoonRepositoryTest {
      * webtoon,Genre 데이터를 임의로 생성한다.
      */
 
-    private Review createReview(String reviewContent, float userPointNumber, int likeCount,User user,Webtoon webtoon) {
+    private Review createReview(String reviewContent, float userPointNumber, int likeCount,
+        User user, Webtoon webtoon) {
         return Review.builder()
-                .reviewContent(reviewContent)
-                .userPointNumber(userPointNumber)
-                .likeCount(likeCount)
-                .user(user)
-                .webtoon(webtoon)
-                .build();
+            .reviewContent(reviewContent)
+            .userPointNumber(userPointNumber)
+            .likeCount(likeCount)
+            .user(user)
+            .webtoon(webtoon)
+            .build();
     }
 
-    private Webtoon createWebtoon(String toonTitle,String toonAuthor,String toonContent,int totalPointCount) {
+    private Webtoon createWebtoon(String toonTitle, String toonAuthor, String toonContent,
+        int totalPointCount) {
         return Webtoon.builder()
-                .toonTitle(toonTitle)
-                .toonAuthor(toonAuthor)
-                .toonContent(toonContent)
-                .toonImg("이미지.png")
-                .realUrl("http://naver")
-                .toonPlatform("네이버")
-                .toonAvgPoint((float) 3.5)
-                .totalPointCount(totalPointCount)
-                .build();
+            .toonTitle(toonTitle)
+            .toonAuthor(toonAuthor)
+            .toonContent(toonContent)
+            .toonImg("이미지.png")
+            .realUrl("http://naver")
+            .toonPlatform("네이버")
+            .toonAvgPoint((float) 3.5)
+            .totalPointCount(totalPointCount)
+            .build();
     }
 
     //장르 생성
     private Genre createGenre(String type) {
         return Genre.builder()
-                .genreType(type)
-                .build();
+            .genreType(type)
+            .build();
     }
 
     //웹툰 장르 연관관계 설정
     private WebtoonGenre createWebToonGenre(Webtoon webtoon, Genre genre) {
         return WebtoonGenre.builder()
-                .webtoon(webtoon)
-                .genre(genre)
-                .build();
+            .webtoon(webtoon)
+            .genre(genre)
+            .build();
     }
 
 }
