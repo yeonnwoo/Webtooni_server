@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 public class TalkPostPageableResponseDto {
     private List<TalkPost> talkPosts;
