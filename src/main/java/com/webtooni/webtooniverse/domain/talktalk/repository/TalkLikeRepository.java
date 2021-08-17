@@ -5,8 +5,6 @@ import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {
 
     /**
@@ -16,5 +14,6 @@ public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {
 
     void deleteByTalkPostAndUser(TalkPost talkPost, User user);
 
+    void deleteAllByTalkPost(TalkPost talkPost);
 
 }

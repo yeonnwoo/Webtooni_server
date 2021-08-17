@@ -8,20 +8,23 @@ import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReview
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoOnlyResponseDto;
-import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.*;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.BestReviewerWebtoonResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 @RequiredArgsConstructor
@@ -154,7 +157,6 @@ public class WebtoonService {
         Webtoon webtoon = webtoonRepository.findById(id).orElseThrow(
             () -> new IllegalArgumentException("해당 id의 웹툰은 존재하지 않습니다.")
         );
-
         List<Genre> genres = webtoonRepository.findWebToonGenre(webtoon);
 
         List<SimilarGenreToonDto> similarGenreToonList = new ArrayList<>();

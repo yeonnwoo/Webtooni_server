@@ -1,10 +1,10 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

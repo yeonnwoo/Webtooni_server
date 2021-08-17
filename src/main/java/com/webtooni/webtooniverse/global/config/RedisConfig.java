@@ -1,5 +1,6 @@
 package com.webtooni.webtooniverse.global.config;
 
+import java.time.Duration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -8,8 +9,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import java.time.Duration;
 
 @Configuration
 class RedisConfig {
@@ -20,13 +19,15 @@ class RedisConfig {
 //        return new LettuceConnectionFactory("localhost", 6379);
 
         LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder()
-                .commandTimeout(Duration.ofMinutes(1))
-                .shutdownTimeout(Duration.ZERO)
-                .build();
+            .commandTimeout(Duration.ofMinutes(1))
+            .shutdownTimeout(Duration.ZERO)
+            .build();
 
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("localhost", 6379);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(
+            "localhost", 6379);
 //        redisStandaloneConfiguration.setPassword(password);
-        return new LettuceConnectionFactory(redisStandaloneConfiguration, lettuceClientConfiguration);
+        return new LettuceConnectionFactory(redisStandaloneConfiguration,
+            lettuceClientConfiguration);
     }
 
     @Bean

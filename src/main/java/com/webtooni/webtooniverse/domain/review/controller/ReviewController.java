@@ -1,29 +1,35 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
+import java.util.List;
+import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import javax.websocket.server.PathParam;
-import java.util.List;
 
 @RequestMapping("/api/v1/")
 @RequiredArgsConstructor
 @RestController
 public class ReviewController {
+
 
     private final ReviewService reviewService;
 
@@ -54,7 +60,7 @@ public class ReviewController {
      * @return 리뷰 id
      */
     @PutMapping("reviews/star")
-    public ReviewStarRequestDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto
+    public ReviewStarResponseDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto
         , @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         checkUser(userDetails);
@@ -98,5 +104,7 @@ public class ReviewController {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
         }
+
     }
 }
+

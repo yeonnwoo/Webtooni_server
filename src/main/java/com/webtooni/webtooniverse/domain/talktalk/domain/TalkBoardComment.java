@@ -1,13 +1,18 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.request.TalkCommentRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

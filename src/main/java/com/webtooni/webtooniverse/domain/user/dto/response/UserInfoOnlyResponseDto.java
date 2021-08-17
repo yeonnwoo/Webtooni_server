@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserInfoOnlyResponseDto {
+
     private String userName;
     private int userImg;
     private UserGrade userGrade;

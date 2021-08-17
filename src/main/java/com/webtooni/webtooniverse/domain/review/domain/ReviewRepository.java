@@ -1,12 +1,11 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositoryCustom {
 
@@ -15,10 +14,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRep
      */
     @Query("select r from Review r join r.webtoon on r.webtoon=:webtoon and r.user=:user")
     Review checkUserPointIsExist(@Param("webtoon") Webtoon webtoon, @Param("user") User user);
-
-    List<Review> findAllByOrderByCreateDate();
-
-    List<Review> findAllByOrderByLikeCountDesc();
 
     /**
      * 웹툰에 달린 리뷰 찾기

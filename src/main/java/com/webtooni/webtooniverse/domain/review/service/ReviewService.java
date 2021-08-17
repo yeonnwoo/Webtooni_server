@@ -2,26 +2,25 @@ package com.webtooni.webtooniverse.domain.review.service;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.*;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-
-import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
+import com.webtooni.webtooniverse.domain.review.domain.ReviewStatus;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
-import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
+import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
+import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.global.utils.LogExecutionTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,9 +39,12 @@ public class ReviewService {
 
     //리뷰 최신순,베스트순 불러오기
     @LogExecutionTime
+    @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
-        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestReview();
-        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getNewReview();
+        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestOrNewReview(
+            ReviewStatus.BEST);
+        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getBestOrNewReview(
+            ReviewStatus.NEW);
         return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
     }
 
@@ -56,7 +58,6 @@ public class ReviewService {
     public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto) {
         //해당 리뷰 찾기
         Review findReview = getFindReview(id);
-
         //리뷰 내용,날짜 변경
         findReview.changeReviewContent(reviewDto);
         return new ReviewCreateResponseDto(findReview);
@@ -72,6 +73,7 @@ public class ReviewService {
         Review findReview = getFindReview(id);
         findReview.deleteReview();
     }
+
 
     /**
      * 리뷰에 좋아요를 누른다.
@@ -117,7 +119,7 @@ public class ReviewService {
      * @return ReviewStarRequestDto 리뷰 id
      */
     @LogExecutionTime
-    public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
+    public ReviewStarResponseDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
         User user) {
 
         //해당 웹툰 찾기
@@ -142,8 +144,7 @@ public class ReviewService {
             review.insertWebToonAndUser(findWebtoon, user);
 
             reviewRepository.save(review);
-
-            return new ReviewStarRequestDto(review.getId());
+            return new ReviewStarResponseDto(review.getId(), findWebtoon.getToonAvgPoint());
         }
 
         //이미 존재함
@@ -157,10 +158,11 @@ public class ReviewService {
             //유저의 별점 점수 변경
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
 
-            return new ReviewStarRequestDto(findReview.getId());
+            return new ReviewStarResponseDto(findReview.getId(), findWebtoon.getToonAvgPoint());
         }
     }
 
+    @Transactional(readOnly = true)
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
 
         List<Long> likeReviewIdList;
@@ -173,8 +175,10 @@ public class ReviewService {
         Pageable pageable = PageRequest.of(page - 1, size);
         List<ReviewResponseDto> reviewDto = reviewRepository.getNewReviewWithPageable(pageable);
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
+
     }
 
+    @Transactional(readOnly = true)
     public List<MyReviewResponseDto> getMyReviews(Long userId) {
         List<Review> myReviews = reviewRepository.findMyReviews(userId);
         return myReviews.stream()
@@ -188,3 +192,8 @@ public class ReviewService {
         );
     }
 }
+
+
+
+
+

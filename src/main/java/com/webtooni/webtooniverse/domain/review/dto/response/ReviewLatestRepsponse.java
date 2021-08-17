@@ -4,12 +4,11 @@ import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 public class ReviewLatestRepsponse {
 
     private String reviewContent;
@@ -33,3 +32,4 @@ public class ReviewLatestRepsponse {
     }
 
 }
+

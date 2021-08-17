@@ -1,12 +1,10 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
-import com.webtooni.webtooniverse.domain.review.domain.Review;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, WebtoonRepositoryCustom {
 

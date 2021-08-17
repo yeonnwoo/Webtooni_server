@@ -1,15 +1,11 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
-import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,7 +23,7 @@ public class TalkPostResponseDto {
     private boolean ILike;
     private LocalDateTime createDate;
 
-    public TalkPostResponseDto(TalkPost talkPost, boolean exists){
+    public TalkPostResponseDto(TalkPost talkPost, boolean exists) {
         this.postId = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();

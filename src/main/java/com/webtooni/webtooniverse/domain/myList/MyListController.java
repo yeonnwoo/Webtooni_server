@@ -1,7 +1,6 @@
 package com.webtooni.webtooniverse.domain.myList;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,10 +19,12 @@ public class MyListController {
     private final MyListService myListService;
 
     @PostMapping("user/subscribe")
-    public void createMyList(@RequestBody MyListRequestDto myListRequestDto,@AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-        if (userDetails == null) { throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다."); }
-        User user=userDetails.getUser();
-        myListService.createMyList(user,myListRequestDto);
+    public void createMyList(@RequestBody MyListRequestDto myListRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+        User user = userDetails.getUser();
+        myListService.createMyList(user, myListRequestDto);
     }
 }

@@ -1,15 +1,15 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
 import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
-import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 public class ReviewResponseDto {
 
     private Long userId;

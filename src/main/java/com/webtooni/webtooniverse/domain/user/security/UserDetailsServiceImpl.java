@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String kakao) throws UsernameNotFoundException {
         long kakaoId = Long.parseLong(kakao);
         User user = userRepository.findByKakaoId(kakaoId)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + kakaoId));
+            .orElseThrow(() -> new UsernameNotFoundException("Can't find " + kakaoId));
 
         return new UserDetailsImpl(user);
     }

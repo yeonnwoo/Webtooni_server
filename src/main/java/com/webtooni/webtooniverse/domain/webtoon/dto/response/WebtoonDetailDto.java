@@ -1,14 +1,12 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
-import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
