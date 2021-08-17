@@ -6,6 +6,7 @@ import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkLikeRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,11 @@ public class TalkLikeService {
     private final TalkLikeRepository talkLikeRepository;
     private final TalkPostRepository talkPostRepository;
 
+    /**
+     * 게시글에 좋아요를 누른다.
+     * @param talkPostId 게시글 id
+     * @return TalkResponseDto
+     */
     public TalkResponseDto postLike(Long talkPostId) {
 
         TalkPost talkPost = talkPostRepository.findById(talkPostId).orElseThrow(
@@ -34,6 +40,7 @@ public class TalkLikeService {
         User user = ((UserDetailsImpl) authentication.getPrincipal()).getUser();
 
         boolean isExist = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
+
         if (isExist) {
             talkLikeRepository.deleteByTalkPostAndUser(talkPost, user);
             talkPost.updateLikeNum(-1);
@@ -45,5 +52,4 @@ public class TalkLikeService {
             return new TalkResponseDto("좋아요가 저장되었습니다.");
         }
     }
-
 }

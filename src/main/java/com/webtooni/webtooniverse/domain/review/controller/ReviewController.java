@@ -1,7 +1,7 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
@@ -53,7 +53,7 @@ public class ReviewController {
      * @return 리뷰 id
      */
     @PutMapping("reviews/star")
-    public ReviewStarRequestDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto
+    public ReviewStarResponseDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto
         , @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         checkUser(userDetails);

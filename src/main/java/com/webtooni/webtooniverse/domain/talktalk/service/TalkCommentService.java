@@ -2,7 +2,7 @@ package com.webtooni.webtooniverse.domain.talktalk.service;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
-import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkCommentRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.request.TalkCommentRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentPostingResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkCommentRepository;

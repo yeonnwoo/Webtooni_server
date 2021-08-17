@@ -3,7 +3,7 @@ package com.webtooni.webtooniverse.domain.review.service;
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewStatus;
-import com.webtooni.webtooniverse.domain.review.dto.request.ReviewStarRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.*;
 
 
@@ -17,7 +17,6 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -117,7 +116,7 @@ public class ReviewService {
      * @return ReviewStarRequestDto 리뷰 id
      */
     @LogExecutionTime
-    public ReviewStarRequestDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
+    public ReviewStarResponseDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
         User user) {
 
         //해당 웹툰 찾기
@@ -143,7 +142,7 @@ public class ReviewService {
 
             reviewRepository.save(review);
 
-            return new ReviewStarRequestDto(review.getId(),findWebtoon.getToonAvgPoint());
+            return new ReviewStarResponseDto(review.getId(),findWebtoon.getToonAvgPoint());
         }
 
         //이미 존재함
@@ -157,7 +156,7 @@ public class ReviewService {
             //유저의 별점 점수 변경
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
 
-            return new ReviewStarRequestDto(findReview.getId(),findWebtoon.getToonAvgPoint());
+            return new ReviewStarResponseDto(findReview.getId(),findWebtoon.getToonAvgPoint());
         }
     }
 
