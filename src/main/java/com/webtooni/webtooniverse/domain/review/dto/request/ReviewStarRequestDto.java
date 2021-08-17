@@ -10,6 +10,7 @@ public class ReviewStarRequestDto {
 
     private Long reviewId;
 
+
     public ReviewStarRequestDto(Long reviewId) {
         this.reviewId = reviewId;
     }

@@ -1,15 +1,14 @@
 package com.webtooni.webtooniverse.domain.talktalk.repository;
 
+import static com.webtooni.webtooniverse.domain.talktalk.domain.QTalkPost.talkPost;
+import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
+
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPageResponseDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-
-import static com.webtooni.webtooniverse.domain.talktalk.domain.QTalkPost.talkPost;
-import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
 public class TalkPostRepositoryImpl implements TalkPostRepositoryCustom {

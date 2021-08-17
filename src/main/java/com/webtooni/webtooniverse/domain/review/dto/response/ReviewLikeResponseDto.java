@@ -1,10 +1,8 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
-import lombok.AccessLevel;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @NoArgsConstructor

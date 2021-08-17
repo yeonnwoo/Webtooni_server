@@ -16,6 +16,9 @@ import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
 import com.webtooni.webtooniverse.domain.user.security.kakao.NaverOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.NaverUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+import java.util.ArrayList;
+import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,13 +27,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 public class UserService {
+
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
@@ -53,7 +53,7 @@ public class UserService {
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
         User kakaoUser = userRepository.findByKakaoId(kakaoId)
-                .orElse(null);
+            .orElse(null);
 
         // 카카오 정보로 회원가입
         if (kakaoUser == null) {
@@ -64,7 +64,8 @@ public class UserService {
             userRepository.save(kakaoUser);
 
         }
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
+        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId,
+            password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String kakao = String.valueOf(kakaoId);
@@ -74,7 +75,7 @@ public class UserService {
     public String naverLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         NaverUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode);
-        Long naverId = userInfo.getId();
+        String naverId = userInfo.getId();
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = naverId + ADMIN_TOKEN;
 
@@ -101,7 +102,7 @@ public class UserService {
     @Transactional
     public void updateInfo(Long id, UserInfoRequestDto requestDto) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
+            () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
         );
         user.update(requestDto);
     }
@@ -125,14 +126,14 @@ public class UserService {
             userGenreRepository.save(userGenre);
         }
         User newUser = userRepository.findById(user.getId()).orElseThrow(
-                () -> new NullPointerException("해당 유저가 없습니다")
+            () -> new NullPointerException("해당 유저가 없습니다")
         );
         newUser.OnBoarding(requestDto);
     }
 
     public UserInfoResponseDto getUserInfo(Long userId) {
         User findUser = userRepository.findById(userId).orElseThrow(
-                () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
+            () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
         );
         List<String> userGenre = userRepository.getUserGenre(userId);
         return new UserInfoResponseDto(findUser, userGenre);

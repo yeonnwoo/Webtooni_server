@@ -38,16 +38,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 필터 등록
         http
 
-                .httpBasic().disable() // REST API만을 고려, 기본 설정 해제
-                .csrf().disable() // csrf 사용 X
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                // 토큰 기반 인증이므로 세션도 사용 X
-                .and()
-                .authorizeRequests() // 요청에 대한 사용권한 체크
-                .anyRequest().permitAll() // 나머지 요청은 누구나 접근 가능
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+            .httpBasic().disable() // REST API만을 고려, 기본 설정 해제
+            .csrf().disable() // csrf 사용 X
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            // 토큰 기반 인증이므로 세션도 사용 X
+            .and()
+            .authorizeRequests() // 요청에 대한 사용권한 체크
+            .anyRequest().permitAll() // 나머지 요청은 누구나 접근 가능
+            .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                UsernamePasswordAuthenticationFilter.class);
 
     }
 }

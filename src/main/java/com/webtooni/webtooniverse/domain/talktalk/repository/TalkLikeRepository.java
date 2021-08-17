@@ -14,4 +14,6 @@ public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {
 
     void deleteByTalkPostAndUser(TalkPost talkPost, User user);
 
+    void deleteAllByTalkPost(TalkPost talkPost);
+
 }

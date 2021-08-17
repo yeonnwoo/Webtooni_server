@@ -45,6 +45,7 @@ public class WebtoonAndGenreResponseDto {
         genres.addAll(genreList);
     }
 
+
     public void addGenre(String genre) {
         genres.add(genre);
     }

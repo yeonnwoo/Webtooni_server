@@ -1,9 +1,8 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface ReviewRepositoryCustom {
 

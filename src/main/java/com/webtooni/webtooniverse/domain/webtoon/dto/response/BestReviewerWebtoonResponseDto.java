@@ -1,12 +1,10 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoOnlyResponseDto;
-import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

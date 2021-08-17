@@ -10,7 +10,7 @@ public class TalkResponseDto {
 
     private String result;
 
-    public TalkResponseDto(String result){
+    public TalkResponseDto(String result) {
         this.result = result;
     }
 }

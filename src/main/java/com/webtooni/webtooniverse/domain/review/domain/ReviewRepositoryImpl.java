@@ -1,20 +1,20 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 
+import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
+import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
+import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
+import static com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre.webtoonGenre;
+
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
-import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
-import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
-import static com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre.webtoonGenre;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 
 
 @RequiredArgsConstructor
@@ -79,26 +79,26 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     //reviewResponseDto 기본 query
     private JPAQuery<ReviewResponseDto> getReviewResponseQuery() {
-        JPAQuery<ReviewResponseDto> jpaQuery = jpaQueryFactory
-            .select(Projections.constructor(ReviewResponseDto.class,
-                review.user.id,
-                review.user.userImg,
-                review.user.userName,
-                review.userPointNumber,
-                review.reviewContent,
-                review.webtoon.id,
-                review.webtoon.toonTitle,
-                review.user.userGrade,
-                review.webtoon.toonImg,
-                review.webtoon.toonAuthor,
-                review.webtoon.toonPlatform,
-                review.webtoon.toonWeekday,
-                review.webtoon.finished,
-                review.createDate,
-                review.webtoon.toonAvgPoint,
-                review.likeCount,
-                review.id
-            ))
+        JPAQuery<ReviewResponseDto> jpaQuery = jpaQueryFactory.select(
+                Projections.constructor(ReviewResponseDto.class,
+                    review.user.id,
+                    review.user.userImg,
+                    review.user.userName,
+                    review.userPointNumber,
+                    review.reviewContent,
+                    review.webtoon.id,
+                    review.webtoon.toonTitle,
+                    review.user.userGrade,
+                    review.webtoon.toonImg,
+                    review.webtoon.toonAuthor,
+                    review.webtoon.toonPlatform,
+                    review.webtoon.toonWeekday,
+                    review.webtoon.finished,
+                    review.createDate,
+                    review.webtoon.toonAvgPoint,
+                    review.likeCount,
+                    review.id
+                ))
             .from(review)
             .innerJoin(review.user, user)
             .innerJoin(review.webtoon, webtoon)

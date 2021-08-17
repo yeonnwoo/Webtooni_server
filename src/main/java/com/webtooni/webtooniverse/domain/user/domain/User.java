@@ -3,11 +3,16 @@ package com.webtooni.webtooniverse.domain.user.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Getter
@@ -15,7 +20,8 @@ import javax.persistence.*;
 public class User {
 
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -36,43 +42,43 @@ public class User {
     private Long kakaoId;
 
     @Column(name = "naver_id")
-    private Long naverId;
+    private String naverId;
 
-    @Builder
-    public User(String password, Long kakaoId, Long naverId){
+    public User(String password, Long kakaoId, String naverId){
         this.password = password;
         this.userGrade = UserGrade.FIRST;
         this.kakaoId = kakaoId;
         this.naverId = naverId;
     }
 
-    public void update(UserInfoRequestDto requestDto){
+    public void update(UserInfoRequestDto requestDto) {
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();
     }
 
-    public void OnBoarding(UserOnBoardingRequestDto requestDto){
+    public void OnBoarding(UserOnBoardingRequestDto requestDto) {
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();
     }
 
     @Builder
-    public User(String userName, String password, int userImg, UserGrade userGrade, Long kakaoId) {
+    public User(String userName, String password, int userImg, UserGrade userGrade, Long kakaoId, String naverId) {
         this.userName = userName;
         this.password = password;
         this.userImg = userImg;
         this.userGrade = userGrade;
         this.kakaoId = kakaoId;
+        this.naverId = naverId;
     }
 
 
-    public User(String userName,int userImg, UserGrade userGrade) {
+    public User(String userName, int userImg, UserGrade userGrade) {
         this.userName = userName;
         this.userImg = userImg;
         this.userGrade = userGrade;
     }
 
-    public User(String userName){
-        this.userName=userName;
+    public User(String userName) {
+        this.userName = userName;
     }
 }

@@ -3,13 +3,18 @@ package com.webtooni.webtooniverse.domain.review.domain;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -28,6 +33,8 @@ public class Review {
     private float userPointNumber;
 
     private int likeCount;
+
+    private LocalDateTime starCreateDate;
 
     @ManyToOne
     @JoinColumn(name = "toon_id")
@@ -55,6 +62,7 @@ public class Review {
         this.userPointNumber = userPointNumber;
         this.webtoon = webtoon;
         this.user = user;
+        this.starCreateDate = LocalDateTime.now();
     }
 
     public static Review of(float userPointNumber, Webtoon webtoon, User user) {
@@ -66,6 +74,7 @@ public class Review {
      */
     public void changeUserPoint(float userPointNumber) {
         this.userPointNumber = userPointNumber;
+        this.starCreateDate = LocalDateTime.now();
     }
 
 

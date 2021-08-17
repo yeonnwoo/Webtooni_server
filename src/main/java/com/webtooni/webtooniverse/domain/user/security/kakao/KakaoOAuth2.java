@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class KakaoOAuth2 {
 
+
     public KakaoUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
         String accessToken = getAccessToken(authorizedCode);
@@ -33,21 +34,21 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "9bf8aff1cb1460ec63268cd09c603a1a");
-//        params.add("redirect_uri", "http://localhost:3000/user/kakao");
-        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
+        params.add("redirect_uri", "http://localhost:3000/user/kakao");
+//        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
         RestTemplate rt = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =
-                new HttpEntity<>(params, headers);
+            new HttpEntity<>(params, headers);
 
         // Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
         ResponseEntity<String> response = rt.exchange(
-                "https://kauth.kakao.com/oauth/token",
-                HttpMethod.POST,
-                kakaoTokenRequest,
-                String.class
+            "https://kauth.kakao.com/oauth/token",
+            HttpMethod.POST,
+            kakaoTokenRequest,
+            String.class
         );
 
         // JSON -> 액세스 토큰 파싱
@@ -71,10 +72,10 @@ public class KakaoOAuth2 {
 
         // Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
         ResponseEntity<String> response = rt.exchange(
-                "https://nid.naver.com/user/me",
-                HttpMethod.POST,
-                kakaoProfileRequest,
-                String.class
+            "https://kapi.kakao.com/v2/user/me",
+            HttpMethod.POST,
+            kakaoProfileRequest,
+            String.class
         );
 
         JSONObject body = new JSONObject(response.getBody());
@@ -82,4 +83,5 @@ public class KakaoOAuth2 {
 
         return new KakaoUserInfo(id);
     }
+
 }
