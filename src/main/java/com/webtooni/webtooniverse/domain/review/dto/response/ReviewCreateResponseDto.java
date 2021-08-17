@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewCreateResponseDto {
 
-  private LocalDateTime createDate;
+    private LocalDateTime createDate;
 
-  public ReviewCreateResponseDto(Review review) {
-    this.createDate = review.getCreateDate();
-  }
+    public ReviewCreateResponseDto(Review review) {
+        this.createDate = review.getCreateDate();
+    }
 }

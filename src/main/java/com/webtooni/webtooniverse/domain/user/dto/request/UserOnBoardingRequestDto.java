@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserOnBoardingRequestDto {
 
-  private ArrayList<String> genres;
-  private int userImg;
-  private String userName;
+    private ArrayList<String> genres;
+    private int userImg;
+    private String userName;
 }

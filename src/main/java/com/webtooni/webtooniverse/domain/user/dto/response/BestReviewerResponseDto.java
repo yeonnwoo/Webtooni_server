@@ -10,9 +10,9 @@ import lombok.ToString;
 @ToString
 public class BestReviewerResponseDto {
 
-  User user;
-  Long reviewCount;
-  int likeCount;
+    User user;
+    Long reviewCount;
+    int likeCount;
 
 
 }

@@ -21,23 +21,23 @@ import lombok.NoArgsConstructor;
 @Table(name = "talk_board_like")
 public class TalkLike {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "talk_board_like_id")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "talk_board_like_id")
+    private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "talk_post_id")
-  private TalkPost talkPost;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "talk_post_id")
+    private TalkPost talkPost;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-  @Builder
-  public TalkLike(TalkPost talkPost, User user) {
-    this.talkPost = talkPost;
-    this.user = user;
-  }
+    @Builder
+    public TalkLike(TalkPost talkPost, User user) {
+        this.talkPost = talkPost;
+        this.user = user;
+    }
 
 }

@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
-  ReviewLike findReviewLikeByReviewAndUser(Review review, User user);
+    ReviewLike findReviewLikeByReviewAndUser(Review review, User user);
 
-  @Query("select rl.review.id from ReviewLike rl where rl.user.id=:userId and rl.reviewStatus='LIKE'")
-  List<Long> findReviewIdListByUser(@Param("userId") Long id);
+    @Query("select rl.review.id from ReviewLike rl where rl.user.id=:userId and rl.reviewStatus='LIKE'")
+    List<Long> findReviewIdListByUser(@Param("userId") Long id);
 }

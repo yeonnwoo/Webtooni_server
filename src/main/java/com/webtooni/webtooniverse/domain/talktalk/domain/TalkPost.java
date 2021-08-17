@@ -21,43 +21,43 @@ import lombok.NoArgsConstructor;
 @Table(name = "talk_board")
 public class TalkPost extends TimeStamped {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "talk_post_id")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "talk_post_id")
+    private Long id;
 
-  @Column(name = "talk_post_title")
-  private String postTitle;
+    @Column(name = "talk_post_title")
+    private String postTitle;
 
-  @Column(name = "talk_post_content")
-  private String postContent;
+    @Column(name = "talk_post_content")
+    private String postContent;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-  private int likeNum;
+    private int likeNum;
 
-  private int talkCommentCount;
+    private int talkCommentCount;
 
-  public TalkPost(TalkPostRequestDto requestDto, User user) {
-    this.postTitle = requestDto.getPostTitle();
-    this.postContent = requestDto.getPostContent();
-    this.user = user;
-    this.talkCommentCount = 0;
-    this.likeNum = 0;
-  }
+    public TalkPost(TalkPostRequestDto requestDto, User user) {
+        this.postTitle = requestDto.getPostTitle();
+        this.postContent = requestDto.getPostContent();
+        this.user = user;
+        this.talkCommentCount = 0;
+        this.likeNum = 0;
+    }
 
-  public void update(TalkPostRequestDto talkPostRequestDto) {
-    this.postTitle = talkPostRequestDto.getPostTitle();
-    this.postContent = talkPostRequestDto.getPostContent();
-  }
+    public void update(TalkPostRequestDto talkPostRequestDto) {
+        this.postTitle = talkPostRequestDto.getPostTitle();
+        this.postContent = talkPostRequestDto.getPostContent();
+    }
 
-  public void updateLikeNum(int count) {
-    this.likeNum += count;
-  }
+    public void updateLikeNum(int count) {
+        this.likeNum += count;
+    }
 
-  public void updateTalkCommentNum(int count) {
-    this.talkCommentCount += count;
-  }
+    public void updateTalkCommentNum(int count) {
+        this.talkCommentCount += count;
+    }
 }

@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AllTalkPostPageLikeResponseDto {
 
-  private AllTalkPostPageResponseDto AllPostDto;
-  private List<TalkLikeListResponseDto> likeListDto;
+    private AllTalkPostPageResponseDto AllPostDto;
+    private List<TalkLikeListResponseDto> likeListDto;
 
-  public AllTalkPostPageLikeResponseDto(AllTalkPostPageResponseDto AllPostDto,
-      List<TalkLikeListResponseDto> likeListDto) {
-    this.AllPostDto = AllPostDto;
-    this.likeListDto = likeListDto;
-  }
+    public AllTalkPostPageLikeResponseDto(AllTalkPostPageResponseDto AllPostDto,
+        List<TalkLikeListResponseDto> likeListDto) {
+        this.AllPostDto = AllPostDto;
+        this.likeListDto = likeListDto;
+    }
 
 }

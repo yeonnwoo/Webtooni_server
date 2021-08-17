@@ -9,9 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface TalkCommentRepository extends JpaRepository<TalkBoardComment, Long> {
 
-  @Query("select tc from TalkBoardComment tc where tc.talkPost.id=:id")
-  List<TalkBoardComment> findAllCommentByBoardId(@Param("id") Long id);
+    @Query("select tc from TalkBoardComment tc where tc.talkPost.id=:id")
+    List<TalkBoardComment> findAllCommentByBoardId(@Param("id") Long id);
 
-  void deleteAllByTalkPost(TalkPost talkPost);
+    void deleteAllByTalkPost(TalkPost talkPost);
 
 }

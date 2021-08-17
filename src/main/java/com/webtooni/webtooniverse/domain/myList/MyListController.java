@@ -16,15 +16,15 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class MyListController {
 
-  private final MyListService myListService;
+    private final MyListService myListService;
 
-  @PostMapping("user/subscribe")
-  public void createMyList(@RequestBody MyListRequestDto myListRequestDto,
-      @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    if (userDetails == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+    @PostMapping("user/subscribe")
+    public void createMyList(@RequestBody MyListRequestDto myListRequestDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+        User user = userDetails.getUser();
+        myListService.createMyList(user, myListRequestDto);
     }
-    User user = userDetails.getUser();
-    myListService.createMyList(user, myListRequestDto);
-  }
 }

@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserWebtoonAndReviewResponseDto {
 
-  List<WebtoonResponseDto> myWebtoons;
-  List<MyReviewResponseDto> myReviews;
+    List<WebtoonResponseDto> myWebtoons;
+    List<MyReviewResponseDto> myReviews;
 
-  public UserWebtoonAndReviewResponseDto(List<WebtoonResponseDto> myWebtoonList,
-      List<MyReviewResponseDto> myReviews) {
-    this.myWebtoons = myWebtoonList;
-    this.myReviews = myReviews;
-  }
+    public UserWebtoonAndReviewResponseDto(List<WebtoonResponseDto> myWebtoonList,
+        List<MyReviewResponseDto> myReviews) {
+        this.myWebtoons = myWebtoonList;
+        this.myReviews = myReviews;
+    }
 }

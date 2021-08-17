@@ -18,22 +18,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserGenre {
 
-  @Id
-  @Column(name = "user_genre_id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Long id;
+    @Id
+    @Column(name = "user_genre_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "genre_id")
-  Genre genre;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id")
+    Genre genre;
 
-  public UserGenre(User user, Genre genre) {
-    this.user = user;
-    this.genre = genre;
-  }
+    public UserGenre(User user, Genre genre) {
+        this.user = user;
+        this.genre = genre;
+    }
 
 }

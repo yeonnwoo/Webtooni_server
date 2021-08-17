@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReviewRepositoryCustom {
 
-  List<Review> findMyReviews(Long userId);
+    List<Review> findMyReviews(Long userId);
 
-  List<ReviewResponseDto> getBestOrNewReview(ReviewStatus reviewStatus);
+    List<ReviewResponseDto> getBestOrNewReview(ReviewStatus reviewStatus);
 
-  List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable);
+    List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable);
 }

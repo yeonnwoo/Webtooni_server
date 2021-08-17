@@ -22,38 +22,38 @@ import lombok.NoArgsConstructor;
 @Entity
 public class ReviewLike {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "review_like_id")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_like_id")
+    private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "review_id")
-  private Review review;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
 
-  @Enumerated(EnumType.STRING)
-  private ReviewLikeStatus reviewStatus;
+    @Enumerated(EnumType.STRING)
+    private ReviewLikeStatus reviewStatus;
 
-  @Builder
-  public ReviewLike(User user, Review review, ReviewLikeStatus reviewStatus) {
-    this.user = user;
-    this.review = review;
-    this.reviewStatus = reviewStatus;
-  }
+    @Builder
+    public ReviewLike(User user, Review review, ReviewLikeStatus reviewStatus) {
+        this.user = user;
+        this.review = review;
+        this.reviewStatus = reviewStatus;
+    }
 
-  public static ReviewLike of(User user, Review review) {
-    return new ReviewLike(user, review, ReviewLikeStatus.LIKE);
-  }
+    public static ReviewLike of(User user, Review review) {
+        return new ReviewLike(user, review, ReviewLikeStatus.LIKE);
+    }
 
-  public void changeStatusLike() {
-    this.reviewStatus = ReviewLikeStatus.LIKE;
-  }
+    public void changeStatusLike() {
+        this.reviewStatus = ReviewLikeStatus.LIKE;
+    }
 
-  public void changeStatusCancel() {
-    this.reviewStatus = ReviewLikeStatus.CANCEL;
-  }
+    public void changeStatusCancel() {
+        this.reviewStatus = ReviewLikeStatus.CANCEL;
+    }
 }

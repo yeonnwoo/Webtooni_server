@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyReviewResponseDto {
 
-  private String reviewContent;
-  private float userPointNumber;
-  private int likeCount;
-  private Webtoon webtoon;
+    private String reviewContent;
+    private float userPointNumber;
+    private int likeCount;
+    private Webtoon webtoon;
 
-  public MyReviewResponseDto(Review review) {
-    this.reviewContent = review.getReviewContent();
-    this.userPointNumber = review.getUserPointNumber();
-    this.likeCount = review.getLikeCount();
-    this.webtoon = review.getWebtoon();
-  }
+    public MyReviewResponseDto(Review review) {
+        this.reviewContent = review.getReviewContent();
+        this.userPointNumber = review.getUserPointNumber();
+        this.likeCount = review.getLikeCount();
+        this.webtoon = review.getWebtoon();
+    }
 }
