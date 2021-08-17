@@ -28,6 +28,7 @@ public class TalkLikeService {
 
     /**
      * 게시글에 좋아요를 누른다.
+     *
      * @param talkPostId 게시글 id
      * @return TalkResponseDto
      */
