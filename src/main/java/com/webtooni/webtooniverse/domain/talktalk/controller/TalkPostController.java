@@ -6,6 +6,7 @@ import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostPostingRe
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkPostResponseDto;
 import com.webtooni.webtooniverse.domain.talktalk.service.TalkPostService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import javax.websocket.server.PathParam;
 public class TalkPostController {
 
     private final TalkPostService talkPostService;
+
 
     //게시글 쓰기
     @PostMapping("talk")
@@ -53,6 +55,7 @@ public class TalkPostController {
     public void deletePost(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
+
         talkPostService.deletePost(id);
     }
 
