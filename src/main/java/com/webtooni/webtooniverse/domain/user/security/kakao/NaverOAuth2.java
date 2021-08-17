@@ -33,6 +33,7 @@ public class NaverOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "7RBFbToxSfOTA51ofOYj");
+        params.add("client_secret", "UgqTEYjIYe");
 //        params.add("redirect_uri", "http://localhost:3000/user/kakao");
         params.add("redirect_uri", "http://localhost:8080/api/v1/user/naver/callback");
         params.add("code", authorizedCode);
@@ -44,7 +45,7 @@ public class NaverOAuth2 {
 
         // Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
         ResponseEntity<String> response = rt.exchange(
-                "https://nid.naver.com/oauth/token",
+                "https://nid.naver.com/oauth2.0/token",
                 HttpMethod.POST,
                 kakaoTokenRequest,
                 String.class
@@ -52,9 +53,11 @@ public class NaverOAuth2 {
 
         // JSON -> 액세스 토큰 파싱
         String tokenJson = response.getBody();
+        System.out.println("tokenJson = " + tokenJson);
         JSONObject rjson = new JSONObject(tokenJson);
         String accessToken = rjson.getString("access_token");
 
+        System.out.println("accessToken = " + accessToken);
         return accessToken;
     }
 
@@ -71,14 +74,16 @@ public class NaverOAuth2 {
 
         // Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
         ResponseEntity<String> response = rt.exchange(
-                "https://kapi.kakao.com/v2/user/me",
+                "https://openapi.naver.com/v1/nid/me",
                 HttpMethod.POST,
                 kakaoProfileRequest,
                 String.class
         );
 
         JSONObject body = new JSONObject(response.getBody());
-        Long id = body.getLong("id");
+        System.out.println("body = " + body);
+        JSONObject object = body.getJSONObject("response");
+        String id = object.getString("id");
 
         return new NaverUserInfo(id);
     }

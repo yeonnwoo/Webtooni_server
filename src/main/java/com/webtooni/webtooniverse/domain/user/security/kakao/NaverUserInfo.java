@@ -6,5 +6,5 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class NaverUserInfo {
-    Long id;
+    String id;
 }
