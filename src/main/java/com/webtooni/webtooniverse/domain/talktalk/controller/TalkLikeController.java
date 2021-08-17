@@ -15,8 +15,13 @@ public class TalkLikeController {
 
     private final TalkLikeService talkLikeService;
 
+    /**
+     * 게시글에 좋아요를 누른다.
+     * @param id postId
+     * @return TalkResponseDto
+     */
     @PostMapping("talk/{id}/like")
-    public TalkResponseDto like(@PathVariable Long id){
+    public TalkResponseDto like(@PathVariable Long id) {
         return talkLikeService.postLike(id);
     }
 }

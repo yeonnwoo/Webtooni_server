@@ -4,6 +4,7 @@ import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
+import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
@@ -12,21 +13,18 @@ import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
-
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -40,6 +38,7 @@ public class UserService {
     private final WebtoonRepository webtoonRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GenreRepository genreRepository;
+    private final UserGenreRepository userGenreRepository;
 
 
     public String kakaoLogin(String authorizedCode) {
@@ -62,15 +61,10 @@ public class UserService {
             userRepository.save(kakaoUser);
 
         }
-
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId, password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
         String kakao = String.valueOf(kakaoId);
-
-
         return jwtTokenProvider.createToken(kakao);
     }
 
@@ -95,24 +89,23 @@ public class UserService {
     @Transactional
     public void pickGenre(User user, UserOnBoardingRequestDto requestDto) {
         ArrayList<String> pickedGenres = requestDto.getGenres();
-        List<UserGenre> userGenres = new ArrayList<>();
         for (String pickedGenre : pickedGenres) {
             Genre genre = genreRepository.findByGenreType(pickedGenre);
             UserGenre userGenre = new UserGenre(user, genre);
-            userGenres.add(userGenre);
+            userGenreRepository.save(userGenre);
         }
-        user.OnBoarding(requestDto);
+        User newUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저가 없습니다")
+        );
+        newUser.OnBoarding(requestDto);
     }
 
-    public UserInfoResponseDto getUserInfo(User user) {
-        User findUser = userRepository.findById(user.getId()).orElseThrow(
+    public UserInfoResponseDto getUserInfo(Long userId) {
+        User findUser = userRepository.findById(userId).orElseThrow(
                 () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
         );
-
-        List<String> userGenre = userRepository.getUserGenre(user.getId());
-
+        List<String> userGenre = userRepository.getUserGenre(userId);
         return new UserInfoResponseDto(findUser, userGenre);
-
     }
 
 

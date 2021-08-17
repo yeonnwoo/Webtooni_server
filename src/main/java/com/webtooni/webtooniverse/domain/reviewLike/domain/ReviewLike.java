@@ -14,7 +14,8 @@ import javax.persistence.*;
 @Entity
 public class ReviewLike {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_like_id")
     private Long id;
 
@@ -36,16 +37,15 @@ public class ReviewLike {
         this.reviewStatus = reviewStatus;
     }
 
-    public static ReviewLike of(User user, Review review)
-    {
-        return new ReviewLike(user,review,ReviewLikeStatus.LIKE);
+    public static ReviewLike of(User user, Review review) {
+        return new ReviewLike(user, review, ReviewLikeStatus.LIKE);
     }
 
     public void changeStatusLike() {
-        this.reviewStatus= ReviewLikeStatus.LIKE;
+        this.reviewStatus = ReviewLikeStatus.LIKE;
     }
 
     public void changeStatusCancel() {
-        this.reviewStatus= ReviewLikeStatus.CANCEL;
+        this.reviewStatus = ReviewLikeStatus.CANCEL;
     }
 }

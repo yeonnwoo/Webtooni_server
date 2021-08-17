@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-json'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.json:json:20210307'
     implementation group: 'org.json', name: 'json', version: '20210307'
     compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.4"
@@ -45,6 +46,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
     implementation 'com.querydsl:querydsl-jpa'
+
+    // 스웨거
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
 
 }
 

@@ -12,31 +12,31 @@ import static com.webtooni.webtooniverse.domain.talktalk.domain.QTalkPost.talkPo
 import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
 
 @RequiredArgsConstructor
-public class TalkPostRepositoryImpl implements TalkPostRepositoryCustom{
+public class TalkPostRepositoryImpl implements TalkPostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
     //모든 톡톡 게시글 불러오기
-    public List<TalkPostPageResponseDto> findAllTalkPost(Pageable pageable){
+    public List<TalkPostPageResponseDto> findAllTalkPost(Pageable pageable) {
 
         return jpaQueryFactory
-                .select(Projections.constructor(TalkPostPageResponseDto.class,
-                        talkPost.id,
-                        talkPost.postTitle,
-                        talkPost.postContent,
-                        talkPost.user.id,
-                        talkPost.user.userImg,
-                        talkPost.user.userName,
-                        talkPost.user.userGrade,
-                        talkPost.createDate,
-                        talkPost.likeNum,
-                        talkPost.talkCommentCount))
-                .from(talkPost)
-                .innerJoin(talkPost.user, user)
-                .orderBy(talkPost.createDate.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+            .select(Projections.constructor(TalkPostPageResponseDto.class,
+                talkPost.id,
+                talkPost.postTitle,
+                talkPost.postContent,
+                talkPost.user.id,
+                talkPost.user.userImg,
+                talkPost.user.userName,
+                talkPost.user.userGrade,
+                talkPost.createDate,
+                talkPost.likeNum,
+                talkPost.talkCommentCount))
+            .from(talkPost)
+            .innerJoin(talkPost.user, user)
+            .orderBy(talkPost.createDate.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
 
     }
 

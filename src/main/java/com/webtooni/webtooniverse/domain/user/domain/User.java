@@ -45,6 +45,7 @@ public class User {
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();
     }
+
     public void OnBoarding(UserOnBoardingRequestDto requestDto){
         this.userImg = requestDto.getUserImg();
         this.userName = requestDto.getUserName();

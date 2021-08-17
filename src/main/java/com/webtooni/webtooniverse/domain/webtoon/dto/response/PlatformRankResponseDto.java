@@ -1,6 +1,8 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlatformRankResponseDto {
 
-    private Long id;
+    private Long toonId;
     private String toonImg;
     private String toonTitle;
     private String toonAuthor;
@@ -18,7 +20,7 @@ public class PlatformRankResponseDto {
     private boolean finished;
 
     public PlatformRankResponseDto(Webtoon webtoon) {
-        this.id = webtoon.getId();
+        this.toonId = webtoon.getId();
         this.toonImg = webtoon.getToonImg();
         this.toonTitle = webtoon.getToonTitle();
         this.toonAuthor = webtoon.getToonAuthor();

@@ -1,9 +1,9 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @NoArgsConstructor

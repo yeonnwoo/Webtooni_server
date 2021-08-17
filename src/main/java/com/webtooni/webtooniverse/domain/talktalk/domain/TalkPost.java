@@ -1,6 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.domain;
 
-import com.webtooni.webtooniverse.domain.talktalk.dto.requset.TalkPostRequestDto;
+import com.webtooni.webtooniverse.domain.talktalk.dto.request.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.global.utils.TimeStamped;
 import lombok.AccessLevel;
@@ -42,16 +42,16 @@ public class TalkPost extends TimeStamped {
         this.likeNum = 0;
     }
 
-    public void update(TalkPostRequestDto talkPostRequestDto){
+    public void update(TalkPostRequestDto talkPostRequestDto) {
         this.postTitle = talkPostRequestDto.getPostTitle();
         this.postContent = talkPostRequestDto.getPostContent();
     }
 
-    public void updateLikeNum(int count){
+    public void updateLikeNum(int count) {
         this.likeNum += count;
     }
 
-    public void updateTalkCommentNum(int count){
-        this.likeNum += count;
+    public void updateTalkCommentNum(int count) {
+        this.talkCommentCount += count;
     }
 }

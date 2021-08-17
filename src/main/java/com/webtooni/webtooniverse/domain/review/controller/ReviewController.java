@@ -1,17 +1,22 @@
 package com.webtooni.webtooniverse.domain.review.controller;
 
-
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.request.WebtoonPointRequestDto;
-import com.webtooni.webtooniverse.domain.review.dto.response.*;
+import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewCreateResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
-import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RequestMapping("/api/v1/")
@@ -19,25 +24,16 @@ import java.util.List;
 @RestController
 public class ReviewController {
 
-    private final WebtoonRepository webtoonRepository;
     private final ReviewService reviewService;
 
-
-    // to do(dto로 묶어서 보내주기)
     @GetMapping("reviews/new")
-    public ReviewLikeResponseDto getNewReview(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userDetails.getUser();
-        return reviewService.getNewReview(user);
+    public ReviewLikeResponseDto getNewReview(@PathParam("page") int page,
+        @PathParam("size") int size
+        , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return reviewService.getNewReview(userDetails, page, size);
     }
 
-
-
-    /**
-     * TODO (dto로 묶어서 보내주기), service 거쳐서 가져오기 MVC
-     */
-
-
-    //메인페이지에 리뷰(최신순/ 베스트순) 불러오기
+    //메인페이지에 리뷰(최신순/베스트순) 불러오기
     @GetMapping("rank/reviews")
     public ReviewMainResponseDto getTotalReviews() {
         return reviewService.getMainReview();
@@ -45,29 +41,34 @@ public class ReviewController {
 
     //리뷰 작성(수정)
     @PutMapping("reviews/{id}")
-    public ReviewCreateResponseDto updateReview(@PathVariable Long id, @RequestBody ReviewContentRequestDto reviewDto) {
-
+    public ReviewCreateResponseDto updateReview(@PathVariable Long id,
+        @RequestBody ReviewContentRequestDto reviewDto) {
         return reviewService.updateReview(id, reviewDto);
     }
 
     /**
-     * 웹툰에 별점주기
+     * 웹툰에 별점을 준다.
      *
      * @param reviewStarDto 웹툰 id,userPointNumber 담은 dto
+     * @return 리뷰 id
      */
     @PutMapping("reviews/star")
-    public void updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ReviewStarResponseDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto
+        , @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        //로그인된 유저 정보로 변경 되어야함
+        checkUser(userDetails);
         User user = userDetails.getUser();
 
-        reviewService.clickWebtoonPointNumber(reviewStarDto, user);
-
+        return reviewService.clickWebtoonPointNumber(reviewStarDto, user);
     }
 
+    //내가 쓴 리뷰 목록
     @GetMapping("user/me/reviews")
-    public List<MyReviewResponseDto> getMyReviews(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        return reviewService.getMyReviews(userDetails.getUser());
+    public List<MyReviewResponseDto> getMyReviews(
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        checkUser(userDetails);
+        return reviewService.getMyReviews(userDetails.getUser().getId());
     }
 
     //리뷰 삭제
@@ -76,14 +77,25 @@ public class ReviewController {
         reviewService.deleteReview(id);
     }
 
-    //리뷰에 좋아요
+    /**
+     * 리뷰에 좋아요를 누른다.
+     *
+     * @param id          review id
+     * @param userDetails user 정보
+     */
     @PostMapping("reviews/{id}/like")
-    public void clickReviewLike(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void clickReviewLike(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        //로그인된 유저 정보로 변경 되어야함
+        checkUser(userDetails);
         User user = userDetails.getUser();
 
         reviewService.clickReviewLike(id, user);
     }
 
+    private void checkUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+    }
 }

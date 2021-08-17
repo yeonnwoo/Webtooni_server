@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.dto.response;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,12 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MonthRankResponseDto {
 
-    private Long id;
+    private Long toonId;
     private String toonImg;
     private String toonTitle;
     private String toonAuthor;
@@ -22,13 +22,13 @@ public class MonthRankResponseDto {
     private String toonPlatform;
     private String toonWeekday;
     private boolean finished;
-    private List<String> toonGenre = new ArrayList<>();
+    private List<String> genres = new ArrayList<>();
 
 
-
-    public MonthRankResponseDto(Long id, String toonImg, String toonTitle, String toonAuthor, float toonAvgPoint,
-                                String toonPlatform, String toonWeekday, boolean finished, List<String> genreList) {
-        this.id = id;
+    public MonthRankResponseDto(Long toonId, String toonImg, String toonTitle, String toonAuthor,
+        float toonAvgPoint,
+        String toonPlatform, String toonWeekday, boolean finished, List<String> genreList) {
+        this.toonId = toonId;
         this.toonImg = toonImg;
         this.toonTitle = toonTitle;
         this.toonAuthor = toonAuthor;
@@ -36,6 +36,6 @@ public class MonthRankResponseDto {
         this.toonPlatform = toonPlatform;
         this.toonWeekday = toonWeekday;
         this.finished = finished;
-        this.toonGenre = genreList;
+        this.genres = genreList;
     }
 }
