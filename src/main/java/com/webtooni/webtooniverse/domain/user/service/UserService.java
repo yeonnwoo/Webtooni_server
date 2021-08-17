@@ -29,85 +29,85 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-  private final PasswordEncoder passwordEncoder;
-  private final UserRepository userRepository;
-  private final AuthenticationManager authenticationManager;
-  private static final String ADMIN_TOKEN = "AAABnv/xRVklrfnYxKZ0aHgTBcXukedZygoC";
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private static final String ADMIN_TOKEN = "AAABnv/xRVklrfnYxKZ0aHgTBcXukedZygoC";
 
-  private final KakaoOAuth2 kakaoOAuth2;
-  private final WebtoonRepository webtoonRepository;
-  private final JwtTokenProvider jwtTokenProvider;
-  private final GenreRepository genreRepository;
-  private final UserGenreRepository userGenreRepository;
+    private final KakaoOAuth2 kakaoOAuth2;
+    private final WebtoonRepository webtoonRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final GenreRepository genreRepository;
+    private final UserGenreRepository userGenreRepository;
 
 
-  public String kakaoLogin(String authorizedCode) {
-    // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-    KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
-    Long kakaoId = userInfo.getId();
-    // 패스워드 = 카카오 Id + ADMIN TOKEN
-    String password = kakaoId + ADMIN_TOKEN;
+    public String kakaoLogin(String authorizedCode) {
+        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
+        KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
+        Long kakaoId = userInfo.getId();
+        // 패스워드 = 카카오 Id + ADMIN TOKEN
+        String password = kakaoId + ADMIN_TOKEN;
 
-    // DB 에 중복된 Kakao Id 가 있는지 확인
-    User kakaoUser = userRepository.findByKakaoId(kakaoId)
-        .orElse(null);
+        // DB 에 중복된 Kakao Id 가 있는지 확인
+        User kakaoUser = userRepository.findByKakaoId(kakaoId)
+            .orElse(null);
 
-    // 카카오 정보로 회원가입
-    if (kakaoUser == null) {
-      // 패스워드 인코딩
-      String encodedPassword = passwordEncoder.encode(password);
+        // 카카오 정보로 회원가입
+        if (kakaoUser == null) {
+            // 패스워드 인코딩
+            String encodedPassword = passwordEncoder.encode(password);
 
-      kakaoUser = new User(encodedPassword, kakaoId);
-      userRepository.save(kakaoUser);
+            kakaoUser = new User(encodedPassword, kakaoId);
+            userRepository.save(kakaoUser);
 
+        }
+        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId,
+            password);
+        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String kakao = String.valueOf(kakaoId);
+        return jwtTokenProvider.createToken(kakao);
     }
-    Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId,
-        password);
-    Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String kakao = String.valueOf(kakaoId);
-    return jwtTokenProvider.createToken(kakao);
-  }
 
-  @Transactional
-  public void updateInfo(Long id, UserInfoRequestDto requestDto) {
-    User user = userRepository.findById(id).orElseThrow(
-        () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
-    );
-    user.update(requestDto);
-  }
-
-
-  /**
-   * TODO 수정 필요(오류)
-   */
-
-  //베스트 리뷰어 가져오기
-  public List<BestReviewerResponseDto> getBestReviewerRank() {
-    return webtoonRepository.findBestReviewerForMain();
-  }
-
-  @Transactional
-  public void pickGenre(User user, UserOnBoardingRequestDto requestDto) {
-    ArrayList<String> pickedGenres = requestDto.getGenres();
-    for (String pickedGenre : pickedGenres) {
-      Genre genre = genreRepository.findByGenreType(pickedGenre);
-      UserGenre userGenre = new UserGenre(user, genre);
-      userGenreRepository.save(userGenre);
+    @Transactional
+    public void updateInfo(Long id, UserInfoRequestDto requestDto) {
+        User user = userRepository.findById(id).orElseThrow(
+            () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
+        );
+        user.update(requestDto);
     }
-    User newUser = userRepository.findById(user.getId()).orElseThrow(
-        () -> new NullPointerException("해당 유저가 없습니다")
-    );
-    newUser.OnBoarding(requestDto);
-  }
 
-  public UserInfoResponseDto getUserInfo(Long userId) {
-    User findUser = userRepository.findById(userId).orElseThrow(
-        () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
-    );
-    List<String> userGenre = userRepository.getUserGenre(userId);
-    return new UserInfoResponseDto(findUser, userGenre);
-  }
+
+    /**
+     * TODO 수정 필요(오류)
+     */
+
+    //베스트 리뷰어 가져오기
+    public List<BestReviewerResponseDto> getBestReviewerRank() {
+        return webtoonRepository.findBestReviewerForMain();
+    }
+
+    @Transactional
+    public void pickGenre(User user, UserOnBoardingRequestDto requestDto) {
+        ArrayList<String> pickedGenres = requestDto.getGenres();
+        for (String pickedGenre : pickedGenres) {
+            Genre genre = genreRepository.findByGenreType(pickedGenre);
+            UserGenre userGenre = new UserGenre(user, genre);
+            userGenreRepository.save(userGenre);
+        }
+        User newUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저가 없습니다")
+        );
+        newUser.OnBoarding(requestDto);
+    }
+
+    public UserInfoResponseDto getUserInfo(Long userId) {
+        User findUser = userRepository.findById(userId).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
+        );
+        List<String> userGenre = userRepository.getUserGenre(userId);
+        return new UserInfoResponseDto(findUser, userGenre);
+    }
 
 
 }

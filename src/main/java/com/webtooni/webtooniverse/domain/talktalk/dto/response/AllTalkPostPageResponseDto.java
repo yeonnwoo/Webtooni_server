@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AllTalkPostPageResponseDto {
 
-  private List<TalkPostPageResponseDto> posts;
-  private Long postCount;
+    private List<TalkPostPageResponseDto> posts;
+    private Long postCount;
 
 
-  public AllTalkPostPageResponseDto(List<TalkPostPageResponseDto> posts, Long postCount) {
-    this.posts = posts;
-    this.postCount = postCount;
-  }
+    public AllTalkPostPageResponseDto(List<TalkPostPageResponseDto> posts, Long postCount) {
+        this.posts = posts;
+        this.postCount = postCount;
+    }
 }

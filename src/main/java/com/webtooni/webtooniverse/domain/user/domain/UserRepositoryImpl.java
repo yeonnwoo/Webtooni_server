@@ -10,23 +10,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
 
-  private final JPAQueryFactory jpaQueryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
 
-  //베스트리뷰어
-  public List<User> getBestReviewer() {
-    return jpaQueryFactory.select(review.user)
-        .from(review)
-        .groupBy(review.user)
-        .orderBy(review.user.count().desc())
-        .limit(5)
-        .fetch();
-  }
+    //베스트리뷰어
+    public List<User> getBestReviewer() {
+        return jpaQueryFactory.select(review.user)
+            .from(review)
+            .groupBy(review.user)
+            .orderBy(review.user.count().desc())
+            .limit(5)
+            .fetch();
+    }
 
-  @Override
-  public List<String> getUserGenre(Long userId) {
-    return jpaQueryFactory.select(userGenre.genre.genreType)
-        .from(userGenre)
-        .where(userGenre.user.id.eq(userId))
-        .fetch();
-  }
+    @Override
+    public List<String> getUserGenre(Long userId) {
+        return jpaQueryFactory.select(userGenre.genre.genreType)
+            .from(userGenre)
+            .where(userGenre.user.id.eq(userId))
+            .fetch();
+    }
 }

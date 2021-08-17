@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserInfoResponseDto {
 
-  private String userName;
-  private int userImg;
-  private UserGrade userGrade;
-  private List<String> genres = new ArrayList<>();
+    private String userName;
+    private int userImg;
+    private UserGrade userGrade;
+    private List<String> genres = new ArrayList<>();
 
-  public UserInfoResponseDto(User user, List<String> userGenre) {
-    this.userName = user.getUserName();
-    this.userImg = user.getUserImg();
-    this.userGrade = user.getUserGrade();
-    this.genres.addAll(userGenre);
-  }
+    public UserInfoResponseDto(User user, List<String> userGenre) {
+        this.userName = user.getUserName();
+        this.userImg = user.getUserImg();
+        this.userGrade = user.getUserGrade();
+        this.genres.addAll(userGenre);
+    }
 }

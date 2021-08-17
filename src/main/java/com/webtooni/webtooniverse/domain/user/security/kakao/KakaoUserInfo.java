@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 public class KakaoUserInfo {
 
-  Long id;
+    Long id;
 }

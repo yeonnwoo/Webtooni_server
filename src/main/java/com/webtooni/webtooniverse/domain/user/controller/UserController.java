@@ -34,57 +34,57 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1/")
 public class UserController {
 
-  private final UserService userService;
-  private final ReviewService reviewService;
-  private final WebtoonService webtoonService;
+    private final UserService userService;
+    private final ReviewService reviewService;
+    private final WebtoonService webtoonService;
 
-  @GetMapping("user/kakao/callback")
-  public String kakaoLogin(@RequestParam String code) {
-    return userService.kakaoLogin(code);
-  }
-
-  @PutMapping("user/info/{id}")
-  public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto) {
-    userService.updateInfo(id, requestDto);
-  }
-
-  @PostMapping("user/onBoarding")
-  public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestBody UserOnBoardingRequestDto requestDto) {
-    if (userDetails == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+    @GetMapping("user/kakao/callback")
+    public String kakaoLogin(@RequestParam String code) {
+        return userService.kakaoLogin(code);
     }
-    User user = userDetails.getUser();
-    userService.pickGenre(user, requestDto);
-  }
 
-  //베스트 리뷰어(리뷰개수많은순서)
-  @GetMapping("rank/reviewers")
-  public List<BestReviewerResponseDto> getBestReviewers() {
-    return userService.getBestReviewerRank();
-  }
-
-  @GetMapping("user/info")
-  public UserInfoResponseDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-    if (userDetails == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+    @PutMapping("user/info/{id}")
+    public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto) {
+        userService.updateInfo(id, requestDto);
     }
-    return userService.getUserInfo(userDetails.getUser().getId());
-  }
 
-  @GetMapping("user/infos")
-  public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") Long user) {
-    List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
-    List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
-    return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews);
-  }
-
-  @PutMapping("user/info")
-  public void updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestBody UserInfoRequestDto userInfoRequestDto) {
-    if (userDetails == null) {
-      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+    @PostMapping("user/onBoarding")
+    public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody UserOnBoardingRequestDto requestDto) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+        User user = userDetails.getUser();
+        userService.pickGenre(user, requestDto);
     }
-    userService.updateInfo(userDetails.getUser().getId(), userInfoRequestDto);
-  }
+
+    //베스트 리뷰어(리뷰개수많은순서)
+    @GetMapping("rank/reviewers")
+    public List<BestReviewerResponseDto> getBestReviewers() {
+        return userService.getBestReviewerRank();
+    }
+
+    @GetMapping("user/info")
+    public UserInfoResponseDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+        return userService.getUserInfo(userDetails.getUser().getId());
+    }
+
+    @GetMapping("user/infos")
+    public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") Long user) {
+        List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
+        List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
+        return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews);
+    }
+
+    @PutMapping("user/info")
+    public void updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
+        @RequestBody UserInfoRequestDto userInfoRequestDto) {
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+        userService.updateInfo(userDetails.getUser().getId(), userInfoRequestDto);
+    }
 }

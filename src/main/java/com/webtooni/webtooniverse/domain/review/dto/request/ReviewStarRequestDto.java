@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ReviewStarRequestDto {
 
-  private Long reviewId;
+    private Long reviewId;
 
 
-  public ReviewStarRequestDto(Long reviewId) {
-    this.reviewId = reviewId;
-  }
+    public ReviewStarRequestDto(Long reviewId) {
+        this.reviewId = reviewId;
+    }
 }

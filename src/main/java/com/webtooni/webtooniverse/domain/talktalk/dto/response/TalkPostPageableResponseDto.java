@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TalkPostPageableResponseDto {
 
-  private List<TalkPost> talkPosts;
-  private Long postCount;
+    private List<TalkPost> talkPosts;
+    private Long postCount;
 
-  public TalkPostPageableResponseDto(List<TalkPost> talkPosts, Long postCount) {
-    this.talkPosts = talkPosts;
-    this.postCount = postCount;
-  }
+    public TalkPostPageableResponseDto(List<TalkPost> talkPosts, Long postCount) {
+        this.talkPosts = talkPosts;
+        this.postCount = postCount;
+    }
 }

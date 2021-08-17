@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserLoginResponseDto {
 
-  private Long userId;
-  private String userName;
-  private int userImg;
-  private UserGrade userGrade;
+    private Long userId;
+    private String userName;
+    private int userImg;
+    private UserGrade userGrade;
 
-  public UserLoginResponseDto(User user) {
-    this.userId = user.getId();
-    this.userName = user.getUserName();
-    this.userGrade = user.getUserGrade();
-    this.userImg = user.getUserImg();
-  }
+    public UserLoginResponseDto(User user) {
+        this.userId = user.getId();
+        this.userName = user.getUserName();
+        this.userGrade = user.getUserGrade();
+        this.userImg = user.getUserImg();
+    }
 }

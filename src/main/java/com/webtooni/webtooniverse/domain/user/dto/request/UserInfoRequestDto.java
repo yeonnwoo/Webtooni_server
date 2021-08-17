@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserInfoRequestDto {
 
-  private int userImg;
-  private String userName;
+    private int userImg;
+    private String userName;
 }
 

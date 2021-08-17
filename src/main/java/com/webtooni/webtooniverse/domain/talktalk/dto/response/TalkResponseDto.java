@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TalkResponseDto {
 
-  private String result;
+    private String result;
 
-  public TalkResponseDto(String result) {
-    this.result = result;
-  }
+    public TalkResponseDto(String result) {
+        this.result = result;
+    }
 }

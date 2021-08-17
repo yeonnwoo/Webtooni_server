@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MyListRequestDto {
 
-  private Long toonId;
-  private boolean myListOrNot;
+    private Long toonId;
+    private boolean myListOrNot;
 }
