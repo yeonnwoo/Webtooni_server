@@ -51,15 +51,18 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         .fetch();
   }
 
-  //이번달 웹투니버스 종합순위
+  //이번주 웹투니버스 종합순위
   public List<WebtoonAndGenreResponseDto> getTotalRank() {
     Map<Webtoon, List<String>> webtoonListMap = queryFactory
         .from(webtoon)
+        .innerJoin(review)
+        .on(webtoon.id.eq(review.webtoon.id))
+        .where(review.starCreateDate.between(LocalDateTime.now().minusDays(7), LocalDateTime.now()))
         .orderBy(webtoon.toonAvgPoint.desc())
         .join(webtoonGenre)
         .on(webtoonGenre.webtoon.id.eq(webtoon.id))
         .join(webtoonGenre.genre)
-        .limit(10)
+        .limit(30)
         .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
     return mappingMapToDto(webtoonListMap);
   }
@@ -67,6 +70,9 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
   //네이버 웹툰 Top10
   public List<Webtoon> getNaverRank() {
     return queryFactory.selectFrom(webtoon)
+        .innerJoin(review)
+        .on(webtoon.id.eq(review.webtoon.id))
+        .where(review.starCreateDate.between(LocalDateTime.now().minusDays(7), LocalDateTime.now()))
         .where(webtoon.toonPlatform.eq("네이버"))
         .orderBy(webtoon.toonAvgPoint.desc())
         .limit(10)
@@ -76,6 +82,9 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
   //카카오 웹툰 Top10
   public List<Webtoon> getKakaoRank() {
     return queryFactory.selectFrom(webtoon)
+        .innerJoin(review)
+        .on(webtoon.id.eq(review.webtoon.id))
+        .where(review.starCreateDate.between(LocalDateTime.now().minusDays(7), LocalDateTime.now()))
         .where(webtoon.toonPlatform.eq("카카오"))
         .orderBy(webtoon.toonAvgPoint.desc())
         .limit(10)

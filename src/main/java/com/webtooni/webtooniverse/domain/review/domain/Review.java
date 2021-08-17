@@ -34,6 +34,8 @@ public class Review {
 
   private int likeCount;
 
+  private LocalDateTime starCreateDate;
+
   @ManyToOne
   @JoinColumn(name = "toon_id")
   private Webtoon webtoon;
@@ -60,6 +62,7 @@ public class Review {
     this.userPointNumber = userPointNumber;
     this.webtoon = webtoon;
     this.user = user;
+    this.starCreateDate = LocalDateTime.now();
   }
 
   public static Review of(float userPointNumber, Webtoon webtoon, User user) {
@@ -71,6 +74,7 @@ public class Review {
    */
   public void changeUserPoint(float userPointNumber) {
     this.userPointNumber = userPointNumber;
+    this.starCreateDate = LocalDateTime.now();
   }
 
 
