@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ReviewStarResponseDto {
 
-    private Long reviewId;
+  private Long reviewId;
 
-    private float toonAvgPoint;
+  private float toonAvgPoint;
 
-    public ReviewStarResponseDto(Long reviewId, float toonAvgPoint) {
-        this.reviewId = reviewId;
-        this.toonAvgPoint = toonAvgPoint;
-    }
+  public ReviewStarResponseDto(Long reviewId, float toonAvgPoint) {
+    this.reviewId = reviewId;
+    this.toonAvgPoint = toonAvgPoint;
+  }
 }

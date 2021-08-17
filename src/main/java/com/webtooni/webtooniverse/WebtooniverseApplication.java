@@ -14,13 +14,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @RequiredArgsConstructor
 public class WebtooniverseApplication {
 
-    @PostConstruct
-    public void started()
-    {
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-    }
 
-    public static void main(String[] args) {
-        SpringApplication.run(WebtooniverseApplication.class, args);
-    }
+  @PostConstruct
+  public void started() {
+    TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(WebtooniverseApplication.class, args);
+  }
+
 }

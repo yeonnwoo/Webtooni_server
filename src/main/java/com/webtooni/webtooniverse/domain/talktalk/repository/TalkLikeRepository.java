@@ -7,13 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {
 
-    /**
-     * TODO exist 사용 성능 확인, 대체 코드 작성
-     */
-    boolean existsByTalkPostAndUser(TalkPost talkPost, User user);
+  /**
+   * TODO exist 사용 성능 확인, 대체 코드 작성
+   */
+  boolean existsByTalkPostAndUser(TalkPost talkPost, User user);
 
-    void deleteByTalkPostAndUser(TalkPost talkPost, User user);
+  void deleteByTalkPostAndUser(TalkPost talkPost, User user);
 
-    void deleteAllByTalkPost(TalkPost talkPost);
+  void deleteAllByTalkPost(TalkPost talkPost);
 
 }

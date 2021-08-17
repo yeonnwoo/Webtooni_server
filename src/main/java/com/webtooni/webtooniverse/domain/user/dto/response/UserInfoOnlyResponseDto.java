@@ -8,14 +8,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserInfoOnlyResponseDto {
-    private String userName;
-    private int userImg;
-    private UserGrade userGrade;
 
-    public UserInfoOnlyResponseDto(User user) {
-        this.userName = user.getUserName();
-        this.userImg = user.getUserImg();
-        this.userGrade = user.getUserGrade();
+  private String userName;
+  private int userImg;
+  private UserGrade userGrade;
 
-    }
+  public UserInfoOnlyResponseDto(User user) {
+    this.userName = user.getUserName();
+    this.userImg = user.getUserImg();
+    this.userGrade = user.getUserGrade();
+
+  }
 }

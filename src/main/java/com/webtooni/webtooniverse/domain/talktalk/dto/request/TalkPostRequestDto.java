@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class TalkPostRequestDto {
-    private String postTitle;
-    private String postContent;
+
+  private String postTitle;
+  private String postContent;
 
 }

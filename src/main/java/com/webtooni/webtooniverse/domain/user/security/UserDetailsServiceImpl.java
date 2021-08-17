@@ -13,18 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UserRepository userRepository;
+  private UserRepository userRepository;
 
-    @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  @Autowired
+  public UserDetailsServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    public UserDetails loadUserByUsername(String kakao) throws UsernameNotFoundException {
-        long kakaoId = Long.parseLong(kakao);
-        User user = userRepository.findByKakaoId(kakaoId)
-                .orElseThrow(() -> new UsernameNotFoundException("Can't find " + kakaoId));
+  public UserDetails loadUserByUsername(String kakao) throws UsernameNotFoundException {
+    long kakaoId = Long.parseLong(kakao);
+    User user = userRepository.findByKakaoId(kakaoId)
+        .orElseThrow(() -> new UsernameNotFoundException("Can't find " + kakaoId));
 
-        return new UserDetailsImpl(user);
-    }
+    return new UserDetailsImpl(user);
+  }
 }

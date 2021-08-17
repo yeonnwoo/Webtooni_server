@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class ReviewContentRequestDto {
+public class ReviewStarRequestDto {
 
-  private String reviewContent;
+  private Long reviewId;
 
-  public ReviewContentRequestDto(String reviewContent) {
-    this.reviewContent = reviewContent;
+
+  public ReviewStarRequestDto(Long reviewId) {
+    this.reviewId = reviewId;
   }
 }

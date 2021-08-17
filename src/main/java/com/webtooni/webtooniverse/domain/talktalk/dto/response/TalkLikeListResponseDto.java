@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class TalkLikeListResponseDto {
 
-    private TalkPost talkPostId;
+  private TalkPost talkPostId;
 
-    public TalkLikeListResponseDto(TalkLike talkLike) {
-        this.talkPostId = talkLike.getTalkPost();
+  public TalkLikeListResponseDto(TalkLike talkLike) {
+    this.talkPostId = talkLike.getTalkPost();
 
-    }
+  }
 
 }
