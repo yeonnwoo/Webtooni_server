@@ -271,7 +271,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         for (WebtoonAndGenreResponseDto webtoonAndGenreResponseDto : webtoonAndGenreResponseDtos) {
             for (Tuple webtoonGenre : webtoonGenreTuples) {
-                if (webtoonAndGenreResponseDto.getId()
+                if (webtoonAndGenreResponseDto.getToonId()
                     .equals(webtoonGenre.get(QWebtoonGenre.webtoonGenre.webtoon.id))) {
                     webtoonAndGenreResponseDto
                         .addGenre(webtoonGenre.get(QWebtoonGenre.webtoonGenre.genre.genreType));
