@@ -25,7 +25,7 @@ public class WebtoonDetailReviewResponseDto {
     public WebtoonDetailReviewResponseDto(Review review) {
         this.userName = review.getUser().getUserName();
         this.userImg = review.getUser().getUserImg();
-        this.reviewId = review.getUser().getId();
+        this.reviewId = review.getId();
         this.userGrade = review.getUser().getUserGrade();
         this.reviewContent = review.getReviewContent();
         this.userPointNumber = review.getUserPointNumber();

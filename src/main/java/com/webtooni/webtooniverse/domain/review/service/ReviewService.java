@@ -40,6 +40,7 @@ public class ReviewService {
 
     //리뷰 최신순,베스트순 불러오기
     @LogExecutionTime
+    @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
         List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestOrNewReview(ReviewStatus.BEST);
         List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getBestOrNewReview(ReviewStatus.NEW);
@@ -142,7 +143,7 @@ public class ReviewService {
 
             reviewRepository.save(review);
 
-            return new ReviewStarRequestDto(review.getId());
+            return new ReviewStarRequestDto(review.getId(),findWebtoon.getToonAvgPoint());
         }
 
         //이미 존재함
@@ -156,10 +157,11 @@ public class ReviewService {
             //유저의 별점 점수 변경
             findReview.changeUserPoint(reviewStarDto.getUserPointNumber());
 
-            return new ReviewStarRequestDto(findReview.getId());
+            return new ReviewStarRequestDto(findReview.getId(),findWebtoon.getToonAvgPoint());
         }
     }
 
+    @Transactional(readOnly = true)
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
 
         List<Long> likeReviewIdList;
@@ -174,6 +176,7 @@ public class ReviewService {
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
 
+    @Transactional(readOnly = true)
     public List<MyReviewResponseDto> getMyReviews(Long userId) {
         List<Review> myReviews = reviewRepository.findMyReviews(userId);
         return myReviews.stream()
