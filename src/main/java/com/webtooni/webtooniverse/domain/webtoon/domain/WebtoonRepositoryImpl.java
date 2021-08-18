@@ -33,15 +33,15 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     //비슷한 장르의 웹툰 추천
     public List<SimilarGenreToonDto> findSimilarWebtoonByGenre(String genre, Webtoon webtoon) {
         return queryFactory.select(Projections.constructor(SimilarGenreToonDto.class,
-                webtoonGenre.webtoon.id.as("toonId"),
-                webtoonGenre.webtoon.toonImg,
-                webtoonGenre.webtoon.toonTitle,
-                webtoonGenre.webtoon.toonAuthor,
-                webtoonGenre.webtoon.toonPlatform,
-                webtoonGenre.webtoon.toonWeekday,
-                webtoonGenre.webtoon.toonAvgPoint,
-                webtoonGenre.webtoon.totalPointCount
-            ))
+            webtoonGenre.webtoon.id.as("toonId"),
+            webtoonGenre.webtoon.toonImg,
+            webtoonGenre.webtoon.toonTitle,
+            webtoonGenre.webtoon.toonAuthor,
+            webtoonGenre.webtoon.toonPlatform,
+            webtoonGenre.webtoon.toonWeekday,
+            webtoonGenre.webtoon.toonAvgPoint,
+            webtoonGenre.webtoon.totalPointCount
+        ))
             .from(webtoonGenre)
             .join(webtoonGenre.genre)
             .on(webtoonGenre.genre.genreType.eq(genre), webtoonGenre.webtoon.ne(webtoon),
@@ -202,34 +202,16 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     // 베스트 리뷰어, 리뷰 수, 좋아요 수
     @Override
     public List<BestReviewerResponseDto> findBestReviewerForMain() {
-        List<BestReviewerResponseDto> dtos = queryFactory
-            .select(Projections.fields(BestReviewerResponseDto.class,
-                review.user, review.user.count().as("reviewCount")))
+        List<BestReviewerResponseDto> bestReviewerResponseDtoList = queryFactory
+            .select(Projections.fields(BestReviewerResponseDto.class, review.user,
+                review.user.count().as("reviewCount"),
+                review.likeCount.sum().as("likeCount")))
             .from(review)
             .groupBy(review.user, review.user)
             .orderBy(review.user.count().desc())
             .limit(5)
             .fetch();
-
-        List<User> users = new ArrayList<>();
-        for (BestReviewerResponseDto dto : dtos) {
-            users.add(dto.getUser());
-        }
-
-        List<Review> reviews = queryFactory.selectFrom(review)
-            .where(review.user.in(users))
-            .fetch();
-
-        for (int i = 0; i < dtos.size(); i++) {
-            int sum = 0;
-            for (Review review : reviews) {
-                if (review.getUser() == users.get(i)) {
-                    sum += review.getLikeCount();
-                }
-            }
-            dtos.get(i).setLikeCount(sum);
-        }
-        return dtos;
+        return bestReviewerResponseDtoList;
     }
 
     @Override
