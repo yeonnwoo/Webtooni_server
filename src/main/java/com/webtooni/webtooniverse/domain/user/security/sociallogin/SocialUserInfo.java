@@ -1,10 +1,10 @@
-package com.webtooni.webtooniverse.domain.user.security.kakao;
+package com.webtooni.webtooniverse.domain.user.security.sociallogin;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class NaverUserInfo {
+public class SocialUserInfo {
     String id;
 }

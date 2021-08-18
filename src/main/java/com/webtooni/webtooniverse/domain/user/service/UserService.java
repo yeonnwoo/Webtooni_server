@@ -11,10 +11,9 @@ import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestD
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.JwtTokenProvider;
-import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoOAuth2;
-import com.webtooni.webtooniverse.domain.user.security.kakao.KakaoUserInfo;
-import com.webtooni.webtooniverse.domain.user.security.kakao.NaverOAuth2;
-import com.webtooni.webtooniverse.domain.user.security.kakao.NaverUserInfo;
+import com.webtooni.webtooniverse.domain.user.security.sociallogin.KakaoOAuth2;
+import com.webtooni.webtooniverse.domain.user.security.sociallogin.NaverOAuth2;
+import com.webtooni.webtooniverse.domain.user.security.sociallogin.SocialUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrfnYxKZ0aHgTBcXukedZygoC";
-
     private final KakaoOAuth2 kakaoOAuth2;
     private final NaverOAuth2 naverOAuth2;
     private final WebtoonRepository webtoonRepository;
@@ -46,13 +44,13 @@ public class UserService {
 
     public String kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
-        Long kakaoId = userInfo.getId();
+        SocialUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
+        String kakaoId = userInfo.getId().toString();
         // 패스워드 = 카카오 Id + ADMIN TOKEN
         String password = kakaoId + ADMIN_TOKEN;
 
         // DB 에 중복된 Kakao Id 가 있는지 확인
-        User kakaoUser = userRepository.findByKakaoId(kakaoId)
+        User kakaoUser = userRepository.findBySocialId(kakaoId)
             .orElse(null);
 
         // 카카오 정보로 회원가입
@@ -60,43 +58,42 @@ public class UserService {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
 
-            kakaoUser = User.builder().password(encodedPassword).kakaoId(kakaoId).build();
+            kakaoUser = User.builder().password(encodedPassword).socialId(kakaoId).build();
             userRepository.save(kakaoUser);
-
         }
+
         Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(kakaoId,
             password);
         Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String kakao = String.valueOf(kakaoId);
-        return jwtTokenProvider.createToken(kakao);
+        return jwtTokenProvider.createToken(kakaoId);
     }
 
     public String naverLogin(String authorizedCode) {
-        // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
-        NaverUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode);
-        String naverId = userInfo.getId();
-        // 패스워드 = 카카오 Id + ADMIN TOKEN
+        // 네이버 OAuth2 를 통해 카카오 사용자 정보 조회
+        SocialUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode);
+        String naverId = userInfo.getId().toString();
+        // 패스워드 = 네이버 Id + ADMIN TOKEN
         String password = naverId + ADMIN_TOKEN;
 
-        // DB 에 중복된 Kakao Id 가 있는지 확인
-        User naverUser = userRepository.findByNaverId(naverId)
+        // DB 에 중복된 naver Id 가 있는지 확인
+        User naverUser = userRepository.findBySocialId(naverId)
             .orElse(null);
 
-        // 카카오 정보로 회원가입
+        // 네이버 정보로 회원가입
         if (naverUser == null) {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
-
-            naverUser = User.builder().password(encodedPassword).naverId(naverId).build();
+            naverUser = User.builder().password(encodedPassword).socialId(naverId).build();
             userRepository.save(naverUser);
-
         }
-        Authentication kakaoUsernamePassword = new UsernamePasswordAuthenticationToken(naverId, password);
-        Authentication authentication = authenticationManager.authenticate(kakaoUsernamePassword);
+
+        Authentication naverUsernamePassword = new UsernamePasswordAuthenticationToken(naverId,
+            password);
+        Authentication authentication = authenticationManager.authenticate(naverUsernamePassword);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String naver = String.valueOf(naverId);
-        return jwtTokenProvider.createToken(naver);
+        return jwtTokenProvider.createToken(naverId);
+
     }
 
     @Transactional
@@ -107,11 +104,9 @@ public class UserService {
         user.update(requestDto);
     }
 
-
     /**
      * TODO 수정 필요(오류)
      */
-
     //베스트 리뷰어 가져오기
     public List<BestReviewerResponseDto> getBestReviewerRank() {
         return webtoonRepository.findBestReviewerForMain();
@@ -138,7 +133,5 @@ public class UserService {
         List<String> userGenre = userRepository.getUserGenre(userId);
         return new UserInfoResponseDto(findUser, userGenre);
     }
-
-
 }
 

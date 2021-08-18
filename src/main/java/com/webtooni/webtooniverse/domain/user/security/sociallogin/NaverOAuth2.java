@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.user.security.kakao;
+package com.webtooni.webtooniverse.domain.user.security.sociallogin;
 
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -15,11 +15,11 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class NaverOAuth2 {
 
-    public NaverUserInfo getUserInfo(String authorizedCode) {
+    public SocialUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
         String accessToken = getAccessToken(authorizedCode);
         // 2. 액세스 토큰 -> 카카오 사용자 정보
-        NaverUserInfo userInfo = getUserInfoByToken(accessToken);
+        SocialUserInfo userInfo = getUserInfoByToken(accessToken);
 
         return userInfo;
     }
@@ -53,15 +53,12 @@ public class NaverOAuth2 {
 
         // JSON -> 액세스 토큰 파싱
         String tokenJson = response.getBody();
-        System.out.println("tokenJson = " + tokenJson);
         JSONObject rjson = new JSONObject(tokenJson);
         String accessToken = rjson.getString("access_token");
-
-        System.out.println("accessToken = " + accessToken);
         return accessToken;
     }
 
-    private NaverUserInfo getUserInfoByToken(String accessToken) {
+    private SocialUserInfo getUserInfoByToken(String accessToken) {
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
@@ -81,10 +78,9 @@ public class NaverOAuth2 {
         );
 
         JSONObject body = new JSONObject(response.getBody());
-        System.out.println("body = " + body);
         JSONObject object = body.getJSONObject("response");
         String id = object.getString("id");
 
-        return new NaverUserInfo(id);
+        return new SocialUserInfo(id);
     }
 }

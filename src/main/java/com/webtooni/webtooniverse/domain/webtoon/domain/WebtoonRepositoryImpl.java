@@ -199,7 +199,6 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
-
     // 베스트 리뷰어, 리뷰 수, 좋아요 수
     @Override
     public List<BestReviewerResponseDto> findBestReviewerForMain() {

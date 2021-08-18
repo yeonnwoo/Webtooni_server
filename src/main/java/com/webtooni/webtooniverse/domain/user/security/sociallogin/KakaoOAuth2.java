@@ -1,4 +1,4 @@
-package com.webtooni.webtooniverse.domain.user.security.kakao;
+package com.webtooni.webtooniverse.domain.user.security.sociallogin;
 
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -16,11 +16,11 @@ import org.springframework.web.client.RestTemplate;
 public class KakaoOAuth2 {
 
 
-    public KakaoUserInfo getUserInfo(String authorizedCode) {
+    public SocialUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
         String accessToken = getAccessToken(authorizedCode);
         // 2. 액세스 토큰 -> 카카오 사용자 정보
-        KakaoUserInfo userInfo = getUserInfoByToken(accessToken);
+        SocialUserInfo userInfo = getUserInfoByToken(accessToken);
 
         return userInfo;
     }
@@ -34,8 +34,8 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "9bf8aff1cb1460ec63268cd09c603a1a");
-        params.add("redirect_uri", "http://localhost:3000/user/kakao");
-//        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
+//        params.add("redirect_uri", "http://localhost:3000/user/kakao");
+        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
@@ -59,7 +59,7 @@ public class KakaoOAuth2 {
         return accessToken;
     }
 
-    private KakaoUserInfo getUserInfoByToken(String accessToken) {
+    private SocialUserInfo getUserInfoByToken(String accessToken) {
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
@@ -81,7 +81,7 @@ public class KakaoOAuth2 {
         JSONObject body = new JSONObject(response.getBody());
         Long id = body.getLong("id");
 
-        return new KakaoUserInfo(id);
+        return new SocialUserInfo(id.toString());
     }
 
 }
