@@ -358,7 +358,7 @@ class WebtoonServiceTest {
                     "rankResponseDto.getToonPlatform()= "
                     + platformRankResponseDto.getToonPlatform());
         }
-        assertThat(platformRankToon.size()).isEqualTo(10);
+
     }
 
     @DisplayName("웹투니버스 카카오 랭킹")
@@ -377,7 +377,7 @@ class WebtoonServiceTest {
                     "rankResponseDto.getToonPlatform()= "
                     + platformRankResponseDto.getToonPlatform());
         }
-        assertThat(platformRankToon.size()).isEqualTo(10);
+        
     }
 
     /**
