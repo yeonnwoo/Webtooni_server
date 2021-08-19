@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyReviewResponseDto {
 
+    private Long reviewId;
     private String reviewContent;
     private float userPointNumber;
     private int likeCount;
     private Webtoon webtoon;
 
     public MyReviewResponseDto(Review review) {
+        this.reviewId = review.getId();
         this.reviewContent = review.getReviewContent();
         this.userPointNumber = review.getUserPointNumber();
         this.likeCount = review.getLikeCount();

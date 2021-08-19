@@ -76,7 +76,7 @@ public class ReviewController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         checkUser(userDetails);
-        return reviewService.getMyReviews(userDetails.getUser().getId());
+        return reviewService.getMyReviews(userDetails.getUser().getUserName());
     }
 
     //리뷰 삭제
