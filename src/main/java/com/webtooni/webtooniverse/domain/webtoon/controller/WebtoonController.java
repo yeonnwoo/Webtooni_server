@@ -91,13 +91,14 @@ public class WebtoonController {
         return webtoonService.getSimilarGenre(id);
     }
 
+    //마이리스트 추가 웹툰 리스트
     @GetMapping("user/me/subscribe")
     public List<WebtoonResponseDto> getMyListWebtoons(
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
         }
-        return webtoonService.getMyListWebtoons(userDetails.getUser().getId());
+        return webtoonService.getMyListWebtoons(userDetails.getUser().getUserName());
     }
 
     @GetMapping("reviews/suggestion")

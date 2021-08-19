@@ -41,10 +41,10 @@ public class ReviewService {
     @LogExecutionTime
     @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
-        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestOrNewReview(
-            ReviewStatus.BEST);
-        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getBestOrNewReview(
-            ReviewStatus.NEW);
+        List<ReviewResponseDto> getRecentBestReviews = reviewRepository
+            .getBestOrNewReview(ReviewStatus.BEST);
+        List<ReviewResponseDto> getRecentNewReviews = reviewRepository
+            .getBestOrNewReview(ReviewStatus.NEW);
         return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
     }
 
@@ -179,8 +179,8 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<MyReviewResponseDto> getMyReviews(Long userId) {
-        List<Review> myReviews = reviewRepository.findMyReviews(userId);
+    public List<MyReviewResponseDto> getMyReviews(String userName) {
+        List<Review> myReviews = reviewRepository.findMyReviews(userName);
         return myReviews.stream()
             .map(MyReviewResponseDto::new)
             .collect(Collectors.toList());

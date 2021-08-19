@@ -5,7 +5,7 @@
 Business Rule, 기술적인 문제에 대한 해결 방법은 WIKI에서 확인할 수 있습니다.
 
 ## 프로젝트 구조
-![프로젝트구조1-1](https://user-images.githubusercontent.com/50096655/129481950-9975cd7d-0850-4621-abb3-c7e378b05dc6.JPG)
+![image](https://user-images.githubusercontent.com/50096655/130104899-9ec32925-af77-4796-838e-bbbb510204e2.png)
 
 
 ## 프로젝트의 주요 관심사

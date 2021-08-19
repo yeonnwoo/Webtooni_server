@@ -41,10 +41,14 @@ public class User {
     @Column(name = "kakao_id")
     private Long kakaoId;
 
-    public User(String password, Long kakaoId) {
+    @Column(name = "naver_id")
+    private String socialId;
+
+    public User(String password, Long kakaoId, String socialId){
         this.password = password;
         this.userGrade = UserGrade.FIRST;
         this.kakaoId = kakaoId;
+        this.socialId = socialId;
     }
 
     public void update(UserInfoRequestDto requestDto) {
@@ -58,12 +62,13 @@ public class User {
     }
 
     @Builder
-    public User(String userName, String password, int userImg, UserGrade userGrade, Long kakaoId) {
+    public User(String userName, String password, int userImg, UserGrade userGrade, Long kakaoId, String socialId) {
         this.userName = userName;
         this.password = password;
         this.userImg = userImg;
         this.userGrade = userGrade;
         this.kakaoId = kakaoId;
+        this.socialId = socialId;
     }
 
 

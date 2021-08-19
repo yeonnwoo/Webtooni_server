@@ -380,6 +380,7 @@ class WebtoonServiceTest {
 
     }
 
+
     /**
      * 데이터를 임의로 생성한다.
      */

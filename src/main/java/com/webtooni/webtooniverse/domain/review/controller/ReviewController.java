@@ -33,6 +33,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    //리뷰 전체 목록
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@PathParam("page") int page,
         @PathParam("size") int size
@@ -75,7 +76,7 @@ public class ReviewController {
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         checkUser(userDetails);
-        return reviewService.getMyReviews(userDetails.getUser().getId());
+        return reviewService.getMyReviews(userDetails.getUser().getUserName());
     }
 
     //리뷰 삭제

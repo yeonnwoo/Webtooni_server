@@ -43,6 +43,11 @@ public class UserController {
         return userService.kakaoLogin(code);
     }
 
+    @GetMapping("user/naver/callback")
+    public String naverLogin(@RequestParam String code) {
+        return userService.naverLogin(code);
+    }
+
     @PutMapping("user/info/{id}")
     public void update(@PathVariable Long id, @RequestBody UserInfoRequestDto requestDto) {
         userService.updateInfo(id, requestDto);
@@ -73,7 +78,7 @@ public class UserController {
     }
 
     @GetMapping("user/infos")
-    public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") Long user) {
+    public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") String user) {
         List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
         List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
         return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews);
