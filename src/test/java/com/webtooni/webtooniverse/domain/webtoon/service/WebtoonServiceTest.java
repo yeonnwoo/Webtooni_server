@@ -377,7 +377,7 @@ class WebtoonServiceTest {
                     "rankResponseDto.getToonPlatform()= "
                     + platformRankResponseDto.getToonPlatform());
         }
-        
+
     }
 
     /**
