@@ -5,6 +5,7 @@ import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
+import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
@@ -61,7 +62,8 @@ public class UserService {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
 
-            kakaoUser = User.builder().password(encodedPassword).socialId(kakaoId).build();
+            kakaoUser = User.builder().password(encodedPassword).socialId(kakaoId).userGrade(
+                UserGrade.FIRST).build();
             userRepository.save(kakaoUser);
         }
 
@@ -87,7 +89,8 @@ public class UserService {
         if (naverUser == null) {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
-            naverUser = User.builder().password(encodedPassword).socialId(naverId).build();
+            naverUser = User.builder().password(encodedPassword).socialId(naverId).userGrade(
+                UserGrade.FIRST).build();
             userRepository.save(naverUser);
         }
 

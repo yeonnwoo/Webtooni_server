@@ -41,7 +41,7 @@ public class User {
     @Column(name = "kakao_id")
     private Long kakaoId;
 
-    @Column(name = "social_id")
+    @Column(name = "naver_id")
     private String socialId;
 
     public User(String password, Long kakaoId, String socialId){

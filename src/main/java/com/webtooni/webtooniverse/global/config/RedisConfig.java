@@ -38,8 +38,6 @@ class RedisConfig {
         redisStandaloneConfiguration.setHostName(redisHostName);
         redisStandaloneConfiguration.setPort(redisPort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-
-
         return new LettuceConnectionFactory(redisStandaloneConfiguration,
             lettuceClientConfiguration);
     }
