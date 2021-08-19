@@ -14,8 +14,8 @@ public class UserWebtoonAndReviewResponseDto {
 
     List<WebtoonResponseDto> myWebtoons;
     List<MyReviewResponseDto> myReviews;
-    int userImg;
-    UserGrade userGrade;
+    private int userImg;
+    private UserGrade userGrade;
 
     public UserWebtoonAndReviewResponseDto(List<WebtoonResponseDto> myWebtoonList,
         List<MyReviewResponseDto> myReviews, User thisUser) {
