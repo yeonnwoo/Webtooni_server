@@ -41,10 +41,10 @@ public class ReviewService {
     @LogExecutionTime
     @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
-        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestOrNewReview(
-            ReviewStatus.BEST);
-        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getBestOrNewReview(
-            ReviewStatus.NEW);
+        List<ReviewResponseDto> getRecentBestReviews = reviewRepository
+            .getBestOrNewReview(ReviewStatus.BEST);
+        List<ReviewResponseDto> getRecentNewReviews = reviewRepository
+            .getBestOrNewReview(ReviewStatus.NEW);
         return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
     }
 

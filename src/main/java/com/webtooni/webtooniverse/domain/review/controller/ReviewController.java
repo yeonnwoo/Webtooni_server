@@ -33,6 +33,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    //리뷰 전체 목록
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@PathParam("page") int page,
         @PathParam("size") int size
