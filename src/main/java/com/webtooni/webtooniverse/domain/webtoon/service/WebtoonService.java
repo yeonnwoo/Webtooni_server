@@ -167,8 +167,8 @@ public class WebtoonService {
         return similarGenreToonList;
     }
 
-    public List<WebtoonResponseDto> getMyListWebtoons(Long userId) {
-        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(userId);
+    public List<WebtoonResponseDto> getMyListWebtoons(String userName) {
+        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(userName);
         return myListWebtoon.stream()
             .map(WebtoonResponseDto::new)
             .collect(Collectors.toList());

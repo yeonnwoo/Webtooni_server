@@ -33,15 +33,15 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     //비슷한 장르의 웹툰 추천
     public List<SimilarGenreToonDto> findSimilarWebtoonByGenre(String genre, Webtoon webtoon) {
         return queryFactory.select(Projections.constructor(SimilarGenreToonDto.class,
-                webtoonGenre.webtoon.id.as("toonId"),
-                webtoonGenre.webtoon.toonImg,
-                webtoonGenre.webtoon.toonTitle,
-                webtoonGenre.webtoon.toonAuthor,
-                webtoonGenre.webtoon.toonPlatform,
-                webtoonGenre.webtoon.toonWeekday,
-                webtoonGenre.webtoon.toonAvgPoint,
-                webtoonGenre.webtoon.totalPointCount
-            ))
+            webtoonGenre.webtoon.id.as("toonId"),
+            webtoonGenre.webtoon.toonImg,
+            webtoonGenre.webtoon.toonTitle,
+            webtoonGenre.webtoon.toonAuthor,
+            webtoonGenre.webtoon.toonPlatform,
+            webtoonGenre.webtoon.toonWeekday,
+            webtoonGenre.webtoon.toonAvgPoint,
+            webtoonGenre.webtoon.totalPointCount
+        ))
             .from(webtoonGenre)
             .join(webtoonGenre.genre)
             .on(webtoonGenre.genre.genreType.eq(genre), webtoonGenre.webtoon.ne(webtoon),
@@ -234,10 +234,10 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     @Override
-    public List<Webtoon> findMyListWebtoon(Long userId) {
+    public List<Webtoon> findMyListWebtoon(String username) {
         return queryFactory.select(myList.webtoon)
             .from(myList)
-            .where(myList.user.id.eq(userId))
+            .where(myList.user.userName.eq(username))
             .fetch();
     }
 

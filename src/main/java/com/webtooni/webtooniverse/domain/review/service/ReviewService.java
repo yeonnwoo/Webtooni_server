@@ -179,8 +179,8 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<MyReviewResponseDto> getMyReviews(Long userId) {
-        List<Review> myReviews = reviewRepository.findMyReviews(userId);
+    public List<MyReviewResponseDto> getMyReviews(String userName) {
+        List<Review> myReviews = reviewRepository.findMyReviews(userName);
         return myReviews.stream()
             .map(MyReviewResponseDto::new)
             .collect(Collectors.toList());
