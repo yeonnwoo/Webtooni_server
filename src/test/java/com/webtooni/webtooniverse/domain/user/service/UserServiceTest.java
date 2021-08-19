@@ -109,7 +109,7 @@ class UserServiceTest {
         //then
         for (BestReviewerResponseDto bestReviewerResponseDto : BestReviewer) {
             System.out.println(
-                "bestReviewerResponseDto.getUserName()" + bestReviewerResponseDto.getUser());
+                "bestReviewerResponseDto.getUserName()=" + bestReviewerResponseDto.getUser().getUserName());
         }
     }
 }

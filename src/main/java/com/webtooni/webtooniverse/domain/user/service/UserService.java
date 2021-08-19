@@ -17,14 +17,17 @@ import com.webtooni.webtooniverse.domain.user.security.sociallogin.SocialUserInf
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
@@ -123,6 +126,13 @@ public class UserService {
         User newUser = userRepository.findById(user.getId()).orElseThrow(
             () -> new NullPointerException("해당 유저가 없습니다")
         );
+
+        String userName = requestDto.getUserName();;
+        Optional<User> found = userRepository.findByUserName(userName);
+        if (found.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "중복된 사용자 닉네임이 존재합니다.");
+        }
+
         newUser.OnBoarding(requestDto);
     }
 

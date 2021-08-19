@@ -29,7 +29,7 @@ public interface WebtoonRepositoryCustom {
 
     List<BestReviewerResponseDto> findBestReviewerForMain();
 
-    List<Webtoon> findMyListWebtoon(String username);
+    List<Webtoon> findMyListWebtoon(String userName);
 
     List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword);
 

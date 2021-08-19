@@ -1,6 +1,7 @@
 package com.webtooni.webtooniverse.domain.webtoon.domain;
 
 import com.webtooni.webtooniverse.domain.genre.domain.Genre;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
