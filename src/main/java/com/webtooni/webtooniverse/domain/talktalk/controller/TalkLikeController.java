@@ -20,7 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 public class TalkLikeController {
 
     private final TalkLikeService talkLikeService;
-    private final UserRepository userRepository;
 
 
     /**
@@ -32,12 +31,11 @@ public class TalkLikeController {
     @PostMapping("talk/{id}/like")
     public TalkResponseDto like(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        if (userDetails == null) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
-//        }
-//        User user = userDetails.getUser();
+        if (userDetails == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+        }
+        User user = userDetails.getUser();
 
-        User user = userRepository.getById(500L);
         return talkLikeService.postLike(id,user);
     }
 

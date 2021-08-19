@@ -7,6 +7,7 @@ import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.response.WebtoonDetailReviewResponseDto;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoOnlyResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
@@ -36,6 +37,7 @@ public class WebtoonService {
     private final ReviewRepository reviewRepository;
     private final ReviewLikeRepository reviewLikeRepository;
     private final MyListRepository myListRepository;
+    private final UserRepository userRepository;
 
     //금주의 웹툰 평론가 추천
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
@@ -194,4 +196,9 @@ public class WebtoonService {
         return webtoonResponseDtos;
     }
 
+    public User getUser(String user) {
+        return userRepository.findByUserName(user).orElseThrow(
+            ()->new IllegalArgumentException("해당 유저가 존재하지 않습니다.")
+        );
+    }
 }
