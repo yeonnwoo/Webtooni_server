@@ -7,4 +7,6 @@ public interface UserRepositoryCustom {
     List<User> getBestReviewer();
 
     List<String> getUserGenre(Long userId);
+
+    List<String> getUserGenreByUserName(String userName);
 }
