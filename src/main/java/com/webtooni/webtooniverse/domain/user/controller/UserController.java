@@ -39,7 +39,7 @@ public class UserController {
     private final UserService userService;
     private final ReviewService reviewService;
     private final WebtoonService webtoonService;
-    private final UserRepository userRepository;
+
 
     @GetMapping("user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) {

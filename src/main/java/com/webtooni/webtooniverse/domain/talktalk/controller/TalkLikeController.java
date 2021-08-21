@@ -38,5 +38,4 @@ public class TalkLikeController {
 
         return talkLikeService.postLike(id,user);
     }
-
 }
