@@ -37,10 +37,10 @@ public class NaverOAuth2 {
  //       params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/naver");
 //        params.add("redirect_uri", "http://localhost:8080/api/v1/user/naver/callback");
 //        params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/naver");
-     //   params.add("redirect_uri", "http://localhost:3000/user/naver");
+        params.add("redirect_uri", "http://localhost:3000/user/naver");
    //     params.add("redirect_uri","http://34.64.193.34/api/v1/user/naver/callback");
       //  params.add("redirect_uri","http://webtooni.co.kr/api/v1/user/naver/callback");
-        params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/naver");
+      //  params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/naver");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
