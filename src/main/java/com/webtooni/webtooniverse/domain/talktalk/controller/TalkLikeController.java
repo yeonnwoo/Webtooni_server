@@ -36,8 +36,7 @@ public class TalkLikeController {
 //            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
 //        }
 //        User user = userDetails.getUser();
-
-        User user = userRepository.getById(500L);
+        User user = userDetails.getUser();
         return talkLikeService.postLike(id,user);
     }
 
