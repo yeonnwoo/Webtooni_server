@@ -33,12 +33,20 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    //리뷰 전체 목록
+    //리뷰 전체 목록 최신 순
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@PathParam("page") int page,
         @PathParam("size") int size
         , @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return reviewService.getNewReview(userDetails, page, size);
+    }
+
+    //리뷰 전체 목록 최신 순
+    @GetMapping("reviews/best")
+    public ReviewLikeResponseDto getBestReview(@PathParam("page") int page,
+        @PathParam("size") int size
+        , @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return reviewService.getBestReview(userDetails, page, size);
     }
 
     //메인페이지에 리뷰(최신순/베스트순) 불러오기

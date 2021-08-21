@@ -11,4 +11,6 @@ public interface ReviewRepositoryCustom {
     List<ReviewResponseDto> getBestOrNewReview(ReviewStatus reviewStatus);
 
     List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable);
+
+    List<ReviewResponseDto> getBestReviewWithPageable(Pageable pageable);
 }
