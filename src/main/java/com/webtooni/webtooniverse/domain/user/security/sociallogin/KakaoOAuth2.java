@@ -37,7 +37,8 @@ public class KakaoOAuth2 {
 //        params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/kakao");
      //   params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/kakao");
      //   params.add("redirect_uri", "http://localhost:3000/user/kakao");
-        params.add("redirect_uri","http://34.64.193.34/api/v1/user/kakao/callback");
+      //  params.add("redirect_uri","http://34.64.193.34/api/v1/user/kakao/callback");
+        params.add("redirect_uri","http://webtooni.co.kr/api/v1/user/kakao/callback");
         params.add("code", authorizedCode);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
