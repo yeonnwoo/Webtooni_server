@@ -38,6 +38,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         List<ReviewResponseDto> reviewResponseDtos = getReviewResponseQuery()
             .orderBy(review.createDate.desc())
             .offset(pageable.getOffset())
+            .where(review.reviewContent.isNotNull())
             .limit(pageable.getPageSize())
             .fetch();
 
