@@ -20,6 +20,7 @@ Business Rule, 기술적인 문제에 대한 해결 방법은 WIKI에서 확인�
 - Google Code style 
 
 ### 성능 최적화
+- 자세한 내용은 [Wiki](https://github.com/yeonnwoo/Webtooni_server/wiki)에 정리해두었습니다.
 
 ## 브랜치 관리 전략
 
