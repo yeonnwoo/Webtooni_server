@@ -29,4 +29,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             .where(userGenre.user.id.eq(userId))
             .fetch();
     }
+
+    @Override
+    public List<String> getUserGenreByUserName(String userName) {
+        return jpaQueryFactory.select(userGenre.genre.genreType)
+            .from(userGenre)
+            .where(userGenre.user.userName.eq(userName))
+            .fetch();
+    }
 }

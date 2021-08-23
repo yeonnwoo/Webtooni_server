@@ -14,14 +14,12 @@ public class UserWebtoonAndReviewResponseDto {
 
     List<WebtoonResponseDto> myWebtoons;
     List<MyReviewResponseDto> myReviews;
-    private int userImg;
-    private UserGrade userGrade;
+    UserInfoResponseDto userInfoResponseDto;
 
     public UserWebtoonAndReviewResponseDto(List<WebtoonResponseDto> myWebtoonList,
-        List<MyReviewResponseDto> myReviews, User thisUser) {
+        List<MyReviewResponseDto> myReviews, UserInfoResponseDto userInfoResponseDto) {
         this.myWebtoons = myWebtoonList;
         this.myReviews = myReviews;
-        this.userImg= thisUser.getUserImg();
-        this.userGrade=thisUser.getUserGrade();
+        this.userInfoResponseDto = userInfoResponseDto;
     }
 }
