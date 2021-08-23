@@ -4,6 +4,7 @@ package com.webtooni.webtooniverse.domain.user.controller;
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
@@ -14,6 +15,7 @@ import com.webtooni.webtooniverse.domain.user.service.UserService;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
+import java.util.Optional;
 import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,7 @@ public class UserController {
     private final UserService userService;
     private final ReviewService reviewService;
     private final WebtoonService webtoonService;
+    private final UserRepository userRepository;
 
     @GetMapping("user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) {
@@ -79,9 +82,10 @@ public class UserController {
 
     @GetMapping("user/infos")
     public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") String user) {
+        User thisUser=webtoonService.getUser(user);
         List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
         List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
-        return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews);
+        return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews,thisUser);
     }
 
     @PutMapping("user/info")
