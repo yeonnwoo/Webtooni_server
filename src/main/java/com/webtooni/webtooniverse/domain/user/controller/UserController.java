@@ -16,6 +16,7 @@ import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,7 @@ public class UserController {
 
     @PostMapping("user/onBoarding")
     public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails,
-        @RequestBody UserOnBoardingRequestDto requestDto) {
+                     @Valid @RequestBody UserOnBoardingRequestDto requestDto) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
         }
