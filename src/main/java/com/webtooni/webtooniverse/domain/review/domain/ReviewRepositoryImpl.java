@@ -71,7 +71,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     @Override
     public List<Review> findMyReviews(String userName) {
         return jpaQueryFactory.selectFrom(review)
-            .where(review.user.userName.eq(userName))
+            .where(review.user.userName.eq(userName).and(review.createDate.isNotNull()))
             .fetch();
     }
 
@@ -85,7 +85,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
             .fetchJoin()
             .on(webtoon.id.eq(webtoonGenre.webtoon.id))
             .join(webtoonGenre.genre, genre)
-            .where(review.user.userName.eq(userName))
+            .where(review.user.userName.eq(userName).and(review.createDate.isNotNull()))
             .transform(groupBy(review).as(list(webtoonGenre.genre.genreType)));
 
         return transform.entrySet().stream()

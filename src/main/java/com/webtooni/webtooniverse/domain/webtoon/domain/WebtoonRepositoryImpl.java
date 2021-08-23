@@ -109,6 +109,22 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .fetchOne();
     }
 
+    // 베스트 리뷰어, 리뷰 수, 좋아요 수
+    @Override
+    public List<BestReviewerResponseDto> findBestReviewerForMain() {
+        List<BestReviewerResponseDto> bestReviewerResponseDtoList = queryFactory
+            .select(Projections.fields(BestReviewerResponseDto.class, review.user,
+                review.user.count().as("reviewCount"),
+                review.likeCount.sum().as("likeCount")))
+            .from(review)
+            .where(review.createDate.isNotNull())
+            .groupBy(review.user, review.user)
+            .orderBy(review.user.count().desc())
+            .limit(5)
+            .fetch();
+        return bestReviewerResponseDtoList;
+    }
+
     //베스트 리뷰어 추천 웹툰
     @Override
     public List<WebtoonAndGenreResponseDto> findBestReviewerWebtoon(User bestReviewer) {
@@ -124,6 +140,8 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
     }
+
+
 
 
     //유저 취향 웹툰 추천
@@ -202,20 +220,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
-    // 베스트 리뷰어, 리뷰 수, 좋아요 수
-    @Override
-    public List<BestReviewerResponseDto> findBestReviewerForMain() {
-        List<BestReviewerResponseDto> bestReviewerResponseDtoList = queryFactory
-            .select(Projections.fields(BestReviewerResponseDto.class, review.user,
-                review.user.count().as("reviewCount"),
-                review.likeCount.sum().as("likeCount")))
-            .from(review)
-            .groupBy(review.user, review.user)
-            .orderBy(review.user.count().desc())
-            .limit(5)
-            .fetch();
-        return bestReviewerResponseDtoList;
-    }
+
 
     @Override
     public List<WebtoonAndGenreResponseDto> findMyListWebtoon(String username) {
@@ -224,6 +229,9 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .join(myList.webtoon)
             .join(webtoonGenre)
             .on(myList.webtoon.id.eq(webtoonGenre.webtoon.id))
+            .on(webtoonGenre.genre.id.ne(1L))
+            .on(webtoonGenre.genre.id.ne(2L))
+            .on(webtoonGenre.genre.id.ne(3L))
             .join(webtoonGenre.genre)
             .where(myList.user.userName.eq(username))
             .transform(groupBy(myList.webtoon).as(list(webtoonGenre.genre.genreType)));
