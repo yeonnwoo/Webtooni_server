@@ -11,6 +11,7 @@ import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseD
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewWebtoonGenre;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
@@ -190,12 +191,24 @@ public class ReviewService {
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
 
+
     @Transactional(readOnly = true)
     public List<MyReviewResponseDto> getMyReviews(String userName) {
         List<Review> myReviews = reviewRepository.findMyReviews(userName);
         return myReviews.stream()
             .map(MyReviewResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewWebtoonGenre> getMyReviewsAndGenre(String userName) {
+
+        List<ReviewWebtoonGenre> myReviewsAndGenre = reviewRepository
+            .findMyReviewsAndGenre(userName);
+        for (ReviewWebtoonGenre reviewWebtoonGenre : myReviewsAndGenre) {
+            System.out.println("reviewWebtoonGenre = " + reviewWebtoonGenre);
+        }
+        return myReviewsAndGenre;
     }
 
     private Review getFindReview(Long id) {

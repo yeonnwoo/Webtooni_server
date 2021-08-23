@@ -218,11 +218,16 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     @Override
-    public List<Webtoon> findMyListWebtoon(String username) {
-        return queryFactory.select(myList.webtoon)
+    public List<WebtoonAndGenreResponseDto> findMyListWebtoon(String username) {
+        Map<Webtoon, List<String>> webtoonGenreList = queryFactory
             .from(myList)
+            .join(myList.webtoon)
+            .join(webtoonGenre)
+            .on(myList.webtoon.id.eq(webtoonGenre.webtoon.id))
+            .join(webtoonGenre.genre)
             .where(myList.user.userName.eq(username))
-            .fetch();
+            .transform(groupBy(myList.webtoon).as(list(webtoonGenre.genre.genreType)));
+        return mappingMapToDto(webtoonGenreList);
     }
 
     //웹툰 검색

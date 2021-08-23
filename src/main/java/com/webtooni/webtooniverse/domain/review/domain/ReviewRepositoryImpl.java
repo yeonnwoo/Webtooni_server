@@ -1,18 +1,28 @@
 package com.webtooni.webtooniverse.domain.review.domain;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
+import static com.webtooni.webtooniverse.domain.genre.domain.QGenre.genre;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUser.user;
 import static com.webtooni.webtooniverse.domain.webtoon.domain.QWebtoon.webtoon;
 import static com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre.webtoonGenre;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.group.Group;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.webtooni.webtooniverse.domain.genre.domain.QGenre;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewWebtoonGenre;
+import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
 import com.webtooni.webtooniverse.domain.webtoonGenre.QWebtoonGenre;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 
@@ -33,6 +43,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         }
     }
 
+    //리뷰 최신순 pageable
     @Override
     public List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable) {
         List<ReviewResponseDto> reviewResponseDtos = getReviewResponseQuery()
@@ -64,6 +75,25 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
             .fetch();
     }
 
+    @Override
+    public List<ReviewWebtoonGenre> findMyReviewsAndGenre(String userName) {
+        Map<Review, List<String>> transform = jpaQueryFactory
+            .from(review)
+            .join(review.webtoon, webtoon)
+            .fetchJoin()
+            .join(webtoonGenre)
+            .fetchJoin()
+            .on(webtoon.id.eq(webtoonGenre.webtoon.id))
+            .join(webtoonGenre.genre, genre)
+            .where(review.user.userName.eq(userName))
+            .transform(groupBy(review).as(list(webtoonGenre.genre.genreType)));
+
+        return transform.entrySet().stream()
+            .map(entry -> new ReviewWebtoonGenre(entry.getKey(),entry.getValue()))
+            .collect(Collectors.toList());
+
+    }
+
     //웹툰 리스트에 장르 추가
     private List<ReviewResponseDto> addGenreToWebtoonList(
         List<ReviewResponseDto> reviewResponseDtos) {
@@ -93,25 +123,25 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     //reviewResponseDto 기본 query
     private JPAQuery<ReviewResponseDto> getReviewResponseQuery() {
         JPAQuery<ReviewResponseDto> jpaQuery = jpaQueryFactory.select(
-                Projections.constructor(ReviewResponseDto.class,
-                    review.user.id,
-                    review.user.userImg,
-                    review.user.userName,
-                    review.userPointNumber,
-                    review.reviewContent,
-                    review.webtoon.id,
-                    review.webtoon.toonTitle,
-                    review.user.userGrade,
-                    review.webtoon.toonImg,
-                    review.webtoon.toonAuthor,
-                    review.webtoon.toonPlatform,
-                    review.webtoon.toonWeekday,
-                    review.webtoon.finished,
-                    review.createDate,
-                    review.webtoon.toonAvgPoint,
-                    review.likeCount,
-                    review.id
-                ))
+            Projections.constructor(ReviewResponseDto.class,
+                review.user.id,
+                review.user.userImg,
+                review.user.userName,
+                review.userPointNumber,
+                review.reviewContent,
+                review.webtoon.id,
+                review.webtoon.toonTitle,
+                review.user.userGrade,
+                review.webtoon.toonImg,
+                review.webtoon.toonAuthor,
+                review.webtoon.toonPlatform,
+                review.webtoon.toonWeekday,
+                review.webtoon.finished,
+                review.createDate,
+                review.webtoon.toonAvgPoint,
+                review.likeCount,
+                review.id
+            ))
             .from(review)
             .innerJoin(review.user, user)
             .innerJoin(review.webtoon, webtoon)

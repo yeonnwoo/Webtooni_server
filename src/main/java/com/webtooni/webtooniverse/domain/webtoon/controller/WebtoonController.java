@@ -93,7 +93,7 @@ public class WebtoonController {
 
     //마이리스트 추가 웹툰 리스트
     @GetMapping("user/me/subscribe")
-    public List<WebtoonResponseDto> getMyListWebtoons(
+    public List<WebtoonAndGenreResponseDto> getMyListWebtoons(
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
