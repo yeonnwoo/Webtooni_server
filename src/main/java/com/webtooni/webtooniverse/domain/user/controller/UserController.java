@@ -82,10 +82,10 @@ public class UserController {
 
     @GetMapping("user/infos")
     public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") String user) {
-        User thisUser=webtoonService.getUser(user);
+        UserInfoResponseDto userInfoByUserName = userService.getUserInfoByUserName(user);
         List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
         List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
-        return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews,thisUser);
+        return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews, userInfoByUserName);
     }
 
     @PutMapping("user/info")

@@ -164,7 +164,6 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
-
         List<Long> likeReviewIdList;
         if (userDetails == null) {
             likeReviewIdList = null;
@@ -175,7 +174,20 @@ public class ReviewService {
         Pageable pageable = PageRequest.of(page - 1, size);
         List<ReviewResponseDto> reviewDto = reviewRepository.getNewReviewWithPageable(pageable);
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
+    }
 
+    @Transactional(readOnly = true)
+    public ReviewLikeResponseDto getBestReview(UserDetailsImpl userDetails, int page, int size) {
+        List<Long> likeReviewIdList;
+        if (userDetails == null) {
+            likeReviewIdList = null;
+        } else {
+            User user = userDetails.getUser();
+            likeReviewIdList = reviewLikeRepository.findReviewIdListByUser(user.getId());
+        }
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<ReviewResponseDto> reviewDto = reviewRepository.getBestReviewWithPageable(pageable);
+        return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
 
     @Transactional(readOnly = true)

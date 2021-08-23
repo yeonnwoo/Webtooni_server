@@ -36,8 +36,21 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     @Override
     public List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable) {
         List<ReviewResponseDto> reviewResponseDtos = getReviewResponseQuery()
-            .orderBy(review.createDate.desc())
             .offset(pageable.getOffset())
+            .where(review.reviewContent.isNotNull())
+            .orderBy(review.createDate.desc())
+            .limit(pageable.getPageSize())
+            .fetch();
+
+        return addGenreToWebtoonList(reviewResponseDtos);
+    }
+
+    @Override
+    public List<ReviewResponseDto> getBestReviewWithPageable(Pageable pageable) {
+        List<ReviewResponseDto> reviewResponseDtos = getReviewResponseQuery()
+            .offset(pageable.getOffset())
+            .where(review.reviewContent.isNotNull())
+            .orderBy(review.likeCount.desc())
             .limit(pageable.getPageSize())
             .fetch();
 

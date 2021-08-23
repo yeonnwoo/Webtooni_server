@@ -146,5 +146,13 @@ public class UserService {
         List<String> userGenre = userRepository.getUserGenre(userId);
         return new UserInfoResponseDto(findUser, userGenre);
     }
+
+    public UserInfoResponseDto getUserInfoByUserName(String userName) {
+        User findUser = userRepository.findByUserName(userName).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
+        );
+        List<String> userGenre = userRepository.getUserGenreByUserName(userName);
+        return new UserInfoResponseDto(findUser, userGenre);
+    }
 }
 
