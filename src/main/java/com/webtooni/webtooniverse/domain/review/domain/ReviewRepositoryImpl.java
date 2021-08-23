@@ -84,6 +84,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
             .join(webtoonGenre)
             .fetchJoin()
             .on(webtoon.id.eq(webtoonGenre.webtoon.id))
+            .on(webtoonGenre.genre.id.ne(1L))
+            .on(webtoonGenre.genre.id.ne(2L))
+            .on(webtoonGenre.genre.id.ne(3L))
             .join(webtoonGenre.genre, genre)
             .where(review.user.userName.eq(userName).and(review.createDate.isNotNull()))
             .transform(groupBy(review).as(list(webtoonGenre.genre.genreType)));
