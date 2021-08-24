@@ -51,6 +51,9 @@ public class WebtoonService {
         final ValueOperations<String, BestReviewerWebtoonResponseDto> valueOperation = redisTemplate.opsForValue();
         BestReviewerWebtoonResponseDto cacheBestReviewerWebtoonResponseDto = valueOperation.get("bestReviewerWebtoon");
 
+//        BestReviewerWebtoonResponseDto cacheBestReviewerWebtoonResponseDto = new BestReviewerWebtoonResponseDto();
+//        cacheBestReviewerWebtoonResponseDto = null;
+
         if (cacheBestReviewerWebtoonResponseDto == null) {
             User bestReviewer = webtoonRepository.findBestReviewer();
             if (bestReviewer == null) {
@@ -106,6 +109,10 @@ public class WebtoonService {
     public List<WebtoonAndGenreResponseDto> getMonthTotalRank() {
         final ValueOperations<String, WebtoonAndGenreListResponseDto> valueOperation = redisTemplate.opsForValue();
         WebtoonAndGenreListResponseDto cacheWebtoonAndGenreListResponseDto = valueOperation.get("monthTotalRank");
+
+//        WebtoonAndGenreListResponseDto cacheWebtoonAndGenreListResponseDto = new WebtoonAndGenreListResponseDto();
+//        cacheWebtoonAndGenreListResponseDto = null;
+
         if (cacheWebtoonAndGenreListResponseDto == null) {
             List<WebtoonAndGenreResponseDto> totalRank = webtoonRepository.getTotalRank();
             valueOperation.set("monthTotalRank", new WebtoonAndGenreListResponseDto(totalRank));
@@ -118,6 +125,10 @@ public class WebtoonService {
     public List<PlatformRankResponseDto> getMonthNaverRank() {
         final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate.opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation.get("monthNaverRank");
+
+//        PlatformRankListResponseDto cachePlatformRankListResponseDto = new PlatformRankListResponseDto();
+//        cachePlatformRankListResponseDto = null;
+
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
             List<PlatformRankResponseDto> platformRankResponseDtos = monthNaverRank
@@ -134,6 +145,10 @@ public class WebtoonService {
     public List<PlatformRankResponseDto> getMonthKakaoRank() {
         final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate.opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation.get("monthKaKaoRank");
+
+//        PlatformRankListResponseDto cachePlatformRankListResponseDto = new PlatformRankListResponseDto();
+//        cachePlatformRankListResponseDto = null;
+
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthKaKaoRank = webtoonRepository.getKakaoRank();
             List<PlatformRankResponseDto> platformRankResponseDtos = monthKaKaoRank
@@ -206,11 +221,8 @@ public class WebtoonService {
         return similarGenreToonList;
     }
 
-    public List<WebtoonResponseDto> getMyListWebtoons(String userName) {
-        List<Webtoon> myListWebtoon = webtoonRepository.findMyListWebtoon(userName);
-        return myListWebtoon.stream()
-            .map(WebtoonResponseDto::new)
-            .collect(Collectors.toList());
+    public List<WebtoonAndGenreResponseDto> getMyListWebtoons(String userName) {
+        return webtoonRepository.findMyListWebtoon(userName);
     }
 
     public List<WebtoonResponseDto> getUnreviewdList() {
@@ -227,7 +239,7 @@ public class WebtoonService {
         List<WebtoonAndGenreResponseDto> webtoonResponseDtos = new ArrayList<>();
         for (WebtoonAndGenreResponseDto webtoon : webtoons) {
             String trimWebtoonTitle = webtoon.getToonTitle().replace(" ", "");
-            if ((trimWebtoonTitle.length() >= trimKeyword.length()) && trimWebtoonTitle.substring(0,trimKeyword.length()).contains(trimKeyword) ) {
+            if (trimWebtoonTitle.contains(trimKeyword)) {
                 webtoonResponseDtos.add(webtoon);
             }
         }
