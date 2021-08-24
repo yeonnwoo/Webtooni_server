@@ -15,19 +15,21 @@ import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.BestReviewerWebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankListResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.RankTotalResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreListResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,11 +50,10 @@ public class WebtoonService {
     //금주의 웹툰 평론가 추천
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
 
-        final ValueOperations<String, BestReviewerWebtoonResponseDto> valueOperation = redisTemplate.opsForValue();
-        BestReviewerWebtoonResponseDto cacheBestReviewerWebtoonResponseDto = valueOperation.get("bestReviewerWebtoon");
-
-//        BestReviewerWebtoonResponseDto cacheBestReviewerWebtoonResponseDto = new BestReviewerWebtoonResponseDto();
-//        cacheBestReviewerWebtoonResponseDto = null;
+        final ValueOperations<String, BestReviewerWebtoonResponseDto> valueOperation = redisTemplate
+            .opsForValue();
+        BestReviewerWebtoonResponseDto cacheBestReviewerWebtoonResponseDto = valueOperation
+            .get("bestReviewerWebtoon");
 
         if (cacheBestReviewerWebtoonResponseDto == null) {
             User bestReviewer = webtoonRepository.findBestReviewer();
@@ -61,7 +62,8 @@ public class WebtoonService {
             }
             List<WebtoonAndGenreResponseDto> bestReviewerWebtoons = webtoonRepository
                 .findBestReviewerWebtoon(bestReviewer);
-            UserInfoOnlyResponseDto userInfoOnlyResponseDto = new UserInfoOnlyResponseDto(bestReviewer);
+            UserInfoOnlyResponseDto userInfoOnlyResponseDto = new UserInfoOnlyResponseDto(
+                bestReviewer);
             BestReviewerWebtoonResponseDto bestReviewerWebtoonResponseDto = new BestReviewerWebtoonResponseDto(
                 userInfoOnlyResponseDto, bestReviewerWebtoons);
             valueOperation.set("bestReviewerWebtoon", bestReviewerWebtoonResponseDto);
@@ -106,30 +108,30 @@ public class WebtoonService {
     }
 
     //이번달 웹투니버스 종합순위
-    public List<WebtoonAndGenreResponseDto> getMonthTotalRank() {
+    public Set<RankTotalResponseDto> getMonthTotalRank() {
+        final ZSetOperations<String, RankTotalResponseDto> zSetOperations = redisTemplate
+            .opsForZSet();
+        Set<RankTotalResponseDto> monthTotalRankV2 = zSetOperations
+            .reverseRange("monthTotalRankV2", 1, -1);
 
-        final ValueOperations<String, WebtoonAndGenreListResponseDto> valueOperation = redisTemplate.opsForValue();
-        WebtoonAndGenreListResponseDto cacheWebtoonAndGenreListResponseDto = valueOperation.get("monthTotalRank");
-
-//        WebtoonAndGenreListResponseDto cacheWebtoonAndGenreListResponseDto = new WebtoonAndGenreListResponseDto();
-//        cacheWebtoonAndGenreListResponseDto = null;
-
-        if (cacheWebtoonAndGenreListResponseDto == null) {
-            List<WebtoonAndGenreResponseDto> totalRank = webtoonRepository.getTotalRank();
-            valueOperation.set("monthTotalRank", new WebtoonAndGenreListResponseDto(totalRank));
-            return totalRank;
+        if (monthTotalRankV2.size() == 0) {
+            List<RankTotalResponseDto> totalRank = webtoonRepository.getTotalRank();
+            for (RankTotalResponseDto rankTotalResponseDto : totalRank) {
+                zSetOperations.add("monthTotalRankV2", rankTotalResponseDto,
+                    rankTotalResponseDto.getWeeklyAvgPoint());
+            }
+            return zSetOperations
+                .reverseRange("monthTotalRankV2", 1, -1);
         }
-        return cacheWebtoonAndGenreListResponseDto.getWebtoonAndGenreResponseDtoList();
-
+        return monthTotalRankV2;
     }
 
     //웹투니버스 네이버 웹툰 Top10
     public List<PlatformRankResponseDto> getMonthNaverRank() {
-        final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate.opsForValue();
-        PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation.get("monthNaverRank");
-
-//        PlatformRankListResponseDto cachePlatformRankListResponseDto = new PlatformRankListResponseDto();
-//        cachePlatformRankListResponseDto = null;
+        final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate
+            .opsForValue();
+        PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
+            .get("monthNaverRank");
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
@@ -137,7 +139,8 @@ public class WebtoonService {
                 .stream()
                 .map(PlatformRankResponseDto::new)
                 .collect(Collectors.toList());
-            valueOperation.set("monthNaverRank", new PlatformRankListResponseDto(platformRankResponseDtos));
+            valueOperation
+                .set("monthNaverRank", new PlatformRankListResponseDto(platformRankResponseDtos));
             return platformRankResponseDtos;
         }
         return cachePlatformRankListResponseDto.getPlatformRankResponseDtoList();
@@ -145,11 +148,10 @@ public class WebtoonService {
 
     //웹투니버스 카카오 웹툰 Top10
     public List<PlatformRankResponseDto> getMonthKakaoRank() {
-        final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate.opsForValue();
-        PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation.get("monthKaKaoRank");
-
-//        PlatformRankListResponseDto cachePlatformRankListResponseDto = new PlatformRankListResponseDto();
-//        cachePlatformRankListResponseDto = null;
+        final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate
+            .opsForValue();
+        PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
+            .get("monthKaKaoRank");
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthKaKaoRank = webtoonRepository.getKakaoRank();
@@ -157,7 +159,8 @@ public class WebtoonService {
                 .stream()
                 .map(PlatformRankResponseDto::new)
                 .collect(Collectors.toList());
-            valueOperation.set("monthKaKaoRank", new PlatformRankListResponseDto(platformRankResponseDtos));
+            valueOperation
+                .set("monthKaKaoRank", new PlatformRankListResponseDto(platformRankResponseDtos));
             return platformRankResponseDtos;
         }
         return cachePlatformRankListResponseDto.getPlatformRankResponseDtoList();
@@ -250,7 +253,7 @@ public class WebtoonService {
 
     public User getUser(String user) {
         return userRepository.findByUserName(user).orElseThrow(
-            ()->new IllegalArgumentException("해당 유저가 존재하지 않습니다.")
+            () -> new IllegalArgumentException("해당 유저가 존재하지 않습니다.")
         );
     }
 }
