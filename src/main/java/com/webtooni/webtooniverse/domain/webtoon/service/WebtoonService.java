@@ -104,14 +104,16 @@ public class WebtoonService {
 
     //이번달 웹투니버스 종합순위
     public List<WebtoonAndGenreResponseDto> getMonthTotalRank() {
-        final ValueOperations<String, WebtoonAndGenreListResponseDto> valueOperation = redisTemplate.opsForValue();
-        WebtoonAndGenreListResponseDto cacheWebtoonAndGenreListResponseDto = valueOperation.get("monthTotalRank");
-        if (cacheWebtoonAndGenreListResponseDto == null) {
-            List<WebtoonAndGenreResponseDto> totalRank = webtoonRepository.getTotalRank();
-            valueOperation.set("monthTotalRank", new WebtoonAndGenreListResponseDto(totalRank));
-            return totalRank;
-        }
-        return cacheWebtoonAndGenreListResponseDto.getWebtoonAndGenreResponseDtoList();
+//        final ValueOperations<String, WebtoonAndGenreListResponseDto> valueOperation = redisTemplate.opsForValue();
+//        WebtoonAndGenreListResponseDto cacheWebtoonAndGenreListResponseDto = valueOperation.get("monthTotalRank");
+//        if (cacheWebtoonAndGenreListResponseDto == null) {
+//
+//            valueOperation.set("monthTotalRank", new WebtoonAndGenreListResponseDto(totalRank));
+//            return totalRank;
+//        }
+        List<WebtoonAndGenreResponseDto> totalRank = webtoonRepository.getTotalRank();
+//        return cacheWebtoonAndGenreListResponseDto.getWebtoonAndGenreResponseDtoList();
+        return totalRank;
     }
 
     //웹투니버스 네이버 웹툰 Top10
