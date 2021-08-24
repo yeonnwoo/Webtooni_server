@@ -24,6 +24,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
@@ -97,6 +98,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
     //베스트 리뷰어 찾기
+
     @Override
     public User findBestReviewer() {
 
@@ -108,8 +110,15 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .limit(1)
             .fetchOne();
     }
-
     // 베스트 리뷰어, 리뷰 수, 좋아요 수
+
+    public List<Webtoon> getUnreviewedList(){
+        return queryFactory.selectFrom(webtoon)
+                .where(webtoon.reviewCount.eq(0))
+                .limit(10)
+                .fetch();
+    }
+
     @Override
     public List<BestReviewerResponseDto> findBestReviewerForMain() {
         List<BestReviewerResponseDto> bestReviewerResponseDtoList = queryFactory
