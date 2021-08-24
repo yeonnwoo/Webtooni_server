@@ -35,9 +35,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     //리뷰 베스트순
     public List<ReviewResponseDto> getBestOrNewReview(ReviewStatus reviewStatus) {
         if (reviewStatus == ReviewStatus.BEST) {
-            return getReviewResponseQuery().orderBy(review.likeCount.desc()).fetch();
+            return addGenreToWebtoonList(getReviewResponseQuery().orderBy(review.likeCount.desc()).fetch());
         } else if (reviewStatus == ReviewStatus.NEW) {
-            return getReviewResponseQuery().orderBy(review.createDate.desc()).fetch();
+            return addGenreToWebtoonList(getReviewResponseQuery().orderBy(review.createDate.desc()).fetch());
         } else {
             throw new IllegalArgumentException("리뷰 상태가 올바르지 않습니다.");
         }

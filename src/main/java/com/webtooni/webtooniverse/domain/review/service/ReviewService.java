@@ -39,7 +39,6 @@ public class ReviewService {
 
 
     //리뷰 최신순,베스트순 불러오기
-    @LogExecutionTime
     @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
         List<ReviewResponseDto> getRecentBestReviews = reviewRepository
@@ -82,7 +81,7 @@ public class ReviewService {
      * @param id   리뷰 id
      * @param user 사용자 정보
      */
-    @LogExecutionTime
+
     public void clickReviewLike(Long id, User user) {
         //해당 게시물 조회
         Review findReview = getFindReview(id);
@@ -119,7 +118,7 @@ public class ReviewService {
      * @param user          유저 정보
      * @return ReviewStarRequestDto 리뷰 id
      */
-    @LogExecutionTime
+
     public ReviewStarResponseDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
         User user) {
 

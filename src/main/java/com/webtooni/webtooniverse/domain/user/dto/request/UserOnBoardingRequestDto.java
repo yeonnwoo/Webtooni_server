@@ -2,7 +2,6 @@ package com.webtooni.webtooniverse.domain.user.dto.request;
 
 
 import java.util.ArrayList;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
