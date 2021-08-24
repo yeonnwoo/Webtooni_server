@@ -18,6 +18,7 @@ import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
