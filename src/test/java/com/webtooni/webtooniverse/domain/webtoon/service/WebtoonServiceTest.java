@@ -17,7 +17,10 @@
 //import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 //import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 //import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenreRepository;
+//import java.util.ArrayList;
+//import java.util.HashMap;
 //import java.util.List;
+//import java.util.Map;
 //import javax.persistence.EntityManager;
 //import javax.persistence.PersistenceContext;
 //import javax.transaction.Transactional;
@@ -129,10 +132,8 @@
 //
 //    @Test
 //    public void br() {
-//        List<Review> reviews = webtoonRepository.br(1L);
+////        List<Review> reviews = webtoonRepository.br(1L);
 //
-////        Map<Long, List<Float>> data = new HashMap<>();
-////
 ////        for (Long userId : data.keySet()) {
 ////            float sum = 0;
 ////            int cont
@@ -153,10 +154,11 @@
 ////            outerList.add(innerList);
 ////        }
 ////
-//////        for (List<Float> floats : outerList) {
-//////            System.out.println(floats.get(0) + " / " + floats.get(1) + " / " + floats.get(2));
-//////        }
-//////        System.out.println("-----------------------------");
+////        for (List<Float> floats : outerList) {
+////            System.out.println(floats.get(0) + " / " + floats.get(1) + " / " + floats.get(2));
+////            System.out.println("-----------------------------");
+////        }
+//
 ////
 ////        //한 row씩 돌고 있음
 ////        for (List<Float> innerList : outerList) {
@@ -179,7 +181,7 @@
 ////        for (List<Float> floats : outerList) {
 ////            System.out.println(floats.get(0) + " / " + floats.get(1) + " / " + floats.get(2));
 ////        }
-//
+////
 ////        <Long, List<Map<Long, Float>>> userWebtoonScore = new HashMap<>();
 ////        for (Review review : reviews) {
 ////            Long userId = review.getUser().getId();
@@ -213,11 +215,10 @@
 ////                longFloatMap.values();
 ////                for( va)
 ////            }M
-//
+////
 ////            }
-//
+////
 ////        }
-//
 //    }
 //
 //

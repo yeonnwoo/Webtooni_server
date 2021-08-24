@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.user.controller;
 
 
 import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewWebtoonGenre;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
@@ -12,6 +13,7 @@ import com.webtooni.webtooniverse.domain.user.dto.response.UserInfoResponseDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.UserWebtoonAndReviewResponseDto;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.user.service.UserService;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
@@ -83,8 +85,8 @@ public class UserController {
     @GetMapping("user/infos")
     public UserWebtoonAndReviewResponseDto getUserInfo(@PathParam("user") String user) {
         UserInfoResponseDto userInfoByUserName = userService.getUserInfoByUserName(user);
-        List<WebtoonResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
-        List<MyReviewResponseDto> myReviews = reviewService.getMyReviews(user);
+        List<WebtoonAndGenreResponseDto> myListWebtoons = webtoonService.getMyListWebtoons(user);
+        List<ReviewWebtoonGenre> myReviews = reviewService.getMyReviewsAndGenre(user);
         return new UserWebtoonAndReviewResponseDto(myListWebtoons, myReviews, userInfoByUserName);
     }
 

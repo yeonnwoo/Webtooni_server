@@ -34,13 +34,9 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", "9bf8aff1cb1460ec63268cd09c603a1a");
-//        params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/kakao");
-     //   params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/kakao");
-     //   params.add("redirect_uri", "http://localhost:3000/user/kakao");
-      //  params.add("redirect_uri","http://34.64.193.34/api/v1/user/kakao/callback");
-     //   params.add("redirect_uri","http://webtooni.co.kr/api/v1/user/kakao/callback");
-        
         params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/kakao");
+//        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
+//        params.add("redirect_uri", "http://localhost:3000/user/kakao");
 
         params.add("code", authorizedCode);
 
