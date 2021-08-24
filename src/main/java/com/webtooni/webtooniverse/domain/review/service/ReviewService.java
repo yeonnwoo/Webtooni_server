@@ -11,6 +11,7 @@ import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseD
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewWebtoonGenre;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
@@ -164,7 +165,6 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
-
         List<Long> likeReviewIdList;
         if (userDetails == null) {
             likeReviewIdList = null;
@@ -175,8 +175,22 @@ public class ReviewService {
         Pageable pageable = PageRequest.of(page - 1, size);
         List<ReviewResponseDto> reviewDto = reviewRepository.getNewReviewWithPageable(pageable);
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
-
     }
+
+    @Transactional(readOnly = true)
+    public ReviewLikeResponseDto getBestReview(UserDetailsImpl userDetails, int page, int size) {
+        List<Long> likeReviewIdList;
+        if (userDetails == null) {
+            likeReviewIdList = null;
+        } else {
+            User user = userDetails.getUser();
+            likeReviewIdList = reviewLikeRepository.findReviewIdListByUser(user.getId());
+        }
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<ReviewResponseDto> reviewDto = reviewRepository.getBestReviewWithPageable(pageable);
+        return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
+    }
+
 
     @Transactional(readOnly = true)
     public List<MyReviewResponseDto> getMyReviews(String userName) {
@@ -184,6 +198,17 @@ public class ReviewService {
         return myReviews.stream()
             .map(MyReviewResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewWebtoonGenre> getMyReviewsAndGenre(String userName) {
+
+        List<ReviewWebtoonGenre> myReviewsAndGenre = reviewRepository
+            .findMyReviewsAndGenre(userName);
+        for (ReviewWebtoonGenre reviewWebtoonGenre : myReviewsAndGenre) {
+            System.out.println("reviewWebtoonGenre = " + reviewWebtoonGenre);
+        }
+        return myReviewsAndGenre;
     }
 
     private Review getFindReview(Long id) {
