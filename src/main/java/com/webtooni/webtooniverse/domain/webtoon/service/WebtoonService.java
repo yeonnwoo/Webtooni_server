@@ -55,9 +55,6 @@ public class WebtoonService {
         BestReviewerWebtoonResponseDto cacheBestReviewerWebtoonResponseDto = valueOperation
             .get("bestReviewerWebtoon");
 
-//        BestReviewerWebtoonResponseDto cacheBestReviewerWebtoonResponseDto = new BestReviewerWebtoonResponseDto();
-//        cacheBestReviewerWebtoonResponseDto = null;
-
         if (cacheBestReviewerWebtoonResponseDto == null) {
             User bestReviewer = webtoonRepository.findBestReviewer();
             if (bestReviewer == null) {
@@ -117,9 +114,6 @@ public class WebtoonService {
         Set<RankTotalResponseDto> monthTotalRankV2 = zSetOperations
             .reverseRange("monthTotalRankV2", 1, -1);
 
-//        WebtoonAndGenreListResponseDto cacheWebtoonAndGenreListResponseDto = new WebtoonAndGenreListResponseDto();
-//        cacheWebtoonAndGenreListResponseDto = null;
-
         if (monthTotalRankV2.size() == 0) {
             List<RankTotalResponseDto> totalRank = webtoonRepository.getTotalRank();
             for (RankTotalResponseDto rankTotalResponseDto : totalRank) {
@@ -138,9 +132,6 @@ public class WebtoonService {
             .opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
             .get("monthNaverRank");
-
-//        PlatformRankListResponseDto cachePlatformRankListResponseDto = new PlatformRankListResponseDto();
-//        cachePlatformRankListResponseDto = null;
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
@@ -161,9 +152,6 @@ public class WebtoonService {
             .opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
             .get("monthKaKaoRank");
-
-//        PlatformRankListResponseDto cachePlatformRankListResponseDto = new PlatformRankListResponseDto();
-//        cachePlatformRankListResponseDto = null;
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthKaKaoRank = webtoonRepository.getKakaoRank();

@@ -84,23 +84,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
                 rankTotalResponseDtoList.add(rankTotalResponseDto);
             }
         }
-
         return rankTotalResponseDtoList;
-
-
-//        Map<Webtoon, List<String>> webtoonListMap = queryFactory
-//            .from(webtoon)
-//            .innerJoin(review)
-//            .on(webtoon.id.eq(review.webtoon.id))
-//            .where(review.starCreateDate.between(midnight.minusDays(7), midnight))
-//            .orderBy(webtoon.toonAvgPoint.desc())
-//            .join(webtoonGenre)
-//            .on(webtoonGenre.webtoon.id.eq(webtoon.id))
-//            .join(webtoonGenre.genre)
-//            .limit(30)
-//            .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
-//
-//        return mappingMapToDto(webtoonListMap);
     }
 
     //네이버 웹툰 Top10
@@ -319,6 +303,5 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .collect(Collectors.toList());
 
     }
-
 
 }
