@@ -12,7 +12,9 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
             .allowedOrigins("http://localhost:3000",
-                "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/","http://34.64.100.68")
+                "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/",
+                "http://34.64.100.68",
+                "http://webtooni.co.kr")
             .allowedMethods(
                 HttpMethod.GET.name(),
                 HttpMethod.HEAD.name(),

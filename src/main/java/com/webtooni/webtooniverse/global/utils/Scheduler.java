@@ -4,10 +4,12 @@ import com.webtooni.webtooniverse.domain.webtoon.dto.response.BestReviewerWebtoo
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.MonthRankResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankListResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.RankTotalResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreListResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,7 +36,7 @@ public class Scheduler {
         //caching
         BestReviewerWebtoonResponseDto bestReviewerWebtoon = webtoonService
             .getBestReviewerWebtoon();
-        List<WebtoonAndGenreResponseDto> monthTotalRank = webtoonService.getMonthTotalRank();
+        Set<RankTotalResponseDto> monthTotalRank = webtoonService.getMonthTotalRank();
         List<PlatformRankResponseDto> monthNaverRank = webtoonService.getMonthNaverRank();
         List<PlatformRankResponseDto> monthKakaoRank = webtoonService.getMonthKakaoRank();
     }
