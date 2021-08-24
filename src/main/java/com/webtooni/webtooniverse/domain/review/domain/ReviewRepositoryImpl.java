@@ -35,9 +35,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     //리뷰 베스트순
     public List<ReviewResponseDto> getBestOrNewReview(ReviewStatus reviewStatus) {
         if (reviewStatus == ReviewStatus.BEST) {
-            return getReviewResponseQuery().orderBy(review.likeCount.desc()).fetch();
+            return addGenreToWebtoonList(getReviewResponseQuery().orderBy(review.likeCount.desc()).fetch());
         } else if (reviewStatus == ReviewStatus.NEW) {
-            return getReviewResponseQuery().orderBy(review.likeCount.desc()).fetch();
+            return addGenreToWebtoonList(getReviewResponseQuery().orderBy(review.createDate.desc()).fetch());
         } else {
             throw new IllegalArgumentException("리뷰 상태가 올바르지 않습니다.");
         }
@@ -84,6 +84,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
             .join(webtoonGenre)
             .fetchJoin()
             .on(webtoon.id.eq(webtoonGenre.webtoon.id))
+            .on(webtoonGenre.genre.id.ne(1L))
+            .on(webtoonGenre.genre.id.ne(2L))
+            .on(webtoonGenre.genre.id.ne(3L))
             .join(webtoonGenre.genre, genre)
             .where(review.user.userName.eq(userName).and(review.createDate.isNotNull()))
             .transform(groupBy(review).as(list(webtoonGenre.genre.genreType)));
