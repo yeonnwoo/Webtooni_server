@@ -5,8 +5,10 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +25,8 @@ public class JwtTokenProvider {
 
     private String secretKey = "TooniverseWebkey";
 
-    // 토큰 유효시간 30분
-    private long tokenValidTime = 30 * 60 * 1000L;
+    // 토큰 유효시간
+    private long tokenValidTime = 120 * 60 * 1000L;
     private final UserDetailsServiceImpl userDetailsService;
 
     // 객체 초기화, secretKey를 Base64로 인코딩
@@ -34,8 +36,8 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String kakao) {
-        Claims claims = Jwts.claims().setSubject(kakao);
+    public String createToken(String socialId) {
+        Claims claims = Jwts.claims().setSubject(socialId);
         Date now = new Date();
         return Jwts.builder()
             .setClaims(claims) // 정보 저장
@@ -56,7 +58,8 @@ public class JwtTokenProvider {
 
     // 토큰에서 회원 정보 추출
     public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody()
+            .getSubject();
     }
 
     // Request의 Header에서 token 값을 가져옴. "Authorization" : "TOKEN값'

@@ -12,7 +12,6 @@ import lombok.ToString;
 @ToString
 public class WebtoonAndGenreResponseDto {
 
-
     private Long toonId;
     private String toonTitle;
     private String toonAuthor;

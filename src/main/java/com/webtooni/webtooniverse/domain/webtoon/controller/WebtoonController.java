@@ -4,12 +4,14 @@ import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.BestReviewerWebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.PlatformRankResponseDto;
+import com.webtooni.webtooniverse.domain.webtoon.dto.response.RankTotalResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.SimilarGenreToonDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonDetailDto;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
+import java.util.Set;
 import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -62,7 +64,7 @@ public class WebtoonController {
 
     //이번달 웹투니버스 순위
     @GetMapping("rank/total")
-    public List<WebtoonAndGenreResponseDto> getMonthTotalRanks() {
+    public Set<RankTotalResponseDto> getMonthTotalRanks() {
         return webtoonService.getMonthTotalRank();
     }
 
@@ -91,13 +93,14 @@ public class WebtoonController {
         return webtoonService.getSimilarGenre(id);
     }
 
+    //마이리스트 추가 웹툰 리스트
     @GetMapping("user/me/subscribe")
-    public List<WebtoonResponseDto> getMyListWebtoons(
+    public List<WebtoonAndGenreResponseDto> getMyListWebtoons(
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
         }
-        return webtoonService.getMyListWebtoons(userDetails.getUser().getId());
+        return webtoonService.getMyListWebtoons(userDetails.getUser().getUserName());
     }
 
     @GetMapping("reviews/suggestion")

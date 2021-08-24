@@ -5,9 +5,12 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
+@ToString
 public class BestReviewerWebtoonResponseDto {
 
     UserInfoOnlyResponseDto userInfoOnlyResponseDto;

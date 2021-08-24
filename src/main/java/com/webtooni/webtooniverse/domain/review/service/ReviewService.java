@@ -11,6 +11,7 @@ import com.webtooni.webtooniverse.domain.review.dto.response.ReviewLikeResponseD
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewMainResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewStarResponseDto;
+import com.webtooni.webtooniverse.domain.review.dto.response.ReviewWebtoonGenre;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
@@ -38,13 +39,12 @@ public class ReviewService {
 
 
     //리뷰 최신순,베스트순 불러오기
-    @LogExecutionTime
     @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
-        List<ReviewResponseDto> getRecentBestReviews = reviewRepository.getBestOrNewReview(
-            ReviewStatus.BEST);
-        List<ReviewResponseDto> getRecentNewReviews = reviewRepository.getBestOrNewReview(
-            ReviewStatus.NEW);
+        List<ReviewResponseDto> getRecentBestReviews = reviewRepository
+            .getBestOrNewReview(ReviewStatus.BEST);
+        List<ReviewResponseDto> getRecentNewReviews = reviewRepository
+            .getBestOrNewReview(ReviewStatus.NEW);
         return new ReviewMainResponseDto(getRecentBestReviews, getRecentNewReviews);
     }
 
@@ -81,7 +81,7 @@ public class ReviewService {
      * @param id   리뷰 id
      * @param user 사용자 정보
      */
-    @LogExecutionTime
+
     public void clickReviewLike(Long id, User user) {
         //해당 게시물 조회
         Review findReview = getFindReview(id);
@@ -118,7 +118,7 @@ public class ReviewService {
      * @param user          유저 정보
      * @return ReviewStarRequestDto 리뷰 id
      */
-    @LogExecutionTime
+
     public ReviewStarResponseDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
         User user) {
 
@@ -164,7 +164,6 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
-
         List<Long> likeReviewIdList;
         if (userDetails == null) {
             likeReviewIdList = null;
@@ -175,15 +174,40 @@ public class ReviewService {
         Pageable pageable = PageRequest.of(page - 1, size);
         List<ReviewResponseDto> reviewDto = reviewRepository.getNewReviewWithPageable(pageable);
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
-
     }
 
     @Transactional(readOnly = true)
-    public List<MyReviewResponseDto> getMyReviews(Long userId) {
-        List<Review> myReviews = reviewRepository.findMyReviews(userId);
+    public ReviewLikeResponseDto getBestReview(UserDetailsImpl userDetails, int page, int size) {
+        List<Long> likeReviewIdList;
+        if (userDetails == null) {
+            likeReviewIdList = null;
+        } else {
+            User user = userDetails.getUser();
+            likeReviewIdList = reviewLikeRepository.findReviewIdListByUser(user.getId());
+        }
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<ReviewResponseDto> reviewDto = reviewRepository.getBestReviewWithPageable(pageable);
+        return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<MyReviewResponseDto> getMyReviews(String userName) {
+        List<Review> myReviews = reviewRepository.findMyReviews(userName);
         return myReviews.stream()
             .map(MyReviewResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewWebtoonGenre> getMyReviewsAndGenre(String userName) {
+
+        List<ReviewWebtoonGenre> myReviewsAndGenre = reviewRepository
+            .findMyReviewsAndGenre(userName);
+        for (ReviewWebtoonGenre reviewWebtoonGenre : myReviewsAndGenre) {
+            System.out.println("reviewWebtoonGenre = " + reviewWebtoonGenre);
+        }
+        return myReviewsAndGenre;
     }
 
     private Review getFindReview(Long id) {
