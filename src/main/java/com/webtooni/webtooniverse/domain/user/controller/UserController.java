@@ -60,7 +60,7 @@ public class UserController {
 
     @PostMapping("user/onBoarding")
     public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails,
-        @RequestBody UserOnBoardingRequestDto requestDto) {
+                     @Valid @RequestBody UserOnBoardingRequestDto requestDto) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
         }
