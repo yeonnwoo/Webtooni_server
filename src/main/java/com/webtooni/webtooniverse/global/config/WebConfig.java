@@ -15,7 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
                 "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/",
                 "http://34.64.100.68",
                 "https://webtooni.co.kr",
-                "https://api.webtooni.co.kr")
+                "https://api.webtooni.co.kr",
+                "https://www.webtooni.co.kr")
             .allowedMethods(
                 HttpMethod.GET.name(),
                 HttpMethod.HEAD.name(),
