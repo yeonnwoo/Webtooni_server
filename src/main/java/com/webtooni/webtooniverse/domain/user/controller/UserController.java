@@ -1,11 +1,9 @@
 package com.webtooni.webtooniverse.domain.user.controller;
 
 
-import com.webtooni.webtooniverse.domain.review.dto.response.MyReviewResponseDto;
 import com.webtooni.webtooniverse.domain.review.dto.response.ReviewWebtoonGenre;
 import com.webtooni.webtooniverse.domain.review.service.ReviewService;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
@@ -14,10 +12,8 @@ import com.webtooni.webtooniverse.domain.user.dto.response.UserWebtoonAndReviewR
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.user.service.UserService;
 import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonAndGenreResponseDto;
-import com.webtooni.webtooniverse.domain.webtoon.dto.response.WebtoonResponseDto;
 import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
-import java.util.Optional;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +38,7 @@ public class UserController {
     private final UserService userService;
     private final ReviewService reviewService;
     private final WebtoonService webtoonService;
-    private final UserRepository userRepository;
+
 
     @GetMapping("user/kakao/callback")
     public String kakaoLogin(@RequestParam String code) {
