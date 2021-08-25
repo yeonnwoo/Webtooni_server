@@ -37,6 +37,4 @@ public interface WebtoonRepositoryCustom {
     List<Webtoon> getUnreviewedList();
 
     List<Review> br(Long userId);
-
-    List<Webtoon> getUnreviewedList();
 }
