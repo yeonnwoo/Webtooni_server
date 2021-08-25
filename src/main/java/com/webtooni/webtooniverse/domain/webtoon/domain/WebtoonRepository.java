@@ -9,8 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, WebtoonRepositoryCustom {
 
-    List<Webtoon> findTop10ByReviewCountLessThanEqual(int number);
-
     /**
      * 웹툰의 장르 찾기
      *
