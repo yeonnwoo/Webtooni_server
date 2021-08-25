@@ -72,6 +72,8 @@ public class WebtoonService {
         return cacheBestReviewerWebtoonResponseDto;
     }
 
+
+
     //유저 관심 장르 중 랜덤 추천
     public List<WebtoonResponseDto> getForUserWebtoon(User user) {
         int howManyWebtoons = 5;
