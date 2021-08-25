@@ -150,6 +150,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
+    // 리뷰 미작성 웹툰 추천
+    public List<Webtoon> getUnreviewedList(){
+        return queryFactory.selectFrom(webtoon)
+                .where(webtoon.reviewCount.eq(0))
+                .limit(10)
+                .fetch();
+    }
+
 
     //유저 취향 웹툰 추천
     @Override

@@ -107,6 +107,11 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(
             () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
         );
+        String userName = requestDto.getUserName();
+        Optional<User> findUser = userRepository.findByUserName(userName);
+        if (findUser.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "중복된 사용자 닉네임이 존재합니다.");
+        }
         user.update(requestDto);
     }
 
