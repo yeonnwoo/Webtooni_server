@@ -11,6 +11,7 @@ public interface WebtoonRepository extends JpaRepository<Webtoon, Long>, Webtoon
 
     List<Webtoon> findTop10ByReviewCountLessThanEqual(int number);
 
+
     /**
      * 웹툰의 장르 찾기
      *

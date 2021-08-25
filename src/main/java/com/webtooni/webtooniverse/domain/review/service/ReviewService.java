@@ -58,6 +58,13 @@ public class ReviewService {
     public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto) {
         //해당 리뷰 찾기
         Review findReview = getFindReview(id);
+
+        //review count+1
+        Webtoon webtoon = reviewRepository.findWebtoonBtReviewId(id);
+        if (findReview.getReviewContent() == null) {
+            webtoon.plusReviewCount();
+        }
+
         //리뷰 내용,날짜 변경
         findReview.changeReviewContent(reviewDto);
         return new ReviewCreateResponseDto(findReview);
@@ -72,8 +79,11 @@ public class ReviewService {
         //해당 리뷰 찾기
         Review findReview = getFindReview(id);
         findReview.deleteReview();
-    }
 
+        //review count-1
+        Webtoon webtoon = reviewRepository.findWebtoonBtReviewId(id);
+        webtoon.minusReviewCount();
+    }
 
     /**
      * 리뷰에 좋아요를 누른다.
