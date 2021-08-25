@@ -16,6 +16,8 @@ import com.webtooni.webtooniverse.domain.webtoon.service.WebtoonService;
 import java.util.List;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+
+import com.webtooni.webtooniverse.global.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -54,7 +56,7 @@ public class UserController {
     public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails,
                      @Valid @RequestBody UserOnBoardingRequestDto requestDto) {
         if (userDetails == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+            throw new ApiRequestException("유저 정보를 찾을 수 없습니다.");
         }
         User user = userDetails.getUser();
         userService.pickGenre(user, requestDto);
@@ -86,7 +88,7 @@ public class UserController {
     public void updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
         @Valid @RequestBody UserInfoRequestDto userInfoRequestDto) {
         if (userDetails == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
+            throw new ApiRequestException("유저 정보를 찾을 수 없습니다.");
         }
         userService.updateInfo(userDetails.getUser().getId(), userInfoRequestDto);
     }
