@@ -34,6 +34,8 @@ public interface WebtoonRepositoryCustom {
 
     List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword);
 
+    List<Webtoon> getUnreviewedList();
+
     List<Review> br(Long userId);
 
     List<Webtoon> getUnreviewedList();

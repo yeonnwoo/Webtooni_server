@@ -103,6 +103,7 @@ public class WebtoonController {
         return webtoonService.getMyListWebtoons(userDetails.getUser().getUserName());
     }
 
+    //**님의 리뷰를 기다리고 있는 웹툰 리스트
     @GetMapping("reviews/suggestion")
     public List<WebtoonResponseDto> getUnreviewdlist() {
         return webtoonService.getUnreviewdList();
