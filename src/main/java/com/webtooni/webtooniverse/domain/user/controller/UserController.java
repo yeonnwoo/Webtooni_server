@@ -50,11 +50,6 @@ public class UserController {
         return userService.naverLogin(code);
     }
 
-    @PutMapping("user/info/{id}")
-    public void update(@PathVariable Long id, @Valid @RequestBody UserInfoRequestDto requestDto) {
-        userService.updateInfo(id, requestDto);
-    }
-
     @PostMapping("user/onBoarding")
     public void pick(@AuthenticationPrincipal UserDetailsImpl userDetails,
                      @Valid @RequestBody UserOnBoardingRequestDto requestDto) {
@@ -89,7 +84,7 @@ public class UserController {
 
     @PutMapping("user/info")
     public void updateUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails,
-        @RequestBody UserInfoRequestDto userInfoRequestDto) {
+        @Valid @RequestBody UserInfoRequestDto userInfoRequestDto) {
         if (userDetails == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유저 정보를 찾을 수 없습니다.");
         }
