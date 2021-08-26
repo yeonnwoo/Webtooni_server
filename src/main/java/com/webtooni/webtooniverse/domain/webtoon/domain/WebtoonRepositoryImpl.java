@@ -146,7 +146,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .join(webtoonGenre.genre)
             .where(review.user.eq(bestReviewer))
             .orderBy(review.userPointNumber.desc())
-            .limit(5)
+            .limit(10)
             .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
     }
