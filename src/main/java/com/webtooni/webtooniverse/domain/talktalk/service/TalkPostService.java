@@ -1,5 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLikeStatus;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.request.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
