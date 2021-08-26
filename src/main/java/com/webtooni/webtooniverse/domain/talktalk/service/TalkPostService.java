@@ -84,7 +84,14 @@ public class TalkPostService {
         } else {
             User user = userDetails.getUser();
             // 해당 게시물이 내가 좋아요를 누른 게시글인지 아닌지 확인
-            exists = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
+            TalkLike talkLike = talkLikeRepository
+                .findTalkLikeByTalkPostAndUser(talkPost, user);
+
+            if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
+                exists = true;
+            } else {
+                exists = false;
+            }
         }
         return new TalkPostResponseDto(talkPost, exists);
     }
