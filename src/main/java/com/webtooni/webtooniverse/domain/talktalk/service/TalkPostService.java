@@ -1,5 +1,7 @@
 package com.webtooni.webtooniverse.domain.talktalk.service;
 
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
+import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLikeStatus;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.talktalk.dto.request.TalkPostRequestDto;
 import com.webtooni.webtooniverse.domain.talktalk.dto.response.AllTalkPostPageResponseDto;
@@ -84,7 +86,14 @@ public class TalkPostService {
         } else {
             User user = userDetails.getUser();
             // 해당 게시물이 내가 좋아요를 누른 게시글인지 아닌지 확인
-            exists = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
+            TalkLike talkLike = talkLikeRepository
+                .findTalkLikeByTalkPostAndUser(talkPost, user);
+
+            if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
+                exists = true;
+            } else {
+                exists = false;
+            }
         }
         return new TalkPostResponseDto(talkPost, exists);
     }

@@ -18,4 +18,5 @@ public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {
 
     TalkLike findTalkLikeByTalkPostAndUser(TalkPost talkPost,User user);
 
+
 }

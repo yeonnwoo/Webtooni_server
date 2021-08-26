@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class WebtoonService {
 
-    private final WebtoonRepository webtoonRepository;
+    private final WebtoonReposcaitory webtoonRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewLikeRepository reviewLikeRepository;
     private final MyListRepository myListRepository;
@@ -148,8 +148,8 @@ public class WebtoonService {
 
     //웹투니버스 카카오 웹툰 Top10
     public List<PlatformRankResponseDto> getMonthKakaoRank() {
-        final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate
-            .opsForValue();
+        final ValueOperations<String, PlatformRankListResponseDto> valueOperation
+            = redisTemplate.opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
             .get("monthKaKaoRank");
 
