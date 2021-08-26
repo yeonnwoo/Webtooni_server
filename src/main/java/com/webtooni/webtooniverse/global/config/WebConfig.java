@@ -14,7 +14,9 @@ public class WebConfig implements WebMvcConfigurer {
             .allowedOrigins("http://localhost:3000",
                 "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/",
                 "http://34.64.100.68",
-                "http://webtooni.co.kr")
+                "https://webtooni.co.kr",
+                "https://api.webtooni.co.kr",
+                "https://www.webtooni.co.kr")
             .allowedMethods(
                 HttpMethod.GET.name(),
                 HttpMethod.HEAD.name(),
