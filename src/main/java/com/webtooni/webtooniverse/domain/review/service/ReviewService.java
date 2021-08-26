@@ -211,12 +211,8 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<ReviewWebtoonGenre> getMyReviewsAndGenre(String userName) {
-
         List<ReviewWebtoonGenre> myReviewsAndGenre = reviewRepository
             .findMyReviewsAndGenre(userName);
-        for (ReviewWebtoonGenre reviewWebtoonGenre : myReviewsAndGenre) {
-            System.out.println("reviewWebtoonGenre = " + reviewWebtoonGenre);
-        }
         return myReviewsAndGenre;
     }
 
