@@ -91,17 +91,18 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     //네이버 웹툰 Top10
     public List<Webtoon> getNaverRank() {
         return queryFactory.selectFrom(webtoon)
-            .where(webtoon.toonPlatform.eq("네이버"))
+            .where(webtoon.toonPlatform.eq("네이버").and(webtoon.reviewCount.goe(2)))
             .orderBy(webtoon.toonAvgPoint.desc())
             .limit(10)
             .fetch();
     }
 
+
     //카카오 웹툰 Top10
     public List<Webtoon> getKakaoRank() {
         return queryFactory.selectFrom(webtoon)
             .orderBy(webtoon.toonAvgPoint.desc())
-            .where(webtoon.toonPlatform.eq("카카오"))
+            .where(webtoon.toonPlatform.eq("카카오").and(webtoon.reviewCount.goe(2)))
             .limit(10)
             .fetch();
     }
