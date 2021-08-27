@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.webtoon.domain;
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 import static com.querydsl.core.group.GroupBy.set;
+import static com.querydsl.core.types.ExpressionUtils.count;
 import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
@@ -76,7 +77,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         List<RankTotalResponseDto> rankTotalResponseDtoList = new ArrayList<>();
         for (Entry<Webtoon, Group> entry : transform.entrySet()) {
-            if (entry.getValue().getList(review.userPointNumber).size() >= 6) {
+            if (entry.getValue().getList(review.userPointNumber).size() >= 1) {
                 RankTotalResponseDto rankTotalResponseDto = new RankTotalResponseDto(
                     entry.getKey(),
                     entry.getValue().getSet(webtoonGenre.genre.genreType),
@@ -148,14 +149,6 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .limit(5)
             .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
-    }
-
-    // 리뷰 미작성 웹툰 추천
-    public List<Webtoon> getUnreviewedList(){
-        return queryFactory.selectFrom(webtoon)
-                .where(webtoon.reviewCount.eq(0))
-                .limit(10)
-                .fetch();
     }
 
 
@@ -264,6 +257,14 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .orderBy(webtoon.toonTitle.asc())
             .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
+    }
+
+    //리뷰없는 웹툰 추천
+    public List<Webtoon> getUnreviewedList(){
+        return queryFactory.selectFrom(webtoon)
+            .where(webtoon.reviewCount.eq(0))
+            .limit(10)
+            .fetch();
     }
 
     @Override

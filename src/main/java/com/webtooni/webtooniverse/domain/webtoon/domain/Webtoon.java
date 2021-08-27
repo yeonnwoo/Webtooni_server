@@ -87,4 +87,12 @@ public class Webtoon {
             .parseFloat(String.format("%.1f", totalPoint / this.totalPointCount));
 
     }
+
+    public void plusReviewCount() {
+        this.reviewCount+=1;
+    }
+
+    public void minusReviewCount() {
+        this.reviewCount-=1;
+    }
 }
