@@ -112,7 +112,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         return queryFactory.select(review.user)
             .from(review)
-//            .where(review.createDate.between(midnight.minusDays(7), midnight))
+            .where(review.createDate.between(midnight.minusDays(7), midnight))
             .groupBy(review.user)
             .orderBy(review.user.count().desc())
             .limit(1)
