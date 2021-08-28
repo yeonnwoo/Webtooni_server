@@ -1,7 +1,13 @@
 package com.webtooni.webtooniverse.domain.user.security.sociallogin;
 
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,10 +17,14 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import javax.inject.Inject;
+
 @RequiredArgsConstructor
 @Component
 public class KakaoOAuth2 {
 
+    @Value("${kakao.clientId}")
+    private String kaKaoClientId;
 
     public SocialUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
@@ -25,7 +35,7 @@ public class KakaoOAuth2 {
         return userInfo;
     }
 
-    private String getAccessToken(String authorizedCode) {
+    public String getAccessToken(String authorizedCode) {
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -33,8 +43,8 @@ public class KakaoOAuth2 {
         // HttpBody 오브젝트 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "9bf8aff1cb1460ec63268cd09c603a1a");
-        params.add("redirect_uri", "https://webtooni.co.kr/user/kakao");
+        params.add("client_id", kaKaoClientId);
+        params.add("redirect_uri", "http://webtooni.co.kr/user/kakao");
 //        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
 //        params.add("redirect_uri", "http://localhost:3000/user/kakao");
         params.add("code", authorizedCode);
@@ -60,7 +70,7 @@ public class KakaoOAuth2 {
         return accessToken;
     }
 
-    private SocialUserInfo getUserInfoByToken(String accessToken) {
+    public SocialUserInfo getUserInfoByToken(String accessToken) {
         // HttpHeader 오브젝트 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
