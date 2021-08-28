@@ -35,5 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
-src/main/resources/application-real.properties
-src/main/resources/application.properties
+src/main/resources/application-real-local.properties
+src/main/resources/application-local.properties
