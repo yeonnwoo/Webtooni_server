@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
+
+import com.webtooni.webtooniverse.global.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -107,7 +109,15 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(
             () -> new NullPointerException("해당 회원이 존재하지 않습니다.")
         );
-        user.update(requestDto);
+        String userName = requestDto.getUserName();
+        Optional<User> findUser = userRepository.findByUserName(userName);
+        if (user.getUserName().equals(requestDto.getUserName())){
+            user.update(requestDto);
+        } else if (findUser.isPresent() && !user.getUserName().equals(requestDto.getUserName())) {
+            throw new ApiRequestException("중복된 닉네임을 가진 유저가 존재합니다");
+        } else {
+            user.update(requestDto);
+        }
     }
 
     /**
@@ -133,7 +143,7 @@ public class UserService {
         String userName = requestDto.getUserName();;
         Optional<User> found = userRepository.findByUserName(userName);
         if (found.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "중복된 사용자 닉네임이 존재합니다.");
+            throw new ApiRequestException("중복된 닉네임을 가진 유저가 존재합니다");
         }
 
         newUser.OnBoarding(requestDto);

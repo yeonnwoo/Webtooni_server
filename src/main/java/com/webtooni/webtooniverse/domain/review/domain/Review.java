@@ -100,6 +100,7 @@ public class Review {
     public void deleteReview() {
         this.reviewContent = null;
         this.createDate=null;
+
     }
 
     /**

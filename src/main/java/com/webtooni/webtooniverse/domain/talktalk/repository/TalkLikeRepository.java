@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.talktalk.repository;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkLike;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkPost;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TalkLikeRepository extends JpaRepository<TalkLike, Long> {

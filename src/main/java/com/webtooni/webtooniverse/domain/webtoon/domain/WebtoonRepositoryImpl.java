@@ -77,7 +77,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         List<RankTotalResponseDto> rankTotalResponseDtoList = new ArrayList<>();
         for (Entry<Webtoon, Group> entry : transform.entrySet()) {
-            if (entry.getValue().getList(review.userPointNumber).size() >= 6) {
+            if (entry.getValue().getList(review.userPointNumber).size() >= 1) {
                 RankTotalResponseDto rankTotalResponseDto = new RankTotalResponseDto(
                     entry.getKey(),
                     entry.getValue().getSet(webtoonGenre.genre.genreType),

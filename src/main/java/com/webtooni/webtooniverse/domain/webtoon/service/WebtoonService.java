@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class WebtoonService {
 
-    private final WebtoonReposcaitory webtoonRepository;
+    private final WebtoonRepository webtoonRepository;
     private final ReviewRepository reviewRepository;
     private final ReviewLikeRepository reviewLikeRepository;
     private final MyListRepository myListRepository;
@@ -71,6 +71,8 @@ public class WebtoonService {
         }
         return cacheBestReviewerWebtoonResponseDto;
     }
+
+
 
     //유저 관심 장르 중 랜덤 추천
     public List<WebtoonResponseDto> getForUserWebtoon(User user) {

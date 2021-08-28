@@ -41,7 +41,7 @@ public class ReviewController {
         return reviewService.getNewReview(userDetails, page, size);
     }
 
-    //리뷰 전체 목록 베스트 순
+    //리뷰 전체 목록 베스트 순val
     @GetMapping("reviews/best")
     public ReviewLikeResponseDto getBestReview(@PathParam("page") int page,
         @PathParam("size") int size

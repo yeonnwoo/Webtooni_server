@@ -89,9 +89,17 @@ public class TalkPostService {
             TalkLike talkLike = talkLikeRepository
                 .findTalkLikeByTalkPostAndUser(talkPost, user);
 
-            if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
-                exists = true;
-            } else {
+            boolean b = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
+
+            if(b)
+            {
+                if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
+                    exists = true;
+                } else {
+                    exists = false;
+                }
+            }
+            else{
                 exists = false;
             }
         }
