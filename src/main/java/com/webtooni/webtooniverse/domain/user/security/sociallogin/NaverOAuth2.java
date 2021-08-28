@@ -2,6 +2,7 @@ package com.webtooni.webtooniverse.domain.user.security.sociallogin;
 
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,6 +15,12 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 @Component
 public class NaverOAuth2 {
+
+    @Value("${naver.clientId}")
+    private String naverClientId;
+
+    @Value("${naver.secret}")
+    private String naverSecret;
 
     public SocialUserInfo getUserInfo(String authorizedCode) {
         // 1. 인가코드 -> 액세스 토큰
@@ -32,8 +39,8 @@ public class NaverOAuth2 {
         // HttpBody 오브젝트 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "7RBFbToxSfOTA51ofOYj");
-        params.add("client_secret", "UgqTEYjIYe");
+        params.add("client_id", naverClientId);
+        params.add("client_secret", naverSecret);
 //      params.add("redirect_uri", "http://localhost:8080/api/v1/user/naver/callback");
 //      params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/naver");
 //      params.add("redirect_uri", "http://localhost:3000/user/naver");
