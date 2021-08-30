@@ -83,7 +83,7 @@ public class User {
     public void addUserScore(int userScore) {
         this.userScore += userScore;
         if (this.userScore < 40) {
-            this.userGrade = (this.userScore / 10) + 1;
+            this.userGrade = (this.userScore / 100) + 1;
         } else {
             this.userGrade = 5;
         }
