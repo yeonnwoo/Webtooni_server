@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "kakao.client-id",
-      "type": "java.lang.String",
-      "description": "Description for kakao.client-id."
-  }
-] }

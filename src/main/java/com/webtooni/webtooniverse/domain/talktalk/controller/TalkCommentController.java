@@ -82,7 +82,8 @@ public class TalkCommentController {
     public void delete(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
-        talkCommentService.commentDelete(id);
+        User user = userDetails.getUser();
+        talkCommentService.commentDelete(id, user);
     }
 
 

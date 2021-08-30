@@ -1,13 +1,8 @@
 package com.webtooni.webtooniverse.domain.user.security.sociallogin;
 
-import lombok.*;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,8 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import javax.inject.Inject;
 
 @RequiredArgsConstructor
 @Component
@@ -44,7 +37,7 @@ public class KakaoOAuth2 {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
         params.add("client_id", kaKaoClientId);
-        params.add("redirect_uri", "http://webtooni.co.kr/user/kakao");
+        params.add("redirect_uri", "https://webtooni.co.kr/user/kakao");
 //        params.add("redirect_uri", "http://localhost:8080/api/v1/user/kakao/callback");
 //        params.add("redirect_uri", "http://localhost:3000/user/kakao");
         params.add("code", authorizedCode);

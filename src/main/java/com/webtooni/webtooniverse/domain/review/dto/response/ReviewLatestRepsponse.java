@@ -18,7 +18,7 @@ public class ReviewLatestRepsponse {
     private User user;
     private int userImg;
     private String userName;
-    private UserGrade userGrade;
+    private int userGrade;
 
     public ReviewLatestRepsponse(Review review) {
         this.reviewContent = review.getReviewContent();

@@ -77,7 +77,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
 
         List<RankTotalResponseDto> rankTotalResponseDtoList = new ArrayList<>();
         for (Entry<Webtoon, Group> entry : transform.entrySet()) {
-            if (entry.getValue().getList(review.userPointNumber).size() >= 1) {
+            if (entry.getValue().getList(review.userPointNumber).size() >= 4) {
                 RankTotalResponseDto rankTotalResponseDto = new RankTotalResponseDto(
                     entry.getKey(),
                     entry.getValue().getSet(webtoonGenre.genre.genreType),
@@ -91,17 +91,18 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     //네이버 웹툰 Top10
     public List<Webtoon> getNaverRank() {
         return queryFactory.selectFrom(webtoon)
-            .where(webtoon.toonPlatform.eq("네이버"))
+            .where(webtoon.toonPlatform.eq("네이버").and(webtoon.totalPointCount.goe(2)))
             .orderBy(webtoon.toonAvgPoint.desc())
             .limit(10)
             .fetch();
     }
 
+
     //카카오 웹툰 Top10
     public List<Webtoon> getKakaoRank() {
         return queryFactory.selectFrom(webtoon)
-            .where(webtoon.toonPlatform.eq("카카오"))
             .orderBy(webtoon.toonAvgPoint.desc())
+            .where(webtoon.toonPlatform.eq("카카오").and(webtoon.totalPointCount.goe(2)))
             .limit(10)
             .fetch();
     }
@@ -146,7 +147,7 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .join(webtoonGenre.genre)
             .where(review.user.eq(bestReviewer))
             .orderBy(review.userPointNumber.desc())
-            .limit(5)
+            .limit(20)
             .transform(groupBy(review.webtoon).as(list(webtoonGenre.genre.genreType)));
         return mappingMapToDto(webtoonGenreList);
     }

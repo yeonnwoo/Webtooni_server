@@ -60,8 +60,9 @@ public class TalkPostController {
     public void deletePost(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
+        User user = userDetails.getUser();
 
-        talkPostService.deletePost(id);
+        talkPostService.deletePost(id, user);
     }
 
 

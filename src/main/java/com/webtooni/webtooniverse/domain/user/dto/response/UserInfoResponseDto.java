@@ -13,7 +13,7 @@ public class UserInfoResponseDto {
 
     private String userName;
     private int userImg;
-    private UserGrade userGrade;
+    private int userGrade;
     private List<String> genres = new ArrayList<>();
 
     public UserInfoResponseDto(User user, List<String> userGenre) {

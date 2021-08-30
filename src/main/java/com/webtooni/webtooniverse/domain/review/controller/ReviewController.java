@@ -41,7 +41,7 @@ public class ReviewController {
         return reviewService.getNewReview(userDetails, page, size);
     }
 
-    //리뷰 전체 목록 베스트 순
+    //리뷰 전체 목록 베스트 순val
     @GetMapping("reviews/best")
     public ReviewLikeResponseDto getBestReview(@PathParam("page") int page,
         @PathParam("size") int size
@@ -58,8 +58,11 @@ public class ReviewController {
     //리뷰 작성(수정)
     @PutMapping("reviews/{id}")
     public ReviewCreateResponseDto updateReview(@PathVariable Long id,
-        @RequestBody ReviewContentRequestDto reviewDto) {
-        return reviewService.updateReview(id, reviewDto);
+        @RequestBody ReviewContentRequestDto reviewDto,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        checkUser(userDetails);
+        User user = userDetails.getUser();
+        return reviewService.updateReview(id, reviewDto, user);
     }
 
     /**
@@ -89,8 +92,13 @@ public class ReviewController {
 
     //리뷰 삭제
     @DeleteMapping("reviews/{id}")
-    public void deleteReview(@PathVariable Long id) {
-        reviewService.deleteReview(id);
+    public void deleteReview(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        checkUser(userDetails);
+        User user = userDetails.getUser();
+
+        reviewService.deleteReview(id, user);
     }
 
     /**
