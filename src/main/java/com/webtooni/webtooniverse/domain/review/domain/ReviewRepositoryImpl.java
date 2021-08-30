@@ -32,7 +32,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    //리뷰 베스트순
+    /**
+     * 메인 페이지 베스트/최신 리뷰를 조회합니다.
+     * @param reviewStatus 베스트순, 최신순 상태값
+     * @return param에 따른 sorting된 리뷰 목록 dto
+     */
     public List<ReviewResponseDto> getBestOrNewReview(ReviewStatus reviewStatus) {
         if (reviewStatus == ReviewStatus.BEST) {
             return addGenreToWebtoonList(getReviewResponseQuery().orderBy(review.likeCount.desc()).fetch());
@@ -43,7 +47,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         }
     }
 
-    //리뷰 최신순 pageable
+    /**
+     * 페이지네이션된 최신순 리뷰를 조회합니다.
+     * @param pageable pageable params
+     * @return 페이지네이션된 리뷰 목록 dto
+     */
     @Override
     public List<ReviewResponseDto> getNewReviewWithPageable(Pageable pageable) {
         List<ReviewResponseDto> reviewResponseDtos = getReviewResponseQuery()
@@ -56,6 +64,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         return addGenreToWebtoonList(reviewResponseDtos);
     }
 
+    /**
+     * 페이지네이션된 베스트순 리뷰를 조회합니다.
+     * @param pageable pageable params
+     * @return 페이지네이션된 리뷰 목록 dto
+     */
     @Override
     public List<ReviewResponseDto> getBestReviewWithPageable(Pageable pageable) {
         List<ReviewResponseDto> reviewResponseDtos = getReviewResponseQuery()
@@ -68,6 +81,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         return addGenreToWebtoonList(reviewResponseDtos);
     }
 
+    /**
+     * 유저가 작성한 리뷰를 조회합니다.
+     * @param userName 유저 이름
+     * @return 유저가 작성한 리뷰 목록
+     */
     @Override
     public List<Review> findMyReviews(String userName) {
         return jpaQueryFactory.selectFrom(review)
@@ -75,6 +93,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
             .fetch();
     }
 
+    /**
+     * 유저가 작성한 리뷰를 조회합니다.(리뷰를 작성한 웹툰 장르 포함)
+     * @param userName 유저 이름
+     * @return 유저가 작성한 리뷰 목록(리뷰를 작성한 웹툰 장르 포함)
+     */
     @Override
     public List<ReviewWebtoonGenre> findMyReviewsAndGenre(String userName) {
         Map<Review, List<String>> transform = jpaQueryFactory

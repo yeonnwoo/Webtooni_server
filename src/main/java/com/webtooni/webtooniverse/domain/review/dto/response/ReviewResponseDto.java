@@ -1,6 +1,5 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

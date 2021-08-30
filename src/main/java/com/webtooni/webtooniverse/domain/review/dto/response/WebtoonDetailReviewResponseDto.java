@@ -1,7 +1,6 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

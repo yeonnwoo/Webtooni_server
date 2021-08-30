@@ -25,7 +25,13 @@ public class TalkCommentService {
     private final TalkPostRepository talkPostRepository;
     private final UserRepository userRepository;
 
-    //톡톡 댓글 작성
+    /**
+     * 댓글을 작성합니다.
+     * @param requestDto 댓글 내용을담은 dto
+     * @param user 유저 객체
+     * @param id 게시글 id
+     * @return 게시글 내용을 담은 dto
+     */
     public TalkCommentPostingResponseDto commentPost(TalkCommentRequestDto requestDto, User user,
         Long id) {
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
@@ -41,7 +47,11 @@ public class TalkCommentService {
         return new TalkCommentPostingResponseDto(talkBoardComment);
     }
 
-    //톡톡 댓글 삭제
+    /**
+     * 댓글을 삭제합니다.
+     * @param id 게시글 id
+     * @param user 유저 객체
+     */
     public void commentDelete(Long id, User user) {
         TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         TalkPost talkPost = talkBoardComment.getTalkPost();
@@ -53,13 +63,23 @@ public class TalkCommentService {
         findUser.addUserScore(-1);
     }
 
-    //톡톡 댓글 수정
+    /**
+     * 댓글 내용을 수정합니다.
+     * @param requestDto 수정할 댓글 내용
+     * @param id 게시글 id
+     */
     public void update(TalkCommentRequestDto requestDto, Long id) {
         TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         talkBoardComment.update(requestDto);
     }
 
-    //게시글 별 댓글 리스트 불러오기 id:게시글 id
+    //
+
+    /**
+     * 게시글 별 댓글 리스트를 조회합니다. id:게시글 id
+     * @param id 게시글 id
+     * @return 댓글 내용을 담은 dto list
+     */
     public List<TalkCommentResponseDto> getComment(Long id) {
         List<TalkBoardComment> talkBoardComments = talkCommentRepository
             .findAllCommentByBoardId(id);
@@ -68,6 +88,11 @@ public class TalkCommentService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * 댓글id로 댓글을 조회합니다.
+     * @param id 댓글 id
+     * @return 댓글 객체
+     */
     private TalkBoardComment getTalkBoardComment(Long id) {
         return talkCommentRepository.findById(id).orElseThrow(
             () -> new NullPointerException("해당 댓글은 존재하지 않습니다.")
