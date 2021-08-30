@@ -52,75 +52,76 @@
 //         userRepository.deleteAll();
 //     }
 //
-//     @DisplayName("리뷰 수정 테스트")
-//     @Test
-//     public void updateReview() {
 //
-//         //임시 유저
-//         User user = User.builder()
-//             .userName("홍길동")
-//             .userImg(1)
-//             .userGrade(UserGrade.FIRST)
-//             .build();
+////     @DisplayName("리뷰 수정 테스트")
+////     @Test
+////     public void updateReview() {
+////
+////         //임시 유저
+////         User user = User.builder()
+////             .userName("홍길동")
+////             .userImg(1)
+////             .userGrade(1)
+////             .build();
+////
+////         userRepository.save(user);
+////
+////         //웹툰
+////         Webtoon w1 = createWebtoon(20);
+////         webtoonRepository.save(w1);
+////
+////         //리뷰 생성
+////         Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
+////         Review review2 = createReview("리뷰 내용2", 4.3F, 15, user, w1);
+////
+////         reviewRepository.save(review1);
+////         reviewRepository.save(review2);
+////
+////         //then
+////         ReviewContentRequestDto reviewDto = new ReviewContentRequestDto("바뀐 리뷰 내용1");
+////         ReviewContentRequestDto reviewDto2 = new ReviewContentRequestDto("바뀐 리뷰 내용2");
+////
+////         reviewService.updateReview(review1.getId(), reviewDto);
+////         reviewService.updateReview(review2.getId(), reviewDto2);
+////
+////         //when
+////         assertThat(review1.getReviewContent()).isEqualTo(reviewDto.getReviewContent());
+////         assertThat(review2.getReviewContent()).isEqualTo(reviewDto2.getReviewContent());
+////
+////     }
 //
-//         userRepository.save(user);
-//
-//         //웹툰
-//         Webtoon w1 = createWebtoon(20);
-//         webtoonRepository.save(w1);
-//
-//         //리뷰 생성
-//         Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
-//         Review review2 = createReview("리뷰 내용2", 4.3F, 15, user, w1);
-//
-//         reviewRepository.save(review1);
-//         reviewRepository.save(review2);
-//
-//         //then
-//         ReviewContentRequestDto reviewDto = new ReviewContentRequestDto("바뀐 리뷰 내용1");
-//         ReviewContentRequestDto reviewDto2 = new ReviewContentRequestDto("바뀐 리뷰 내용2");
-//
-//         reviewService.updateReview(review1.getId(), reviewDto);
-//         reviewService.updateReview(review2.getId(), reviewDto2);
-//
-//         //when
-//         assertThat(review1.getReviewContent()).isEqualTo(reviewDto.getReviewContent());
-//         assertThat(review2.getReviewContent()).isEqualTo(reviewDto2.getReviewContent());
-//
-//     }
-//
-//     @DisplayName("리뷰를 삭제한다.")
-//     @Test
-//     public void deleteReview() {
-//         //given
-//
-//         //임시 유저
-//         User user = User.builder()
-//             .userName("홍길동")
-//             .userImg(1)
-//             .userGrade(UserGrade.FIRST)
-//             .build();
-//
-//         userRepository.save(user);
-//
-//         //웹툰
-//         Webtoon w1 = createWebtoon(20);
-//         webtoonRepository.save(w1);
-//
-//         //리뷰 생성
-//         Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
-//         Review review2 = createReview("리뷰 내용2", 4.3F, 15, user, w1);
-//
-//         reviewRepository.save(review1);
-//         reviewRepository.save(review2);
-//
-//         //when
-//         reviewService.deleteReview(review1.getId());
-//
-//         //then
-//         assertThat(reviewRepository.findById(review1.getId()).get().getReviewContent()).isNull();
-//
-//     }
+////     @DisplayName("리뷰를 삭제한다.")
+////     @Test
+////     public void deleteReview() {
+////         //given
+////
+////         //임시 유저
+////         User user = User.builder()
+////             .userName("홍길동")
+////             .userImg(1)
+////             .userGrade(1)
+////             .build();
+////
+////         userRepository.save(user);
+////
+////         //웹툰
+////         Webtoon w1 = createWebtoon(20);
+////         webtoonRepository.save(w1);
+////
+////         //리뷰 생성
+////         Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
+////         Review review2 = createReview("리뷰 내용2", 4.3F, 15, user, w1);
+////
+////         reviewRepository.save(review1);
+////         reviewRepository.save(review2);
+////
+////         //when
+////         reviewService.deleteReview(review1.getId());
+////
+////         //then
+////         assertThat(reviewRepository.findById(review1.getId()).get().getReviewContent()).isNull();
+////
+////     }
 //
 //     /**
 //      * 리뷰에 좋아요 누르기 테스트
@@ -134,7 +135,7 @@
 //         User user = User.builder()
 //             .userName("홍길동")
 //             .userImg(1)
-//             .userGrade(UserGrade.FIRST)
+//             .userGrade(1)
 //             .build();
 //
 //         userRepository.save(user);
@@ -175,7 +176,7 @@
 //         User user = User.builder()
 //             .userName("홍길동")
 //             .userImg(1)
-//             .userGrade(UserGrade.FIRST)
+//             .userGrade(1)
 //             .build();
 //
 //         userRepository.save(user);
@@ -211,7 +212,7 @@
 //         User user = User.builder()
 //             .userName("홍길동")
 //             .userImg(1)
-//             .userGrade(UserGrade.FIRST)
+//             .userGrade(1)
 //             .build();
 //
 //         userRepository.save(user);
@@ -249,7 +250,7 @@
 //         User user = User.builder()
 //             .userName("홍길동")
 //             .userImg(1)
-//             .userGrade(UserGrade.FIRST)
+//             .userGrade(1)
 //             .build();
 //
 //         userRepository.save(user);
@@ -289,7 +290,7 @@
 //         User user = User.builder()
 //             .userName("홍길동")
 //             .userImg(1)
-//             .userGrade(UserGrade.FIRST)
+//             .userGrade(1)
 //             .build();
 //
 //         userRepository.save(user);
