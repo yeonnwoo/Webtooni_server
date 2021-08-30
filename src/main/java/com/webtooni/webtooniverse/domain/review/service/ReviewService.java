@@ -144,11 +144,11 @@ public class ReviewService {
 
             Review review = Review.of(reviewStarDto.getUserPointNumber(), findWebtoon, user);
 
-            //총 별점 개수 늘려주기
-            findWebtoon.changeToonPointTotalCount();
-
             //별점 평균 점수 변경
             findWebtoon.changeToonAvgPoint(reviewStarDto.getUserPointNumber());
+
+            //총 별점 개수 늘려주기
+            findWebtoon.changeToonPointTotalCount();
 
             //웹툰,유저 정보 넣기
             review.insertWebToonAndUser(findWebtoon, user);

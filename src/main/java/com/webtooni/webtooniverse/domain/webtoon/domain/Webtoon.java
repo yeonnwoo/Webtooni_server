@@ -67,11 +67,11 @@ public class Webtoon {
      * 평균 별점 점수 계산
      */
     public void changeToonAvgPoint(float userPoint) {
-        float totalPoint = this.toonAvgPoint * (this.totalPointCount - 1) + userPoint;
+        float totalPoint = this.toonAvgPoint * this.totalPointCount + userPoint;
 
 //        this.toonAvgPoint= (float) (Math.round(totalPoint/this.totalPointCount*100)/100.0);
         this.toonAvgPoint = Float
-            .parseFloat(String.format("%.1f", totalPoint / this.totalPointCount));
+            .parseFloat(String.format("%.1f", totalPoint / (this.totalPointCount + 1)));
 
     }
 
@@ -83,16 +83,20 @@ public class Webtoon {
     public void updateToonAvgPoint(float originalUserPoint, float userPoint) {
         float totalPoint =
             this.toonAvgPoint * (this.totalPointCount) - originalUserPoint + userPoint;
-        this.toonAvgPoint = Float
-            .parseFloat(String.format("%.1f", totalPoint / this.totalPointCount));
+
+//        this.toonAvgPoint = Float
+//            .parseFloat(String.format("%.1f", totalPoint / this.totalPointCount));
+
+        float Point = totalPoint / this.totalPointCount;
+        this.toonAvgPoint = (int) (Point * 10) / 10.0F;
 
     }
 
     public void plusReviewCount() {
-        this.reviewCount+=1;
+        this.reviewCount += 1;
     }
 
     public void minusReviewCount() {
-        this.reviewCount-=1;
+        this.reviewCount -= 1;
     }
 }

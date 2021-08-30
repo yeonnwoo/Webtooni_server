@@ -90,7 +90,7 @@ public class TalkPostService {
                 .findTalkLikeByTalkPostAndUser(talkPost, user);
 
             boolean b = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
-            
+
             if(b)
             {
                 if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
