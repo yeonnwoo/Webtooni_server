@@ -64,8 +64,8 @@ public class UserService {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
 
-            kakaoUser = User.builder().password(encodedPassword).socialId(kakaoId).userGrade(
-                UserGrade.FIRST).build();
+            kakaoUser = User.builder().password(encodedPassword).socialId(kakaoId).userGrade(1)
+                .build();
             userRepository.save(kakaoUser);
         }
 
@@ -91,8 +91,8 @@ public class UserService {
         if (naverUser == null) {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
-            naverUser = User.builder().password(encodedPassword).socialId(naverId).userGrade(
-                UserGrade.FIRST).build();
+            naverUser = User.builder().password(encodedPassword).socialId(naverId).userGrade(1)
+                .build();
             userRepository.save(naverUser);
         }
 
@@ -111,7 +111,7 @@ public class UserService {
         );
         String userName = requestDto.getUserName();
         Optional<User> findUser = userRepository.findByUserName(userName);
-        if (user.getUserName().equals(requestDto.getUserName())){
+        if (user.getUserName().equals(requestDto.getUserName())) {
             user.update(requestDto);
         } else if (findUser.isPresent() && !user.getUserName().equals(requestDto.getUserName())) {
             throw new ApiRequestException("중복된 닉네임을 가진 유저가 존재합니다");
@@ -140,7 +140,8 @@ public class UserService {
             () -> new NullPointerException("해당 유저가 없습니다")
         );
 
-        String userName = requestDto.getUserName();;
+        String userName = requestDto.getUserName();
+        ;
         Optional<User> found = userRepository.findByUserName(userName);
         if (found.isPresent()) {
             throw new ApiRequestException("중복된 닉네임을 가진 유저가 존재합니다");

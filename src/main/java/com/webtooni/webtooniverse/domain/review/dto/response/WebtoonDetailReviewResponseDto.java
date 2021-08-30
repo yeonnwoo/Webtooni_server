@@ -13,7 +13,7 @@ public class WebtoonDetailReviewResponseDto {
     private String userName;
     private int userImg;
     private Long reviewId;
-    private UserGrade userGrade;
+    private int userGrade;
     private String reviewContent;
     private float userPointNumber;
     private int likeCount;

@@ -17,7 +17,7 @@ public class TalkCommentResponseDto {
     private Long userId;
     private String userName;
     private int userImg;
-    private UserGrade userGrade;
+    private int userGrade;
     private LocalDateTime createDate;
 
 
