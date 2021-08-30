@@ -1,7 +1,6 @@
 package com.webtooni.webtooniverse.domain.user.dto.response;
 
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

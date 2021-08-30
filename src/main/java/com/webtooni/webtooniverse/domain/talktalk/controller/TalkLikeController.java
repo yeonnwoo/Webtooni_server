@@ -23,7 +23,7 @@ public class TalkLikeController {
 
 
     /**
-     * 게시글에 좋아요를 누른다.
+     * 게시글에 좋아요 버튼을 누릅니다.
      *
      * @param id postId
      * @return TalkResponseDto

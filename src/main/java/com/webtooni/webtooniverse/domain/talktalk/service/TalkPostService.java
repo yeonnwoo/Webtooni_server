@@ -34,7 +34,7 @@ public class TalkPostService {
 
 
     /**
-     * 게시글을 작성한다.
+     * 게시글을 작성합니다.
      *
      * @param requestDto 게시글 제목,내용
      * @param user       user
@@ -83,7 +83,7 @@ public class TalkPostService {
     }
 
     /**
-     * 게시글 상세 페이지 불러오기
+     * 게시글 상세 페이지를 조회합니다.
      *
      * @param id          postId
      * @param userDetails user
@@ -120,7 +120,7 @@ public class TalkPostService {
 
 
     /**
-     * 톡톡 게시글 리스트를 조회한다.
+     * 톡톡 게시글 리스트를 조회합니다.
      *
      * @param page page
      * @param size size
@@ -134,6 +134,11 @@ public class TalkPostService {
         return new AllTalkPostPageResponseDto(posts, postCount);
     }
 
+    /**
+     * 게시글 id로 게시글을 조회합니다.
+     * @param id 게시글 id
+     * @return 게시글 객체
+     */
     private TalkPost getTalkPost(Long id) {
         return talkPostRepository.findById(id).orElseThrow(
             () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")

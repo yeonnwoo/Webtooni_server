@@ -30,10 +30,15 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class ReviewController {
 
-
     private final ReviewService reviewService;
 
-    //리뷰 전체 목록 최신 순
+    /**
+     * 전체 리뷰 목록을 최신순으로 조회합니다.
+     * @param page 페이지 number
+     * @param size 페이지 크기
+     * @param userDetails 로그인한 유저 정보
+     * @return 페이지네이션 된 리뷰 전체 목록
+     */
     @GetMapping("reviews/new")
     public ReviewLikeResponseDto getNewReview(@PathParam("page") int page,
         @PathParam("size") int size
@@ -41,7 +46,13 @@ public class ReviewController {
         return reviewService.getNewReview(userDetails, page, size);
     }
 
-    //리뷰 전체 목록 베스트 순val
+    /**
+     * 전체 리뷰 목록을 좋아요순으로 조회합니다.
+     * @param page 페이지 number
+     * @param size 페이지 크기
+     * @param userDetails 로그인한 유저 정보
+     * @return 페이지네이션 된 리뷰 전체 목록
+     */
     @GetMapping("reviews/best")
     public ReviewLikeResponseDto getBestReview(@PathParam("page") int page,
         @PathParam("size") int size
@@ -49,13 +60,22 @@ public class ReviewController {
         return reviewService.getBestReview(userDetails, page, size);
     }
 
-    //메인페이지에 리뷰(최신순/베스트순) 불러오기
+    /**
+     * 리뷰(베스트/최신순) 10개씩 조회합니다.
+     * @return 베스트/최신순 리뷰 목록
+     */
     @GetMapping("rank/reviews")
     public ReviewMainResponseDto getTotalReviews() {
         return reviewService.getMainReview();
     }
 
-    //리뷰 작성(수정)
+    /**
+     * 웹툰에 대한 리뷰를 작성 또는 수정합니다.
+     * @param id reviewId
+     * @param reviewDto 리뷰 작성 내용을 담은 dto
+     * @param userDetails 로그인한 유저 정보
+     * @return 리뷰 작성 날짜
+     */
     @PutMapping("reviews/{id}")
     public ReviewCreateResponseDto updateReview(@PathVariable Long id,
         @RequestBody ReviewContentRequestDto reviewDto,
@@ -66,54 +86,53 @@ public class ReviewController {
     }
 
     /**
-     * 웹툰에 별점을 준다.
-     *
+     * 웹툰에 별점을 줍니다.
      * @param reviewStarDto 웹툰 id,userPointNumber 담은 dto
      * @return 리뷰 id
      */
     @PutMapping("reviews/star")
     public ReviewStarResponseDto updateStar(@RequestBody WebtoonPointRequestDto reviewStarDto
         , @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         checkUser(userDetails);
         User user = userDetails.getUser();
-
         return reviewService.clickWebtoonPointNumber(reviewStarDto, user);
     }
 
-    //내가 쓴 리뷰 목록
+    /**
+     * 유저가 작성한 리뷰를 조회합니다.
+     * @param userDetails 로그인한 유저 정보
+     * @return 작성한 리뷰 내용들을 담은 dto
+     */
     @GetMapping("user/me/reviews")
     public List<MyReviewResponseDto> getMyReviews(
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         checkUser(userDetails);
         return reviewService.getMyReviews(userDetails.getUser().getUserName());
     }
 
-    //리뷰 삭제
+    /**
+     * 리뷰를 삭제합니다.
+     * @param id          reviewId
+     * @param userDetails 로그인한 유저 정보
+     */
     @DeleteMapping("reviews/{id}")
     public void deleteReview(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         checkUser(userDetails);
         User user = userDetails.getUser();
-
         reviewService.deleteReview(id, user);
     }
 
     /**
-     * 리뷰에 좋아요를 누른다.
-     *
+     * 리뷰에 좋아요 버튼을 누릅니다.
      * @param id          review id
-     * @param userDetails user 정보
+     * @param userDetails 로그인한 유저 정보
      */
     @PostMapping("reviews/{id}/like")
     public void clickReviewLike(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         checkUser(userDetails);
         User user = userDetails.getUser();
-
         reviewService.clickReviewLike(id, user);
     }
 

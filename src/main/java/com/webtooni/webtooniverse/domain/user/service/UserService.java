@@ -5,7 +5,6 @@ import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenre;
 import com.webtooni.webtooniverse.domain.user.domain.UserGenreRepository;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
@@ -16,21 +15,18 @@ import com.webtooni.webtooniverse.domain.user.security.sociallogin.KakaoOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.sociallogin.NaverOAuth2;
 import com.webtooni.webtooniverse.domain.user.security.sociallogin.SocialUserInfo;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+import com.webtooni.webtooniverse.global.exception.ApiRequestException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
-
-import com.webtooni.webtooniverse.global.exception.ApiRequestException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
@@ -47,7 +43,11 @@ public class UserService {
     private final GenreRepository genreRepository;
     private final UserGenreRepository userGenreRepository;
 
-
+    /**
+     * 카카오 소셜 로그인을 진행합니다.
+     * @param authorizedCode 카카오 인증 코드
+     * @return jwt token
+     */
     public String kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         SocialUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);
@@ -76,6 +76,11 @@ public class UserService {
         return jwtTokenProvider.createToken(kakaoId);
     }
 
+    /**
+     * 네이버 소셜 로그인을 진행합니다.
+     * @param authorizedCode 네이버 인증 코드
+     * @return jwt token
+     */
     public String naverLogin(String authorizedCode) {
         // 네이버 OAuth2 를 통해 카카오 사용자 정보 조회
         SocialUserInfo userInfo = naverOAuth2.getUserInfo(authorizedCode);
@@ -104,6 +109,11 @@ public class UserService {
 
     }
 
+    /**
+     * 유저 정보를 수정합니다.
+     * @param id 유저 id
+     * @param requestDto 수정할 유저 이미지, 유저 이름을 담은 dto
+     */
     @Transactional
     public void updateInfo(Long id, UserInfoRequestDto requestDto) {
         User user = userRepository.findById(id).orElseThrow(
@@ -121,13 +131,19 @@ public class UserService {
     }
 
     /**
-     * TODO 수정 필요(오류)
+     * 베스트 리뷰어를 조회합니다.
+     * @return 베스트 리뷰어 정보와 리뷰들을 담은 dto list
      */
     //베스트 리뷰어 가져오기
     public List<BestReviewerResponseDto> getBestReviewerRank() {
         return webtoonRepository.findBestReviewerForMain();
     }
 
+    /**
+     * 초기 유저 정보를 등록합니다.
+     * @param user 유저 객체
+     * @param requestDto 유저 선호 장르, 유저 이름, 유저 이미지를 dto
+     */
     @Transactional
     public void pickGenre(User user, UserOnBoardingRequestDto requestDto) {
         ArrayList<String> pickedGenres = requestDto.getGenres();
@@ -150,6 +166,11 @@ public class UserService {
         newUser.OnBoarding(requestDto);
     }
 
+    /**
+     * 유저 정보를 조회합니다.
+     * @param userId 유저 id
+     * @return 유저 정보
+     */
     public UserInfoResponseDto getUserInfo(Long userId) {
         User findUser = userRepository.findById(userId).orElseThrow(
             () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
@@ -158,6 +179,11 @@ public class UserService {
         return new UserInfoResponseDto(findUser, userGenre);
     }
 
+    /**
+     * 유저 정보를 조회합니다.
+     * @param userName 유저 이름
+     * @return 유저 정보
+     */
     public UserInfoResponseDto getUserInfoByUserName(String userName) {
         User findUser = userRepository.findByUserName(userName).orElseThrow(
             () -> new NullPointerException("해당 유저를 찾지 못하였습니다.")
