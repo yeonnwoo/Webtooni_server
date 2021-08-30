@@ -12,7 +12,7 @@ public class UserLoginResponseDto {
     private Long userId;
     private String userName;
     private int userImg;
-    private UserGrade userGrade;
+    private int userGrade;
 
     public UserLoginResponseDto(User user) {
         this.userId = user.getId();

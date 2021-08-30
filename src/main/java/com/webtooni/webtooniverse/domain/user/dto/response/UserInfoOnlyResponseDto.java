@@ -11,7 +11,7 @@ public class UserInfoOnlyResponseDto {
 
     private String userName;
     private int userImg;
-    private UserGrade userGrade;
+    private int userGrade;
 
     public UserInfoOnlyResponseDto(User user) {
         this.userName = user.getUserName();

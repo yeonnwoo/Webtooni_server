@@ -35,15 +35,18 @@ public class User {
     @Column(name = "user_img")
     private int userImg;
 
-    @Enumerated(EnumType.STRING)
-    private UserGrade userGrade;
+    @Column(name = "user_grade")
+    private int userGrade;
 
     @Column(name = "social_id")
     private String socialId;
 
+    @Column(name = "user_score")
+    private int userScore;
+
     public User(String password, String socialId){
         this.password = password;
-        this.userGrade = UserGrade.FIRST;
+        this.userGrade = 1;
         this.socialId = socialId;
     }
 
@@ -58,22 +61,32 @@ public class User {
     }
 
     @Builder
-    public User(String userName, String password, int userImg, UserGrade userGrade, String socialId) {
+    public User(String userName, String password, int userImg, int userGrade, String socialId) {
         this.userName = userName;
         this.password = password;
         this.userImg = userImg;
-        this.userGrade = userGrade;
+        this.userGrade = 1;
         this.socialId = socialId;
     }
 
 
-    public User(String userName, int userImg, UserGrade userGrade) {
+    public User(String userName, int userImg, int userGrade) {
         this.userName = userName;
         this.userImg = userImg;
-        this.userGrade = userGrade;
+        this.userGrade = 1;
     }
 
     public User(String userName) {
         this.userName = userName;
+    }
+
+    public void addUserScore(int userScore) {
+        this.userScore += userScore;
+        if (this.userScore < 40) {
+            this.userGrade = (this.userScore / 10) + 1;
+        } else {
+            this.userGrade = 5;
+        }
+
     }
 }

@@ -8,7 +8,9 @@ import com.webtooni.webtooniverse.domain.talktalk.dto.response.TalkCommentRespon
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkCommentRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,9 @@ public class TalkCommentService {
 
     private final TalkCommentRepository talkCommentRepository;
     private final TalkPostRepository talkPostRepository;
+    private final UserRepository userRepository;
 
+    //톡톡 댓글 작성
     public TalkCommentPostingResponseDto commentPost(TalkCommentRequestDto requestDto, User user,
         Long id) {
         TalkPost talkPost = talkPostRepository.findById(id).orElseThrow(
@@ -30,16 +34,26 @@ public class TalkCommentService {
         talkPost.updateTalkCommentNum(1);
         TalkBoardComment talkBoardComment = new TalkBoardComment(requestDto, user, talkPost);
         talkCommentRepository.save(talkBoardComment);
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+        );
+        findUser.addUserScore(1);
         return new TalkCommentPostingResponseDto(talkBoardComment);
     }
 
-    public void commentDelete(Long id) {
+    //톡톡 댓글 삭제
+    public void commentDelete(Long id, User user) {
         TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         TalkPost talkPost = talkBoardComment.getTalkPost();
         talkPost.updateTalkCommentNum(-1);
         talkCommentRepository.delete(talkBoardComment);
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+        );
+        findUser.addUserScore(-1);
     }
 
+    //톡톡 댓글 수정
     public void update(TalkCommentRequestDto requestDto, Long id) {
         TalkBoardComment talkBoardComment = getTalkBoardComment(id);
         talkBoardComment.update(requestDto);

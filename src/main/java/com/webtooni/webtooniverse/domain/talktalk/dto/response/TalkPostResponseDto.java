@@ -15,7 +15,7 @@ public class TalkPostResponseDto {
     private Long userId;
     private int userImg;
     private String userName;
-    private UserGrade userGrade;
+    private int userGrade;
     private String postTitle;
     private String postContent;
     private int likeNum;

@@ -16,10 +16,10 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.global.utils.LogExecutionTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +36,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewLikeRepository reviewLikeRepository;
     private final WebtoonRepository webtoonRepository;
+    private final UserRepository userRepository;
 
 
     //리뷰 최신순,베스트순 불러오기
@@ -55,7 +56,7 @@ public class ReviewService {
      * @param reviewDto 리뷰의 내용이 담긴 Dto
      * @return 리뷰 id
      */
-    public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto) {
+    public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto, User user) {
         //해당 리뷰 찾기
         Review findReview = getFindReview(id);
 
@@ -63,7 +64,14 @@ public class ReviewService {
         Webtoon webtoon = reviewRepository.findWebtoonBtReviewId(id);
         if (findReview.getReviewContent() == null) {
             webtoon.plusReviewCount();
+            //유저 점수 update
+            User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+            );
+            findUser.addUserScore(2);
         }
+
+
 
         //리뷰 내용,날짜 변경
         findReview.changeReviewContent(reviewDto);
@@ -75,7 +83,7 @@ public class ReviewService {
      *
      * @param id 리뷰의 id
      */
-    public void deleteReview(Long id) {
+    public void deleteReview(Long id, User user) {
         //해당 리뷰 찾기
         Review findReview = getFindReview(id);
         findReview.deleteReview();
@@ -83,6 +91,12 @@ public class ReviewService {
         //review count-1
         Webtoon webtoon = reviewRepository.findWebtoonBtReviewId(id);
         webtoon.minusReviewCount();
+
+        //유저 점수 update
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+        );
+        findUser.addUserScore(-2);
     }
 
     /**
@@ -152,6 +166,12 @@ public class ReviewService {
 
             //웹툰,유저 정보 넣기
             review.insertWebToonAndUser(findWebtoon, user);
+
+            //유저 점수 update
+            User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+            );
+            findUser.addUserScore(1);
 
             reviewRepository.save(review);
             return new ReviewStarResponseDto(review.getId(), findWebtoon.getToonAvgPoint());
