@@ -9,7 +9,7 @@ Business Rule, 기술적인 문제에 대한 해결 방법은 WIKI에서 확인�
 ![image](https://user-images.githubusercontent.com/50096655/130104899-9ec32925-af77-4796-838e-bbbb510204e2.png)
 
 ## 프로젝트 기술 스택
-- BackEnd: Java 1.8.0, Spring Boot
+- BackEnd: Java 8, Spring Boot, JPA, Querydsl
 - DB: Redis, MariaDB
 - AWS: EC2, S3, jenkins, Nginx
 - Github, github action
