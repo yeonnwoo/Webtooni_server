@@ -1,6 +1,6 @@
 ## 소개
-![image](https://user-images.githubusercontent.com/85449777/131453809-74d303d6-66c7-4a7a-81ee-7552ed045e10.png)
-
+<img src="https://user-images.githubusercontent.com/85449777/131453809-74d303d6-66c7-4a7a-81ee-7552ed045e10.png" width="200px" height=auto>
+<img src="https://user-images.githubusercontent.com/85449777/131453936-6f3515ba-4ae3-4a9f-9d03-d9c5dde82b03.png" width="200px" height=auto>
 
 네이버,카카오 웹툰 플랫폼을 이어주는 개인화된 웹툰 추천 사이트 서버입니다.<br>
 여러 사이트에 흩어져있는 웹툰 랭킹을 한 곳에 모아 보여주고, 개인의 취향에 맞는 개인화된 추천을 제공함으로써 웹툰 유저들만의 커뮤니티를 제공하려합니다.<br>
@@ -8,6 +8,12 @@ Business Rule, 기술적인 문제에 대한 해결 방법은 WIKI에서 확인�
 
 ## 프로젝트 구조
 ![image](https://user-images.githubusercontent.com/50096655/130104899-9ec32925-af77-4796-838e-bbbb510204e2.png)
+
+## 프로젝트 기술 스택
+- BackEnd: Java 1.8.0, Spring Boot
+- DB: Redis, MariaDB
+- AWS: EC2, S3, jenkins, Nginx
+- Github, github action
 
 
 ## 프로젝트의 주요 관심사
