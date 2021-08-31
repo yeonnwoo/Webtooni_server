@@ -79,7 +79,6 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .join(webtoonGenre)
             .on(webtoonGenre.webtoon.id.eq(webtoon.id))
             .join(webtoonGenre.genre)
-            .limit(100)
             .transform(
                 groupBy(webtoon)
                     .as(set(webtoonGenre.genre.genreType), list(review.userPointNumber)));

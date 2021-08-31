@@ -131,7 +131,7 @@ public class WebtoonService {
         final ZSetOperations<String, RankTotalResponseDto> zSetOperations = redisTemplate
             .opsForZSet();
         Set<RankTotalResponseDto> monthTotalRankV2 = zSetOperations
-            .reverseRange("monthTotalRankV2", 1, -1);
+            .reverseRange("monthTotalRankV2", 1, 20);
 
         if (monthTotalRankV2.size() == 0) {
             List<RankTotalResponseDto> totalRank = webtoonRepository.getTotalRank();
