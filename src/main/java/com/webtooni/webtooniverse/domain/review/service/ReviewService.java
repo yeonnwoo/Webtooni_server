@@ -16,10 +16,10 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
-import com.webtooni.webtooniverse.global.utils.LogExecutionTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +36,12 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewLikeRepository reviewLikeRepository;
     private final WebtoonRepository webtoonRepository;
+    private final UserRepository userRepository;
 
-
-    //리뷰 최신순,베스트순 불러오기
+    /**
+     * 메인 페이지 최신순/베스트순 리뷰를 조회합니다.
+     * @return 최신순/베스트순 리뷰 조회 목록 dto
+     */
     @Transactional(readOnly = true)
     public ReviewMainResponseDto getMainReview() {
         List<ReviewResponseDto> getRecentBestReviews = reviewRepository
@@ -49,39 +52,58 @@ public class ReviewService {
     }
 
     /**
-     * 리뷰를 작성한다.
-     *
+     * 웹툰에 대한 리뷰를 작성합니다.
      * @param id        리뷰 id
      * @param reviewDto 리뷰의 내용이 담긴 Dto
      * @return 리뷰 id
      */
-    public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto) {
+    public ReviewCreateResponseDto updateReview(Long id, ReviewContentRequestDto reviewDto, User user) {
         //해당 리뷰 찾기
         Review findReview = getFindReview(id);
+
+        //review count+1
+        Webtoon webtoon = reviewRepository.findWebtoonBtReviewId(id);
+        if (findReview.getReviewContent() == null) {
+            webtoon.plusReviewCount();
+            //유저 점수 update
+            User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+            );
+            findUser.addUserScore(2);
+        }
+
+
+
         //리뷰 내용,날짜 변경
         findReview.changeReviewContent(reviewDto);
         return new ReviewCreateResponseDto(findReview);
     }
 
     /**
-     * 리뷰를 삭제한다.
-     *
+     * 리뷰를 삭제합니다.
      * @param id 리뷰의 id
      */
-    public void deleteReview(Long id) {
+    public void deleteReview(Long id, User user) {
         //해당 리뷰 찾기
         Review findReview = getFindReview(id);
         findReview.deleteReview();
+
+        //review count-1
+        Webtoon webtoon = reviewRepository.findWebtoonBtReviewId(id);
+        webtoon.minusReviewCount();
+
+        //유저 점수 update
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+        );
+        findUser.addUserScore(-2);
     }
 
-
     /**
-     * 리뷰에 좋아요를 누른다.
-     *
+     * 리뷰에 좋아요 버튼을 누릅니다.
      * @param id   리뷰 id
      * @param user 사용자 정보
      */
-
     public void clickReviewLike(Long id, User user) {
         //해당 게시물 조회
         Review findReview = getFindReview(id);
@@ -112,13 +134,11 @@ public class ReviewService {
     }
 
     /**
-     * 특정 웹툰에 별점을 준다.
-     *
+     * 특정 웹툰에 별점을 줍니다.
      * @param reviewStarDto 웹툰 id, 별점 점수가 담긴 Dto
      * @param user          유저 정보
      * @return ReviewStarRequestDto 리뷰 id
      */
-
     public ReviewStarResponseDto clickWebtoonPointNumber(WebtoonPointRequestDto reviewStarDto,
         User user) {
 
@@ -134,14 +154,20 @@ public class ReviewService {
 
             Review review = Review.of(reviewStarDto.getUserPointNumber(), findWebtoon, user);
 
-            //총 별점 개수 늘려주기
-            findWebtoon.changeToonPointTotalCount();
-
             //별점 평균 점수 변경
             findWebtoon.changeToonAvgPoint(reviewStarDto.getUserPointNumber());
 
+            //총 별점 개수 늘려주기
+            findWebtoon.changeToonPointTotalCount();
+
             //웹툰,유저 정보 넣기
             review.insertWebToonAndUser(findWebtoon, user);
+
+            //유저 점수 update
+            User findUser = userRepository.findById(user.getId()).orElseThrow(
+                () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+            );
+            findUser.addUserScore(1);
 
             reviewRepository.save(review);
             return new ReviewStarResponseDto(review.getId(), findWebtoon.getToonAvgPoint());
@@ -162,6 +188,13 @@ public class ReviewService {
         }
     }
 
+    /**
+     * 전체 리뷰 목록을 최신순으로 조회합니다.
+     * @param page 페이지 number
+     * @param size 페이지 크기
+     * @param userDetails 로그인한 유저 정보
+     * @return 페이지네이션 된 리뷰 전체 목록
+     */
     @Transactional(readOnly = true)
     public ReviewLikeResponseDto getNewReview(UserDetailsImpl userDetails, int page, int size) {
         List<Long> likeReviewIdList;
@@ -176,6 +209,13 @@ public class ReviewService {
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
 
+    /**
+     * 전체 리뷰 목록을 좋아요순으로 조회합니다.
+     * @param page 페이지 number
+     * @param size 페이지 크기
+     * @param userDetails 로그인한 유저 정보
+     * @return 페이지네이션 된 리뷰 전체 목록
+     */
     @Transactional(readOnly = true)
     public ReviewLikeResponseDto getBestReview(UserDetailsImpl userDetails, int page, int size) {
         List<Long> likeReviewIdList;
@@ -190,7 +230,11 @@ public class ReviewService {
         return new ReviewLikeResponseDto(likeReviewIdList, reviewDto, reviewRepository.count());
     }
 
-
+    /**
+     * 유저가 작성한 리뷰를 조회합니다.
+     * @param userName 유저 이름
+     * @return 작성한 리뷰 목록을 담은 dto
+     */
     @Transactional(readOnly = true)
     public List<MyReviewResponseDto> getMyReviews(String userName) {
         List<Review> myReviews = reviewRepository.findMyReviews(userName);
@@ -199,17 +243,23 @@ public class ReviewService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * 유저가 작성한 리뷰를 조회합니다.(작성된 리뷰의 웹툰 장르 포함)
+     * @param userName 유저 이름
+     * @return 작성한 리뷰 목록을 담은 dto
+     */
     @Transactional(readOnly = true)
     public List<ReviewWebtoonGenre> getMyReviewsAndGenre(String userName) {
-
         List<ReviewWebtoonGenre> myReviewsAndGenre = reviewRepository
             .findMyReviewsAndGenre(userName);
-        for (ReviewWebtoonGenre reviewWebtoonGenre : myReviewsAndGenre) {
-            System.out.println("reviewWebtoonGenre = " + reviewWebtoonGenre);
-        }
         return myReviewsAndGenre;
     }
 
+    /**
+     * reviewId로 리뷰를 조회합니다.
+     * @param id reviewId
+     * @return 조회된 리뷰
+     */
     private Review getFindReview(Long id) {
         return reviewRepository.findById(id).orElseThrow(
             () -> new IllegalArgumentException("해당 review id가 존재하지 않습니다.")

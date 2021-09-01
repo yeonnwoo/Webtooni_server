@@ -1,5 +1,7 @@
 package com.webtooni.webtooniverse.domain.user.domain;
 
+import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

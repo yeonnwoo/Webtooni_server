@@ -27,9 +27,8 @@ public class TalkCommentController {
 
     private final TalkCommentService talkCommentService;
 
-
     /**
-     * 댓글을 작성한다.
+     * 댓글을 작성합니다.
      *
      * @param id          postId
      * @param requestDto  댓글 내용
@@ -47,7 +46,7 @@ public class TalkCommentController {
     }
 
     /**
-     * 댓글을 조회한다.
+     * 댓글을 조회합니다.
      *
      * @param id 게시글 id
      * @return List<TalkCommentResponseDto> 댓글 리스트
@@ -58,7 +57,7 @@ public class TalkCommentController {
     }
 
     /**
-     * 댓글을 수정한다.
+     * 댓글을 수정합니다.
      *
      * @param requestDto  댓글 내용
      * @param id          댓글 id
@@ -73,7 +72,7 @@ public class TalkCommentController {
     }
 
     /**
-     * 댓글을 삭제한다.
+     * 댓글을 삭제합니다.
      *
      * @param id          댓글 id
      * @param userDetails user
@@ -82,7 +81,8 @@ public class TalkCommentController {
     public void delete(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         checkUser(userDetails);
-        talkCommentService.commentDelete(id);
+        User user = userDetails.getUser();
+        talkCommentService.commentDelete(id, user);
     }
 
 

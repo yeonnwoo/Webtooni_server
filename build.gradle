@@ -29,6 +29,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.json:json:20210307'
     implementation group: 'org.json', name: 'json', version: '20210307'
+    implementation 'junit:junit:4.13.1'
+    implementation 'org.projectlombok:lombok:1.18.18'
     compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.4"
 
     //시큐리티

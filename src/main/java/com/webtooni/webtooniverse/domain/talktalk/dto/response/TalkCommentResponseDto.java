@@ -1,7 +1,6 @@
 package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +16,7 @@ public class TalkCommentResponseDto {
     private Long userId;
     private String userName;
     private int userImg;
-    private UserGrade userGrade;
+    private int userGrade;
     private LocalDateTime createDate;
 
 
