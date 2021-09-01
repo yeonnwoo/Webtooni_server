@@ -13,13 +13,27 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RankTotalResponseDto {
 
-    private Webtoon webtoons;
+    private Long toonId;
+    private String toonImg;
+    private String toonTitle;
+    private String toonAuthor;
+    private float toonAvgPoint;
+    private String toonPlatform;
+    private String toonWeekday;
+    private boolean finished;
     private Set<String> genres;
     private Float weeklyAvgPoint;
 
     public RankTotalResponseDto(Webtoon webtoons,
         Set<String> genres, List<Float> userPoint) {
-        this.webtoons = webtoons;
+        this.toonId = webtoons.getId();
+        this.toonImg = webtoons.getToonImg();
+        this.toonTitle = webtoons.getToonTitle();
+        this.toonAuthor = webtoons.getToonAuthor();
+        this.toonAvgPoint = webtoons.getToonAvgPoint();
+        this.toonPlatform = webtoons.getToonPlatform();
+        this.toonWeekday = webtoons.getToonWeekday();
+        this.finished = webtoons.isFinished();
         this.genres = genres;
         this.weeklyAvgPoint = getWeeklyAvgPoint(userPoint);
     }
