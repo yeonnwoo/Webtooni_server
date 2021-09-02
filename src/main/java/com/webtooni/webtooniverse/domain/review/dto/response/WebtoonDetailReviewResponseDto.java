@@ -1,7 +1,6 @@
 package com.webtooni.webtooniverse.domain.review.dto.response;
 
 import com.webtooni.webtooniverse.domain.review.domain.Review;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ public class WebtoonDetailReviewResponseDto {
     private String userName;
     private int userImg;
     private Long reviewId;
-    private UserGrade userGrade;
+    private int userGrade;
     private String reviewContent;
     private float userPointNumber;
     private int likeCount;

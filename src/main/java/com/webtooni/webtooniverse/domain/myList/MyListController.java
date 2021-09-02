@@ -18,6 +18,11 @@ public class MyListController {
 
     private final MyListService myListService;
 
+    /**
+     * 웹툰을 마이리스트에 추가한다.
+     * @param myListRequestDto 웹툰 id와 마이리스트 유무 여부를 담은 Dto
+     * @param userDetails 로그인 된 사용자 정보
+     */
     @PostMapping("user/subscribe")
     public void createMyList(@RequestBody MyListRequestDto myListRequestDto,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {

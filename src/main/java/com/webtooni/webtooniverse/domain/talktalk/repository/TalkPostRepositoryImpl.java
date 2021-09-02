@@ -15,6 +15,11 @@ public class TalkPostRepositoryImpl implements TalkPostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    /**
+     * 페이지네이션된 게시글 목록을 조회합니다.
+     * @param pageable pageable params
+     * @return 조회된 게시글 목록을 담은 dto
+     */
     //모든 톡톡 게시글 불러오기
     public List<TalkPostPageResponseDto> findAllTalkPost(Pageable pageable) {
 

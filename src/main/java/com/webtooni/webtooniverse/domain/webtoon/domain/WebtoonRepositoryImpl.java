@@ -3,7 +3,6 @@ package com.webtooni.webtooniverse.domain.webtoon.domain;
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 import static com.querydsl.core.group.GroupBy.set;
-import static com.querydsl.core.types.ExpressionUtils.count;
 import static com.webtooni.webtooniverse.domain.myList.QMyList.myList;
 import static com.webtooni.webtooniverse.domain.review.domain.QReview.review;
 import static com.webtooni.webtooniverse.domain.user.domain.QUserGenre.userGenre;
@@ -40,7 +39,13 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     LocalDateTime midnight = LocalDateTime.of(
         LocalDate.now(), LocalTime.of(0, 0, 0));
 
-    //비슷한 장르의 웹툰 추천
+    /**
+     * 비슷한 장르의 웹툰을 조회합니다.
+     *
+     * @param genre   장르 객체
+     * @param webtoon 웹툰 객체
+     * @return 비슷한 장르 웹툰의 내용을 담은 dto list
+     */
     public List<SimilarGenreToonDto> findSimilarWebtoonByGenre(String genre, Webtoon webtoon) {
         return queryFactory.select(Projections.constructor(SimilarGenreToonDto.class,
             webtoonGenre.webtoon.id.as("toonId"),
@@ -61,7 +66,11 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .fetch();
     }
 
-    //이번주 웹투니버스 종합순위
+    /**
+     * 이번주 웹투니버스 종합순위를 조회합니다.
+     *
+     * @return 상위에 랭크된 웹툰 내용을 담은 dto list
+     */
     public List<RankTotalResponseDto> getTotalRank() {
 
         Map<Webtoon, Group> transform = queryFactory
@@ -88,7 +97,11 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return rankTotalResponseDtoList;
     }
 
-    //네이버 웹툰 Top10
+    /**
+     * 네이버 웹툰 top10을 조회합니다.
+     *
+     * @return 네이버 웹툰 top10 목록
+     */
     public List<Webtoon> getNaverRank() {
         return queryFactory.selectFrom(webtoon)
             .where(webtoon.toonPlatform.eq("네이버").and(webtoon.totalPointCount.goe(2)))
@@ -98,7 +111,11 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
     }
 
 
-    //카카오 웹툰 Top10
+    /**
+     * 카카오 웹툰 top10을 조회합니다.
+     *
+     * @return 카카오 웹툰 top10 목록
+     */
     public List<Webtoon> getKakaoRank() {
         return queryFactory.selectFrom(webtoon)
             .orderBy(webtoon.toonAvgPoint.desc())
@@ -107,7 +124,11 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .fetch();
     }
 
-    //베스트 리뷰어 찾기
+    /**
+     * 베스트 리뷰어를 조회합니다.(일주일 간 리뷰 개수가 가장 많은)
+     *
+     * @return user 객체
+     */
     @Override
     public User findBestReviewer() {
 
@@ -120,7 +141,11 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .fetchOne();
     }
 
-    // 베스트 리뷰어, 리뷰 수, 좋아요 수
+    /**
+     * 베스트 리뷰어의 리뷰수와 좋아요 개수를 조회합니다.
+     *
+     * @return 베스트 리뷰어, 리뷰 개수, 좋아요 개수를 담은 dto list
+     */
     @Override
     public List<BestReviewerResponseDto> findBestReviewerForMain() {
         List<BestReviewerResponseDto> bestReviewerResponseDtoList = queryFactory
@@ -136,7 +161,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return bestReviewerResponseDtoList;
     }
 
-    //베스트 리뷰어 추천 웹툰
+    /**
+     * 베스트 리뷰어 추천 웹툰을 조회합니다.
+     *
+     * @param bestReviewer 베스트 리뷰어
+     * @return 베스트 리뷰어가 점수를 높게준 웹툰 내용을 담은 dto list
+     */
     @Override
     public List<WebtoonAndGenreResponseDto> findBestReviewerWebtoon(User bestReviewer) {
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
@@ -152,8 +182,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
-
-    //유저 취향 웹툰 추천
+    /**
+     * 유저 선호 장르 추천 웹툰을 조회합니다.
+     *
+     * @param user 유저 객채
+     * @return 추천 웹툰 목록
+     */
     @Override
     public List<Webtoon> findUserGenreWebtoon(User user) {
         List<Genre> genres = queryFactory.select(userGenre.genre)
@@ -176,7 +210,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .fetch();
     }
 
-    //나와 비슷한 취향을 가진 사용자가 많이 본 웹툰
+    /**
+     * 비슷한 취향을 가진 사용자 추천 웹툰
+     *
+     * @param user 유저 객체
+     * @return 비슷한 사용자가 높게 평가한 웹툰 내용을 담은 dto list
+     */
     @Override
     public List<WebtoonAndGenreResponseDto> findSimilarUserWebtoon(User user) {
         List<Webtoon> webtoons = queryFactory.select(review.webtoon)
@@ -214,7 +253,11 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
-    //완결 웹툰 추천
+    /**
+     * 완결 추천 웹툰을 조회합니다.
+     *
+     * @return 완결 추천 웹툰 내용을 담은 dto list
+     */
     @Override
     public List<WebtoonAndGenreResponseDto> findFinishedWebtoon() {
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
@@ -224,12 +267,19 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
             .join(webtoonGenre.genre)
             .where(webtoon.finished.eq(true))
             .orderBy(webtoon.toonAvgPoint.desc())
-            .limit(15)
+            .limit(10)
             .transform(groupBy(webtoon).as(list(webtoonGenre.genre.genreType)));
+
         return mappingMapToDto(webtoonGenreList);
     }
 
 
+    /**
+     * 마이리스트에 등록한 웹툰을 조회합니다.
+     *
+     * @param username 유저 이름
+     * @return 마이리스트 등록 웹툰 내용을 담은 dto list
+     */
     @Override
     public List<WebtoonAndGenreResponseDto> findMyListWebtoon(String username) {
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
@@ -246,7 +296,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
-    //웹툰 검색
+    /**
+     * 웹툰 이름을 검색합니다.
+     *
+     * @param keyword 검색어
+     * @return 검색 결과 일치하는 웹툰 내용을 담은 dto list
+     */
     @Override
     public List<WebtoonAndGenreResponseDto> findSearchedWebtoon(String keyword) {
         Map<Webtoon, List<String>> webtoonGenreList = queryFactory
@@ -260,8 +315,12 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
-    //리뷰없는 웹툰 추천
-    public List<Webtoon> getUnreviewedList(){
+    /**
+     * 리뷰 개수가 0개인 웹툰을 조회합니다.
+     *
+     * @return 리뷰 개수가 0개인 웹툰 목록
+     */
+    public List<Webtoon> getUnreviewedList() {
         return queryFactory.selectFrom(webtoon)
             .where(webtoon.reviewCount.eq(0))
             .limit(10)

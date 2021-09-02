@@ -12,6 +12,7 @@ import com.webtooni.webtooniverse.domain.talktalk.repository.TalkCommentReposito
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkLikeRepository;
 import com.webtooni.webtooniverse.domain.talktalk.repository.TalkPostRepository;
 import com.webtooni.webtooniverse.domain.user.domain.User;
+import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.user.security.UserDetailsImpl;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -29,10 +30,11 @@ public class TalkPostService {
     private final TalkPostRepository talkPostRepository;
     private final TalkLikeRepository talkLikeRepository;
     private final TalkCommentRepository talkCommentRepository;
+    private final UserRepository userRepository;
 
 
     /**
-     * 게시글을 작성한다.
+     * 게시글을 작성합니다.
      *
      * @param requestDto 게시글 제목,내용
      * @param user       user
@@ -41,6 +43,10 @@ public class TalkPostService {
     public TalkPostPostingResponseDto post(TalkPostRequestDto requestDto, User user) {
         TalkPost talkPost = new TalkPost(requestDto, user);
         talkPostRepository.save(talkPost);
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+        );
+        findUser.addUserScore(3);
         return new TalkPostPostingResponseDto(talkPost);
     }
 
@@ -60,9 +66,15 @@ public class TalkPostService {
      *
      * @param id postId
      */
-    public void deletePost(Long id) {
+    public void deletePost(Long id, User user) {
 
         TalkPost talkPost = getTalkPost(id);
+
+        //유저 점수 update
+        User findUser = userRepository.findById(user.getId()).orElseThrow(
+            () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
+        );
+        findUser.addUserScore(-3);
 
         //talkBoradLike,comment도 함께 삭제
         talkCommentRepository.deleteAllByTalkPost(talkPost);
@@ -71,7 +83,7 @@ public class TalkPostService {
     }
 
     /**
-     * 게시글 상세 페이지 불러오기
+     * 게시글 상세 페이지를 조회합니다.
      *
      * @param id          postId
      * @param userDetails user
@@ -108,7 +120,7 @@ public class TalkPostService {
 
 
     /**
-     * 톡톡 게시글 리스트를 조회한다.
+     * 톡톡 게시글 리스트를 조회합니다.
      *
      * @param page page
      * @param size size
@@ -122,6 +134,11 @@ public class TalkPostService {
         return new AllTalkPostPageResponseDto(posts, postCount);
     }
 
+    /**
+     * 게시글 id로 게시글을 조회합니다.
+     * @param id 게시글 id
+     * @return 게시글 객체
+     */
     private TalkPost getTalkPost(Long id) {
         return talkPostRepository.findById(id).orElseThrow(
             () -> new NullPointerException("해당 게시글이 존재하지 않습니다.")

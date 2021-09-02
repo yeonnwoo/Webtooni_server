@@ -46,8 +46,10 @@ public class WebtoonService {
     private final UserRepository userRepository;
     private final RedisTemplate redisTemplate;
 
-
-    //금주의 웹툰 평론가 추천
+    /**
+     * 금주의 웹툰 평론가 추천 웹툰을 조회합니다.
+     * @return 웹툰 평론가 정보와 추천 웹툰 목록을 담은 dto
+     */
     public BestReviewerWebtoonResponseDto getBestReviewerWebtoon() {
 
         final ValueOperations<String, BestReviewerWebtoonResponseDto> valueOperation = redisTemplate
@@ -72,9 +74,11 @@ public class WebtoonService {
         return cacheBestReviewerWebtoonResponseDto;
     }
 
-
-
-    //유저 관심 장르 중 랜덤 추천
+    /**
+     * 유저가 관심 있는 장르의 추천 웹툰을 조회합니다.
+     * @param user 유저 객체
+     * @return 관심 장르의 추천 웹툰 내용을 담은 dto list
+     */
     public List<WebtoonResponseDto> getForUserWebtoon(User user) {
         int howManyWebtoons = 5;
         List<Webtoon> userGenreWebtoons = webtoonRepository.findUserGenreWebtoon(user);
@@ -87,12 +91,19 @@ public class WebtoonService {
             .collect(Collectors.toList());
     }
 
-    //비슷한 취향을 가진 유저가 높게 평가한 작품 추천
+    /**
+     * 비슷한 취향을 가진 유저의 추천 웹툰을 조회합니다.
+     * @param user 유저 객체
+     * @return 비슷한 취향을 가진 유저가 높게 평가한 웹툰 내용을 담은 dto list
+     */
     public List<WebtoonAndGenreResponseDto> getSimilarUserWebtoon(User user) {
         return webtoonRepository.findSimilarUserWebtoon(user);
     }
 
-    //MD 추천
+    /**
+     * md 추천 웹툰 조회합니다.
+     * @return 추천 웹툰 내용을 담은 dto
+     */
     public WebtoonResponseDto getMdWebtoon() {
         Webtoon webtoon = webtoonRepository.findById(1L).orElseThrow(
             () -> new NullPointerException("해당 id의 웹툰이 없습니다.")
@@ -100,7 +111,10 @@ public class WebtoonService {
         return new WebtoonResponseDto(webtoon);
     }
 
-    //완결 웹툰 추천
+    /**
+     * 완결 추천 웹툰을 조회합니다.
+     * @return 완결 추천 웹툰 내용을 담은 dto list
+     */
     public List<WebtoonAndGenreResponseDto> getFinishedWebtoon() {
         int howManyWebtoons = 5;
         List<WebtoonAndGenreResponseDto> finishedWebtoons = webtoonRepository.findFinishedWebtoon();
@@ -109,31 +123,37 @@ public class WebtoonService {
             .collect(Collectors.toList());
     }
 
-    //이번달 웹투니버스 종합순위
-    public Set<RankTotalResponseDto> getMonthTotalRank() {
+    /**
+     * 이번 주 웹투니버스 종합 순위 웹툰을 조회합니다.
+     * @return 종합 순위 상위 웹툰의 내용을 담은 dto list
+     */
+    public Set<RankTotalResponseDto> getWeeklyTotalRank() {
         final ZSetOperations<String, RankTotalResponseDto> zSetOperations = redisTemplate
             .opsForZSet();
         Set<RankTotalResponseDto> monthTotalRankV2 = zSetOperations
-            .reverseRange("monthTotalRankV2", 1, -1);
+            .reverseRange("weeklyTotalRankV2", 1, 20);
 
         if (monthTotalRankV2.size() == 0) {
             List<RankTotalResponseDto> totalRank = webtoonRepository.getTotalRank();
             for (RankTotalResponseDto rankTotalResponseDto : totalRank) {
-                zSetOperations.add("monthTotalRankV2", rankTotalResponseDto,
+                zSetOperations.add("weeklyTotalRankV2", rankTotalResponseDto,
                     rankTotalResponseDto.getWeeklyAvgPoint());
             }
             return zSetOperations
-                .reverseRange("monthTotalRankV2", 1, -1);
+                .reverseRange("weeklyTotalRankV2", 1, 20);
         }
         return monthTotalRankV2;
     }
 
-    //웹투니버스 네이버 웹툰 Top10
-    public List<PlatformRankResponseDto> getMonthNaverRank() {
+    /**
+     * 네이버 top10 웹툰 목록을 조회합니다.
+     * @return 네이버 top10 웹툰 dto list
+     */
+    public List<PlatformRankResponseDto> getNaverRank() {
         final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate
             .opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
-            .get("monthNaverRank");
+            .get("naverRank");
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
@@ -142,18 +162,21 @@ public class WebtoonService {
                 .map(PlatformRankResponseDto::new)
                 .collect(Collectors.toList());
             valueOperation
-                .set("monthNaverRank", new PlatformRankListResponseDto(platformRankResponseDtos));
+                .set("naverRank", new PlatformRankListResponseDto(platformRankResponseDtos));
             return platformRankResponseDtos;
         }
         return cachePlatformRankListResponseDto.getPlatformRankResponseDtoList();
     }
 
-    //웹투니버스 카카오 웹툰 Top10
-    public List<PlatformRankResponseDto> getMonthKakaoRank() {
+    /**
+     * 카카오 top10 웹툰 목록을 조회합니다.
+     * @return 카카오 top10 웹툰 dto list
+     */
+    public List<PlatformRankResponseDto> getKakaoRank() {
         final ValueOperations<String, PlatformRankListResponseDto> valueOperation
             = redisTemplate.opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
-            .get("monthKaKaoRank");
+            .get("kakaoRank");
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthKaKaoRank = webtoonRepository.getKakaoRank();
@@ -162,7 +185,7 @@ public class WebtoonService {
                 .map(PlatformRankResponseDto::new)
                 .collect(Collectors.toList());
             valueOperation
-                .set("monthKaKaoRank", new PlatformRankListResponseDto(platformRankResponseDtos));
+                .set("kakaoRank", new PlatformRankListResponseDto(platformRankResponseDtos));
             return platformRankResponseDtos;
         }
         return cachePlatformRankListResponseDto.getPlatformRankResponseDtoList();
@@ -228,10 +251,19 @@ public class WebtoonService {
         return similarGenreToonList;
     }
 
+    /**
+     * 마이리스트 등록한 웹툰을 조회합니다.
+     * @param userName 유저 이름
+     * @return 마이리스트 등록 웹툰 내용을 담은 dto list
+     */
     public List<WebtoonAndGenreResponseDto> getMyListWebtoons(String userName) {
         return webtoonRepository.findMyListWebtoon(userName);
     }
 
+    /**
+     * 리뷰가 작성되지 않은 웹툰 목록을 조회합니다.
+     * @return 리뷰 작성되지 않은 웹툰 내용을 담은 dto list
+     */
     public List<WebtoonResponseDto> getUnreviewdList() {
         List<Webtoon> Webtoons = webtoonRepository.getUnreviewedList();
         return Webtoons.stream()
@@ -239,6 +271,11 @@ public class WebtoonService {
             .collect(Collectors.toList());
     }
 
+    /**
+     * 검색어로 찾은 웹툰을 조회합니다.
+     * @param keyword 검색어
+     * @return 웹툰 내용을 담은 dto list
+     */
     public List<WebtoonAndGenreResponseDto> getSearchedWebtoon(String keyword) {
         List<WebtoonAndGenreResponseDto> webtoons = webtoonRepository
             .findSearchedWebtoon(keyword.substring(0, 1));

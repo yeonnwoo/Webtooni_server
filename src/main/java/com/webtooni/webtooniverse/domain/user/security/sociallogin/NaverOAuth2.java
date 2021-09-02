@@ -42,6 +42,7 @@ public class NaverOAuth2 {
         params.add("client_id", naverClientId);
         params.add("client_secret", naverSecret);
 //      params.add("redirect_uri", "http://localhost:8080/api/v1/user/naver/callback");
+//      params.add("redirect_uri", "http://13.124.236.225/api/v1/user/naver/callback");
 //      params.add("redirect_uri", "http://webtooniverse-host.s3-website.ap-northeast-2.amazonaws.com/user/naver");
 //      params.add("redirect_uri", "http://localhost:3000/user/naver");
         params.add("redirect_uri","https://webtooni.co.kr/user/naver/");
