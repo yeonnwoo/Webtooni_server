@@ -131,16 +131,16 @@ public class WebtoonService {
         final ZSetOperations<String, RankTotalResponseDto> zSetOperations = redisTemplate
             .opsForZSet();
         Set<RankTotalResponseDto> monthTotalRankV2 = zSetOperations
-            .reverseRange("monthTotalRankV2", 1, -1);
+            .reverseRange("weeklyTotalRankV2", 1, 20);
 
         if (monthTotalRankV2.size() == 0) {
             List<RankTotalResponseDto> totalRank = webtoonRepository.getTotalRank();
             for (RankTotalResponseDto rankTotalResponseDto : totalRank) {
-                zSetOperations.add("monthTotalRankV2", rankTotalResponseDto,
+                zSetOperations.add("weeklyTotalRankV2", rankTotalResponseDto,
                     rankTotalResponseDto.getWeeklyAvgPoint());
             }
             return zSetOperations
-                .reverseRange("monthTotalRankV2", 1, 20);
+                .reverseRange("weeklyTotalRankV2", 1, -1);
         }
         return monthTotalRankV2;
     }
@@ -153,7 +153,7 @@ public class WebtoonService {
         final ValueOperations<String, PlatformRankListResponseDto> valueOperation = redisTemplate
             .opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
-            .get("monthNaverRank");
+            .get("naverRank");
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthNaverRank = webtoonRepository.getNaverRank();
@@ -162,7 +162,7 @@ public class WebtoonService {
                 .map(PlatformRankResponseDto::new)
                 .collect(Collectors.toList());
             valueOperation
-                .set("monthNaverRank", new PlatformRankListResponseDto(platformRankResponseDtos));
+                .set("naverRank", new PlatformRankListResponseDto(platformRankResponseDtos));
             return platformRankResponseDtos;
         }
         return cachePlatformRankListResponseDto.getPlatformRankResponseDtoList();
@@ -176,7 +176,7 @@ public class WebtoonService {
         final ValueOperations<String, PlatformRankListResponseDto> valueOperation
             = redisTemplate.opsForValue();
         PlatformRankListResponseDto cachePlatformRankListResponseDto = valueOperation
-            .get("monthKaKaoRank");
+            .get("kakaoRank");
 
         if (cachePlatformRankListResponseDto == null) {
             List<Webtoon> monthKaKaoRank = webtoonRepository.getKakaoRank();
@@ -185,7 +185,7 @@ public class WebtoonService {
                 .map(PlatformRankResponseDto::new)
                 .collect(Collectors.toList());
             valueOperation
-                .set("monthKaKaoRank", new PlatformRankListResponseDto(platformRankResponseDtos));
+                .set("kakaoRank", new PlatformRankListResponseDto(platformRankResponseDtos));
             return platformRankResponseDtos;
         }
         return cachePlatformRankListResponseDto.getPlatformRankResponseDtoList();
