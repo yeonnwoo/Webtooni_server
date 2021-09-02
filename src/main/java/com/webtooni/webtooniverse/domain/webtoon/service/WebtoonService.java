@@ -140,7 +140,7 @@ public class WebtoonService {
                     rankTotalResponseDto.getWeeklyAvgPoint());
             }
             return zSetOperations
-                .reverseRange("weeklyTotalRankV2", 1, -1);
+                .reverseRange("weeklyTotalRankV2", 1, 20);
         }
         return monthTotalRankV2;
     }
