@@ -24,9 +24,9 @@ public class Scheduler {
     public void redisConnectionTest() {
         //redis cache 삭제
         redisTemplate.delete("bestReviewerWebtoon");
-        redisTemplate.delete("monthTotalRank");
-        redisTemplate.delete("monthNaverRank");
-        redisTemplate.delete("monthKaKaoRank");
+        redisTemplate.delete("WeeklyTotalRankV2");
+        redisTemplate.delete("naverRank");
+        redisTemplate.delete("kakaoRank");
 
         //caching
         BestReviewerWebtoonResponseDto bestReviewerWebtoon = webtoonService
