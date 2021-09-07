@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource(value = "applicaiotn")
 public class RedisTest {
 
     @Autowired
