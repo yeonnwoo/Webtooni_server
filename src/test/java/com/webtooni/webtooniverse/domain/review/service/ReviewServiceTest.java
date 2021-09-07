@@ -10,7 +10,6 @@ import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLike;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 import com.webtooni.webtooniverse.domain.user.domain.User;
-import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
@@ -81,8 +80,8 @@ class ReviewServiceTest {
         ReviewContentRequestDto reviewDto = new ReviewContentRequestDto("바뀐 리뷰 내용1");
         ReviewContentRequestDto reviewDto2 = new ReviewContentRequestDto("바뀐 리뷰 내용2");
 
-        reviewService.updateReview(review1.getId(), reviewDto);
-        reviewService.updateReview(review2.getId(), reviewDto2);
+        reviewService.updateReview(review1.getId(), reviewDto,user);
+        reviewService.updateReview(review2.getId(), reviewDto2,user);
 
         //when
         assertThat(review1.getReviewContent()).isEqualTo(reviewDto.getReviewContent());
@@ -116,7 +115,7 @@ class ReviewServiceTest {
         reviewRepository.save(review2);
 
         //when
-        reviewService.deleteReview(review1.getId());
+        reviewService.deleteReview(review1.getId(),user);
 
         //then
         assertThat(reviewRepository.findById(review1.getId()).get().getReviewContent()).isNull();
