@@ -1,5 +1,7 @@
 package com.webtooni.webtooniverse.domain.review.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.webtooni.webtooniverse.domain.review.domain.Review;
 import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
@@ -13,16 +15,13 @@ import com.webtooni.webtooniverse.domain.user.domain.User;
 import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import javax.transaction.Transactional;
-import java.util.List;
-import org.springframework.cache.CacheManager;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
 @SpringBootTest
@@ -60,7 +59,6 @@ class ReviewServiceTest {
         User user = User.builder()
             .userName("홍길동")
             .userImg(1)
-            .userGrade(1)
             .build();
 
         userRepository.save(user);
@@ -80,8 +78,8 @@ class ReviewServiceTest {
         ReviewContentRequestDto reviewDto = new ReviewContentRequestDto("바뀐 리뷰 내용1");
         ReviewContentRequestDto reviewDto2 = new ReviewContentRequestDto("바뀐 리뷰 내용2");
 
-        reviewService.updateReview(review1.getId(), reviewDto,user);
-        reviewService.updateReview(review2.getId(), reviewDto2,user);
+        reviewService.updateReview(review1.getId(), reviewDto, user);
+        reviewService.updateReview(review2.getId(), reviewDto2, user);
 
         //when
         assertThat(review1.getReviewContent()).isEqualTo(reviewDto.getReviewContent());
@@ -98,7 +96,6 @@ class ReviewServiceTest {
         User user = User.builder()
             .userName("홍길동")
             .userImg(1)
-            .userGrade(1)
             .build();
 
         userRepository.save(user);
@@ -109,13 +106,12 @@ class ReviewServiceTest {
 
         //리뷰 생성
         Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
-        Review review2 = createReview("리뷰 내용2", 4.3F, 15, user, w1);
+        review1.insertWebToonAndUser(w1,user);
 
         reviewRepository.save(review1);
-        reviewRepository.save(review2);
 
         //when
-        reviewService.deleteReview(review1.getId(),user);
+        reviewService.deleteReview(review1.getId(), user);
 
         //then
         assertThat(reviewRepository.findById(review1.getId()).get().getReviewContent()).isNull();
@@ -134,7 +130,6 @@ class ReviewServiceTest {
         User user = User.builder()
             .userName("홍길동")
             .userImg(1)
-            .userGrade(1)
             .build();
 
         userRepository.save(user);
@@ -175,7 +170,6 @@ class ReviewServiceTest {
         User user = User.builder()
             .userName("홍길동")
             .userImg(1)
-            .userGrade(1)
             .build();
 
         userRepository.save(user);
@@ -211,7 +205,6 @@ class ReviewServiceTest {
         User user = User.builder()
             .userName("홍길동")
             .userImg(1)
-            .userGrade(1)
             .build();
 
         userRepository.save(user);
@@ -249,7 +242,6 @@ class ReviewServiceTest {
         User user = User.builder()
             .userName("홍길동")
             .userImg(1)
-            .userGrade(1)
             .build();
 
         userRepository.save(user);
@@ -276,7 +268,7 @@ class ReviewServiceTest {
 
         reviewService.clickWebtoonPointNumber(webtoonPointRequestDto2, user);
 
-        assertThat(w1.getToonAvgPoint()).isEqualTo(3.4F);
+        assertThat(w1.getToonAvgPoint()).isEqualTo(3.43F);
         assertThat(w1.getTotalPointCount()).isEqualTo(26);
 
     }
@@ -289,7 +281,6 @@ class ReviewServiceTest {
         User user = User.builder()
             .userName("홍길동")
             .userImg(1)
-            .userGrade(1)
             .build();
 
         userRepository.save(user);
@@ -361,3 +352,4 @@ class ReviewServiceTest {
     }
 
 }
+

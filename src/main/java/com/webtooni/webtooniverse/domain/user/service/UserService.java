@@ -64,7 +64,7 @@ public class UserService {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
 
-            kakaoUser = User.builder().password(encodedPassword).socialId(kakaoId).userGrade(1)
+            kakaoUser = User.builder().password(encodedPassword).socialId(kakaoId)
                 .build();
             userRepository.save(kakaoUser);
         }
@@ -96,7 +96,7 @@ public class UserService {
         if (naverUser == null) {
             // 패스워드 인코딩
             String encodedPassword = passwordEncoder.encode(password);
-            naverUser = User.builder().password(encodedPassword).socialId(naverId).userGrade(1)
+            naverUser = User.builder().password(encodedPassword).socialId(naverId)
                 .build();
             userRepository.save(naverUser);
         }
