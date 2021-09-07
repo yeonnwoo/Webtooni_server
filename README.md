@@ -1,5 +1,5 @@
 ## 소개
-<img src="https://user-images.githubusercontent.com/50096655/131778976-beaaae36-2da0-404d-97f7-cc5657fa290f.png" width="200px" height=auto>
+https://webtooni.co.kr/
 
 네이버,카카오 웹툰 플랫폼을 이어주는 개인화된 웹툰 추천 사이트 서버입니다.<br>
 여러 사이트에 흩어져있는 웹툰 랭킹을 한 곳에 모아 보여주고, 개인의 취향에 맞는 개인화된 추천을 제공함으로써 웹툰 유저들만의 커뮤니티를 제공하려합니다.<br><br>
@@ -64,6 +64,5 @@ Git Flow를 사용하여 브랜치를 관리합니다. 모든 브랜치는 Pull 
 
 ## Diagram
 
-<img src="https://user-images.githubusercontent.com/50096655/129123676-c567f6f6-99af-422b-8436-aa2b0866c6dd.png" width="500px" height=auto>
-<img src="https://user-images.githubusercontent.com/85449777/131452871-dab93ac9-547f-49e2-9846-7b852c814a2b.png" width="500px" height=auto>
+<img src="https://user-images.githubusercontent.com/50096655/132096622-3c51c37d-5a81-4329-bd42-a0cdb95531aa.png" width="500px" height=auto>
 
