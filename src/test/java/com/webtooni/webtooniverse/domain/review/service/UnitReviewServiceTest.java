@@ -1,5 +1,9 @@
 //package com.webtooni.webtooniverse.domain.review.service;
 //
+//import static org.assertj.core.api.Assertions.assertThat;
+//import static org.mockito.ArgumentMatchers.any;
+//import static org.mockito.BDDMockito.given;
+//
 //import com.webtooni.webtooniverse.domain.review.domain.Review;
 //import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 //import com.webtooni.webtooniverse.domain.review.dto.request.ReviewContentRequestDto;
@@ -8,22 +12,16 @@
 //import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeRepository;
 //import com.webtooni.webtooniverse.domain.reviewLike.domain.ReviewLikeStatus;
 //import com.webtooni.webtooniverse.domain.user.domain.User;
-//import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 //import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 //import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 //import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+//import java.util.Optional;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.extension.ExtendWith;
 //import org.mockito.InjectMocks;
 //import org.mockito.Mock;
 //import org.mockito.junit.jupiter.MockitoExtension;
-//
-//import java.util.Optional;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.BDDMockito.given;
 //
 //@ExtendWith(MockitoExtension.class)
 //public class UnitReviewServiceTest {
@@ -55,7 +53,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);
@@ -71,7 +68,7 @@
 //        given(reviewRepository.findById(1L)).willReturn(Optional.of(review1));
 //
 //        //when
-//        reviewService.updateReview(1L, requestDto);
+//        reviewService.updateReview(1L, requestDto, user);
 //
 //        //then
 //        assertThat(review1.getReviewContent()).isEqualTo(requestDto.getReviewContent());
@@ -90,7 +87,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);
@@ -104,7 +100,7 @@
 //        given(reviewRepository.findById(any())).willReturn(Optional.of(review1));
 //
 //        //when
-//        reviewService.deleteReview(any());
+//        reviewService.deleteReview(any(), user);
 //
 //        //then
 //        assertThat(review1.getReviewContent()).isNull();
@@ -121,7 +117,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);
@@ -151,7 +146,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);
@@ -187,7 +181,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);
@@ -225,7 +218,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);
@@ -258,7 +250,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);

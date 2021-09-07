@@ -3,20 +3,18 @@
 //import com.webtooni.webtooniverse.domain.review.domain.Review;
 //import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 //import com.webtooni.webtooniverse.domain.user.domain.User;
-//import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 //import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 //import com.webtooni.webtooniverse.domain.user.dto.response.BestReviewerResponseDto;
 //import com.webtooni.webtooniverse.domain.webtoon.domain.Webtoon;
 //import com.webtooni.webtooniverse.domain.webtoon.domain.WebtoonRepository;
+//import java.util.List;
+//import javax.transaction.Transactional;
 //import org.junit.jupiter.api.AfterEach;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
-//
-//import javax.transaction.Transactional;
-//import java.util.List;
 //
 //@SpringBootTest
 //@Transactional
@@ -65,10 +63,10 @@
 //        webtoonRepository.save(webtoon9);
 //        webtoonRepository.save(webtoon10);
 //
-//        User user1 = new User("user1", 1, UserGrade.FIRST);
-//        User user2 = new User("user2", 2, UserGrade.FIRST);
-//        User user3 = new User("user3", 3, UserGrade.FIRST);
-//        User user4 = new User("user4", 4, UserGrade.FIRST);
+//        User user1 = new User("user1", 1);
+//        User user2 = new User("user2", 2);
+//        User user3 = new User("user3", 3);
+//        User user4 = new User("user4", 4);
 //        userRepository.save(user1);
 //        userRepository.save(user2);
 //        userRepository.save(user3);

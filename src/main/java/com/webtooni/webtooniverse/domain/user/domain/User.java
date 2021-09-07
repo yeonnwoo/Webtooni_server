@@ -5,8 +5,6 @@ import com.webtooni.webtooniverse.domain.user.dto.request.UserInfoRequestDto;
 import com.webtooni.webtooniverse.domain.user.dto.request.UserOnBoardingRequestDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -61,7 +59,7 @@ public class User {
     }
 
     @Builder
-    public User(String userName, String password, int userImg, int userGrade, String socialId) {
+    public User(String userName, String password, int userImg, String socialId) {
         this.userName = userName;
         this.password = password;
         this.userImg = userImg;
@@ -70,7 +68,7 @@ public class User {
     }
 
 
-    public User(String userName, int userImg, int userGrade) {
+    public User(String userName, int userImg) {
         this.userName = userName;
         this.userImg = userImg;
         this.userGrade = 1;

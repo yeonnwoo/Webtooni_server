@@ -1,26 +1,22 @@
 //package com.webtooni.webtooniverse.domain.webtoon.domain;
 //
+//import static org.assertj.core.api.Assertions.assertThat;
+//
 //import com.webtooni.webtooniverse.domain.genre.domain.Genre;
 //import com.webtooni.webtooniverse.domain.genre.domain.GenreRepository;
 //import com.webtooni.webtooniverse.domain.review.domain.Review;
 //import com.webtooni.webtooniverse.domain.review.domain.ReviewRepository;
 //import com.webtooni.webtooniverse.domain.user.domain.User;
-//import com.webtooni.webtooniverse.domain.user.domain.UserGrade;
 //import com.webtooni.webtooniverse.domain.user.domain.UserRepository;
 //import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenre;
 //import com.webtooni.webtooniverse.domain.webtoonGenre.WebtoonGenreRepository;
+//import java.util.List;
 //import org.junit.jupiter.api.AfterEach;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.transaction.annotation.Transactional;
-//
-//import javax.persistence.EntityManager;
-//import javax.persistence.PersistenceContext;
-//import java.util.List;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
 //
 //@Transactional
 //@SpringBootTest
@@ -98,7 +94,6 @@
 //        User user = User.builder()
 //            .userName("홍길동")
 //            .userImg(1)
-//            .userGrade(UserGrade.FIRST)
 //            .build();
 //
 //        userRepository.save(user);
