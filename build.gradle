@@ -31,6 +31,8 @@ dependencies {
     implementation group: 'org.json', name: 'json', version: '20210307'
     implementation 'junit:junit:4.13.1'
     implementation 'org.projectlombok:lombok:1.18.18'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '2.5.3'
+
     compileOnly "com.fasterxml.jackson.core:jackson-databind:2.9.4"
 
     //시큐리티
