@@ -59,12 +59,13 @@ public class User {
     }
 
     @Builder
-    public User(String userName, String password, int userImg, String socialId) {
+    public User(String userName, String password, int userImg, String socialId, int userScore) {
         this.userName = userName;
         this.password = password;
         this.userImg = userImg;
         this.userGrade = 1;
         this.socialId = socialId;
+        this.userScore = userScore;
     }
 
 
