@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,6 +47,16 @@ public class TalkPost extends TimeStamped {
         this.user = user;
         this.talkCommentCount = 0;
         this.likeNum = 0;
+    }
+
+    @Builder
+    public TalkPost(String postTitle, String postContent,
+        User user, int likeNum, int talkCommentCount) {
+        this.postTitle = postTitle;
+        this.postContent = postContent;
+        this.user = user;
+        this.likeNum = likeNum;
+        this.talkCommentCount = talkCommentCount;
     }
 
     public void update(TalkPostRequestDto talkPostRequestDto) {
