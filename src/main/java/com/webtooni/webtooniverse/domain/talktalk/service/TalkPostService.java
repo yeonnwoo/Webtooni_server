@@ -32,6 +32,7 @@ public class TalkPostService {
     private final TalkCommentRepository talkCommentRepository;
     private final UserRepository userRepository;
 
+    static int TALK_POST_POINT = 3;
 
     /**
      * 게시글을 작성합니다.
@@ -46,7 +47,7 @@ public class TalkPostService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
             () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
         );
-        findUser.addUserScore(3);
+        findUser.addUserScore(TALK_POST_POINT);
         return new TalkPostPostingResponseDto(talkPost);
     }
 
@@ -74,7 +75,7 @@ public class TalkPostService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
             () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
         );
-        findUser.addUserScore(-3);
+        findUser.addUserScore(-TALK_POST_POINT);
 
         //talkBoradLike,comment도 함께 삭제
         talkCommentRepository.deleteAllByTalkPost(talkPost);
@@ -101,9 +102,9 @@ public class TalkPostService {
             TalkLike talkLike = talkLikeRepository
                 .findTalkLikeByTalkPostAndUser(talkPost, user);
 
-            boolean b = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
+            boolean isLiked = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
 
-            if(b)
+            if(isLiked)
             {
                 if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
                     exists = true;
