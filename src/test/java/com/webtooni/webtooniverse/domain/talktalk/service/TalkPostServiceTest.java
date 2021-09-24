@@ -63,7 +63,20 @@ class TalkPostServiceTest {
     }
 
     @Test
+    @DisplayName("게시글 수정 시 내용 변경 여부 확인")
     void updatePost() {
+        //given
+        TalkPostRequestDto talkPostRequestDto = TalkPostRequestDto.builder()
+            .postTitle("newTalkPost1").postContent("newTalkPostContent1").build();
+        TalkPost talkPost = TalkPost.builder().postTitle("talkPost1")
+            .postContent("talkPostContent1").build();
+
+        //when
+        talkPost.update(talkPostRequestDto);
+
+        //then
+        assertThat(talkPost.getPostTitle()).isEqualTo("newTalkPost1");
+        assertThat(talkPost.getPostContent()).isEqualTo("newTalkPostContent1");
     }
 
     @Test
