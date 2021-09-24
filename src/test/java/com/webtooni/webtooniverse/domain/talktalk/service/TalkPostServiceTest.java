@@ -80,7 +80,16 @@ class TalkPostServiceTest {
     }
 
     @Test
+    @DisplayName("TalkPost 삭제 시 유저 점수 감소")
     void deletePost() {
+        //given
+        User user = User.builder().userScore(10).build();
+
+        //when
+        user.addUserScore(-3);
+
+        //then
+        assertThat(user.getUserScore()).isEqualTo(7);
     }
 
     @Test
