@@ -86,37 +86,22 @@ public class TalkPostService {
     /**
      * 게시글 상세 페이지를 조회합니다.
      *
-     * @param id          postId
-     * @param userDetails user
+     * @param id   postId
+     * @param user user
      * @return TalkPostResponseDto
      */
-    public TalkPostResponseDto getOnePost(Long id, UserDetailsImpl userDetails) {
+    public TalkPostResponseDto getOnePost(Long id, User user) {
         // 해당 게시글 정보 찾기
         TalkPost talkPost = getTalkPost(id);
-        boolean exists;
-        if (userDetails == null) {
-            exists = false;
-        } else {
-            User user = userDetails.getUser();
-            // 해당 게시물이 내가 좋아요를 누른 게시글인지 아닌지 확인
-            TalkLike talkLike = talkLikeRepository
-                .findTalkLikeByTalkPostAndUser(talkPost, user);
 
-            boolean isLiked = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
+        // 해당 게시물이 내가 좋아요를 누른 게시글인지 아닌지 확인
+        TalkLike talkLike = talkLikeRepository
+            .findTalkLikeByTalkPostAndUser(talkPost, user);
 
-            if(isLiked)
-            {
-                if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
-                    exists = true;
-                } else {
-                    exists = false;
-                }
-            }
-            else{
-                exists = false;
-            }
-        }
-        return new TalkPostResponseDto(talkPost, exists);
+        boolean isLiked = talkLikeRepository.existsByTalkPostAndUser(talkPost, user)
+            && talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE;
+
+        return new TalkPostResponseDto(talkPost, isLiked);
     }
 
 
@@ -137,6 +122,7 @@ public class TalkPostService {
 
     /**
      * 게시글 id로 게시글을 조회합니다.
+     *
      * @param id 게시글 id
      * @return 게시글 객체
      */

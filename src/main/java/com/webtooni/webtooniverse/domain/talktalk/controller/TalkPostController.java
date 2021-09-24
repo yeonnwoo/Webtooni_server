@@ -53,7 +53,8 @@ public class TalkPostController {
     @GetMapping("talk/{id}")
     public TalkPostResponseDto getOnePost(@PathVariable Long id,
         @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return talkPostService.getOnePost(id, userDetails);
+        checkUser(userDetails);
+        return talkPostService.getOnePost(id, userDetails.getUser());
     }
 
     /**
