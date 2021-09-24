@@ -49,7 +49,7 @@ public class TalkLike {
     }
 
     @Builder
-    public TalkLike( User user,TalkPost talkPost,
+    public TalkLike(User user,TalkPost talkPost,
         TalkLikeStatus talkLikeStatus) {
         this.talkPost = talkPost;
         this.user = user;
