@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,6 +36,7 @@ public class TalkBoardComment extends TimeStamped {
     @Column(name = "talk_comment")
     private String commentContent;
 
+    @Builder
     public TalkBoardComment(TalkCommentRequestDto requestDto, User user, TalkPost talkPost) {
         this.commentContent = requestDto.getCommentContent();
         this.user = user;
