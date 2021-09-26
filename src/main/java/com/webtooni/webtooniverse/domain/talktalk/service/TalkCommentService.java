@@ -25,6 +25,8 @@ public class TalkCommentService {
     private final TalkPostRepository talkPostRepository;
     private final UserRepository userRepository;
 
+    private final int TALK_BOARD_COMMENT_SCORE = 1;
+
     /**
      * 댓글을 작성합니다.
      * @param requestDto 댓글 내용을담은 dto
@@ -43,7 +45,7 @@ public class TalkCommentService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
             () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
         );
-        findUser.addUserScore(1);
+        findUser.addUserScore(TALK_BOARD_COMMENT_SCORE);
         return new TalkCommentPostingResponseDto(talkBoardComment);
     }
 
@@ -60,7 +62,7 @@ public class TalkCommentService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(
             () -> new NullPointerException("해당 유저를 찾을 수 없습니다.")
         );
-        findUser.addUserScore(-1);
+        findUser.addUserScore(-TALK_BOARD_COMMENT_SCORE);
     }
 
     /**

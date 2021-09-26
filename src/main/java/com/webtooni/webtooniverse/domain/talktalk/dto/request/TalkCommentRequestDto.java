@@ -8,4 +8,8 @@ import lombok.NoArgsConstructor;
 public class TalkCommentRequestDto {
 
     private String commentContent;
+
+    public TalkCommentRequestDto(String commentContent) {
+        this.commentContent = commentContent;
+    }
 }
