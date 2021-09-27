@@ -60,22 +60,46 @@ class TalkCommentServiceTest {
     }
 
     @Test
-    @DisplayName("talkPost 댓글 삭제 (")
+    @DisplayName("talkPost 댓글 삭제 (TalkPost 댓글 수 -1, UserScore -1)")
     void commentDelete() {
-//        TalkPost talkPost = TalkPost.builder().build();
-//        User user = User.builder().build();
-//        TalkBoardComment talkBoardComment = TalkBoardComment.builder().talkPost(talkPost).user(user).build();
-//        given(talkCommentRepository.delete(talkBoardComment)).willReturn(null);
-//        given(userRepository.findById(any())).willReturn(java.util.Optional.ofNullable(user));
-//        given(talkCommentRepository.findById(any())).willReturn(
-//            java.util.Optional.ofNullable(talkBoardComment));
+        //given
+        TalkPost talkPost = TalkPost.builder().talkCommentCount(1).build();
+        User user = User.builder().userScore(1).build();
+        TalkCommentRequestDto talkCommentRequestDto = TalkCommentRequestDto.builder()
+            .commentContent("comment").build();
+        TalkBoardComment talkBoardComment = TalkBoardComment.builder()
+            .requestDto(talkCommentRequestDto).
+                talkPost(talkPost).user(user).build();
+        given(userRepository.findById(any())).willReturn(java.util.Optional.ofNullable(user));
+        given(talkCommentRepository.findById(any())).willReturn(
+            java.util.Optional.ofNullable(talkBoardComment));
+
+        //when
+        talkCommentService.commentDelete(1L, user);
+
+        //then
+        assertThat(user.getUserScore()).isEqualTo(0);
+        assertThat(talkPost.getTalkCommentCount()).isEqualTo(0);
     }
 
     @Test
+    @DisplayName("TalkPost 댓글 내용 update")
     void update() {
-    }
+        //given
+        TalkCommentRequestDto talkCommentRequestDto1 = TalkCommentRequestDto.builder()
+            .commentContent("comment1").build();
+        TalkCommentRequestDto talkCommentRequestDto2 = TalkCommentRequestDto.builder()
+            .commentContent("comment2").build();
+        TalkBoardComment talkBoardComment = TalkBoardComment.builder()
+            .requestDto(talkCommentRequestDto1)
+            .build();
+        given(talkCommentRepository.findById(any())).willReturn(
+            java.util.Optional.ofNullable(talkBoardComment));
 
-    @Test
-    void getComment() {
+        //when
+        talkCommentService.update(talkCommentRequestDto2, 1L);
+
+        //then
+        assertThat(talkBoardComment.getCommentContent()).isEqualTo("comment2");
     }
 }

@@ -3,6 +3,7 @@ package com.webtooni.webtooniverse.domain.talktalk.dto.response;
 import com.webtooni.webtooniverse.domain.talktalk.domain.TalkBoardComment;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
