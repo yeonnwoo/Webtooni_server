@@ -83,10 +83,23 @@ class TalkCommentServiceTest {
     }
 
     @Test
+    @DisplayName("TalkPost 댓글 내용 update")
     void update() {
-    }
+        //given
+        TalkCommentRequestDto talkCommentRequestDto1 = TalkCommentRequestDto.builder()
+            .commentContent("comment1").build();
+        TalkCommentRequestDto talkCommentRequestDto2 = TalkCommentRequestDto.builder()
+            .commentContent("comment2").build();
+        TalkBoardComment talkBoardComment = TalkBoardComment.builder()
+            .requestDto(talkCommentRequestDto1)
+            .build();
+        given(talkCommentRepository.findById(any())).willReturn(
+            java.util.Optional.ofNullable(talkBoardComment));
 
-    @Test
-    void getComment() {
+        //when
+        talkCommentService.update(talkCommentRequestDto2, 1L);
+
+        //then
+        assertThat(talkBoardComment.getCommentContent()).isEqualTo("comment2");
     }
 }
