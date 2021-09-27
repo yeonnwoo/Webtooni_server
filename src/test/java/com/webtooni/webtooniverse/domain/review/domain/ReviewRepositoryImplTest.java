@@ -32,13 +32,17 @@ class ReviewRepositoryImplTest {
         //given
         User user = User.builder().userName("유저1").build();
         userRepository.save(user);
-        Webtoon webtoon = Webtoon.builder().toonTitle("웹툰1").build();
+        Webtoon webtoon = Webtoon.builder().toonTitle("웹툰1").realUrl("url").toonAuthor("author")
+            .toonContent("content").toonImg("img").toonPlatform("platform").build();
         webtoonRepository.save(webtoon);
-        Review review = Review.builder().reviewContent("리뷰1").likeCount(10000).webtoon(webtoon).user(user).build();
+        Review review = Review.builder().reviewContent("리뷰1").likeCount(10000).webtoon(webtoon)
+            .user(user).build();
         reviewRepository.save(review);
-        Review review2 = Review.builder().reviewContent("리뷰2").likeCount(10005).webtoon(webtoon).user(user).build();
+        Review review2 = Review.builder().reviewContent("리뷰2").likeCount(10005).webtoon(webtoon)
+            .user(user).build();
         reviewRepository.save(review2);
-        Review review3 = Review.builder().reviewContent("리뷰3").likeCount(10003).webtoon(webtoon).user(user).build();
+        Review review3 = Review.builder().reviewContent("리뷰3").likeCount(10003).webtoon(webtoon)
+            .user(user).build();
         reviewRepository.save(review3);
 
         //when

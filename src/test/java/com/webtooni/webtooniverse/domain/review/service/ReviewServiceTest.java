@@ -44,8 +44,8 @@ class ReviewServiceTest {
 
     @AfterEach
     void tearDown() {
-        reviewRepository.deleteAll();
         reviewLikeRepository.deleteAll();
+        reviewRepository.deleteAll();
         webtoonRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -108,13 +108,13 @@ class ReviewServiceTest {
         Review review1 = createReview("리뷰 내용1", 4.5F, 13, user, w1);
         review1.insertWebToonAndUser(w1,user);
 
-        reviewRepository.save(review1);
+        Review savedReview = reviewRepository.save(review1);
 
         //when
-        reviewService.deleteReview(review1.getId(), user);
+        reviewService.deleteReview(savedReview.getId(), user);
 
         //then
-        assertThat(reviewRepository.findById(review1.getId()).get().getReviewContent()).isNull();
+        assertThat(reviewRepository.findById(savedReview.getId()).get().getReviewContent()).isNull();
 
     }
 
