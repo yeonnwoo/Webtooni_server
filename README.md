@@ -1,3 +1,8 @@
+## Webtooni 서버는 과금 문제로 2021-09-28일 이후 비활성화하였습니다.
+
+<br>
+<br>
+
 ## 소개
 https://webtooni.co.kr/
 
