@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TalkPostPostingResponseDto {
 
-    private Long postId;
+    //private Long postId;
     private String postTitle;
     private String postContent;
     private Long userId;
@@ -19,7 +19,7 @@ public class TalkPostPostingResponseDto {
     private LocalDateTime createDate;
 
     public TalkPostPostingResponseDto(TalkPost talkPost) {
-        this.postId = talkPost.getId();
+        //this.postId = talkPost.getId();
         this.postTitle = talkPost.getPostTitle();
         this.postContent = talkPost.getPostContent();
         this.userId = talkPost.getUser().getId();

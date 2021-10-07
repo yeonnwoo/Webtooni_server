@@ -30,7 +30,8 @@ public class TalkPostController {
 
     /**
      * 톡톡 게시글을 작성합니다.
-     * @param requestDto 게시글 제목과 내용을 담은 dto
+     *
+     * @param requestDto  게시글 제목과 내용을 담은 dto
      * @param userDetails 로그인한 유저 정보
      * @return 작성한 게시글 정보
      */
@@ -46,7 +47,8 @@ public class TalkPostController {
 
     /**
      * 톡톡 상세페이지 내용을 조회합니다.
-     * @param id 게시글 id
+     *
+     * @param id          게시글 id
      * @param userDetails 로그인한 유저 정보
      * @return 게시글 상세 내용
      */
@@ -58,8 +60,9 @@ public class TalkPostController {
 
     /**
      * 게시글을 수정합니다.
-     * @param id 게시글 id
-     * @param requestDto 수정할 게시글 제목과 내용을 담은 dto
+     *
+     * @param id          게시글 id
+     * @param requestDto  수정할 게시글 제목과 내용을 담은 dto
      * @param userDetails 로그인한 유저 정보
      */
     @PutMapping("talk/{id}")
@@ -72,7 +75,8 @@ public class TalkPostController {
 
     /**
      * 게시글을 삭제합니다.
-     * @param id 게시글 id
+     *
+     * @param id          게시글 id
      * @param userDetails 로그인한 유저 정보
      */
     @DeleteMapping("talk/{id}")
@@ -86,6 +90,7 @@ public class TalkPostController {
 
     /**
      * 게시글 전체 리스트를 조회합니다.
+     *
      * @param page 페이지 number
      * @param size 한 페이지에 보여줄 게시글 개수
      * @return 게시글 목록과 개수를 담은 dto

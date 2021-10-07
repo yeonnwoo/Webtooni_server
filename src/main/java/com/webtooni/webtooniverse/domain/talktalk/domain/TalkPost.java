@@ -56,7 +56,6 @@ public class TalkPost extends TimeStamped {
     public void updateLikeNum(int count) {
         this.likeNum += count;
     }
-
     public void updateTalkCommentNum(int count) {
         this.talkCommentCount += count;
     }

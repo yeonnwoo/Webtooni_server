@@ -41,7 +41,5 @@ public class TalkPostRepositoryImpl implements TalkPostRepositoryCustom {
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
             .fetch();
-
     }
-
 }

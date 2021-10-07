@@ -103,15 +103,9 @@ public class TalkPostService {
 
             boolean b = talkLikeRepository.existsByTalkPostAndUser(talkPost, user);
 
-            if(b)
-            {
-                if (talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE) {
-                    exists = true;
-                } else {
-                    exists = false;
-                }
-            }
-            else{
+            if (b) {
+                exists = talkLike.getTalkLikeStatus() == TalkLikeStatus.LIKE;
+            } else {
                 exists = false;
             }
         }
@@ -136,6 +130,7 @@ public class TalkPostService {
 
     /**
      * 게시글 id로 게시글을 조회합니다.
+     *
      * @param id 게시글 id
      * @return 게시글 객체
      */

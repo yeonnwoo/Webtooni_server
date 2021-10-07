@@ -273,7 +273,6 @@ public class WebtoonRepositoryImpl implements WebtoonRepositoryCustom {
         return mappingMapToDto(webtoonGenreList);
     }
 
-
     /**
      * 마이리스트에 등록한 웹툰을 조회합니다.
      *
