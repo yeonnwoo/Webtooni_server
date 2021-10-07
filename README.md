@@ -37,8 +37,7 @@ Git Flow를 사용하여 브랜치를 관리합니다. 모든 브랜치는 Pull 
 <img src="https://user-images.githubusercontent.com/50096655/128598662-8bc629d9-0c35-415b-90ca-317f07f17b29.png" width="400px" height=auto>
 
 
-
-- Main : 배포시 사용합니다. 아직 배포단계에 이르지 않아 Main 브랜치에 내용이 없습니다.
+- master : 배포시 사용합니다.
 - Develop : 완전히 개발이 끝난 부분에 대해서만 Merge를 진행합니다.
 - Feature : 기능 개발을 진행할 때 사용합니다.
     - feature/#이슈번호 와 같은 형태로 브랜치를 관리합니다.
